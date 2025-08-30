@@ -1,0 +1,50 @@
+enum ProjectStatus {
+    COMPLETED, ONGOING
+}
+
+entity Project {
+    title String required,
+    description TextBlob required,
+    startDate LocalDate,
+    endDate LocalDate,
+    status ProjectStatus,
+    projectUrl String,
+    category String
+}
+
+entity ProjectImage {
+    imageUrl String required,
+    caption String
+}
+
+entity Skill {
+    name String required,
+    percentage Integer required min(0) max(100)
+}
+
+entity BusinessService {
+    title String required,
+    description String,
+    icon String
+}
+
+entity BlogPost {
+    title String required,
+    content TextBlob required,
+    publishedDate Instant required
+}
+
+entity ContactMessage {
+    visitorName String required,
+    visitorEmail String required,
+    message TextBlob required,
+    submittedDate Instant required
+}
+
+relationship OneToMany {
+    Project{image} to ProjectImage{project}
+}
+
+paginate Project, Skill, BusinessService, BlogPost, ContactMessage with pagination
+dto * with mapstruct
+service all with serviceClass

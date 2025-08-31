@@ -4,10 +4,20 @@
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
-      "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "about": "About",
+      "services": "Services",
+      "projects": "Projects",
+      "gallery": "Gallery",
+      "blog": "Blog",
+      "contact": "Contact",
       "entities": {
         "main": "Entities",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "project": "Project",
+        "projectImage": "Project Image",
+        "skill": "Skill",
+        "businessService": "Business Service",
+        "blogPost": "Blog Post",
+        "contactMessage": "Contact Message",
         "adminAuthority": "Authority"
       },
       "account": {
@@ -28,8 +38,7 @@
         "configuration": "Configuration",
         "logs": "Logs",
         "apidocs": "API",
-        "database": "Database",
-        "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+        "database": "Database"
       },
       "language": "Language"
     },

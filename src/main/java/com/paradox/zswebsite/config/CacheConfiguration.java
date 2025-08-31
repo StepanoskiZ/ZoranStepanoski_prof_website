@@ -50,6 +50,22 @@ public class CacheConfiguration {
             createCache(cm, com.paradox.zswebsite.domain.User.class.getName());
             createCache(cm, com.paradox.zswebsite.domain.Authority.class.getName());
             createCache(cm, com.paradox.zswebsite.domain.User.class.getName() + ".authorities");
+
+            // --- START: Manual additions ---
+            createCache(cm, com.paradox.zswebsite.domain.Project.class.getName());
+            // Assuming 'images' is a relationship in Project
+            createCache(cm, com.paradox.zswebsite.domain.Project.class.getName() + ".images");
+            // Assuming 'skills' is a relationship in Project
+            createCache(cm, com.paradox.zswebsite.domain.Project.class.getName() + ".skills");
+            createCache(cm, com.paradox.zswebsite.domain.ProjectImage.class.getName());
+            createCache(cm, com.paradox.zswebsite.domain.Skill.class.getName());
+            // Assuming 'projects' is a relationship in Skill
+            createCache(cm, com.paradox.zswebsite.domain.Skill.class.getName() + ".projects");
+            createCache(cm, com.paradox.zswebsite.domain.BusinessService.class.getName());
+            createCache(cm, com.paradox.zswebsite.domain.BlogPost.class.getName());
+            createCache(cm, com.paradox.zswebsite.domain.ContactMessage.class.getName());
+            // --- END: Manual additions ---
+
             // jhipster-needle-ehcache-add-entry
         };
     }

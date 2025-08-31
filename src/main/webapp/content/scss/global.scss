@@ -233,4 +233,33 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
     }
   }
 }
+
+.home-hero {
+  background-color: #f8f9fa;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    color: #533f03;
+    font-weight: 700;
+  }
+
+  p.lead {
+    color: #555;
+    max-width: 700px;
+  }
+
+  .btn-primary {
+    background-color: #533f03;
+    border-color: #533f03;
+
+    &:hover {
+      background-color: darken(#533f03, 10%);
+      border-color: darken(#533f03, 10%);
+    }
+  }
+}
 /* jhipster-needle-scss-add-main JHipster will add new css style */

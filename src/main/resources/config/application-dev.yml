@@ -21,6 +21,9 @@ logging:
     com.paradox.zswebsite: DEBUG
 
 spring:
+  docker:
+    compose:
+      enabled: false
   devtools:
     restart:
       enabled: true
@@ -32,9 +35,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/ZSWebsite
-    username: ZSWebsite
-    password:
+    url: jdbc:postgresql://localhost:5432/ZSWebSite
+    username: postgres
+    password: postgres
     hikari:
       poolName: Hikari
       auto-commit: false

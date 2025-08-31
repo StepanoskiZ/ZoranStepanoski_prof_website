@@ -30,4 +30,4 @@ USER jhipster
 # Copy the final application JAR from the 'backend' stage
 COPY --from=backend /app/target/*.jar app.jar
 # The command to run the application
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]

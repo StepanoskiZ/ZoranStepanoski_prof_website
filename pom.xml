@@ -1,87 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.paradox.zswebsite</groupId>
   <artifactId>zs-website</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>ZS Website</name>
   <description>Description for ZS Website</description>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.4.5</version>
     <relativePath/>
   </parent>
+
   <properties>
     <java.version>21</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring-boot.version>${project.parent.version}</spring-boot.version>
     <jhipster-framework.version>8.11.0</jhipster-framework.version>
-    <springdoc-openapi-starter-webmvc-api.version>2.8.8</springdoc-openapi-starter-webmvc-api.version>
     <mapstruct.version>1.6.3</mapstruct.version>
-    <liquibase.version>4.29.2</liquibase.version>
-    <jakarta-validation.version>3.0.2</jakarta-validation.version>
-    <checkstyle.version>10.23.1</checkstyle.version>
-    <jib-maven-plugin.image>eclipse-temurin:21-jre-jammy</jib-maven-plugin.image>
-    <maven.version>3.2.5</maven.version>
+    <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+    <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
     <node.version>v22.15.0</node.version>
     <npm.version>11.3.0</npm.version>
-    <start-class>com.paradox.zswebsite.ZsWebsiteApp</start-class>
-    <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
-    <m2e.apt.activation>jdt_apt</m2e.apt.activation>
-    <run.addResources>false</run.addResources>
-    <archunit-junit5.version>1.4.0</archunit-junit5.version>
-    <checksum-maven-plugin.version>1.11</checksum-maven-plugin.version>
-    <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
     <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
-    <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-    <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
-    <jib-maven-plugin.version>3.4.5</jib-maven-plugin.version>
-    <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-    <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-    <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-    <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-    <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
-    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
-    <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-    <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-    <modernizer-maven-plugin.version>3.1.0</modernizer-maven-plugin.version>
-    <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
-    <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
-    <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
-    <profile.tls/>
-    <profile.no-liquibase/>
-    <profile.api-docs/>
-    <profile.e2e/>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>jakarta.xml.bind</groupId>
-        <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>4.0.2</version>
-      </dependency>
-      <dependency>
-        <groupId>com.puppycrawl.tools</groupId>
-        <artifactId>checkstyle</artifactId>
-        <version>${checkstyle.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.liquibase.ext</groupId>
-        <artifactId>liquibase-hibernate6</artifactId>
-        <version>${liquibase.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>tech.jhipster</groupId>
@@ -90,20 +40,24 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-aop</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-jaxb-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate6</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-jcache</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -127,11 +81,6 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
     <dependency>
@@ -143,51 +92,12 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-      <version>${springdoc-openapi-starter-webmvc-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-hibernate6</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jdk8</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.module</groupId>
-      <artifactId>jackson-module-jaxb-annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-registry-prometheus-simpleclient</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-      <classifier>jakarta</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-jcache</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
@@ -201,8 +111,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -233,11 +144,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
       </plugin>
     </plugins>
   </build>

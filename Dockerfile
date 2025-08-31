@@ -20,7 +20,7 @@ RUN ./mvnw package -Pprod -DskipTests
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 # Give the right to the user to create folders and files
-RUN mkdir /app && chown -R 1001:0 /app
+RUN chown -R 1001:0 /app
 # The folders and files should be owned by the jhipster user
 USER 1001
 COPY --from=backend /app/target/*.jar app.jar

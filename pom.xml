@@ -32,9 +32,10 @@
     <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
   </properties>
 
+  <!-- THIS IS THE CORRECT, CONSOLIDATED FIX -->
   <dependencyManagement>
     <dependencies>
-      <!-- Force the use of the modern, Jakarta-compatible JAXB runtime -->
+      <!-- Force the use of modern, Jakarta-compatible JAXB dependencies for the whole project -->
       <dependency>
         <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-runtime</artifactId>
@@ -66,15 +67,13 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-hibernate6</artifactId>
     </dependency>
+    <!-- ehcache dependency is now clean, with NO exclusions -->
     <dependency>
       <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <classifier>jakarta</classifier>
     </dependency>
-    <!--dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-    </dependency-->
+    <!-- NOTE: The separate dependency for jaxb-runtime that was here is GONE -->
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-jcache</artifactId>
@@ -137,6 +136,7 @@
     </dependency>
   </dependencies>
 
+  <!-- The build and profiles sections remain the same -->
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
     <plugins>

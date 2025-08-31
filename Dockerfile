@@ -15,8 +15,6 @@ COPY --from=frontend /app/target/classes/static/ /app/target/classes/static/
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 RUN chmod +x ./mvnw
-# This will print the contents of the pom.xml to the build log
-RUN cat pom.xml
 # Download dependencies, then copy source to leverage Docker layer caching
 RUN ./mvnw dependency:go-offline
 COPY src/ src/

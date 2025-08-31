@@ -1,21 +1,33 @@
-# Use the valid, official CircleCI image
-FROM cimg/openjdk:21.0-node
-
-# Set the working directory
+# Stage 1: Build the frontend using a lightweight Node.js image
+FROM node:22-slim as frontend
 WORKDIR /app
-
-# Copy all the project files into the Docker image
+COPY package.json package-lock.json ./
+RUN npm install
 COPY . .
+RUN npm run webapp:prod
 
-# Grant execute permissions to the Maven Wrapper script
+# Stage 2: Build the backend using a Java Development Kit (JDK) image
+FROM eclipse-temurin:21-jdk-jammy as backend
+WORKDIR /app
+# Copy the pre-built frontend from the 'frontend' stage
+COPY --from=frontend /app/target/classes/static/ /app/target/classes/static/
+# Copy Maven configuration and give it execute permissions
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
 RUN chmod +x ./mvnw
-
-# Run the full production build using the Maven Wrapper.
-# THE FIX: Add -Dmaven.test.skip=true to prevent test compilation entirely.
+# Download dependencies, then copy source to leverage Docker layer caching
+RUN ./mvnw dependency:go-offline
+COPY src/ src/
+# Build the final JAR, skipping BOTH test execution AND compilation
 RUN ./mvnw package -Pprod -DskipTests -Dmaven.test.skip=true
 
-# Expose the port that the Spring Boot application runs on
-EXPOSE 8080
-
-# The final command to start the Java application when the container starts
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "./target/*.jar"]
+# Final Stage: Create the final, lightweight production image with only a Java Runtime (JRE)
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+# Create a non-root user for security
+RUN groupadd -r jhipster && useradd -r -g jhipster jhipster
+USER jhipster
+# Copy the final application JAR from the 'backend' stage
+COPY --from=backend /app/target/*.jar app.jar
+# The command to run the application
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/jar"]

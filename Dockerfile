@@ -34,21 +34,26 @@
 # ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 # Use a single, comprehensive image that has both Java and Node.js
 # Use a valid, official CircleCI image containing Java 21 and Node.js 22
+# Use the valid, official CircleCI image
 FROM cimg/openjdk:21.0-node
 
-# Set the working directory for the application
+# Set the working directory
 WORKDIR /app
 
 # Copy all the project files into the Docker image
 COPY . .
 
-# Grant execute permissions to the Maven Wrapper script
+# --- START: THE FIX ---
+# Take ownership of the files as the current user before changing permissions.
+# The `cimg` images run as the 'circleci' user. We need to grant it ownership.
+# The command changes the owner and group of all files in the current directory (/app).
+RUN sudo chown -R circleci:circleci /app
+# --- END: THE FIX ---
+
+# Now that we own the file, grant execute permissions to the Maven Wrapper script
 RUN chmod +x ./mvnw
 
 # Run the full production build using the Maven Wrapper.
-# This single command builds the frontend (npm install, ng build) and the backend (java compile, package).
-# The -Pprod flag activates the production profile.
-# -DskipTests skips running unit tests, which is standard for a deployment build.
 RUN ./mvnw package -Pprod -DskipTests
 
 # Expose the port that the Spring Boot application runs on

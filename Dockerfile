@@ -33,23 +33,26 @@
 # COPY --from=backend /app/target/*.jar app.jar
 # ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 # Use a single, comprehensive image that has both Java and Node.js
-FROM cimg/openjdk:21.0.3-node
+# Use a valid, official CircleCI image containing Java 21 and Node.js 22
+FROM cimg/openjdk:21.0-node
 
-# Set the working directory
+# Set the working directory for the application
 WORKDIR /app
 
-# Copy all project files into the container
+# Copy all the project files into the Docker image
 COPY . .
 
-# Grant execute permissions to the Maven Wrapper
+# Grant execute permissions to the Maven Wrapper script
 RUN chmod +x ./mvnw
 
-# Run the full production build. This command builds the frontend and backend together.
-# The frontend-maven-plugin will run 'npm install' and 'npm run webapp:prod' automatically.
+# Run the full production build using the Maven Wrapper.
+# This single command builds the frontend (npm install, ng build) and the backend (java compile, package).
+# The -Pprod flag activates the production profile.
+# -DskipTests skips running unit tests, which is standard for a deployment build.
 RUN ./mvnw package -Pprod -DskipTests
 
-# Expose the port the application will run on
+# Expose the port that the Spring Boot application runs on
 EXPOSE 8080
 
-# The final command to start the Java application
+# The final command to start the Java application when the container starts
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "./target/*.jar"]

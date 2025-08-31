@@ -85,6 +85,13 @@ server:
 # ===================================================================
 
 jhipster:
+  cors:
+    allowed-origins: 'http://localhost:8080,https://zoran-stepanoski-website.onrender.com' # <-- ADD YOUR RENDER URL HERE
+    allowed-methods: ''
+    allowed-headers: ''
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-jhipster.clientApp.name−alert,X−jhipster.clientApp.name−alert,X−{jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+    allow-credentials: true
+    max-age: 1800
   http:
     cache: # Used by the CachingHttpHeadersFilter
       timeToLiveInDays: 1461

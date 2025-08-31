@@ -56,6 +56,7 @@ local.properties
 *.ids
 *.orig
 *.crt
+Prod_details.txt
 classes/
 out/
 

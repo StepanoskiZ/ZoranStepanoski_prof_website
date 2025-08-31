@@ -12,6 +12,12 @@ WORKDIR /app
 COPY --from=frontend /app/target/classes/static/ /app/target/classes/static/
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
+
+# Copy the frontend files needed by the frontend-maven-plugin
+COPY package.json package-lock.json ./
+COPY angular.json tsconfig*.json ./
+COPY src/main/webapp/ src/main/webapp/
+
 RUN chmod +x ./mvnw
 RUN ./mvnw dependency:go-offline
 COPY src/ src/

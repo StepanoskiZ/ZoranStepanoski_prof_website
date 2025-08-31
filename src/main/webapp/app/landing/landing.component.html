@@ -1,0 +1,58 @@
+<!-- =================== Navbar =================== -->
+<!--nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100" [ngClass]="{'scrolled': navbarScrolled}">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" routerLink="/">Zoran Stepanoski</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" routerLink="/" jhiTranslate="landing.navHome"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/about" jhiTranslate="landing.navAbout"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/services" jhiTranslate="landing.navServices"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/projects" jhiTranslate="landing.navProjects"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/gallery" jhiTranslate="landing.navGallery"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/blog" jhiTranslate="landing.navBlog"></a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/contact" jhiTranslate="landing.navContact"></a></li>
+      </ul>
+    </div>
+  </div>
+</nav-->
+
+<!-- =================== Hero Section =================== -->
+<section class="landing-hero" aos data-aos="fade-up">
+  <div class="hero-content mt-5">
+    <h1 jhiTranslate="landing.heroTitle"></h1>
+    <p class="lead" jhiTranslate="landing.heroSubtitle"></p>
+    <a routerLink="/projects" class="btn btn-primary btn-lg" jhiTranslate="landing.cta"></a>
+  </div>
+</section>
+
+<!-- =================== Services Section =================== -->
+<section class="services-section container my-5">
+  <div class="service-card" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">
+    <img [src]="service.icon" [alt]="service.title" />
+    <h3 [jhiTranslate]="service.title"></h3>
+    <p [jhiTranslate]="service.description"></p>
+  </div>
+</section>
+
+<!-- =================== About Section =================== -->
+<section class="about-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="400">
+  <h2 jhiTranslate="landing.aboutTitle"></h2>
+  <p jhiTranslate="landing.aboutDesc"></p>
+</section>
+
+<!-- =================== Contact CTA Section =================== -->
+<section class="contact-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="600">
+  <h2 jhiTranslate="landing.contactTitle"></h2>
+  <p jhiTranslate="landing.contactDesc"></p>
+  <a routerLink="/contact" class="btn btn-primary btn-lg" jhiTranslate="landing.contactCTA"></a>
+</section>
+
+<!-- =================== Footer =================== -->
+<!--footer class="footer bg-white mt-5">
+  <div class="container text-center py-3">
+    &copy; 2025 Zoran Stepanoski. <span jhiTranslate="landing.allRightsReserved"></span>
+  </div>
+</footer-->

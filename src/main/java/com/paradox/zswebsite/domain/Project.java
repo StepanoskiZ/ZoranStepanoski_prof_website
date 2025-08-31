@@ -1,0 +1,230 @@
+package com.paradox.zswebsite.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.paradox.zswebsite.domain.enumeration.ProjectStatus;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A Project.
+ */
+@Entity
+@Table(name = "project")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SuppressWarnings("common-java:DuplicatedBlocks")
+public class Project implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
+    private Long id;
+
+    @NotNull
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Lob
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ProjectStatus status;
+
+    @Column(name = "project_url")
+    private String projectUrl;
+
+    @Column(name = "category")
+    private String category;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Set<ProjectImage> images = new HashSet<>();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Project id(Long id) {
+        this.setId(id);
+        return this;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public Project title(String title) {
+        this.setTitle(title);
+        return this;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Project description(String description) {
+        this.setDescription(description);
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public Project startDate(LocalDate startDate) {
+        this.setStartDate(startDate);
+        return this;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public Project endDate(LocalDate endDate) {
+        this.setEndDate(endDate);
+        return this;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public ProjectStatus getStatus() {
+        return this.status;
+    }
+
+    public Project status(ProjectStatus status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(ProjectStatus status) {
+        this.status = status;
+    }
+
+    public String getProjectUrl() {
+        return this.projectUrl;
+    }
+
+    public Project projectUrl(String projectUrl) {
+        this.setProjectUrl(projectUrl);
+        return this;
+    }
+
+    public void setProjectUrl(String projectUrl) {
+        this.projectUrl = projectUrl;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
+    public Project category(String category) {
+        this.setCategory(category);
+        return this;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Set<ProjectImage> getImages() {
+        return this.images;
+    }
+
+    public void setImages(Set<ProjectImage> projectImages) {
+        if (this.images != null) {
+            this.images.forEach(i -> i.setProject(null));
+        }
+        if (projectImages != null) {
+            projectImages.forEach(i -> i.setProject(this));
+        }
+        this.images = projectImages;
+    }
+
+    public Project images(Set<ProjectImage> projectImages) {
+        this.setImages(projectImages);
+        return this;
+    }
+
+    public Project addImage(ProjectImage projectImage) {
+        this.images.add(projectImage);
+        projectImage.setProject(this);
+        return this;
+    }
+
+    public Project removeImage(ProjectImage projectImage) {
+        this.images.remove(projectImage);
+        projectImage.setProject(null);
+        return this;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Project)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((Project) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "Project{" +
+            "id=" + getId() +
+            ", title='" + getTitle() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", projectUrl='" + getProjectUrl() + "'" +
+            ", category='" + getCategory() + "'" +
+            "}";
+    }
+}

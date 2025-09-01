@@ -48,6 +48,8 @@ spring:
       poolName: Hikari
       auto-commit: false
       maximum-pool-size: 10
+      data-source-properties:
+        sslmode: require # <--- Here you add it
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod

@@ -8,7 +8,7 @@ COPY mvnw pom.xml ./
 RUN chmod +x ./mvnw
 
 # Download dependencies first (caching layer)
-RUN ./mvnw dependency:go-offline
+# RUN ./mvnw dependency:go-offline
 
 # Copy all source code
 COPY . .

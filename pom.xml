@@ -35,7 +35,6 @@
   <!-- ✅ Dependency management cleanup -->
   <dependencyManagement>
     <dependencies>
-      <!-- Use modern Jakarta JAXB -->
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
@@ -44,6 +43,11 @@
       <dependency>
         <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-runtime</artifactId>
+        <version>4.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-core</artifactId>
         <version>4.0.5</version>
       </dependency>
     </dependencies>
@@ -78,6 +82,12 @@
       <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <classifier>jakarta</classifier>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>

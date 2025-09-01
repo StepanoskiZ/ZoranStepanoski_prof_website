@@ -51,6 +51,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>tech.jhipster</groupId>
       <artifactId>jhipster-framework</artifactId>
       <version>${jhipster-framework.version}</version>

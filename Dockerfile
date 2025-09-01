@@ -7,7 +7,7 @@ COPY . .
 RUN npm run webapp:prod
 
 # Stage 2: Build the backend using a Java Development Kit (JDK) image
-FRUM eclipse-temurin:21-jdk-jammy as backend
+FROM eclipse-temurin:21-jdk-jammy as backend
 WORKDIR /app
 # Copy the pre-built frontend from the 'frontend' stage
 COPY --from=frontend /app/target/classes/static/ /app/target/classes/static/

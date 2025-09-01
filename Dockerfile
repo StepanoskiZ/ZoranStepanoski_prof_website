@@ -13,6 +13,9 @@ RUN chmod +x ./mvnw
 # Copy all source code
 COPY . .
 
+# Ensure Maven wrapper is executable
+RUN chmod +x mvnw
+
 # Build the full application (frontend included)
 RUN ./mvnw clean package -Pprod -DskipTests -Dmaven.test.skip=true
 

@@ -2,7 +2,7 @@
 FROM node:22-slim AS frontend
 WORKDIR /app
 
-# Copy frontend package files first
+# Copy frontend package files and install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps
 
@@ -14,12 +14,12 @@ RUN npm run webapp:prod
 FROM eclipse-temurin:21-jdk-jammy AS backend
 WORKDIR /app
 
-# Copy Maven wrapper and config
+# Copy Maven wrapper and configuration
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 RUN chmod +x mvnw
 
-# Copy pre-built frontend static files
+# Copy pre-built frontend static files from frontend stage
 COPY --from=frontend /app/target/classes/static/ target/classes/static/
 
 # Copy backend source files
@@ -32,11 +32,12 @@ RUN ./mvnw clean package -Pprod -DskipTests -Dmaven.test.skip=true
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Non-root user
+# Create non-root user for security
 RUN groupadd -r jhipster && useradd -r -g jhipster jhipster
 USER jhipster
 
-# Copy backend JAR
+# Copy backend JAR from previous stage
 COPY --from=backend /app/target/*.jar app.jar
 
+# Run the Spring Boot application
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]

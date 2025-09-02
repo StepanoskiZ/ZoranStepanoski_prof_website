@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 
 export const routes: Routes = [
-  { path: '', component: LandingComponent, title: 'Zoran Stepanoski - Home' }, // default landing page
+  { path: '', component: LandingComponent, title: 'ZORAN STEPANOSKI - Home' }, // default landing page
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
   { path: 'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },
   { path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule) },

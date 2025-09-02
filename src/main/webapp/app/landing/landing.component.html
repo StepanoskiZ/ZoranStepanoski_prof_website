@@ -1,5 +1,5 @@
 <!-- =================== Navbar =================== -->
-<!--nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100" [ngClass]="{'scrolled': navbarScrolled}">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100 sticky-top" [ngClass]="{ scrolled: navbarScrolled }">
   <div class="container">
     <a class="navbar-brand fw-bold text-primary" routerLink="/">Zoran Stepanoski</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -7,20 +7,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" routerLink="/" jhiTranslate="landing.navHome"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/about" jhiTranslate="landing.navAbout"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/services" jhiTranslate="landing.navServices"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/projects" jhiTranslate="landing.navProjects"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/gallery" jhiTranslate="landing.navGallery"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/blog" jhiTranslate="landing.navBlog"></a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/contact" jhiTranslate="landing.navContact"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#home" jhiTranslate="landing.navHome"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#about" jhiTranslate="landing.navAbout"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#services" jhiTranslate="landing.navServices"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects" jhiTranslate="landing.navProject"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery" jhiTranslate="landing.navGallery"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#blog" jhiTranslate="landing.navBlog"></a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a></li>
       </ul>
     </div>
   </div>
-</nav-->
+</nav>
 
 <!-- =================== Hero Section =================== -->
-<section class="landing-hero" aos data-aos="fade-up">
+<section id="home" class="landing-hero" aos data-aos="fade-up">
   <div class="hero-content mt-5">
     <h1 jhiTranslate="landing.heroTitle"></h1>
     <p class="lead" jhiTranslate="landing.heroSubtitle"></p>
@@ -28,31 +28,61 @@
   </div>
 </section>
 
-<!-- =================== Services Section =================== -->
-<section class="services-section container my-5">
-  <div class="service-card" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">
-    <img [src]="service.icon" [alt]="service.title" />
-    <h3 [jhiTranslate]="service.title"></h3>
-    <p [jhiTranslate]="service.description"></p>
-  </div>
-</section>
-
 <!-- =================== About Section =================== -->
-<section class="about-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="400">
+<section id="about" class="about-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="400">
   <h2 jhiTranslate="landing.aboutTitle"></h2>
   <p jhiTranslate="landing.aboutDesc"></p>
 </section>
 
+<!-- =================== Services Section =================== -->
+<section id="services" class="services-section container my-5">
+  <div class="service-card" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">
+    <img [src]="service.icon" [alt]="service.title" />
+    <h3>{{ service.title }}</h3>
+    <p>{{ service.description }}</p>
+  </div>
+</section>
+
+<!-- =================== Projects Section =================== -->
+<section id="projects" class="container my-5 text-center">
+  <h2 class="mb-4" jhiTranslate="landing.navProject"></h2>
+  <p>This is where your portfolio of projects will be displayed. You can fetch them from the backend.</p>
+  <!-- You would add an *ngFor loop here to show your projects -->
+</section>
+
+<!-- =================== Gallery Section =================== -->
+<section id="gallery" class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4" jhiTranslate="landing.navGallery"></h2>
+    <p>This is where your image gallery will be displayed. You can fetch images from the backend.</p>
+    <!-- You would add an *ngFor loop here to show your project images -->
+  </div>
+</section>
+
+<!-- =================== Blog Section =================== -->
+<section id="blog" class="container my-5 text-center">
+  <h2 class="mb-4" jhiTranslate="landing.navBlog"></h2>
+  <p>This is where your latest blog posts will be displayed. You can fetch them from the backend.</p>
+  <!-- You would add an *ngFor loop here to show your blog posts -->
+</section>
+
 <!-- =================== Contact CTA Section =================== -->
-<section class="contact-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="600">
+<!--
+<section id="contact" class="contact-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="600">
   <h2 jhiTranslate="landing.contactTitle"></h2>
   <p jhiTranslate="landing.contactDesc"></p>
   <a routerLink="/contact" class="btn btn-primary btn-lg" jhiTranslate="landing.contactCTA"></a>
 </section>
+-->
+<section id="contact">
+  <jhi-contact-form></jhi-contact-form>
+</section>
 
 <!-- =================== Footer =================== -->
-<!--footer class="footer bg-white mt-5">
+<!--
+<footer class="footer bg-white mt-5">
   <div class="container text-center py-3">
     &copy; 2025 Zoran Stepanoski. <span jhiTranslate="landing.allRightsReserved"></span>
   </div>
-</footer-->
+</footer>
+-->

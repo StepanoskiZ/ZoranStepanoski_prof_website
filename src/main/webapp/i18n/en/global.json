@@ -149,5 +149,18 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer"
+  "footer": "This is your footer",
+  "landing": {
+    "navHome": "Home",
+    "navAbout": "About",
+    "navServices": "Services",
+    "navProject": "Projects",
+    "navGallery": "Gallery",
+    "navBlog": "Blog",
+    "navContact": "Contact",
+    "heroTitle": "Professional Portfolio",
+    "heroSubtitle": "Software engineer passionate about AI, robotics, and smart navigation systems.",
+    "cta": "See My Work",
+    "allRightsReserved": "All rights reserved."
+  }
 }

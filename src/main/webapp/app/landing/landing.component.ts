@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
 import { Component, OnInit, HostListener } from '@angular/core';
-// import { LanguageSelectorComponent } from '../layouts/navbar/language-selector/language-selector.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
 
 declare var AOS: any;
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  //   imports: [CommonModule, SharedModule, LanguageSelectorComponent],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, ContactFormComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })

@@ -86,7 +86,8 @@
 }
 
 /* =================== Navbar =================== */
-.navbar {
+/* This targets the navbar ONLY when it's part of this landing component */
+/*.navbar {
   position: sticky;
   top: 0;
   z-index: 1020; // ensure it stays on top
@@ -95,5 +96,18 @@
   &.scrolled {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+*/
+:host ::ng-deep {
+  .navbar {
+    background-color: transparent !important;
+    transition: background-color 0.3s ease-in-out;
+    box-shadow: none !important;
+  }
+
+  .navbar.scrolled {
+    background-color: white !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   }
 }

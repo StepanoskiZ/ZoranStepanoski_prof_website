@@ -3,12 +3,6 @@ primary_region = 'cdg'
 
 [build]
 
-# ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
-[secrets]
-  SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
-  SPRING_PROFILES_ACTIVE = "prod"
-  SERVER_PORT = "3000"
-
 # This section replaces the old [http_service]
 [[services]]
   protocol = "tcp"

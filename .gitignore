@@ -59,6 +59,7 @@ local.properties
 Prod_details.txt
 classes/
 out/
+src/test/
 
 ######################
 # Visual Studio Code

@@ -20,37 +20,27 @@
     <!-- This is where all your menu links will go. It collapses on mobile. -->
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed()">
       <ul class="navbar-nav ms-auto">
-        <!-- START: Your custom public menu items -->
-
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()"><span jhiTranslate="global.menu.home"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#home" jhiTranslate="landing.navHome"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/about" (click)="collapseNavbar()"><span jhiTranslate="global.menu.about"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#about" jhiTranslate="landing.navAbout"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/services" (click)="collapseNavbar()"><span jhiTranslate="global.menu.services"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#services" jhiTranslate="landing.navServices"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/projects" (click)="collapseNavbar()"><span jhiTranslate="global.menu.projects"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#projects" jhiTranslate="landing.navProject"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/gallery" (click)="collapseNavbar()"><span jhiTranslate="global.menu.gallery"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#gallery" jhiTranslate="landing.navGallery"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/blog" (click)="collapseNavbar()"><span jhiTranslate="global.menu.blog"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#blog" jhiTranslate="landing.navBlog"></a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/contact" (click)="collapseNavbar()"><span jhiTranslate="global.menu.contact"></span></a>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a>
         </li>
-
-        <!-- END: Your custom public menu items -->
 
         <!-- IMPORTANT: JHipster's Account Menu - Keep this! It handles login/logout. -->
         <li

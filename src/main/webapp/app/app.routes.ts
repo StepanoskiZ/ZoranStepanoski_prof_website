@@ -1,22 +1,41 @@
 import { Routes } from '@angular/router';
+import { Authority } from 'app/config/authority.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { errorRoute } from './layouts/error/error.route';
+import MainComponent from './layouts/main/main.component';
 import { LandingComponent } from './landing/landing.component';
 
-export const routes: Routes = [
-  { path: '', component: LandingComponent, title: 'ZORAN STEPANOSKI - Home' }, // default landing page
-  { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
-  { path: 'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },
-  { path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule) },
-  { path: 'gallery', loadChildren: () => import('./gallery/gallery.module').then(m => m.GalleryModule) },
-  { path: 'blog', loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule) },
-  { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) },
-  //   {
-  //     path: 'admin',
-  //     loadChildren: () => import('./admin/admin.routes'),
-  //   },
-  //   {
-  //     path: 'account',
-  //     loadChildren: () => import('./account/account.routes'),
-  //   },
-  // Fallback route
-  { path: '**', redirectTo: '' },
+const routes: Routes = [
+  // This is the parent route. It loads the "frame" for your public site.
+  {
+    path: '', // The default path loads your LandingComponent
+    component: LandingComponent,
+    title: 'Zoran Stepanoski - Professional Portfolio',
+  },
+
+  // These are the standard JHipster routes for admin, login, etc.
+  {
+    path: 'admin',
+    data: {
+      authorities: [Authority.ADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+    loadChildren: () => import('./admin/admin.routes'),
+  },
+  {
+    path: 'account',
+    loadChildren: () => import('./account/account.route'), // CORRECTED: It's account.route.ts (singular)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.component'),
+    title: 'login.title',
+  },
+  {
+    path: '',
+    loadChildren: () => import(`./entities/entity.routes`),
+  },
+  ...errorRoute,
 ];
+
+export default routes;

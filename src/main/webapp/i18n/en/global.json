@@ -165,6 +165,14 @@
     "aboutDesc": "With over 20 years of experience in electrical engineering and software development, Zoran Stepanoski excels in creating innovative solutions tailored to your needs. From database design to ERP systems and POS solutions, I leverage my extensive expertise in Delphi, Oracle, PostgreSQL, C#, Java, and Python to deliver exceptional results. I have worked with leading companies, serving in various roles including Technical Consultant and Team Leader. Let's collaborate to turn your vision into reality!",
     "cta": "See My Work",
     "ctaContact": "Get in touch",
-    "allRightsReserved": "All rights reserved."
+    "allRightsReserved": "All rights reserved.",
+    "servicesSubheading": "EXPERT SOLUTIONS",
+    "servicesHeading": "Tailored IT services for your needs",
+    "service1Title": "Database design",
+    "service1Desc": "Crafting efficient and scalable\ndatabase structures.",
+    "service2Title": "ERP systems\nimplementation",
+    "service2Desc": "Streamlining operations with\ntailored ERP solutions.",
+    "service3Title": "Custom application\r\ndevelopment",
+    "service3Desc": "Building applications tailored\nto your unique requirements."
   }
 }

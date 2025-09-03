@@ -23,19 +23,19 @@ export class LandingComponent implements OnInit {
   // =================== Services array ===================
   services = [
     {
-      icon: 'assets/images/service1.png',
+      icon: '../../../content/images/service1.jpg',
       title: 'landing.service1Title',
       description: 'landing.service1Desc',
       delay: 100,
     },
     {
-      icon: 'assets/images/service2.png',
+      icon: '../../../content/images/service2.jpg',
       title: 'landing.service2Title',
       description: 'landing.service2Desc',
       delay: 200,
     },
     {
-      icon: 'assets/images/service3.png',
+      icon: '../../../content/images/service3.jpg',
       title: 'landing.service3Title',
       description: 'landing.service3Desc',
       delay: 300,

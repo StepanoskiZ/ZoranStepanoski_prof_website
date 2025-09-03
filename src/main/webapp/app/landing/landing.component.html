@@ -64,12 +64,22 @@
 <!-- =================== Services Section =================== -->
 <section #section id="services" class="services-section bg-light py-5">
   <div class="container">
-    <h2 class="text-center mb-5" jhiTranslate="landing.navServices"></h2>
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-      <div class="service-card" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">
-        <img [src]="service.icon" [alt]="service.title" />
-        <h3>{{ service.title }}</h3>
-        <p>{{ service.description }}</p>
+    <!-- Main Headings -->
+    <div class="mb-5">
+      <p class="sub-heading" jhiTranslate="landing.servicesSubheading"></p>
+      <h2 class="fw-bold" jhiTranslate="landing.servicesHeading"></h2>
+    </div>
+
+    <!-- Service Cards Grid -->
+    <div class="row">
+      <div class="col-lg-4 mb-4" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">
+        <div class="service-card">
+          <img [src]="service.icon" class="card-img-top" [alt]="service.title | translate" />
+          <div class="card-body">
+            <h3 class="card-title">{{ service.title | translate }} ></h3>
+            <p class="card-text">{{ service.description | translate }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

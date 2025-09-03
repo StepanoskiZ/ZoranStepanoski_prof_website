@@ -1,35 +1,13 @@
-#app = 'zoranstepanoski-prof-website'
-#primary_region = 'cdg'
-#
-#[build]
-#
-#[http_service]
-#internal_port = 3000
-#force_https = true
-#auto_stop_machines = 'stop'
-#auto_start_machines = true
-#min_machines_running = 0
-#processes = ['app']
-#
-## ADD THIS SECTION TO TELL FLY.IO WHERE TO PUT YOUR SECRETS
-#[mounts]
-#source="data"
-#destination="/data"
-#
-## ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
-#[secrets]
-#SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
-#SPRING_PROFILES_ACTIVE = "prod"
-#SERVER_PORT = "3000"
-#
-#[[vm]]
-#memory = '1gb'
-#cpu_kind = 'shared'
-#cpus = 1
 app = 'zoranstepanoski-prof-website'
 primary_region = 'cdg'
 
 [build]
+
+# ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
+[secrets]
+SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
+SPRING_PROFILES_ACTIVE = "prod"
+SERVER_PORT = "3000"
 
 # This section replaces the old [http_service]
 [[services]]
@@ -61,11 +39,6 @@ path = "/management/health" # The standard Spring Boot health check endpoint
 protocol = "http"
 tls_skip_verify = true
 
-# ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
-[secrets]
-SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
-SPRING_PROFILES_ACTIVE = "prod"
-SERVER_PORT = "3000"
 [[vm]]
 memory = '1gb'
 cpu_kind = 'shared'

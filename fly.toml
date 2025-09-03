@@ -5,41 +5,41 @@ primary_region = 'cdg'
 
 # ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
 [secrets]
-SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
-SPRING_PROFILES_ACTIVE = "prod"
-SERVER_PORT = "3000"
+  SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
+  SPRING_PROFILES_ACTIVE = "prod"
+  SERVER_PORT = "3000"
 
 # This section replaces the old [http_service]
 [[services]]
-protocol = "tcp"
-internal_port = 3000 # The port your app listens on
-processes = ["app"]
+  protocol = "tcp"
+  internal_port = 3000
+  processes = ["app"]
 
-[services.concurrency]
-type = "connections"
-hard_limit = 25
-soft_limit = 20
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
 
-[[services.ports]]
-port = 80
-handlers = ["http"]
-force_https = true
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
 
-[[services.ports]]
-port = 443
-handlers = ["tls", "http"]
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
 
 # THIS IS THE NEW, CRITICAL HEALTH CHECK SECTION
-[[services.http_checks]]
-interval = "15s"      # Check every 15 seconds
-timeout = "5s"        # Give it 5 seconds to respond
-grace_period = "90s"  # IMPORTANT: Wait 90 seconds after start before the first check
-method = "get"
-path = "/management/health" # The standard Spring Boot health check endpoint
-protocol = "http"
-tls_skip_verify = true
+  [[services.http_checks]]
+    interval = "15s"      # Check every 15 seconds
+    timeout = "5s"        # Give it 5 seconds to respond
+    grace_period = "60s"  # IMPORTANT: Wait 60 seconds after start before the first check
+    method = "get"
+    path = "/management/health/liveness"
+    protocol = "http"
+    tls_skip_verify = true
 
 [[vm]]
-memory = '1gb'
-cpu_kind = 'shared'
-cpus = 1
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

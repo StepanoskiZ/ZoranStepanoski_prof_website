@@ -34,6 +34,6 @@ primary_region = 'cdg'
     tls_skip_verify = true
 
 [[vm]]
-  memory = '2gb'
+  memory = '4gb'
   cpu_kind = 'performance'
   cpus = 2

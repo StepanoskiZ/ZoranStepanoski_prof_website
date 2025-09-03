@@ -9,6 +9,7 @@ import {
   withComponentInputBinding,
   withDebugTracing,
   withNavigationErrorHandler,
+  withInMemoryScrolling,
 } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -37,6 +38,10 @@ const routerFeatures: RouterFeatures[] = [
     } else {
       router.navigate(['/error']);
     }
+  }),
+  withInMemoryScrolling({
+    scrollPositionRestoration: 'top', // Always scroll to the top on navigation
+    anchorScrolling: 'enabled', // Allow scrolling to #anchors
   }),
 ];
 if (environment.DEBUG_INFO_ENABLED) {

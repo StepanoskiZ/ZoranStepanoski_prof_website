@@ -1,27 +1,71 @@
+#app = 'zoranstepanoski-prof-website'
+#primary_region = 'cdg'
+#
+#[build]
+#
+#[http_service]
+#internal_port = 3000
+#force_https = true
+#auto_stop_machines = 'stop'
+#auto_start_machines = true
+#min_machines_running = 0
+#processes = ['app']
+#
+## ADD THIS SECTION TO TELL FLY.IO WHERE TO PUT YOUR SECRETS
+#[mounts]
+#source="data"
+#destination="/data"
+#
+## ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
+#[secrets]
+#SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
+#SPRING_PROFILES_ACTIVE = "prod"
+#SERVER_PORT = "3000"
+#
+#[[vm]]
+#memory = '1gb'
+#cpu_kind = 'shared'
+#cpus = 1
 app = 'zoranstepanoski-prof-website'
 primary_region = 'cdg'
 
 [build]
 
-[http_service]
-internal_port = 3000
-force_https = true
-auto_stop_machines = 'stop'
-auto_start_machines = true
-min_machines_running = 0
-processes = ['app']
+# This section replaces the old [http_service]
+[[services]]
+protocol = "tcp"
+internal_port = 3000 # The port your app listens on
+processes = ["app"]
 
-# ADD THIS SECTION TO TELL FLY.IO WHERE TO PUT YOUR SECRETS
-[mounts]
-source="data"
-destination="/data"
+[services.concurrency]
+type = "connections"
+hard_limit = 25
+soft_limit = 20
+
+[[services.ports]]
+port = 80
+handlers = ["http"]
+force_https = true
+
+[[services.ports]]
+port = 443
+handlers = ["tls", "http"]
+
+# THIS IS THE NEW, CRITICAL HEALTH CHECK SECTION
+[[services.http_checks]]
+interval = "15s"      # Check every 15 seconds
+timeout = "5s"        # Give it 5 seconds to respond
+grace_period = "90s"  # IMPORTANT: Wait 90 seconds after start before the first check
+method = "get"
+path = "/management/health" # The standard Spring Boot health check endpoint
+protocol = "http"
+tls_skip_verify = true
 
 # ADD THIS SECTION TO TELL YOUR APP WHICH SECRETS TO USE
 [secrets]
 SPRING_DATASOURCE_URL = "jdbc:postgresql://postgres.pkvlcyjwdqzkfcmwcwct:St%23p%40nC0le%21@aws-1-eu-central-2.pooler.supabase.com:6543/postgres"
 SPRING_PROFILES_ACTIVE = "prod"
 SERVER_PORT = "3000"
-
 [[vm]]
 memory = '1gb'
 cpu_kind = 'shared'

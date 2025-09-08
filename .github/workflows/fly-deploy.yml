@@ -22,8 +22,8 @@ jobs:
       - name: Make mvnw executable
         run: chmod +x mvnw
 
-      - name: Build with Maven
-        run: ./mvnw -ntp -DskipTests package
+      - name: Build with Maven for Production
+        run: ./mvnw -Pprod -ntp -DskipTests clean package
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 

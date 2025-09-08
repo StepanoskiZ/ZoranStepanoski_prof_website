@@ -38,6 +38,7 @@
             "styles": [
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
+              "node_modules/flag-icons/css/flag-icons.min.css",
               "node_modules/aos/dist/aos.css"
             ],
             "scripts": ["node_modules/aos/dist/aos.js"]

@@ -30,18 +30,20 @@
     <![endif]-->
     <jhi-app>
       <div class="app-loading">
-        <div class="lds-pacman">
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
+        <div class="matrix-container">
+          <!-- We create multiple streams for the rain effect -->
+          <div class="matrix-stream">010011010100000101010100010100100100100101011000</div>
+          <div class="matrix-stream">100101101010101010100110100101110101011001100101</div>
+          <div class="matrix-stream">011010010110111001101110011011110111011001100001</div>
+          <div class="matrix-stream">011101000110100101110110011001010010000001110011</div>
+          <div class="matrix-stream">011011110110110001110101011101000110100101101111</div>
+          <div class="matrix-stream">011011100111001100100000011000100111100100100000</div>
+          <div class="matrix-stream">010110100110111101110010011000010110111000100000</div>
+          <div class="matrix-stream">010100110111010001100101011100000110000101101110</div>
+          <div class="matrix-stream">011011110111001101101011011010010101101001010011</div>
+          <div class="matrix-stream">110111101110011011010110110100101011010010100110</div>
         </div>
+        <div class="loading-text">INITIALIZING...</div>
       </div>
       <div class="app-loading">
         <div id="jhipster-error" style="display: none">

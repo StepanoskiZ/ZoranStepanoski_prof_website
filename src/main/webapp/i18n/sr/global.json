@@ -1,6 +1,7 @@
 {
   "global": {
     "title": "ZSWebsite",
+    "mainTitle": "Zoran Stepanoski - Profesionalni portfolio",
     "browsehappy": "Koristite <strong>zastareli</strong> pretraživač. Molimo vas <a href=\"http://browsehappy.com/?locale=en\">nadogradite pretraživač</a> kako biste poboljšali Vaše iskustvo.",
     "menu": {
       "home": "Početna stranica",

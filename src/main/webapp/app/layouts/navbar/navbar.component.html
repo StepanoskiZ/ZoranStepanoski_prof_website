@@ -1,85 +1,50 @@
-<nav data-cy="navbar" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100 sticky-top">
+<!-- =================== Navbar =================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100 sticky-top" [ngClass]="{ scrolled: navbarScrolled }">
   <div class="container">
-    <!-- Your name as the brand/logo, linking to the home page -->
-    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span class="navbar-title fw-bold text-primary">ZORAN STEPANOSKI</span>
-    </a>
-
-    <!-- The mobile "hamburger" menu button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="toggleNavbar()"
-      aria-controls="navbarResponsive"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <fa-icon icon="bars"></fa-icon>
+    <a class="navbar-brand fw-bold" href="#home">ZORAN STEPANOSKI</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- This is where all your menu links will go. It collapses on mobile. -->
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed()">
-      <ul class="navbar-nav ms-auto">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#home" jhiTranslate="landing.navHome"></a>
+          <a class="nav-link" href="#home" [class.active]="activeSection() === 'home'" jhiTranslate="landing.navHome"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#about" jhiTranslate="landing.navAbout"></a>
+          <a class="nav-link" href="#about" [class.active]="activeSection() === 'about'" jhiTranslate="landing.navAbout"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#services" jhiTranslate="landing.navServices"></a>
+          <a class="nav-link" href="#services" [class.active]="activeSection() === 'services'" jhiTranslate="landing.navServices"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#projects" jhiTranslate="landing.navProject"></a>
+          <a class="nav-link" href="#projects" [class.active]="activeSection() === 'projects'" jhiTranslate="landing.navProject"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#gallery" jhiTranslate="landing.navGallery"></a>
+          <a class="nav-link" href="#gallery" [class.active]="activeSection() === 'gallery'" jhiTranslate="landing.navGallery"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#blog" jhiTranslate="landing.navBlog"></a>
+          <a class="nav-link" href="#blog" [class.active]="activeSection() === 'blog'" jhiTranslate="landing.navBlog"></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item btn-contact-nav">
           <a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a>
         </li>
-
-        <!-- IMPORTANT: JHipster's Account Menu - Keep this! It handles login/logout. -->
-        <li
-          ngbDropdown
-          class="nav-item dropdown pointer"
-          display="dynamic"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          @let accountRef = account();
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
-            <span>
-              <fa-icon icon="user"></fa-icon>
-            </span>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdownLanguage" ngbDropdownToggle>
+            <span [class]="currentFlagClass"></span>
           </a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
-            @if (accountRef !== null) {
-              <!-- Show these links when the user is LOGGED IN -->
-              <li>
-                <a class="dropdown-item" routerLink="/admin/user-management" (click)="collapseNavbar()">
-                  <fa-icon icon="users-cog" [fixedWidth]="true"></fa-icon>
-                  <span>Admin Panel</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
-                  <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
-                  <span jhiTranslate="global.menu.account.logout"></span>
-                </a>
-              </li>
-            } @else {
-              <!-- Show these links when the user is LOGGED OUT -->
-              <li>
-                <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
-                  <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
-                  <span jhiTranslate="global.menu.account.login"></span>
-                </a>
-              </li>
-            }
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdownLanguage">
+            <li>
+              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('en')"
+                ><span class="fi fi-gb me-2"></span>English</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('sr')"
+                ><span class="fi fi-rs me-2"></span>Srpski</a
+              >
+            </li>
           </ul>
         </li>
       </ul>

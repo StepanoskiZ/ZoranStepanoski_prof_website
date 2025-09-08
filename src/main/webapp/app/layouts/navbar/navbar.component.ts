@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,13 +13,15 @@ import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { environment } from 'environments/environment';
 import ActiveMenuDirective from './active-menu.directive';
 import NavbarItem from './navbar-item.model';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActiveSectionService } from '../active-section.service';
 
 @Component({
   selector: 'jhi-navbar',
+  standalone: true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
-  //  imports: [RouterModule, SharedModule, HasAnyAuthorityDirective, ActiveMenuDirective],
-  imports: [RouterModule, SharedModule],
+  imports: [RouterModule, SharedModule, NgbDropdownModule],
 })
 export default class NavbarComponent implements OnInit {
   inProduction?: boolean;
@@ -29,6 +31,11 @@ export default class NavbarComponent implements OnInit {
   version = '';
   account = inject(AccountService).trackCurrentAccount();
   entitiesNavbarItems: NavbarItem[] = [];
+  navbarScrolled = false;
+  currentFlagClass = 'fi fi-gb';
+
+  private readonly activeSectionService = inject(ActiveSectionService);
+  activeSection = this.activeSectionService.activeSection;
 
   private readonly loginService = inject(LoginService);
   private readonly translateService = inject(TranslateService);
@@ -43,6 +50,11 @@ export default class NavbarComponent implements OnInit {
     }
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.navbarScrolled = window.scrollY > 50;
+  }
+
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;
     this.profileService.getProfileInfo().subscribe(profileInfo => {
@@ -54,6 +66,7 @@ export default class NavbarComponent implements OnInit {
   changeLanguage(languageKey: string): void {
     this.stateStorageService.storeLocale(languageKey);
     this.translateService.use(languageKey);
+    this.updateFlag(languageKey);
   }
 
   collapseNavbar(): void {
@@ -72,5 +85,15 @@ export default class NavbarComponent implements OnInit {
 
   toggleNavbar(): void {
     this.isNavbarCollapsed.update(isNavbarCollapsed => !isNavbarCollapsed);
+  }
+
+  // Helper method to set the correct flag CSS class
+  private updateFlag(lang: string): void {
+    if (lang === 'sr') {
+      this.currentFlagClass = 'fi fi-rs';
+    } else {
+      // Default to English
+      this.currentFlagClass = 'fi fi-gb';
+    }
   }
 }

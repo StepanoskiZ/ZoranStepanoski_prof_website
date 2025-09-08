@@ -1,25 +1,29 @@
-import { Component, OnInit, HostListener, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+//import { Component, OnInit, inject, HostListener, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core'; // <-- Import services
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActiveSectionService } from '../layouts/active-section.service';
 
 declare var AOS: any;
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, SharedModule, ContactFormComponent],
+  imports: [CommonModule, SharedModule, NgbDropdownModule, ContactFormComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit, AfterViewInit {
-  navbarScrolled = false;
-  activeSection = 'home';
-  cvDownloadLink = 'content/cv/CV_EN.pdf'; // Default to English CV
+  cvDownloadLink = 'content/cv/CV_EN.pdf';
 
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
+  //  @ViewChild('heroBg', { static: true }) heroBg!: ElementRef;
+
   private observer!: IntersectionObserver;
+  private readonly activeSectionService = inject(ActiveSectionService);
 
   // =================== Services array ===================
   services = [
@@ -46,21 +50,28 @@ export class LandingComponent implements OnInit, AfterViewInit {
 
   // Inject TranslateService
   constructor(private translateService: TranslateService) {
+    //  constructor(
+    //    private translateService: TranslateService,
+    //    private renderer: Renderer2
+    //  ) {
     // Listen for language changes to update the CV link dynamically
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateCvLink(event.lang);
     });
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.navbarScrolled = window.scrollY > 50;
-  }
+  //  @HostListener('window:scroll', [])
+  //  onWindowScroll(): void {
+  //    const scrollOffset = window.scrollY;
+  //    this.renderer.setStyle(
+  //      this.heroBg.nativeElement,
+  //      'transform',
+  //      `translateY(${scrollOffset * 0.5}px)` // You can change 0.5 to 0.7 for less effect, or 0.3 for more effect
+  //    );
+  //  }
 
   ngOnInit(): void {
-    // Set the initial link based on the current language when the component loads
     this.updateCvLink(this.translateService.currentLang);
-
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -78,7 +89,7 @@ export class LandingComponent implements OnInit, AfterViewInit {
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          this.activeSection = entry.target.id;
+          this.activeSectionService.setActiveSection(entry.target.id);
         }
       });
     }, options);
@@ -87,11 +98,6 @@ export class LandingComponent implements OnInit, AfterViewInit {
     this.sections.forEach(section => {
       this.observer.observe(section.nativeElement);
     });
-  }
-
-  // Method to change the application's language
-  changeLanguage(languageKey: string): void {
-    this.translateService.use(languageKey);
   }
 
   // Helper method to set the correct CV link based on language

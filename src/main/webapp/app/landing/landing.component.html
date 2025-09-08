@@ -1,63 +1,20 @@
-<!-- =================== Navbar =================== -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100 sticky-top" [ngClass]="{ scrolled: navbarScrolled }">
+<!-- =================== Hero Section =================== -->
+<!--<section #section id="home" class="landing-hero">-->
+<!--  <div class="hero-content mt-5" data-aos="fade-up">-->
+<!--    <h1 jhiTranslate="landing.heroTitle"></h1>-->
+<!--    <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>-->
+<!--    <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>-->
+<!--  </div>-->
+<!--</section>-->
+<section #section id="home" class="landing-hero">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#home">ZORAN STEPANOSKI</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#home" [class.active]="activeSection === 'home'" jhiTranslate="landing.navHome"></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about" [class.active]="activeSection === 'about'" jhiTranslate="landing.navAbout"></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#services" [class.active]="activeSection === 'services'" jhiTranslate="landing.navServices"></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#projects" [class.active]="activeSection === 'projects'" jhiTranslate="landing.navProject"></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#gallery" [class.active]="activeSection === 'gallery'" jhiTranslate="landing.navGallery"></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#blog" [class.active]="activeSection === 'blog'" jhiTranslate="landing.navBlog"></a>
-        </li>
-        <!--        <li class="nav-item"><a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a></li> -->
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdownLanguage"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="fas fa-globe"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownLanguage">
-            <li><a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('en')">English</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('sr')">Српски</a></li>
-          </ul>
-        </li>
-        <li class="nav-item btn-contact-nav"><a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a></li>
-      </ul>
+    <div class="hero-content mt-5" data-aos="fade-up">
+      <h1 jhiTranslate="landing.heroTitle"></h1>
+      <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>
+      <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>
     </div>
   </div>
-</nav>
-
-<!-- =================== Hero Section =================== -->
-<section #section id="home" class="landing-hero" aos data-aos="fade-up">
-  <div class="hero-content mt-5">
-    <h1 jhiTranslate="landing.heroTitle"></h1>
-    <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>
-    <!--    <a routerLink="/projects" class="btn btn-primary btn-lg" jhiTranslate="landing.cta"></a>-->
-    <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>
-  </div>
 </section>
-
 <!-- =================== About Section =================== -->
 <section #section id="about" class="about-section py-5">
   <div class="container">
@@ -131,18 +88,7 @@
   <!-- You would add an *ngFor loop here to show your blog posts -->
 </section>
 
-<!-- =================== Contact CTA Section =================== -->
-<!--
-<section id="contact" class="contact-section container text-center my-5" aos data-aos="fade-up" data-aos-delay="600">
-  <h2 jhiTranslate="landing.contactTitle"></h2>
-  <p jhiTranslate="landing.contactDesc"></p>
-  <a routerLink="/contact" class="btn btn-primary btn-lg" jhiTranslate="landing.contactCTA"></a>
-</section>
--->
+<!-- =================== Contact Section =================== -->
 <section #section id="contact" class="contact-section-wrapper" data-aos="fade-up">
   <jhi-contact-form></jhi-contact-form>
 </section>
-<!-- =================== Footer =================== -->
-<footer class="footer bg-white mt-5">
-  <div class="container text-center py-3">&copy; 2025 Zoran Stepanoski. <span jhiTranslate="landing.allRightsReserved"></span></div>
-</footer>

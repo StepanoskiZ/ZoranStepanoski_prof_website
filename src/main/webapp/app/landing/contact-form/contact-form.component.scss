@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $primary-green: #4caf50; // A vibrant green for the button, from the image
 $text-dark: #212529;
 $text-muted: #6c757d;
@@ -74,7 +76,8 @@ form {
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: darken($primary-green, 8%);
+    //     background-color: darken($primary-green, 8%);
+    background-color: color.adjust($primary-green, $lightness: -8%);
     border-color: darken($primary-green, 10%);
     color: #fff;
   }

@@ -1,18 +1,40 @@
-# See https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
-
+# .github/workflows/fly-deploy.yml
 name: Fly Deploy
+
 on:
   push:
     branches:
-      - master
+      - master # or 'main' if that's your default branch
+
 jobs:
   deploy:
-    name: Deploy app
+    name: Build & Deploy app
     runs-on: ubuntu-latest
-    concurrency: deploy-group # optional: ensure only one action runs at a time
+    concurrency: deploy-group # ensures only one action runs at a time
     steps:
+      # 1. Checkout the repo
       - uses: actions/checkout@v4
+
+      # 2. Setup Node.js (match your local version)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build Angular app
+      - name: Build Angular app
+        run: npm run build
+
+      # 5. Setup Flyctl
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+
+      # 6. Deploy to Fly.io (only runs if build succeeds)
+      - name: Deploy with Fly.io
+        run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

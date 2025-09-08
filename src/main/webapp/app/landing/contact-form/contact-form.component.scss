@@ -129,3 +129,40 @@ form {
     }
   }
 }
+
+/* ==========================================================================
+   Social Link Icon Styling (Brand Colors & Correct Size)
+   ========================================================================== */
+
+.social-links {
+  // Target the icon (<i>) inside the link (<a>)
+  a i {
+    // THIS IS THE KEY CHANGE: Set the font size to match the other icons.
+    // 1.5rem is a common size that works well next to text.
+    font-size: 1.5rem;
+
+    // This helps align the icon vertically if needed.
+    vertical-align: middle;
+
+    margin-right: 1.5rem; // Space them out
+    transition: opacity 0.3s ease-in-out; // Smooth fade transition on hover
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  // Set the specific brand colors
+  .fa-linkedin {
+    color: #0077b5; // Official LinkedIn blue
+  }
+
+  .fa-github {
+    color: #181717; // A common, dark GitHub color
+  }
+
+  // Define the hover effect (a subtle fade)
+  a:hover i {
+    opacity: 0.75;
+  }
+}

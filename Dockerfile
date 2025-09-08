@@ -23,9 +23,6 @@ WORKDIR /app
 
 # Copy pom.xml and resolve dependencies first (to use Docker cache)
 COPY pom.xml .
-RUN mvn -B dependency:go-offline
-
-# Copy the actual project files and build
 COPY src ./src
 RUN mvn -B -DskipTests package
 

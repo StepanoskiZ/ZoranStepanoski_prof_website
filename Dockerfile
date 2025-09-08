@@ -1,35 +1,3 @@
-# # Stage 1: Build everything (backend + frontend) with Maven
-# FROM eclipse-temurin:21-jdk-jammy AS build
-# WORKDIR /app
-#
-# # Copy Maven wrapper and pom
-# COPY .mvn/ .mvn/
-# COPY mvnw pom.xml ./
-# RUN chmod +x ./mvnw
-#
-# # Copy all source code
-# COPY . .
-#
-# # Ensure Maven wrapper is executable
-# RUN chmod +x mvnw
-#
-# # Build the full application (frontend included)
-# # RUN ./mvnw clean package -Pprod -DskipTests -Dmaven.test.skip=true -Dskip.frontend=true -Dspring.profiles.active=prod
-# RUN ./mvnwpackage -Pprod -DskipTests -Dmaven.test.skip=true -Dskip.frontend=true -Dspring.profiles.active=prod
-#
-# # Stage 2: Create lightweight runtime image
-# FROM eclipse-temurin:21-jre-jammy
-# WORKDIR /app
-#
-# # Non-root user for security
-# RUN groupadd -r jhipster && useradd -r -g jhipster jhipster
-# USER jhipster
-#
-# # Copy final JAR from build stage
-# COPY --from=build /app/target/*.jar app.jar
-#
-# # Command to run the application
-# ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 # Use a lightweight Java Runtime Environment as the final image
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app

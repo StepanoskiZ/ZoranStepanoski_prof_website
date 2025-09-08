@@ -26,6 +26,22 @@
           <a class="nav-link" href="#blog" [class.active]="activeSection === 'blog'" jhiTranslate="landing.navBlog"></a>
         </li>
         <!--        <li class="nav-item"><a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a></li> -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdownLanguage"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fas fa-globe"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownLanguage">
+            <li><a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('en')">English</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('sr')">Српски</a></li>
+          </ul>
+        </li>
         <li class="nav-item btn-contact-nav"><a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a></li>
       </ul>
     </div>
@@ -51,7 +67,14 @@
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
         <p class="lead" jhiTranslate="landing.aboutDesc"></p>
-        <a href="#contact" class="get-in-touch-link" jhiTranslate="landing.ctaContact"></a>
+
+        <!-- Links Section -->
+        <div>
+          <a href="#contact" class="get-in-touch-link" jhiTranslate="landing.ctaContact"></a>
+          <a [href]="cvDownloadLink" target="_blank" download class="get-in-touch-link ms-4">
+            <i class="fas fa-download me-1"></i> <span jhiTranslate="landing.downloadCV">Download CV</span>
+          </a>
+        </div>
       </div>
       <!-- Your Picture (Right Column) -->
       <div class="col-lg-5">
@@ -116,7 +139,7 @@
   <a routerLink="/contact" class="btn btn-primary btn-lg" jhiTranslate="landing.contactCTA"></a>
 </section>
 -->
-<section #section id="contact">
+<section #section id="contact" class="contact-section-wrapper" data-aos="fade-up">
   <jhi-contact-form></jhi-contact-form>
 </section>
 <!-- =================== Footer =================== -->

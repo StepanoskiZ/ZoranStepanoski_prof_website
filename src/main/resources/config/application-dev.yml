@@ -33,6 +33,13 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  profiles:
+    group:
+      dev:
+        - dev
+        - api-docs
+        # Uncomment to activate TLS for the dev profile
+        #- tls
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/ZSWebSite

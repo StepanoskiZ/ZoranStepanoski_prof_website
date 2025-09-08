@@ -1,7 +1,8 @@
+import { Component, OnInit, HostListener, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
-import { Component, OnInit, HostListener, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core'; // <-- Import services
 
 declare var AOS: any;
 
@@ -12,11 +13,11 @@ declare var AOS: any;
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, AfterViewInit {
   navbarScrolled = false;
   activeSection = 'home';
+  cvDownloadLink = 'content/cv/CV_EN.pdf'; // Default to English CV
 
-  // Get a reference to all <section> elements in the template
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
   private observer!: IntersectionObserver;
 
@@ -43,12 +44,23 @@ export class LandingComponent implements OnInit {
   ];
   // ========================================================
 
+  // Inject TranslateService
+  constructor(private translateService: TranslateService) {
+    // Listen for language changes to update the CV link dynamically
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.updateCvLink(event.lang);
+    });
+  }
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.navbarScrolled = window.scrollY > 50;
   }
 
   ngOnInit(): void {
+    // Set the initial link based on the current language when the component loads
+    this.updateCvLink(this.translateService.currentLang);
+
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -57,9 +69,8 @@ export class LandingComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    // Setup the observer after the view is initialized
     const options = {
-      root: null, // observes intersections relative to the viewport
+      root: null,
       rootMargin: '0px',
       threshold: 0.4, // 40% of the section must be visible
     };
@@ -76,5 +87,19 @@ export class LandingComponent implements OnInit {
     this.sections.forEach(section => {
       this.observer.observe(section.nativeElement);
     });
+  }
+
+  // Method to change the application's language
+  changeLanguage(languageKey: string): void {
+    this.translateService.use(languageKey);
+  }
+
+  // Helper method to set the correct CV link based on language
+  private updateCvLink(lang: string): void {
+    if (lang === 'sr') {
+      this.cvDownloadLink = 'content/cv/CV_SR.pdf';
+    } else {
+      this.cvDownloadLink = 'content/cv/CV_EN.pdf';
+    }
   }
 }

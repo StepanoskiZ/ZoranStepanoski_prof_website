@@ -1,3 +1,4 @@
+@use 'sass:color';
 /* ==========================================================================
    Landing Page Styles
    ========================================================================== */
@@ -121,8 +122,10 @@ $text-color-muted: #555; // Muted gray for default links
         border-color 0.3s ease;
 
       &:hover {
-        background-color: darken($primary-color, 10%); // Darker green on hover
-        border-color: darken($primary-color, 12%);
+        //         background-color: darken($primary-color, 10%); // Darker green on hover
+        //         border-color: darken($primary-color, 12%);
+        background-color: color.adjust($primary-color, $lightness: -10%); // Darker green on hover
+        border-color: color.adjust($primary-color, $lightness: -12%);
       }
     }
   }

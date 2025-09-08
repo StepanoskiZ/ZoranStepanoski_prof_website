@@ -2,7 +2,7 @@
 # Spring Boot configuration.
 #
 # This configuration will be overridden by the Spring profile you use,
-# for example application-dev.yml if you use the "dev" profile.
+# for example, application-dev.yml if you use the "dev" profile.
 #
 # More information on profiles: https://www.jhipster.tech/profiles/
 # More information on configuration properties: https://www.jhipster.tech/common-application-properties/
@@ -14,16 +14,15 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
----
 # Conditionally disable springdoc on missing api-docs profile
-spring:
-  config:
-    activate:
-      on-profile: '!api-docs'
+#spring:
+#  config:
+#    activate:
+#      on-profile: '!api-docs'
 springdoc:
+  show-actuator: true
   api-docs:
     enabled: false
----
 management:
   endpoints:
     web:
@@ -91,6 +90,20 @@ management:
       application: ${spring.application.name}
 
 spring:
+  mail:
+    host: in-v3.mailjet.com
+    port: 587
+    username: 47998d8c03e8ee806516b3f26770c18e
+    password: 022ebc259310ece82b15241f56ed6a7e
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  config:
+    activate:
+      on-profile: '!api-docs'
   application:
     name: ZSWebsite
   docker:
@@ -100,17 +113,11 @@ spring:
   #      enabled: true
   #      lifecycle-management: start-only
   #      file: src/main/docker/services.yml
-  profiles:
-    # The commented value for `active` can be replaced with valid Spring profiles to load.
-    # Otherwise, it will be filled in by maven when building the JAR file
-    # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
-    active: '@spring.profiles.active@'
-    group:
-      dev:
-        - dev
-        - api-docs
-        # Uncomment to activate TLS for the dev profile
-        #- tls
+  #  profiles:
+  #    # The commented value for `active` can be replaced with valid Spring profiles to load.
+  #    # Otherwise, it will be filled in by maven when building the JAR file
+  #    # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+  #    active: '@spring.profiles.active@'
   jmx:
     enabled: false
   data:
@@ -174,9 +181,8 @@ server:
     session:
       cookie:
         http-only: true
-
-springdoc:
-  show-actuator: true
+  port: ${PORT:8080}
+  address: 0.0.0.0
 
 # Properties to be exposed on the /info management endpoint
 info:
@@ -192,8 +198,8 @@ info:
 jhipster:
   clientApp:
     name: 'zsWebsiteApp'
-  # By default CORS is disabled. Uncomment to enable.
-  # cors:
+  # By default, CORS is disabled. Uncomment to enable.
+  # Cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
   #   allowed-methods: "*"
   #   allowed-headers: "*"

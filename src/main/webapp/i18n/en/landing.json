@@ -1,0 +1,20 @@
+{
+  "landing": {
+    "navHome": "Home",
+    "navAbout": "About",
+    "downloadCV": "Download CV",
+    "contactSubheading": "GET IN TOUCH",
+    "contactTitle": "I'm here to answer your questions!",
+    "contactInfoTitle": "Contact Information",
+    "contactAddressTitle": "Address",
+    "contactEmailTitle": "Email",
+    "formName": "Your Name",
+    "formEmail": "Your Email",
+    "formMessage": "Your Message",
+    "formSubmit": "SUBMIT",
+    "formSuccess": "Thank you! Your message has been sent.",
+    "formError": "Oops! Something went wrong. Please try again later.",
+    "modalSuccessTitle": "Message Sent!",
+    "modalClose": "Close"
+  }
+}

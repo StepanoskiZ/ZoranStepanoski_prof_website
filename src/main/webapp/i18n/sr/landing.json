@@ -1,5 +1,20 @@
 {
-  "heroTitle": "Professional Portfolio",
-  "heroSubtitle": "Software engineer passionate about AI, robotics, and smart navigation systems.",
-  "cta": "See My Work"
+  "landing": {
+    "navHome": "Početna",
+    "navAbout": "O meni",
+    "downloadCV": "Download CV",
+    "contactSubheading": "BUDIMO U KONTAKTU",
+    "contactTitle": "Tu sam da odgovorim na vaša pitanja",
+    "contactInfoTitle": "Kontakt informacije",
+    "contactAddressTitle": "Adresa",
+    "contactEmailTitle": "Email",
+    "formName": "Vaše ime",
+    "formEmail": "Vaš imejl",
+    "formMessage": "Vaša poruka",
+    "formSubmit": "POŠALjI",
+    "formSuccess": "Hvala! Vaša poruka je poslata.",
+    "formError": "Ups! Nešto je pošlo naopako. Pokušajte ponovo kasnije.",
+    "modalSuccessTitle": "Poruka je poslata!",
+    "modalClose": "Zatvori"
+  }
 }

@@ -2,6 +2,7 @@ package com.paradox.zswebsite.web.rest;
 
 import com.paradox.zswebsite.repository.ContactMessageRepository;
 import com.paradox.zswebsite.service.ContactMessageService;
+import com.paradox.zswebsite.service.EmailService;
 import com.paradox.zswebsite.service.dto.ContactMessageDTO;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
@@ -39,13 +40,23 @@ public class ContactMessageResource {
     private String applicationName;
 
     private final ContactMessageService contactMessageService;
-
     private final ContactMessageRepository contactMessageRepository;
+    private final EmailService emailService;
 
-    public ContactMessageResource(ContactMessageService contactMessageService, ContactMessageRepository contactMessageRepository) {
+    public ContactMessageResource(
+        ContactMessageService contactMessageService,
+        ContactMessageRepository contactMessageRepository,
+        EmailService emailService // <-- 3. INJECT THE SERVICE VIA THE CONSTRUCTOR
+    ) {
         this.contactMessageService = contactMessageService;
         this.contactMessageRepository = contactMessageRepository;
+        this.emailService = emailService; // <-- AND ASSIGN IT HERE
     }
+
+    //    public ContactMessageResource(ContactMessageService contactMessageService, ContactMessageRepository contactMessageRepository) {
+    //        this.contactMessageService = contactMessageService;
+    //        this.contactMessageRepository = contactMessageRepository;
+    //    }
 
     /**
      * {@code POST  /contact-messages} : Create a new contactMessage.
@@ -61,10 +72,11 @@ public class ContactMessageResource {
         if (contactMessageDTO.getId() != null) {
             throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        contactMessageDTO = contactMessageService.save(contactMessageDTO);
-        return ResponseEntity.created(new URI("/api/contact-messages/" + contactMessageDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, contactMessageDTO.getId().toString()))
-            .body(contactMessageDTO);
+        ContactMessageDTO savedDto = contactMessageService.save(contactMessageDTO);
+        emailService.sendContactFormEmail(savedDto);
+        return ResponseEntity.created(new URI("/api/contact-messages/" + savedDto.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, savedDto.getId().toString()))
+            .body(savedDto);
     }
 
     /**

@@ -87,6 +87,16 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(
+                        "/",
+                        "/*.js",
+                        "/*.css",
+                        "/*.ico",
+                        "/*.png",
+                        "/*.svg",
+                        "/webfonts/**"
+                    ).permitAll()
+                    .requestMatchers("/*.woff2", "/*.woff", "/*.ttf", "/*.eot").permitAll()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->

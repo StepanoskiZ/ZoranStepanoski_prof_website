@@ -93,8 +93,8 @@ spring:
   mail:
     host: in-v3.mailjet.com
     port: 587
-    username: 47998d8c03e8ee806516b3f26770c18e
-    password: 022ebc259310ece82b15241f56ed6a7e
+    username: ${MAILJET_API_KEY} # Reads from an environment variable
+    password: ${MAILJET_SECRET_KEY} # Reads from an environment variable
     properties:
       mail:
         smtp:

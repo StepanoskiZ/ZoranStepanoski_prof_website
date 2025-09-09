@@ -55,17 +55,17 @@ spring:
   liquibase:
     contexts: prod
     enabled: true # or false if you want to skip migrations for now
-  mail:
-    host: in-v3.mailjet.com
-    port: 587
-    username: ${MAILJET_API_KEY} # Reads from an environment variable
-    password: ${MAILJET_SECRET_KEY} # Reads from an environment variable
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+  #  mail:
+  #    host: in-v3.mailjet.com
+  #    port: 587
+  #    username: ${MAILJET_API_KEY} # Reads from an environment variable
+  #    password: ${MAILJET_SECRET_KEY} # Reads from an environment variable
+  #    properties:
+  #      mail:
+  #        smtp:
+  #          auth: true
+  #          starttls:
+  #            enable: true
   thymeleaf:
     cache: true
 

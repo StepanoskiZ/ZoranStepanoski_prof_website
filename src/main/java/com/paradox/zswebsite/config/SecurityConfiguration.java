@@ -42,7 +42,7 @@ public class SecurityConfiguration {
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
-            .addFilterAfter(new ZSWebSiteFilter(), BasicAuthenticationFilter.class)
+            //            .addFilterAfter(new ZSWebSiteFilter(), BasicAuthenticationFilter.class)
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))

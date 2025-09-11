@@ -67,6 +67,10 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services")).permitAll() // Assuming you have a Service entity

@@ -57,53 +57,43 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authz ->
                 // prettier-ignore
                 authz
+                    // 1. PUBLIC STATIC ASSETS
                     .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.txt"), mvc.pattern("/*.json"), mvc.pattern("/*.map"), mvc.pattern("/*.css")).permitAll()
                     .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp")).permitAll()
                     .requestMatchers(mvc.pattern("/app/**")).permitAll()
                     .requestMatchers(mvc.pattern("/i18n/**")).permitAll()
                     .requestMatchers(mvc.pattern("/content/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/webfonts/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/assets/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/*.woff2"), mvc.pattern("/*.woff"), mvc.pattern("/*.ttf"), mvc.pattern("/*.eot")).permitAll()
                     .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")).permitAll()
+                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
+
+                    // 2. PUBLIC API ENDPOINTS
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services")).permitAll() // Assuming you have a Service entity
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/activate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/register")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/activate")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
-                    .requestMatchers("/api/management/**").permitAll()
-                    .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
-                    .requestMatchers(mvc.pattern("/app/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/content/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/assets/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services")).permitAll()
                     .requestMatchers(mvc.pattern("/management/health")).permitAll()
                     .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
                     .requestMatchers(mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
+
+                    // 3. ADMIN-ONLY ENDPOINTS
+                    .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(
-                        "/",
-                        "/*.js",
-                        "/*.css",
-                        "/*.ico",
-                        "/*.png",
-                        "/*.svg",
-                        "/webfonts/**"
-                    ).permitAll()
-                    .requestMatchers("/*.woff2", "/*.woff", "/*.ttf", "/*.eot").permitAll()
+
+                    // 4. CATCH-ALL FOR AUTHENTICATED USERS
+                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->

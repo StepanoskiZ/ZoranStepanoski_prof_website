@@ -3,7 +3,7 @@ package com.paradox.zswebsite.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.paradox.zswebsite.security.*;
-import com.paradox.zswebsite.web.filter.SpaWebFilter;
+import com.paradox.zswebsite.web.filter.ZSWebSiteFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -42,7 +42,7 @@ public class SecurityConfiguration {
 //        http
 //            .cors(withDefaults())
 //            .csrf(csrf -> csrf.disable())
-//            .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
+//            .addFilterAfter(new ZSWebSiteFilter(), BasicAuthenticationFilter.class)
 //            .headers(headers ->
 //                headers
 //                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -109,7 +109,7 @@ public class SecurityConfiguration {
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
-            .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
+            .addFilterAfter(new ZSWebSiteFilter(), BasicAuthenticationFilter.class)
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -136,30 +136,30 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
                     .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
 
-                    // 2. PUBLIC API ENDPOINTS (Using the more direct requestMatchers)
-                    .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-                    .requestMatchers("/api/activate").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/account/reset-password/init").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/account/reset-password/finish").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/contact-messages").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/blog-posts").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/blog-posts/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/skills").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/projects").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/project-images").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/services").permitAll()
-                    .requestMatchers("/management/health").permitAll()
-                    .requestMatchers("/management/health/**").permitAll()
-                    .requestMatchers("/management/info").permitAll()
-                    .requestMatchers("/management/prometheus").permitAll()
+                    // 2. PUBLIC API ENDPOINTS
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/activate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services")).permitAll()
+                    .requestMatchers(mvc.pattern("/management/health")).permitAll()
+                    .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/management/info")).permitAll()
+                    .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
 
-                    // 3. ADMIN-ONLY ENDPOINTS (MvcRequestMatcher is fine here)
+                    // 3. ADMIN-ONLY ENDPOINTS
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
 
-                    // 4. CATCH-ALL FOR AUTHENTICATED USERS (MvcRequestMatcher is fine here)
+                    // 4. CATCH-ALL FOR AUTHENTICATED USERS
                     .requestMatchers(mvc.pattern("/api/**")).authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-public class SpaWebFilter extends OncePerRequestFilter {
+public class ZSWebSiteFilter extends OncePerRequestFilter {
 
     /**
      * Forwards any unmapped paths (except those containing a period) to the client {@code index.html}.

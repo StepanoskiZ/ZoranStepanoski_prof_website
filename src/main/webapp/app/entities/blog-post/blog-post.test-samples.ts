@@ -10,17 +10,18 @@ export const sampleWithRequiredData: IBlogPost = {
 };
 
 export const sampleWithPartialData: IBlogPost = {
-  id: 19998,
-  title: 'glider between',
+  id: 14799,
+  title: 'amid ugh barring',
   content: '../fake-data/blob/hipster.txt',
-  publishedDate: dayjs('2025-08-30T08:09'),
+  publishedDate: dayjs('2025-08-29T19:28'),
 };
 
 export const sampleWithFullData: IBlogPost = {
   id: 10904,
   title: 'well repeat hopelessly',
   content: '../fake-data/blob/hipster.txt',
-  publishedDate: dayjs('2025-08-30T02:11'),
+  imageUrl: 'fashion',
+  publishedDate: dayjs('2025-08-29T19:38'),
 };
 
 export const sampleWithNewData: NewBlogPost = {

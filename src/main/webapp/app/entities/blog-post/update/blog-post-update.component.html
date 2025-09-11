@@ -41,6 +41,11 @@
           }
         </div>
 
+        <div class="mb-3">
+          <label class="form-label" for="field_imageUrl" jhiTranslate="zsWebsiteApp.blogPost.imageUrl">Image Url</label>
+          <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
+        </div>
+
         @let publishedDateRef = editForm.get('publishedDate')!;
         <div class="mb-3">
           <label class="form-label" for="field_publishedDate" jhiTranslate="zsWebsiteApp.blogPost.publishedDate">Published Date</label>

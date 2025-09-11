@@ -1,5 +1,4 @@
-//import { Component, OnInit, inject, HostListener, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
@@ -16,59 +15,25 @@ declare var AOS: any;
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })
-export class LandingComponent implements OnInit, AfterViewInit {
+export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
 
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
-  //  @ViewChild('heroBg', { static: true }) heroBg!: ElementRef;
 
   private observer!: IntersectionObserver;
   private readonly activeSectionService = inject(ActiveSectionService);
 
-  // =================== Services array ===================
   services = [
-    {
-      icon: '../../../content/images/service1.jpg',
-      title: 'landing.service1Title',
-      description: 'landing.service1Desc',
-      delay: 100,
-    },
-    {
-      icon: '../../../content/images/service2.jpg',
-      title: 'landing.service2Title',
-      description: 'landing.service2Desc',
-      delay: 200,
-    },
-    {
-      icon: '../../../content/images/service3.jpg',
-      title: 'landing.service3Title',
-      description: 'landing.service3Desc',
-      delay: 300,
-    },
+    { icon: '../../../content/images/service1.jpg', title: 'landing.service1Title', description: 'landing.service1Desc', delay: 100 },
+    { icon: '../../../content/images/service2.jpg', title: 'landing.service2Title', description: 'landing.service2Desc', delay: 200 },
+    { icon: '../../../content/images/service3.jpg', title: 'landing.service3Title', description: 'landing.service3Desc', delay: 300 },
   ];
-  // ========================================================
 
-  // Inject TranslateService
   constructor(private translateService: TranslateService) {
-    //  constructor(
-    //    private translateService: TranslateService,
-    //    private renderer: Renderer2
-    //  ) {
-    // Listen for language changes to update the CV link dynamically
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateCvLink(event.lang);
     });
   }
-
-  //  @HostListener('window:scroll', [])
-  //  onWindowScroll(): void {
-  //    const scrollOffset = window.scrollY;
-  //    this.renderer.setStyle(
-  //      this.heroBg.nativeElement,
-  //      'transform',
-  //      `translateY(${scrollOffset * 0.5}px)` // You can change 0.5 to 0.7 for less effect, or 0.3 for more effect
-  //    );
-  //  }
 
   ngOnInit(): void {
     this.updateCvLink(this.translateService.currentLang);
@@ -80,32 +45,52 @@ export class LandingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // This is the new, smarter observer logic
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.4, // 40% of the section must be visible
+      // We create a range of thresholds to check how much is visible
+      threshold: [0, 0.25, 0.5, 0.75, 1.0],
     };
+
+    // This map will store the visibility ratio of each section
+    const visibilityMap = new Map<string, number>();
 
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.activeSectionService.setActiveSection(entry.target.id);
+        // Update the map with the current visibility ratio of the section
+        visibilityMap.set(entry.target.id, entry.intersectionRatio);
+      });
+
+      // Find the section with the highest visibility ratio
+      let mostVisibleSectionId = '';
+      let maxRatio = 0;
+      visibilityMap.forEach((ratio, id) => {
+        if (ratio > maxRatio) {
+          maxRatio = ratio;
+          mostVisibleSectionId = id;
         }
       });
+
+      // If we found a most visible section, update the service
+      if (mostVisibleSectionId) {
+        this.activeSectionService.setActiveSection(mostVisibleSectionId);
+      }
     }, options);
 
-    // Start observing each section
     this.sections.forEach(section => {
       this.observer.observe(section.nativeElement);
     });
   }
 
-  // Helper method to set the correct CV link based on language
-  private updateCvLink(lang: string): void {
-    if (lang === 'sr') {
-      this.cvDownloadLink = 'content/cv/CV_SR.pdf';
-    } else {
-      this.cvDownloadLink = 'content/cv/CV_EN.pdf';
+  // It's good practice to disconnect the observer when the component is destroyed
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
     }
+  }
+
+  private updateCvLink(lang: string): void {
+    this.cvDownloadLink = lang === 'sr' ? 'content/cv/CV_SR.pdf' : 'content/cv/CV_EN.pdf';
   }
 }

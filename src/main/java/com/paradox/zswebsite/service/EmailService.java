@@ -1,62 +1,69 @@
-package com.paradox.zswebsite.service;
+package com.paradox.zswebsite.service; // Use your actual package name
 
 import com.paradox.zswebsite.service.dto.ContactMessageDTO;
+import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import tech.jhipster.config.JHipsterProperties;
 
 @Service
 public class EmailService {
 
     private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
+    private final JHipsterProperties jHipsterProperties;
     private final JavaMailSender javaMailSender;
 
-    public EmailService(JavaMailSender javaMailSender) {
+    public EmailService(JHipsterProperties jHipsterProperties, JavaMailSender javaMailSender) {
+        this.jHipsterProperties = jHipsterProperties;
         this.javaMailSender = javaMailSender;
     }
 
     public void sendContactFormEmail(ContactMessageDTO contactMessageDTO) {
-        log.debug("Sending contact form email notification for message from: {}", contactMessageDTO.getVisitorEmail());
+        log.debug("Attempting to send contact form email from: {}", contactMessageDTO.getVisitorEmail());
+
+        // Get the 'from' and 'to' addresses from your application.yml
+        final String mailFrom = jHipsterProperties.getMail().getFrom();
+        //        final String mailFrom = "zstepanoski@gmail.com";
+        final String mailTo = "zstepanoski@gmail.com";
+
         try {
-            SimpleMailMessage mail = new SimpleMailMessage();
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
-            // This is the destination where you receive the email. This is correct.
-            mail.setTo("zstepanoski@gmail.com");
+            // Set the recipient (you)
+            message.setTo(mailTo);
+            // Set the sender (must be a verified email in Mailjet)
+            message.setFrom(mailFrom);
+            // Set the reply to (a visitor)
+            message.setReplyTo(contactMessageDTO.getVisitorEmail());
+            // Set the subject
+            message.setSubject("New Contact Form Submission from: " + contactMessageDTO.getVisitorName());
 
-            // This sets the Reply-To header to the visitor's email. This is correct.
-            mail.setReplyTo(contactMessageDTO.getVisitorEmail());
-
-            // 3. MOST IMPORTANT CHANGE FOR MAILJET
-            // This MUST be an email address you have verified as a "Sender"
-            // in your Mailjet account dashboard.
-            mail.setFrom("zstepanoski@gmail.com"); // e.g., "contact@yourwebsite.com" or "zstepanoski@gmail.com" if you've verified it.
-
-            // The rest of the logic is correct, just updated to use the DTO
-            mail.setSubject("New Visitor Message from " + contactMessageDTO.getVisitorName());
-
-            String emailBody =
+            // Build the email body
+            String emailBody = String.format(
                 "You have received a new message from your website contact form.\n\n" +
                 "-----------------------------------------\n" +
-                "Name: " +
-                contactMessageDTO.getVisitorName() +
-                "\n" +
-                "Email: " +
-                contactMessageDTO.getVisitorEmail() +
-                "\n" +
+                "Name: %s\n" +
+                "Email (Reply-To): %s\n" +
                 "-----------------------------------------\n\n" +
-                "Message:\n" +
-                contactMessageDTO.getMessage();
+                "Message:\n%s",
+                contactMessageDTO.getVisitorName(),
+                contactMessageDTO.getVisitorEmail(),
+                contactMessageDTO.getMessage()
+            );
 
-            mail.setText(emailBody);
+            message.setText(emailBody);
 
-            javaMailSender.send(mail);
-            log.debug("Email sent successfully to zstepanoski@gmail.com via Mailjet");
-        } catch (MailException e) {
-            log.error("Failed to send email via Mailjet", e);
+            javaMailSender.send(mimeMessage);
+            log.info("Contact form email sent successfully to '{}'", mailTo);
+        } catch (MailException | jakarta.mail.MessagingException e) {
+            log.error("Email could not be sent to user '{}'", mailTo, e);
         }
     }
 }

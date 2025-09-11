@@ -72,6 +72,7 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**")).permitAll()
                     .requestMatchers(mvc.pattern("/api/register")).permitAll()
                     .requestMatchers(mvc.pattern("/api/activate")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()

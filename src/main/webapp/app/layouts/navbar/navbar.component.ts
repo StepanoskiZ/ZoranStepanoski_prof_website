@@ -4,17 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import SharedModule from 'app/shared/shared.module';
-import HasAnyAuthorityDirective from 'app/shared/auth/has-any-authority.directive';
 import { LANGUAGES } from 'app/config/language.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { environment } from 'environments/environment';
-import ActiveMenuDirective from './active-menu.directive';
-import NavbarItem from './navbar-item.model';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveSectionService } from '../active-section.service';
+import NavbarItem from './navbar-item.model';
 
 @Component({
   selector: 'jhi-navbar',
@@ -33,6 +31,7 @@ export default class NavbarComponent implements OnInit {
   entitiesNavbarItems: NavbarItem[] = [];
   navbarScrolled = false;
   currentFlagClass = 'fi fi-gb';
+  showAdminControls = signal(false);
 
   private readonly activeSectionService = inject(ActiveSectionService);
   activeSection = this.activeSectionService.activeSection;
@@ -51,8 +50,30 @@ export default class NavbarComponent implements OnInit {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScroll() {
+  onWindowScroll(): void {
     this.navbarScrolled = window.scrollY > 50;
+  }
+
+  // --- SECRET KEY COMBINATION ---
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    // Check if Shift, Ctrl, Alt, and the 'Z' and 'S' keys are pressed
+    if (event.shiftKey && event.ctrlKey && event.altKey && event.key.toLowerCase() === 'z') {
+      // The next check is for 's'
+      const sKeyListener = (sEvent: KeyboardEvent) => {
+        if (sEvent.key.toLowerCase() === 's') {
+          // If 's' is pressed, toggle the visibility
+          this.showAdminControls.update(value => !value);
+          // Prevent the browser from doing anything else (like opening a Save dialog)
+          sEvent.preventDefault();
+        }
+        // Clean up the listener after one use
+        window.removeEventListener('keydown', sKeyListener);
+      };
+      // Add a temporary listener just for the 's' key
+      window.addEventListener('keydown', sKeyListener);
+      event.preventDefault();
+    }
   }
 
   ngOnInit(): void {
@@ -87,13 +108,30 @@ export default class NavbarComponent implements OnInit {
     this.isNavbarCollapsed.update(isNavbarCollapsed => !isNavbarCollapsed);
   }
 
-  // Helper method to set the correct flag CSS class
   private updateFlag(lang: string): void {
-    if (lang === 'sr') {
-      this.currentFlagClass = 'fi fi-rs';
+    this.currentFlagClass = lang === 'sr' ? 'fi fi-rs' : 'fi fi-gb';
+  }
+
+  isLandingPage(): boolean {
+    return this.router.url === '/';
+  }
+
+  scrollToSection(sectionId: string): void {
+    this.collapseNavbar();
+    if (!this.isLandingPage()) {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => this.performScroll(sectionId), 100);
+      });
     } else {
-      // Default to English
-      this.currentFlagClass = 'fi fi-gb';
+      this.performScroll(sectionId);
+    }
+  }
+
+  private performScroll(sectionId: string): void {
+    this.activeSectionService.setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }

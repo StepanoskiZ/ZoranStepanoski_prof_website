@@ -8,6 +8,7 @@ const blogPostRoute: Routes = [
   {
     path: '',
     loadComponent: () => import('./list/blog-post.component').then(m => m.BlogPostComponent),
+    title: 'global.mainTitle',
     data: {
       defaultSort: `id,${ASC}`,
     },

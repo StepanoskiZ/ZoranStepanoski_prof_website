@@ -36,6 +36,7 @@
     "formSuccess": "Hvala! Vaša poruka je poslata.",
     "formError": "Ups! Nešto je pošlo naopako. Pokušajte ponovo kasnije.",
     "modalSuccessTitle": "Poruka je poslata!",
-    "modalClose": "Zatvori"
+    "modalClose": "Zatvori",
+    "formProfanityWarning": "Vaša poruka sadrži neprimeren jezik. Molimo vas da je ispravite."
   }
 }

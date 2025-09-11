@@ -20,6 +20,8 @@ public class BlogPostDTO implements Serializable {
     @Lob
     private String content;
 
+    private String imageUrl;
+
     @NotNull
     private Instant publishedDate;
 
@@ -45,6 +47,14 @@ public class BlogPostDTO implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Instant getPublishedDate() {
@@ -83,6 +93,7 @@ public class BlogPostDTO implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", content='" + getContent() + "'" +
+            ", imageUrl='" + getImageUrl() + "'" +
             ", publishedDate='" + getPublishedDate() + "'" +
             "}";
     }

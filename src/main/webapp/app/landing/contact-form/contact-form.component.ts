@@ -18,6 +18,7 @@ import dayjs from 'dayjs/esm';
 export class ContactFormComponent {
   isSubmitting = false;
   isError = false;
+  profanityError = false;
 
   private fb = inject(FormBuilder);
   private contactMessageService = inject(ContactMessageService);
@@ -30,13 +31,51 @@ export class ContactFormComponent {
   });
 
   submit(successModalTemplate: any): void {
+    this.isError = false;
+    this.profanityError = false;
+
+    // First, check standard validation (required fields, email format, etc.)
     if (this.editForm.invalid) {
       Object.values(this.editForm.controls).forEach(control => control.markAsTouched());
       return;
     }
 
+    // --- START OF PROFANITY CHECK (ON SUBMIT) ---
+    const forbiddenWords = [
+      // English
+      'dick',
+      'kock suck',
+      'kock sucker',
+      'blowjob',
+      'pussy',
+      'asshole',
+      'bitch',
+      'cunt',
+      'fuck',
+      // Serbian (Cyrillic and Latin)
+      'kurac',
+      'пичка',
+      'pichka',
+      'jebem',
+      'јебем',
+      'govno',
+      'говно',
+      'sranje',
+      'срање',
+      'picka',
+    ];
+
+    const messageValue = this.editForm.get('message')?.value ?? '';
+    // 1. YES, WE CONVERT THE WHOLE MESSAGE TO LOWERCASE HERE
+    const lowerCaseMessage = messageValue.toLowerCase();
+
+    const hasForbiddenWord = forbiddenWords.some(word => lowerCaseMessage.includes(word));
+
+    if (hasForbiddenWord) {
+      this.profanityError = true;
+      return;
+    }
     this.isSubmitting = true;
-    this.isError = false;
 
     const contactMessage: NewContactMessage = {
       id: null,

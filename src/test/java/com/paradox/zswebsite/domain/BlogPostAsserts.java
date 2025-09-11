@@ -49,6 +49,7 @@ public class BlogPostAsserts {
             .as("Verify BlogPost relevant properties")
             .satisfies(a -> assertThat(a.getTitle()).as("check title").isEqualTo(expected.getTitle()))
             .satisfies(a -> assertThat(a.getContent()).as("check content").isEqualTo(expected.getContent()))
+            .satisfies(a -> assertThat(a.getImageUrl()).as("check imageUrl").isEqualTo(expected.getImageUrl()))
             .satisfies(a -> assertThat(a.getPublishedDate()).as("check publishedDate").isEqualTo(expected.getPublishedDate()));
     }
 

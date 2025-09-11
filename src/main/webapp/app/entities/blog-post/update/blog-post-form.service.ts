@@ -33,6 +33,7 @@ type BlogPostFormGroupContent = {
   id: FormControl<BlogPostFormRawValue['id'] | NewBlogPost['id']>;
   title: FormControl<BlogPostFormRawValue['title']>;
   content: FormControl<BlogPostFormRawValue['content']>;
+  imageUrl: FormControl<BlogPostFormRawValue['imageUrl']>;
   publishedDate: FormControl<BlogPostFormRawValue['publishedDate']>;
 };
 
@@ -59,6 +60,7 @@ export class BlogPostFormService {
       content: new FormControl(blogPostRawValue.content, {
         validators: [Validators.required],
       }),
+      imageUrl: new FormControl(blogPostRawValue.imageUrl),
       publishedDate: new FormControl(blogPostRawValue.publishedDate, {
         validators: [Validators.required],
       }),

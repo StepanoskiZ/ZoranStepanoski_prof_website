@@ -22,6 +22,7 @@ describe('BlogPost Form Service', () => {
             id: expect.any(Object),
             title: expect.any(Object),
             content: expect.any(Object),
+            imageUrl: expect.any(Object),
             publishedDate: expect.any(Object),
           }),
         );
@@ -35,6 +36,7 @@ describe('BlogPost Form Service', () => {
             id: expect.any(Object),
             title: expect.any(Object),
             content: expect.any(Object),
+            imageUrl: expect.any(Object),
             publishedDate: expect.any(Object),
           }),
         );

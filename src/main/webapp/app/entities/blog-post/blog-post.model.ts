@@ -4,6 +4,7 @@ export interface IBlogPost {
   id: number;
   title?: string | null;
   content?: string | null;
+  imageUrl?: string | null;
   publishedDate?: dayjs.Dayjs | null;
 }
 

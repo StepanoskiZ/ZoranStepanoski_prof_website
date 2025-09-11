@@ -1,49 +1,160 @@
 <!-- =================== Navbar =================== -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm w-100 sticky-top" [ngClass]="{ scrolled: navbarScrolled }">
+<nav class="navbar navbar-expand-lg navbar-light w-100 sticky-top" [ngClass]="{ scrolled: navbarScrolled || !isLandingPage() }">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#home">ZORAN STEPANOSKI</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <a class="navbar-brand fw-bold" routerLink="/">ZORAN STEPANOSKI</a>
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()" [attr.aria-expanded]="!isNavbarCollapsed()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+
+    <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed()">
+      <!-- 1. MAIN NAVIGATION (LEFT) -->
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#home" [class.active]="activeSection() === 'home'" jhiTranslate="landing.navHome"></a>
+          <a
+            class="nav-link"
+            (click)="scrollToSection('home')"
+            [class.active]="isLandingPage() && activeSection() === 'home'"
+            jhiTranslate="landing.navHome"
+          >
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#about" [class.active]="activeSection() === 'about'" jhiTranslate="landing.navAbout"></a>
+          <a
+            class="nav-link"
+            (click)="scrollToSection('about')"
+            [class.active]="isLandingPage() && activeSection() === 'about'"
+            jhiTranslate="landing.navAbout"
+          >
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#services" [class.active]="activeSection() === 'services'" jhiTranslate="landing.navServices"></a>
+          <a
+            class="nav-link"
+            (click)="scrollToSection('services')"
+            [class.active]="isLandingPage() && activeSection() === 'services'"
+            jhiTranslate="landing.navServices"
+          >
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#projects" [class.active]="activeSection() === 'projects'" jhiTranslate="landing.navProject"></a>
+          <a
+            class="nav-link"
+            (click)="scrollToSection('projects')"
+            [class.active]="isLandingPage() && activeSection() === 'projects'"
+            jhiTranslate="landing.navProject"
+          >
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#gallery" [class.active]="activeSection() === 'gallery'" jhiTranslate="landing.navGallery"></a>
+          <a
+            class="nav-link"
+            (click)="scrollToSection('gallery')"
+            [class.active]="isLandingPage() && activeSection() === 'gallery'"
+            jhiTranslate="landing.navGallery"
+          >
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#blog" [class.active]="activeSection() === 'blog'" jhiTranslate="landing.navBlog"></a>
+          <a class="nav-link" routerLink="/blog" routerLinkActive="active" (click)="collapseNavbar()" jhiTranslate="landing.navBlog"></a>
         </li>
         <li class="nav-item btn-contact-nav">
-          <a class="nav-link" href="#contact" jhiTranslate="landing.navContact"></a>
+          <a class="nav-link" (click)="scrollToSection('contact')" jhiTranslate="landing.navContact"> </a>
         </li>
       </ul>
+
+      <!-- 2. JHIPSTER MENUS (RIGHT) -->
       <ul class="navbar-nav">
+        <ng-container *ngIf="showAdminControls() || account() !== null">
+          <!-- Entities Menu -->
+          <li ngbDropdown class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle id="entity-menu" data-cy="entity">
+              <fa-icon icon="th-list"></fa-icon>
+              <span jhiTranslate="global.menu.entities.main"></span>
+            </a>
+            <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+              <li>
+                <a class="dropdown-item" routerLink="/project" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.project">Project</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/project-image" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.projectImage">Project Image</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/skill" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.skill">Skill</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/business-service" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.businessService">Business Service</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/blog-post" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.blogPost">Blog Post</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/contact-message" (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.contactMessage">Contact Message</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Account Menu -->
+          <li ngbDropdown class="nav-item dropdown" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+              <span *ngIf="!account()">
+                <fa-icon icon="user"></fa-icon>
+                <span jhiTranslate="global.menu.account.main"></span>
+              </span>
+              <span *ngIf="account()">
+                <fa-icon icon="user"></fa-icon>
+                <span>{{ account()!.login }}</span>
+              </span>
+            </a>
+            <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+              <li *ngIf="account()">
+                <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+                  <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.account.logout"></span>
+                </a>
+              </li>
+              <li *ngIf="!account()">
+                <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+                  <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.account.login"></span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
         <li class="nav-item" ngbDropdown>
           <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdownLanguage" ngbDropdownToggle>
             <span [class]="currentFlagClass"></span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdownLanguage">
             <li>
-              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('en')"
-                ><span class="fi fi-gb me-2"></span>English</a
-              >
+              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('en')">
+                <span class="fi fi-gb me-2"></span>
+                English
+              </a>
             </li>
             <li>
-              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('sr')"
-                ><span class="fi fi-rs me-2"></span>Srpski</a
-              >
+              <a class="dropdown-item" href="javascript:void(0);" (click)="changeLanguage('sr')">
+                <span class="fi fi-rs me-2"></span>
+                Srpski
+              </a>
             </li>
           </ul>
         </li>

@@ -31,6 +31,7 @@ entity BusinessService {
 entity BlogPost {
     title String required,
     content TextBlob required,
+    imageUrl String,
     publishedDate Instant required
 }
 

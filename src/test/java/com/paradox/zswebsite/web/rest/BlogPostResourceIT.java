@@ -42,6 +42,9 @@ class BlogPostResourceIT {
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
+
     private static final Instant DEFAULT_PUBLISHED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_PUBLISHED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -77,7 +80,11 @@ class BlogPostResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static BlogPost createEntity() {
-        return new BlogPost().title(DEFAULT_TITLE).content(DEFAULT_CONTENT).publishedDate(DEFAULT_PUBLISHED_DATE);
+        return new BlogPost()
+            .title(DEFAULT_TITLE)
+            .content(DEFAULT_CONTENT)
+            .imageUrl(DEFAULT_IMAGE_URL)
+            .publishedDate(DEFAULT_PUBLISHED_DATE);
     }
 
     /**
@@ -87,7 +94,11 @@ class BlogPostResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static BlogPost createUpdatedEntity() {
-        return new BlogPost().title(UPDATED_TITLE).content(UPDATED_CONTENT).publishedDate(UPDATED_PUBLISHED_DATE);
+        return new BlogPost()
+            .title(UPDATED_TITLE)
+            .content(UPDATED_CONTENT)
+            .imageUrl(UPDATED_IMAGE_URL)
+            .publishedDate(UPDATED_PUBLISHED_DATE);
     }
 
     @BeforeEach
@@ -193,6 +204,7 @@ class BlogPostResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(blogPost.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
+            .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].publishedDate").value(hasItem(DEFAULT_PUBLISHED_DATE.toString())));
     }
 
@@ -210,6 +222,7 @@ class BlogPostResourceIT {
             .andExpect(jsonPath("$.id").value(blogPost.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT))
+            .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.publishedDate").value(DEFAULT_PUBLISHED_DATE.toString()));
     }
 
@@ -232,7 +245,7 @@ class BlogPostResourceIT {
         BlogPost updatedBlogPost = blogPostRepository.findById(blogPost.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedBlogPost are not directly saved in db
         em.detach(updatedBlogPost);
-        updatedBlogPost.title(UPDATED_TITLE).content(UPDATED_CONTENT).publishedDate(UPDATED_PUBLISHED_DATE);
+        updatedBlogPost.title(UPDATED_TITLE).content(UPDATED_CONTENT).imageUrl(UPDATED_IMAGE_URL).publishedDate(UPDATED_PUBLISHED_DATE);
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(updatedBlogPost);
 
         restBlogPostMockMvc
@@ -322,7 +335,7 @@ class BlogPostResourceIT {
         BlogPost partialUpdatedBlogPost = new BlogPost();
         partialUpdatedBlogPost.setId(blogPost.getId());
 
-        partialUpdatedBlogPost.content(UPDATED_CONTENT).publishedDate(UPDATED_PUBLISHED_DATE);
+        partialUpdatedBlogPost.content(UPDATED_CONTENT).imageUrl(UPDATED_IMAGE_URL);
 
         restBlogPostMockMvc
             .perform(
@@ -350,7 +363,11 @@ class BlogPostResourceIT {
         BlogPost partialUpdatedBlogPost = new BlogPost();
         partialUpdatedBlogPost.setId(blogPost.getId());
 
-        partialUpdatedBlogPost.title(UPDATED_TITLE).content(UPDATED_CONTENT).publishedDate(UPDATED_PUBLISHED_DATE);
+        partialUpdatedBlogPost
+            .title(UPDATED_TITLE)
+            .content(UPDATED_CONTENT)
+            .imageUrl(UPDATED_IMAGE_URL)
+            .publishedDate(UPDATED_PUBLISHED_DATE);
 
         restBlogPostMockMvc
             .perform(

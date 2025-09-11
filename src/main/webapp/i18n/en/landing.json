@@ -36,6 +36,7 @@
     "formSuccess": "Thank you! Your message has been sent.",
     "formError": "Oops! Something went wrong. Please try again later.",
     "modalSuccessTitle": "Message Sent!",
-    "modalClose": "Close"
+    "modalClose": "Close",
+    "formProfanityWarning": "Your message contains inappropriate language. Please revise it."
   }
 }

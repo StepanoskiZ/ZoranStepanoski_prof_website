@@ -20,6 +20,7 @@
       "id": "ID",
       "title": "Title",
       "content": "Content",
+      "imageUrl": "Image Url",
       "publishedDate": "Published Date"
     }
   }

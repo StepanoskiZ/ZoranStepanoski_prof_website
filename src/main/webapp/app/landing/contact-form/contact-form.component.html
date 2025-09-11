@@ -15,14 +15,18 @@
 
         <!-- Email Input -->
         <div class="form-group mb-4">
-          <label for="field_visitorEmail" class="form-label" jhiTranslate="landing.formEmail">Email address</label>
+          <label for="field_visitorEmail" class="form-label" jhiTranslate="landing.formEmail"></label>
           <input type="email" class="form-control" id="field_visitorEmail" formControlName="visitorEmail" />
         </div>
 
         <!-- Message Textarea -->
         <div class="form-group mb-4">
-          <label for="field_message" class="form-label" jhiTranslate="landing.formMessage">Message</label>
+          <label for="field_message" class="form-label" jhiTranslate="landing.formMessage"></label>
           <textarea class="form-control" id="field_message" formControlName="message" rows="6"></textarea>
+        </div>
+
+        <div *ngIf="profanityError" class="alert alert-warning mt-2">
+          <span jhiTranslate="landing.formProfanityWarning"></span>
         </div>
 
         <!-- Submit Button -->

@@ -32,6 +32,9 @@ public class BlogPost implements Serializable {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @NotNull
     @Column(name = "published_date", nullable = false)
     private Instant publishedDate;
@@ -77,6 +80,19 @@ public class BlogPost implements Serializable {
         this.content = content;
     }
 
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public BlogPost imageUrl(String imageUrl) {
+        this.setImageUrl(imageUrl);
+        return this;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public Instant getPublishedDate() {
         return this.publishedDate;
     }
@@ -116,6 +132,7 @@ public class BlogPost implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", content='" + getContent() + "'" +
+            ", imageUrl='" + getImageUrl() + "'" +
             ", publishedDate='" + getPublishedDate() + "'" +
             "}";
     }

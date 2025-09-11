@@ -116,34 +116,51 @@ public class SecurityConfiguration {
                     .frameOptions(FrameOptionsConfig::sameOrigin)
                     .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
                     .permissionsPolicyHeader(permissions ->
-                        permissions.policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
+                        permissions.policy(
+                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()"
+                        )
                     )
             )
             .authorizeHttpRequests(authz ->
+                // prettier-ignore
                 authz
-                    // static resources
-                    .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.css"), mvc.pattern("/assets/**")).permitAll()
+                    // 1. PUBLIC STATIC ASSETS (MvcRequestMatcher is fine here)
+                    .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.txt"), mvc.pattern("/*.json"), mvc.pattern("/*.map"), mvc.pattern("/*.css")).permitAll()
+                    .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp")).permitAll()
+                    .requestMatchers(mvc.pattern("/app/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/i18n/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/content/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/webfonts/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/assets/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/*.woff2"), mvc.pattern("/*.woff"), mvc.pattern("/*.ttf"), mvc.pattern("/*.eot")).permitAll()
+                    .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
 
-                    // --- Public API endpoints (no JWT required)
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
+                    // 2. PUBLIC API ENDPOINTS (Using the more direct requestMatchers)
+                    .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+                    .requestMatchers("/api/activate").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/account/reset-password/init").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/account/reset-password/finish").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/blog-posts").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/blog-posts/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/skills").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/projects").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/project-images").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/services").permitAll()
+                    .requestMatchers("/management/health").permitAll()
+                    .requestMatchers("/management/health/**").permitAll()
+                    .requestMatchers("/management/info").permitAll()
+                    .requestMatchers("/management/prometheus").permitAll()
 
-                    // --- Public read-only APIs
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects")).permitAll()
-
-                    // --- Admin-only
+                    // 3. ADMIN-ONLY ENDPOINTS (MvcRequestMatcher is fine here)
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-
-                    // --- All other APIs require authentication
-                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
-
-                    // management health/info is public, but other /management/** is admin
-                    .requestMatchers(mvc.pattern("/management/health/**"), mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+
+                    // 4. CATCH-ALL FOR AUTHENTICATED USERS (MvcRequestMatcher is fine here)
+                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
@@ -151,9 +168,7 @@ public class SecurityConfiguration {
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
-            // 🟢 Only apply JWT to protected APIs
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
-
         return http.build();
     }
 

@@ -19,7 +19,6 @@ logging:
     tech.jhipster: INFO
     com.paradox.zswebsite: INFO
     org.springframework.security: DEBUG
-
 management:
   prometheus:
     metrics:

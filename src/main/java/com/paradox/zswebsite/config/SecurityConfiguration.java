@@ -60,7 +60,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher(
-                "/api/authenticate",
+                "/api/authenticate/**",
                 "/api/register",
                 "/api/activate",
                 "/api/account/reset-password/init",

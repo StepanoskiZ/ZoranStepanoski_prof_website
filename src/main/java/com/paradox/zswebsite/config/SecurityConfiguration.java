@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,7 +37,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Cleaned up version with Diagnostic Filter. Version 7.");
+        log.info("SECURITY CONFIG LOADED! Using multiple, isolated SecurityFilterChains. Version 9.");
     }
 
     @Bean
@@ -45,19 +46,48 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    // =================================================================================
+    // CHAIN 1: STATELESS PUBLIC API - HIGHEST PRIORITY
+    // =================================================================================
+    // This chain handles only the public API endpoints needed for login, registration, etc.
+    // It has NO CSRF and NO OAuth2 Resource Server configuration. It is completely stateless and open.
+    @Bean
+    @Order(1)
+    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
         http
+            .securityMatcher(
+                "/api/authenticate",
+                "/api/register",
+                "/api/activate",
+                "/api/account/reset-password/init",
+                "/api/account/reset-password/finish"
+            )
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
-            //            .csrf(csrf ->
-            //                csrf
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/authenticate"))
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/register"))
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/activate"))
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/init"))
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/finish"))
-            //                    .ignoringRequestMatchers(mvc.pattern("/api/contact-messages"))
-            //            )
+            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(exceptions ->
+                exceptions
+                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            );
+        return http.build();
+    }
+
+    // =================================================================================
+    // CHAIN 2: DEFAULT APPLICATION SECURITY - LOWER PRIORITY
+    // =================================================================================
+    // This chain handles everything else. It has the full security stack for the main application.
+    @Bean
+    @Order(2)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+        http
+            .cors(withDefaults())
+            .csrf(AbstractHttpConfigurer::disable) // CSRF is disabled for simplicity as we use stateless JWTs
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -71,7 +101,7 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authz ->
                 authz
-                    // Public static assets
+                    // Public static assets and public read-only APIs
                     .requestMatchers(mvc.pattern("/"))
                     .permitAll()
                     .requestMatchers(
@@ -85,56 +115,35 @@ public class SecurityConfiguration {
                     .permitAll()
                     .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern("/app/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/i18n/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/content/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/webfonts/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/assets/**"))
+                    .requestMatchers(
+                        mvc.pattern("/app/**"),
+                        mvc.pattern("/i18n/**"),
+                        mvc.pattern("/content/**"),
+                        mvc.pattern("/webfonts/**"),
+                        mvc.pattern("/assets/**")
+                    )
                     .permitAll()
                     .requestMatchers(mvc.pattern("/*.woff2"), mvc.pattern("/*.woff"), mvc.pattern("/*.ttf"), mvc.pattern("/*.eot"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern("/swagger-ui/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/v3/api-docs/**"))
-                    .permitAll()
-                    // Public API endpoints
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/api/activate"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish"))
+                    .requestMatchers(mvc.pattern("/swagger-ui/**"), mvc.pattern("/v3/api-docs/**"))
                     .permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"), mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
+                    .requestMatchers(
+                        mvc.pattern(HttpMethod.GET, "/api/skills"),
+                        mvc.pattern(HttpMethod.GET, "/api/projects"),
+                        mvc.pattern(HttpMethod.GET, "/api/project-images"),
+                        mvc.pattern(HttpMethod.GET, "/api/services")
+                    )
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/management/health"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/management/health/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/management/info"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/management/prometheus"))
+                    .requestMatchers(
+                        mvc.pattern("/management/health"),
+                        mvc.pattern("/management/health/**"),
+                        mvc.pattern("/management/info"),
+                        mvc.pattern("/management/prometheus")
+                    )
                     .permitAll()
                     // Admin-only endpoints
                     .requestMatchers(mvc.pattern("/api/admin/**"))
@@ -151,34 +160,20 @@ public class SecurityConfiguration {
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults())); // OAuth2 is ONLY enabled for this chain
         return http.build();
     }
 
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
-    }
-
+    // This bean provides the CORS configuration for both filter chains.
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Set your allowed origins here.
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000", "https://zoranstepanoski-prof-website.fly.dev"));
-        // Allow all standard methods.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        //        // Allow all standard headers.
-        //        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        //        // Expose headers so the frontend can read them.
-        //        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-        // Allow credentials (cookies, authorization headers).
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        //        source.registerCorsConfiguration("/api/**", configuration);
         source.registerCorsConfiguration("/**", configuration);
-        //        source.registerCorsConfiguration("/management/**", configuration);
         return source;
     }
 }

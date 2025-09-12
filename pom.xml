@@ -36,6 +36,10 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
     <!-- JAXB API and Runtime for Java 11+ -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>

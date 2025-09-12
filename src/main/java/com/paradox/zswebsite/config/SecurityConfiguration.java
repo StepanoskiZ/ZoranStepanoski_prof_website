@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -37,12 +39,17 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Re-deploying with multiple, isolated SecurityFilterChains. Version 8.");
+        log.info("SECURITY CONFIG LOADED! Final multi-chain architecture. Version 10.");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -53,49 +60,38 @@ public class SecurityConfiguration {
     // =================================================================================
     // CHAIN 1: STATELESS PUBLIC AUTH API - HIGHEST PRIORITY
     // =================================================================================
-    // This chain handles only the public API endpoints needed for login, registration, etc.
-    // It has NO CSRF and NO OAuth2 Resource Server configuration. It is completely stateless and open.
     @Bean
     @Order(1)
-    //    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
-    //        http
-    //            .securityMatcher(
-    //                "/api/authenticate",
-    //                "/api/register",
-    //                "/api/activate",
-    //                "/api/account/reset-password/init",
-    //                "/api/account/reset-password/finish"
-    //            )
-    //            .cors(withDefaults())
-    //            .csrf(AbstractHttpConfigurer::disable)
-    //            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
-    //            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    //        //            .exceptionHandling(exceptions ->
-    //        //                exceptions
-    //        //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-    //        //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-    //        //            );
-    //        return http.build();
-    //    }
     public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/api/authenticate")
+            .securityMatcher(
+                "/api/authenticate",
+                "/api/register",
+                "/api/activate",
+                "/api/account/reset-password/init",
+                "/api.account/reset-password/finish"
+            )
+            .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(exceptions ->
+                exceptions
+                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            );
         return http.build();
     }
 
     // =================================================================================
     // CHAIN 2: DEFAULT APPLICATION SECURITY - LOWER PRIORITY
     // =================================================================================
-    // This chain handles everything else. It has the full security stack for the main application.
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .cors(withDefaults())
-            .csrf(AbstractHttpConfigurer::disable) // CSRF is disabled for simplicity as we use stateless JWTs
+            .csrf(AbstractHttpConfigurer::disable)
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -109,7 +105,6 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authz ->
                 authz
-                    // Public static assets and public read-only APIs
                     .requestMatchers(mvc.pattern("/"))
                     .permitAll()
                     .requestMatchers(
@@ -153,12 +148,10 @@ public class SecurityConfiguration {
                         mvc.pattern("/management/prometheus")
                     )
                     .permitAll()
-                    // Admin-only endpoints
                     .requestMatchers(mvc.pattern("/api/admin/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-                    // Catch-all for any other /api endpoint - must be authenticated
                     .requestMatchers(mvc.pattern("/api/**"))
                     .authenticated()
             )
@@ -168,11 +161,10 @@ public class SecurityConfiguration {
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults())); // OAuth2 is ONLY enabled for this chain
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
         return http.build();
     }
 
-    // This bean provides the CORS configuration for both filter chains.
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

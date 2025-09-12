@@ -57,24 +57,32 @@ public class SecurityConfiguration {
     // It has NO CSRF and NO OAuth2 Resource Server configuration. It is completely stateless and open.
     @Bean
     @Order(1)
+    //    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
+    //        http
+    //            .securityMatcher(
+    //                "/api/authenticate",
+    //                "/api/register",
+    //                "/api/activate",
+    //                "/api/account/reset-password/init",
+    //                "/api/account/reset-password/finish"
+    //            )
+    //            .cors(withDefaults())
+    //            .csrf(AbstractHttpConfigurer::disable)
+    //            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+    //            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    //        //            .exceptionHandling(exceptions ->
+    //        //                exceptions
+    //        //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+    //        //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+    //        //            );
+    //        return http.build();
+    //    }
     public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher(
-                "/api/authenticate",
-                "/api/register",
-                "/api/activate",
-                "/api/account/reset-password/init",
-                "/api/account/reset-password/finish"
-            )
-            .cors(withDefaults())
+            .securityMatcher("/api/authenticate")
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        //            .exceptionHandling(exceptions ->
-        //                exceptions
-        //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-        //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-        //            );
         return http.build();
     }
 

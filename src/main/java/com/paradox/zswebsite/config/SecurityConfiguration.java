@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Using multiple, isolated SecurityFilterChains. Version 9.");
+        log.info("SECURITY CONFIG LOADED! Re-deploying with multiple, isolated SecurityFilterChains. Version 8.");
     }
 
     @Bean
@@ -51,7 +51,7 @@ public class SecurityConfiguration {
     }
 
     // =================================================================================
-    // CHAIN 1: STATELESS PUBLIC API - HIGHEST PRIORITY
+    // CHAIN 1: STATELESS PUBLIC AUTH API - HIGHEST PRIORITY
     // =================================================================================
     // This chain handles only the public API endpoints needed for login, registration, etc.
     // It has NO CSRF and NO OAuth2 Resource Server configuration. It is completely stateless and open.
@@ -60,7 +60,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher(
-                "/api/authenticate/**",
+                "/api/authenticate",
                 "/api/register",
                 "/api/activate",
                 "/api/account/reset-password/init",

@@ -19,6 +19,7 @@ logging:
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
     com.paradox.zswebsite: DEBUG
+    org.springframework.security: DEBUG
 
 spring:
   docker:

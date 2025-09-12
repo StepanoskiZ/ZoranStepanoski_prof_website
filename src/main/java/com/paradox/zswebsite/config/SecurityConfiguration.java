@@ -69,12 +69,12 @@ public class SecurityConfiguration {
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .exceptionHandling(exceptions ->
-                exceptions
-                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-            );
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        //            .exceptionHandling(exceptions ->
+        //                exceptions
+        //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+        //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+        //            );
         return http.build();
     }
 

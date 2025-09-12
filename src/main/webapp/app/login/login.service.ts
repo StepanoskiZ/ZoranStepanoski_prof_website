@@ -13,6 +13,7 @@ export class LoginService {
   private readonly authServerProvider = inject(AuthServerProvider);
 
   login(credentials: Login): Observable<Account | null> {
+    console.log('Login payload:', credentials);
     return this.authServerProvider.login(credentials).pipe(mergeMap(() => this.accountService.identity(true)));
   }
 

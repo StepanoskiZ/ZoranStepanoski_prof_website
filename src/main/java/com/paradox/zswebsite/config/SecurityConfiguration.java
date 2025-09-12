@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,12 +32,11 @@ import tech.jhipster.config.JHipsterProperties;
 public class SecurityConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
-
     private final JHipsterProperties jHipsterProperties;
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIGURATION LOADED! Using explicit Java-based CORS and CSRF ignores. Version 5.");
+        log.info("SECURITY CONFIG LOADED! Cleaned up version with Diagnostic Filter. Version 7.");
     }
 
     @Bean
@@ -47,16 +47,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-            .cors(withDefaults()) // This will now use the corsConfigurationSource() bean below
-            .csrf(csrf ->
-                csrf
-                    .ignoringRequestMatchers(mvc.pattern("/api/authenticate"))
-                    .ignoringRequestMatchers(mvc.pattern("/api/register"))
-                    .ignoringRequestMatchers(mvc.pattern("/api/activate"))
-                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/init"))
-                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/finish"))
-                    .ignoringRequestMatchers(mvc.pattern("/api/contact-messages"))
-            )
+            .cors(withDefaults())
+            .csrf(AbstractHttpConfigurer::disable)
+            //            .csrf(csrf ->
+            //                csrf
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/authenticate"))
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/register"))
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/activate"))
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/init"))
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/account/reset-password/finish"))
+            //                    .ignoringRequestMatchers(mvc.pattern("/api/contact-messages"))
+            //            )
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -166,16 +167,18 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000", "https://zoranstepanoski-prof-website.fly.dev"));
         // Allow all standard methods.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        // Allow all standard headers.
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        // Expose headers so the frontend can read them.
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        //        // Allow all standard headers.
+        //        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        //        // Expose headers so the frontend can read them.
+        //        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
         // Allow credentials (cookies, authorization headers).
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
-        source.registerCorsConfiguration("/management/**", configuration);
+        //        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
+        //        source.registerCorsConfiguration("/management/**", configuration);
         return source;
     }
 }

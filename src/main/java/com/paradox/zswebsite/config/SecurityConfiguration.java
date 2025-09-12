@@ -1,141 +1,9 @@
-//package com.paradox.zswebsite.config;
-//
-//import static org.springframework.security.config.Customizer.withDefaults;
-//
-//import com.paradox.zswebsite.security.*;
-////import com.paradox.zswebsite.web.filter.ZSWebSiteFilter;
-////import org.slf4j.Logger; // <-- ADD THIS IMPORT
-////import org.slf4j.LoggerFactory; // <-- ADD THIS IMPORT
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-//import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
-//import org.springframework.security.web.SecurityFilterChain;
-////import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-//import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
-//import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-//import org.springframework.web.cors.CorsConfiguration;
-//import org.springframework.web.cors.CorsConfigurationSource;
-//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-////import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-//import tech.jhipster.config.JHipsterProperties;
-//
-//@Configuration
-//@EnableMethodSecurity(securedEnabled = true)
-//public class SecurityConfiguration {
-//
-//    //    private static final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
-//
-//    private final JHipsterProperties jHipsterProperties;
-//
-//    public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
-//        this.jHipsterProperties = jHipsterProperties;
-//        //        log.info("SECURITY CONFIGURATION LOADED! CSRF IS DISABLED. Version 3.");
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-//        http
-//            // --- CORS + CSRF ---
-//            .cors(withDefaults())
-//            .csrf(csrf -> csrf.disable())
-//
-//            // --- HEADERS ---
-//            .headers(headers ->
-//                headers
-//                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-//                    .frameOptions(FrameOptionsConfig::sameOrigin)
-//                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
-//                    .permissionsPolicyHeader(permissions ->
-//                        permissions.policy(
-//                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()"
-//                        )
-//                    )
-//            )
-//
-//            // --- AUTHORIZATION ---
-//            .authorizeHttpRequests(authz -> authz
-//                // 1. PUBLIC STATIC ASSETS (MvcRequestMatcher is fine here)
-//                .requestMatchers(mvc.pattern("/")).permitAll()
-//                .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.txt"), mvc.pattern("/*.json"),
-//                    mvc.pattern("/*.map"), mvc.pattern("/*.css")).permitAll()
-//                .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp")).permitAll()
-//                .requestMatchers(mvc.pattern("/app/**"), mvc.pattern("/i18n/**"), mvc.pattern("/content/**"), mvc.pattern("/webfonts/**"),
-//                    mvc.pattern("/assets/**")).permitAll()
-//                .requestMatchers(mvc.pattern("/*.woff2"), mvc.pattern("/*.woff"), mvc.pattern("/*.ttf"), mvc.pattern("/*.eot")).permitAll()
-//                .requestMatchers(mvc.pattern("/swagger-ui/**"), mvc.pattern("/v3/api-docs/**")).permitAll()
-//
-//                // 2. PUBLIC API ENDPOINTS (use direct requestMatchers with HttpMethod)
-//                .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-//                .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-//                .requestMatchers("/api/activate").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/api/account/reset-password/init").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/api/account/reset-password/finish").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/api/contact-messages").permitAll()
-//                .requestMatchers(HttpMethod.GET, "/api/blog-posts", "/api/blog-posts/**").permitAll()
-//                .requestMatchers(HttpMethod.GET, "/api/skills", "/api/projects", "/api/project-images", "/api/services").permitAll()
-//                .requestMatchers("/management/health", "/management/health/**", "/management/info", "/management/prometheus").permitAll()
-//
-//                // 3. ADMIN-ONLY ENDPOINTS
-//                .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-//                .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-//
-//                // 4. CATCH-ALL FOR AUTHENTICATED USERS
-//                .requestMatchers(mvc.pattern("/api/**")).authenticated()
-//            )
-//
-//            // --- STATELESS SESSION + JWT ---
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//            .exceptionHandling(exceptions ->
-//                exceptions
-//                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-//                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-//            )
-//            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
-//
-//        return http.build();
-//    }
-//
-//    /**
-//     * Global CORS configuration - allows Angular (localhost) & production frontend
-//     */
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration config = new CorsConfiguration();
-//        // Allow both dev and prod frontends (adjust to your domains)
-//        config.addAllowedOrigin("http://localhost:4200");
-//        config.addAllowedOrigin("https://zoranstepanoski-prof-website.fly.dev");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        config.setAllowCredentials(true);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", config);
-//        return source;
-//    }
-//    //    @Bean
-//    //    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-//    //        return new MvcRequestMatcher.Builder(introspector);
-//    //    }
-//}
 package com.paradox.zswebsite.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.paradox.zswebsite.security.AuthoritiesConstants;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -152,6 +20,9 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import tech.jhipster.config.JHipsterProperties;
 
@@ -165,8 +36,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        // This log message is our proof that the latest code is running.
-        log.info("SECURITY CONFIGURATION LOADED! Using explicit CSRF ignore list. Version 4.");
+        log.info("SECURITY CONFIGURATION LOADED! Using explicit Java-based CORS and CSRF ignores. Version 5.");
     }
 
     @Bean
@@ -177,10 +47,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-            .cors(withDefaults())
-            // 1. THE DEFINITIVE CSRF FIX:
-            // Instead of disabling CSRF globally (which was being ignored), we keep it enabled
-            // and explicitly tell it which state-changing public endpoints to ignore.
+            .cors(withDefaults()) // This will now use the corsConfigurationSource() bean below
             .csrf(csrf ->
                 csrf
                     .ignoringRequestMatchers(mvc.pattern("/api/authenticate"))
@@ -201,8 +68,6 @@ public class SecurityConfiguration {
                         )
                     )
             )
-            // 2. CONSISTENT AND CORRECT MATCHERS:
-            // All rules now consistently use the mvc.pattern() builder for reliable matching.
             .authorizeHttpRequests(authz ->
                 authz
                     // Public static assets
@@ -289,10 +154,28 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    // 3. CRITICAL BEAN RESTORED:
-    // This bean is required for the mvc.pattern() builder to work. It must not be commented out.
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // Set your allowed origins here.
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000", "https://zoranstepanoski-prof-website.fly.dev"));
+        // Allow all standard methods.
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        // Allow all standard headers.
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        // Expose headers so the frontend can read them.
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        // Allow credentials (cookies, authorization headers).
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/management/**", configuration);
+        return source;
     }
 }

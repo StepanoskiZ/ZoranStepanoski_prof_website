@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,7 +40,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Final multi-chain architecture. Version 10.");
+        log.info("SECURITY CONFIG LOADED! Using robust MvcRequestMatcher for multi-chain routing. Version 11.");
     }
 
     @Bean
@@ -62,14 +63,17 @@ public class SecurityConfiguration {
     // =================================================================================
     @Bean
     @Order(1)
-    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+        // Use a robust MvcRequestMatcher to define the scope of this filter chain
         http
             .securityMatcher(
-                "/api/authenticate",
-                "/api/register",
-                "/api/activate",
-                "/api/account/reset-password/init",
-                "/api.account/reset-password/finish"
+                new OrRequestMatcher(
+                    mvc.pattern("/api/authenticate"),
+                    mvc.pattern("/api/register"),
+                    mvc.pattern("/api/activate"),
+                    mvc.pattern("/api/account/reset-password/init"),
+                    mvc.pattern("/api/account/reset-password/finish")
+                )
             )
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)

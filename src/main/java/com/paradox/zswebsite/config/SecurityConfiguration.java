@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -41,7 +40,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Using robust MvcRequestMatcher for multi-chain routing. Version 12.");
+        log.info("SECURITY CONFIG LOADED! Using robust MvcRequestMatcher for multi-chain routing. Version 13.");
     }
 
     @Bean
@@ -64,20 +63,22 @@ public class SecurityConfiguration {
     // =================================================================================
     @Bean
     @Order(1)
-    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http) throws Exception {
+    // IMPORTANT: Add the MvcRequestMatcher.Builder mvc parameter back in
+    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .securityMatcher(
                 new OrRequestMatcher(
-                    new AntPathRequestMatcher("/api/authenticate"),
-                    new AntPathRequestMatcher("/api/register"),
-                    new AntPathRequestMatcher("/api/activate"),
-                    new AntPathRequestMatcher("/api/account/reset-password/init"),
-                    new AntPathRequestMatcher("/api/account/reset-password/finish")
+                    // THIS IS THE FIX: Use the MvcRequestMatcher with the specific HTTP method.
+                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
+                    mvc.pattern(HttpMethod.POST, "/api/register"),
+                    mvc.pattern(HttpMethod.GET, "/api/activate"), // This is likely a GET
+                    mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"),
+                    mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")
                 )
             )
             .cors(withDefaults())
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+            .csrf(AbstractHttpConfigurer::disable) // CSRF is disabled for this chain
+            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll()) // All matched requests are permitted
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
                 exceptions

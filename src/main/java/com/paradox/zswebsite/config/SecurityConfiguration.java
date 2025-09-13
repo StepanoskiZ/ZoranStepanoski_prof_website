@@ -173,7 +173,9 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000", "https://zoranstepanoski-prof-website.fly.dev"));
+        configuration.setAllowedOrigins(
+            Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://zoranstepanoski-prof-website.fly.dev")
+        );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

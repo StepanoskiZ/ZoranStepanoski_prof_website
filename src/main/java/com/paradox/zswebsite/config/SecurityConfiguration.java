@@ -69,8 +69,8 @@ public class SecurityConfiguration {
             .securityMatcher(
                 new OrRequestMatcher(
                     // THIS IS THE FIX: Use the MvcRequestMatcher with the specific HTTP method.
-                    //                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
-                    mvc.pattern(HttpMethod.POST, "/api/**"),
+                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
+                    //                    mvc.pattern(HttpMethod.POST, "/api/**"),
                     mvc.pattern(HttpMethod.POST, "/api/register"),
                     mvc.pattern(HttpMethod.GET, "/api/activate"), // This is likely a GET
                     mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"),
@@ -175,7 +175,12 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-            Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://zoranstepanoski-prof-website.fly.dev")
+            Arrays.asList(
+                "http://localhost:9000",
+                "http://localhost:8080",
+                "https://zoranstepanoski-prof-website.fly.dev",
+                "http://zoranstepanoski-prof-website.fly.dev"
+            )
         );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

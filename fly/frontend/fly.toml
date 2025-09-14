@@ -25,12 +25,12 @@ primary_region = 'cdg'
 
   [[services.ports]]
     port = 80
-    handlers = ["http"]
+    handlers = ["http", "https"]
     force_https = true
 
   [[services.ports]]
     port = 443
-    handlers = ["tls", "http"]
+    handlers = ["tls", "http", "https"]
 
 # The health check for Nginx is simpler. We just check if the root path is available.
 [[services.http_checks]]

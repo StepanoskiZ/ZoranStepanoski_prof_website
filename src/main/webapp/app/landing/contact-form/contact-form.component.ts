@@ -70,6 +70,9 @@ export class ContactFormComponent {
       'pičkica',
       'pickice',
       'pičkice',
+      'jebacu',
+      'jebaću',
+      'јебаћу',
     ];
 
     const messageValue = this.editForm.get('message')?.value ?? '';

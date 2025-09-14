@@ -13,9 +13,9 @@ primary_region = 'cdg'
   protocol = "tcp"
   internal_port = 8080
   processes = ["app"]
-#  auto_stop_machines = true
-#  auto_start_machines = true
-#  min_machines_running = 0 # Set to 0 to allow the app to sleep and save hours
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0 # Set to 0 to allow the app to sleep and save hours
 
   [[services.ports]]
     port = 8080

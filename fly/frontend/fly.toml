@@ -14,9 +14,9 @@ primary_region = 'cdg'
   protocol = "tcp"
   internal_port = 8080 # Nginx is listening on port 8080 inside the container
   processes = ["app"]
-#  auto_stop_machines = true
-#  auto_start_machines = true
-#  min_machines_running = 1 # Change to 0 for free tier, or 1 for always-on
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1 # Change to 0 for free tier, or 1 for always-on
 
   [services.concurrency]
     type = "connections"
@@ -25,12 +25,12 @@ primary_region = 'cdg'
 
   [[services.ports]]
     port = 80
-    handlers = ["http", "https"]
+    handlers = ["http"]
     force_https = true
 
   [[services.ports]]
     port = 443
-    handlers = ["tls", "http", "https"]
+    handlers = ["tls", "http"]
 
 # The health check for Nginx is simpler. We just check if the root path is available.
 [[services.http_checks]]

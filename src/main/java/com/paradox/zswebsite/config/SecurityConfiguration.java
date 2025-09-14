@@ -69,7 +69,8 @@ public class SecurityConfiguration {
             .securityMatcher(
                 new OrRequestMatcher(
                     // THIS IS THE FIX: Use the MvcRequestMatcher with the specific HTTP method.
-                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
+                    //                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
+                    mvc.pattern(HttpMethod.POST, "/api/**"),
                     mvc.pattern(HttpMethod.POST, "/api/register"),
                     mvc.pattern(HttpMethod.GET, "/api/activate"), // This is likely a GET
                     mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"),

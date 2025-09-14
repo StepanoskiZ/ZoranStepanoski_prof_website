@@ -25,6 +25,7 @@ build/
 # Misc
 Dockerfile
 fly.toml
+fly/**/fly.toml
 README.md
 Prod_details.txt
 classes/

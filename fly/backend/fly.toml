@@ -1,0 +1,34 @@
+# fly.toml app configuration file generated for zoranstepanoski-prof-api on 2025-09-13T22:01:45+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'zoranstepanoski-prof-api'
+primary_region = 'cdg'
+
+[build]
+  dockerfile = './Dockerfile.backend'
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0 # Set to 0 to allow the app to sleep and save hours
+
+  [[services.ports]]
+    port = 8080
+
+  [[services.http_checks]]
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "90s"
+    method = "get"
+    path = "/management/health"
+    protocol = "http"
+
+[[vm]]
+  memory = "512mb" # A reasonable minimum for a Java app
+  cpu_kind = "shared" # MUST be 'shared' for free tier
+  cpus = 1

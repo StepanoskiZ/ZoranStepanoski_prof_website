@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,7 +23,6 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,7 +38,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Using robust MvcRequestMatcher for multi-chain routing. Version 13.");
+        log.info("SECURITY CONFIG LOADED! Using a single, unified SecurityFilterChain. Version 16.");
     }
 
     @Bean
@@ -58,43 +56,9 @@ public class SecurityConfiguration {
         return new MvcRequestMatcher.Builder(introspector);
     }
 
-    // =================================================================================
-    // CHAIN 1: STATELESS PUBLIC AUTH API - HIGHEST PRIORITY
-    // =================================================================================
+    // We will use only ONE SecurityFilterChain bean
     @Bean
-    @Order(1)
-    // IMPORTANT: Add the MvcRequestMatcher.Builder mvc parameter back in
-    public SecurityFilterChain statelessPublicApiFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        http
-            .securityMatcher(
-                new OrRequestMatcher(
-                    // THIS IS THE FIX: Use the MvcRequestMatcher with the specific HTTP method.
-                    mvc.pattern(HttpMethod.POST, "/api/authenticate"),
-                    //                    mvc.pattern(HttpMethod.POST, "/api/**"),
-                    mvc.pattern(HttpMethod.POST, "/api/register"),
-                    mvc.pattern(HttpMethod.GET, "/api/activate"), // This is likely a GET
-                    mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"),
-                    mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish")
-                )
-            )
-            .cors(withDefaults())
-            .csrf(AbstractHttpConfigurer::disable) // CSRF is disabled for this chain
-            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll()) // All matched requests are permitted
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .exceptionHandling(exceptions ->
-                exceptions
-                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-            );
-        return http.build();
-    }
-
-    // =================================================================================
-    // CHAIN 2: DEFAULT APPLICATION SECURITY - LOWER PRIORITY
-    // =================================================================================
-    @Bean
-    @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
@@ -111,9 +75,35 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authz ->
                 authz
-                    .requestMatchers(mvc.pattern("/"))
+                    // --- START OF PUBLIC ENDPOINTS ---
+                    // These are checked first and allowed for everyone.
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate"))
                     .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/activate"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/finish"))
+                    .permitAll()
+                    // THIS IS THE FIX: Allow anyone to send a contact message
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
+                    .permitAll()
+                    // Publicly readable data
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"), mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services"))
+                    .permitAll()
+                    // Public frontend assets and pages
                     .requestMatchers(
+                        mvc.pattern("/"),
                         mvc.pattern("/index.html"),
                         mvc.pattern("/*.js"),
                         mvc.pattern("/*.txt"),
@@ -136,17 +126,7 @@ public class SecurityConfiguration {
                     .permitAll()
                     .requestMatchers(mvc.pattern("/swagger-ui/**"), mvc.pattern("/v3/api-docs/**"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"), mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
-                    .permitAll()
-                    .requestMatchers(
-                        mvc.pattern(HttpMethod.GET, "/api/skills"),
-                        mvc.pattern(HttpMethod.GET, "/api/projects"),
-                        mvc.pattern(HttpMethod.GET, "/api/project-images"),
-                        mvc.pattern(HttpMethod.GET, "/api/services")
-                    )
-                    .permitAll()
+                    // Public management endpoints
                     .requestMatchers(
                         mvc.pattern("/management/health"),
                         mvc.pattern("/management/health/**"),
@@ -154,10 +134,15 @@ public class SecurityConfiguration {
                         mvc.pattern("/management/prometheus")
                     )
                     .permitAll()
+                    // --- END OF PUBLIC ENDPOINTS ---
+
+                    // --- START OF PROTECTED ENDPOINTS ---
+                    // These are checked after the public ones.
                     .requestMatchers(mvc.pattern("/api/admin/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
+                    // The final catch-all rule: any other /api/** endpoint requires authentication.
                     .requestMatchers(mvc.pattern("/api/**"))
                     .authenticated()
             )
@@ -183,7 +168,7 @@ public class SecurityConfiguration {
             )
         );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

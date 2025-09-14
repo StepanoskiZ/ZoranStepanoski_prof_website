@@ -9,6 +9,9 @@ COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 COPY src ./src/
 
+# Make the Maven wrapper executable
+RUN chmod +x mvnw
+
 # Build the JAR. The -Pprod profile is important.
 RUN ./mvnw package -Pprod -DskipTests -Dskip.frontend=true
 

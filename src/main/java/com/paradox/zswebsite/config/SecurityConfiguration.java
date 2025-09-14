@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,7 +39,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Using a single, unified SecurityFilterChain. Version 16.");
+        log.info("SECURITY CONFIG LOADED! Using a single, unified SecurityFilterChain with CSRF exceptions. Version 17.");
     }
 
     @Bean
@@ -56,12 +57,21 @@ public class SecurityConfiguration {
         return new MvcRequestMatcher.Builder(introspector);
     }
 
-    // We will use only ONE SecurityFilterChain bean
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .cors(withDefaults())
-            .csrf(AbstractHttpConfigurer::disable)
+            .csrf(csrf ->
+                csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    // Tell CSRF filter to IGNORE these specific public POST/PUT/DELETE requests
+                    .ignoringRequestMatchers(
+                        mvc.pattern(HttpMethod.POST, "/api/authenticate"),
+                        mvc.pattern(HttpMethod.POST, "/api/register"),
+                        mvc.pattern(HttpMethod.POST, "/api/contact-messages") // <-- THE FIX
+                    )
+                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+            )
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -76,12 +86,11 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authz ->
                 authz
                     // --- START OF PUBLIC ENDPOINTS ---
-                    // These are checked first and allowed for everyone.
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate"))
                     .permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/register"))
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/activate"))
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
                     .permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/account/reset-password/init"))
                     .permitAll()
@@ -156,6 +165,7 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    // ... your CorsConfigurationSource bean ...
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

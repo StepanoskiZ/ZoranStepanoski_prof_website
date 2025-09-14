@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Define an interface for the BlogPost data we expect from the API
 export interface BlogPost {
@@ -16,7 +17,7 @@ export interface BlogPost {
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.scss'],
 })

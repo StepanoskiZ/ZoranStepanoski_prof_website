@@ -55,6 +55,8 @@ export class ContactFormComponent {
       // Serbian (Cyrillic and Latin)
       'kurac',
       'пичка',
+      'пичкица',
+      'пичкице',
       'pichka',
       'jebem',
       'јебем',
@@ -63,6 +65,11 @@ export class ContactFormComponent {
       'sranje',
       'срање',
       'picka',
+      'pička',
+      'pickica',
+      'pičkica',
+      'pickice',
+      'pičkice',
     ];
 
     const messageValue = this.editForm.get('message')?.value ?? '';

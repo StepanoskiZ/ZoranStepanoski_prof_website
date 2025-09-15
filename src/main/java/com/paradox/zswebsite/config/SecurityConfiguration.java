@@ -184,7 +184,6 @@ package com.paradox.zswebsite.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.paradox.zswebsite.security.AuthoritiesConstants;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -200,6 +199,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
@@ -291,6 +291,11 @@ public class SecurityConfiguration {
                 publicGetEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
                 publicStaticAssets.forEach(ep -> authz.requestMatchers(ep).permitAll());
 
+                // ✅ Permit actuator health/info for Fly health checks
+                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health")).permitAll();
+                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**")).permitAll();
+                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info")).permitAll();
+
                 authz
                     // Admin endpoints
                     .requestMatchers(mvc.pattern("/api/admin/**"))
@@ -305,7 +310,7 @@ public class SecurityConfiguration {
             .exceptionHandling(exceptions ->
                 exceptions
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                    .accessDeniedHandler((request, response, ex) -> response.sendError(HttpServletResponse.SC_FORBIDDEN))
+                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
 

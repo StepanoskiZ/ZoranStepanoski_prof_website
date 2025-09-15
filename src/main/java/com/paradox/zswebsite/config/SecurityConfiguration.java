@@ -4,7 +4,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.paradox.zswebsite.security.AuthoritiesConstants;
 import java.util.Arrays;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,11 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -61,36 +58,10 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        // Public endpoints patterns
-        var publicPostEndpoints = List.of(mvc.pattern(HttpMethod.POST, "/api/contact-messages"));
-
-        var publicGetEndpoints = Arrays.asList(
-            mvc.pattern(HttpMethod.GET, "/api/blog-posts"),
-            mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"),
-            mvc.pattern(HttpMethod.GET, "/api/skills"),
-            mvc.pattern(HttpMethod.GET, "/api/projects"),
-            mvc.pattern(HttpMethod.GET, "/api/project-images"),
-            mvc.pattern(HttpMethod.GET, "/api/services")
-        );
-
-        var publicStaticAssets = Arrays.asList(
-            mvc.pattern("/"),
-            mvc.pattern("/index.html"),
-            mvc.pattern("/*.js"),
-            mvc.pattern("/*.css"),
-            mvc.pattern("/swagger-ui/**"),
-            mvc.pattern("/v3/api-docs/**")
-        );
-
         http
             .cors(withDefaults())
-            .csrf(csrf ->
-                csrf
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                    //                    .ignoringRequestMatchers(publicPostEndpoints.toArray(new MvcRequestMatcher[0]))
-                    .ignoringRequestMatchers(new AntPathRequestMatcher("/api/contact-messages", "POST"))
-            )
+            // CSRF is disabled for stateless APIs
+            .csrf(AbstractHttpConfigurer::disable)
             .headers(headers ->
                 headers
                     .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
@@ -102,69 +73,50 @@ public class SecurityConfiguration {
                         )
                     )
             )
-            // --- THIS IS THE CORRECTED AUTHORIZATION SECTION ---
+            // Authorization rules using the robust MvcRequestMatcher
             .authorizeHttpRequests(authz ->
                 authz
-                    // Rule 1: Explicitly permit public endpoints using robust AntPathRequestMatchers
-                    .requestMatchers(new AntPathRequestMatcher("/api/contact-messages", "POST"))
+                    // Public POST endpoints
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/blog-posts", "GET"))
+                    // Public GET endpoints
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/blog-posts/**", "GET"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/skills", "GET"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/projects", "GET"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/project-images", "GET"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/services", "GET"))
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/authenticate"))
+                    // Public endpoints for authentication, registration, etc.
+                    .requestMatchers(mvc.pattern("/api/authenticate"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/register"))
+                    .requestMatchers(mvc.pattern("/api/register"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/account/reset-password/init"))
+                    .requestMatchers(mvc.pattern("/api/account/reset-password/init"))
                     .permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/api/account/reset-password/finish"))
+                    .requestMatchers(mvc.pattern("/api/account/reset-password/finish"))
                     .permitAll()
-                    // Permit actuator health/info for Fly health checks
+                    // Public actuator endpoints for health checks
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health"))
                     .permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**"))
                     .permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info"))
                     .permitAll()
-                    // Rule 2: Secure admin endpoints
+                    // Admin-only endpoints
                     .requestMatchers(mvc.pattern("/api/admin/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-                    // Rule 3 (The Catch-All): All other API requests require authentication
+                    // All other API endpoints require authentication
                     .requestMatchers(mvc.pattern("/api/**"))
                     .authenticated()
             )
-            // --- END OF CORRECTION ---
-            //            .authorizeHttpRequests(authz -> {
-            //                publicPostEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
-            //                publicGetEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
-            //                publicStaticAssets.forEach(ep -> authz.requestMatchers(ep).permitAll());
-            //
-            //                // Permit actuator health/info for Fly health checks
-            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health")).permitAll();
-            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**")).permitAll();
-            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info")).permitAll();
-            //
-            //                authz
-            //                    // Admin endpoints
-            //                    .requestMatchers(mvc.pattern("/api/admin/**"))
-            //                    .hasAuthority(AuthoritiesConstants.ADMIN)
-            //                    .requestMatchers(mvc.pattern("/management/**"))
-            //                    .hasAuthority(AuthoritiesConstants.ADMIN)
-            //                    // All other /api/** endpoints require authentication
-            //                    .requestMatchers(mvc.pattern("/api/**"))
-            //                    .authenticated();
-            //            })
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
                 exceptions

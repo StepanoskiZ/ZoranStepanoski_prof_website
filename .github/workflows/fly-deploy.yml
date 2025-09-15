@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Backend to Fly.io
         # This command tells Fly to build the backend using its specific Dockerfile
         # and deploy it to the 'zoranstepanoski-prof-api' app.
-        run: flyctl deploy --remote-only -a zoranstepanoski-prof-api -c fly/backend/fly.toml
+        run: flyctl deploy --remote-only -a zoranstepanoski-prof-api -c fly/backend/fly.toml --no-cache
 
   # =================================================================
   # JOB 2: DEPLOY THE FRONTEND
@@ -47,4 +47,4 @@ jobs:
       - name: Deploy Frontend to Fly.io
         # This command tells Fly to build the frontend using its specific Dockerfile
         # and deploy it to the 'zoranstepanoski-prof-website' app.
-        run: flyctl deploy --remote-only -a zoranstepanoski-prof-website -c fly/frontend/fly.toml
+        run: flyctl deploy --remote-only -a zoranstepanoski-prof-website -c fly/frontend/fly.toml --no-cache

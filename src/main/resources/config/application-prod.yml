@@ -49,7 +49,7 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
-      maximum-pool-size: 2
+      maximum-pool-size: 1
   liquibase:
     contexts: prod
     enabled: true

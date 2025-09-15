@@ -104,10 +104,6 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
     <dependency>
@@ -196,8 +192,6 @@
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
     <plugins>
-
-      <!-- This is the final, correct plugin block to have in your <build><plugins> section -->
       <plugin>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-maven-plugin</artifactId>
@@ -238,7 +232,47 @@
           </dependency>
         </dependencies>
       </plugin>
-
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.4.0</version> <!-- A recent stable version -->
+        <configuration>
+          <from>
+            <image>eclipse-temurin:21-jre-jammy</image>
+            <platforms>
+              <platform>
+                <architecture>amd64</architecture>
+                <os>linux</os>
+              </platform>
+            </platforms>
+          </from>
+          <to>
+            <!-- This should match the image name Fly.io expects -->
+            <image>registry.fly.io/${project.artifactId}</image>
+            <tags>
+              <tag>latest</tag>
+              <tag>${project.version}</tag>
+            </tags>
+          </to>
+          <container>
+            <mainClass>com.paradox.zswebsite.ZsWebsiteApp</mainClass>
+            <ports>
+              <port>8080</port>
+            </ports>
+            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+            <user>1000</user>
+          </container>
+          <extraDirectories>
+            <paths>src/main/jib</paths>
+            <permissions>
+              <permission>
+                <file>/entrypoint.sh</file>
+                <mode>755</mode>
+              </permission>
+            </permissions>
+          </extraDirectories>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

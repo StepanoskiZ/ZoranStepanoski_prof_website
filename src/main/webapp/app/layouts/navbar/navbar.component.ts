@@ -31,7 +31,7 @@ export default class NavbarComponent implements OnInit {
   entitiesNavbarItems: NavbarItem[] = [];
   navbarScrolled = false;
   currentFlagClass = 'fi fi-gb';
-  showAdminControls = signal(false);
+  isAdminEnv = environment.isAdminEnv;
 
   private readonly activeSectionService = inject(ActiveSectionService);
   activeSection = this.activeSectionService.activeSection;
@@ -55,7 +55,7 @@ export default class NavbarComponent implements OnInit {
   }
 
   // --- SECRET KEY COMBINATION ---
-  @HostListener('window:keydown', ['$event'])
+  /*  @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent): void {
     // Check if Shift, Ctrl, Alt, and the 'Z' and 'S' keys are pressed
     if (event.shiftKey && event.ctrlKey && event.altKey && event.key.toLowerCase() === 'z') {
@@ -74,7 +74,7 @@ export default class NavbarComponent implements OnInit {
       window.addEventListener('keydown', sKeyListener);
       event.preventDefault();
     }
-  }
+  }*/
 
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;
@@ -134,4 +134,8 @@ export default class NavbarComponent implements OnInit {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  //  showAdminControls(): boolean {
+  //    return this.isAdminEnv && this.account() !== null;
+  //  }
 }

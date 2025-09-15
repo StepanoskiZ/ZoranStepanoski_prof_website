@@ -66,7 +66,8 @@
 
       <!-- 2. JHIPSTER MENUS (RIGHT) -->
       <ul class="navbar-nav">
-        <ng-container *ngIf="showAdminControls() || account() !== null">
+        <!--        <ng-container *ngIf="showAdminControls()">-->
+        <ng-container *ngIf="isAdminEnv">
           <!-- Entities Menu -->
           <li ngbDropdown class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" ngbDropdownToggle id="entity-menu" data-cy="entity">

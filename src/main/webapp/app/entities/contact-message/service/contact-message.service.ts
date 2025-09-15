@@ -34,7 +34,7 @@ export class ContactMessageService {
   create(contactMessage: NewContactMessage): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(contactMessage);
     return this.http
-      .post<RestContactMessage>(this.resourceUrl, copy, { observe: 'response' })
+      .post<RestContactMessage>(this.resourceUrl, copy, { observe: 'response', withCredentials: true })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 

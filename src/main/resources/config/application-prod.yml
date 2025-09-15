@@ -121,13 +121,6 @@ jhipster:
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://my-server-url-to-change # Modify according to your server's URL
-  logging:
-    level:
-      ROOT: INFO
-      tech.jhipster: INFO
-      com.paradox.zswebsite: INFO
-      # ADD THIS LINE FOR DETAILED SECURITY LOGGING
-      org.springframework.security: DEBUG
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
       enabled: false

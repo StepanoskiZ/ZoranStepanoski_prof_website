@@ -102,26 +102,69 @@ public class SecurityConfiguration {
                         )
                     )
             )
-            .authorizeHttpRequests(authz -> {
-                publicPostEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
-                publicGetEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
-                publicStaticAssets.forEach(ep -> authz.requestMatchers(ep).permitAll());
-
-                // Permit actuator health/info for Fly health checks
-                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health")).permitAll();
-                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**")).permitAll();
-                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info")).permitAll();
-
+            // --- THIS IS THE CORRECTED AUTHORIZATION SECTION ---
+            .authorizeHttpRequests(authz ->
                 authz
-                    // Admin endpoints
+                    // Rule 1: Explicitly permit public endpoints using robust AntPathRequestMatchers
+                    .requestMatchers(new AntPathRequestMatcher("/api/contact-messages", "POST"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/blog-posts", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/blog-posts/**", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/skills", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/projects", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/project-images", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/services", "GET"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/authenticate"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/register"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/account/reset-password/init"))
+                    .permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/api/account/reset-password/finish"))
+                    .permitAll()
+                    // Permit actuator health/info for Fly health checks
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**"))
+                    .permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info"))
+                    .permitAll()
+                    // Rule 2: Secure admin endpoints
                     .requestMatchers(mvc.pattern("/api/admin/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/**"))
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-                    // All other /api/** endpoints require authentication
+                    // Rule 3 (The Catch-All): All other API requests require authentication
                     .requestMatchers(mvc.pattern("/api/**"))
-                    .authenticated();
-            })
+                    .authenticated()
+            )
+            // --- END OF CORRECTION ---
+            //            .authorizeHttpRequests(authz -> {
+            //                publicPostEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
+            //                publicGetEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
+            //                publicStaticAssets.forEach(ep -> authz.requestMatchers(ep).permitAll());
+            //
+            //                // Permit actuator health/info for Fly health checks
+            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health")).permitAll();
+            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**")).permitAll();
+            //                authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info")).permitAll();
+            //
+            //                authz
+            //                    // Admin endpoints
+            //                    .requestMatchers(mvc.pattern("/api/admin/**"))
+            //                    .hasAuthority(AuthoritiesConstants.ADMIN)
+            //                    .requestMatchers(mvc.pattern("/management/**"))
+            //                    .hasAuthority(AuthoritiesConstants.ADMIN)
+            //                    // All other /api/** endpoints require authentication
+            //                    .requestMatchers(mvc.pattern("/api/**"))
+            //                    .authenticated();
+            //            })
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
                 exceptions

@@ -10,6 +10,9 @@ primary_region = "cdg"
   protocol = "tcp"
   internal_port = 8080
   processes = ["app"]
+  auto_stop_machines = true  # <--- This prevents machines from stopping automatically
+  auto_start_machines = true  # <--- This allows Fly to start new machines if traffic spikes
+  min_machines_running = 1    # <--- This is the key: it forces at least 1 machine to always be on
 
 # This exposes the service privately on port 8080.
 # It will be reachable at zoranstepanoski-prof-api.flycast:8080

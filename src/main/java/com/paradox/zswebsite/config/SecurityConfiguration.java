@@ -4,6 +4,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.paradox.zswebsite.security.AuthoritiesConstants;
 import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +62,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         // Public endpoints patterns
-        var publicPostEndpoints = Arrays.asList(mvc.pattern(HttpMethod.POST, "/api/contact-messages"));
+        var publicPostEndpoints = List.of(mvc.pattern(HttpMethod.POST, "/api/contact-messages"));
 
         var publicGetEndpoints = Arrays.asList(
             mvc.pattern(HttpMethod.GET, "/api/blog-posts"),
@@ -106,7 +107,7 @@ public class SecurityConfiguration {
                 publicGetEndpoints.forEach(ep -> authz.requestMatchers(ep).permitAll());
                 publicStaticAssets.forEach(ep -> authz.requestMatchers(ep).permitAll());
 
-                // ✅ Permit actuator health/info for Fly health checks
+                // Permit actuator health/info for Fly health checks
                 authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health")).permitAll();
                 authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**")).permitAll();
                 authz.requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info")).permitAll();

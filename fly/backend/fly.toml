@@ -1,24 +1,22 @@
 # fly.toml for zoranstepanoski-prof-api (Corrected for Private .flycast)
-
-app = 'zoranstepanoski-prof-api'
-primary_region = 'cdg'
+app = "zoranstepanoski-prof-api"
+primary_region = "cdg"
 
 [build]
-  dockerfile = './Dockerfile.backend'
+  dockerfile = "./Dockerfile.backend"
 
-# This service is now PRIVATE. It has no public ports.
-# It is only accessible within your Fly.io private network.
+# Private service only accessible within Fly network
 [[services]]
   protocol = "tcp"
-  internal_port = 8080 # The port your Spring Boot app listens on
+  internal_port = 8080
   processes = ["app"]
 
 # This exposes the service privately on port 8080.
 # It will be reachable at zoranstepanoski-prof-api.flycast:8080
 [[services.ports]]
-  port = 8080
+  port = 8080 # internal port exposed on private Fly network
 
-# The health check remains the same, it runs over the private network.
+# HTTP health check for Fly
 [[services.http_checks]]
   interval = "15s"
   timeout = "5s"

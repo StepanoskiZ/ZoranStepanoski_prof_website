@@ -117,19 +117,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
-            // =================== THE MOST IMPORTANT CHANGE IS HERE ===================
-            // Instead of a simple disable, we will explicitly tell the CSRF filter
-            // to ignore our public paths. This is a more robust way to handle it.
-            .csrf(csrf ->
-                csrf.ignoringRequestMatchers(
-                    "/api/contact-messages",
-                    "/api/authenticate",
-                    "/api/register",
-                    "/api/account/reset-password/init",
-                    "/api/account/reset-password/finish"
-                )
-            )
             // =======================================================================
             .headers(headers ->
                 headers

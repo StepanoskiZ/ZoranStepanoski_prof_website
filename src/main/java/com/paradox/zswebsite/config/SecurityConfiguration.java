@@ -50,13 +50,14 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    // This bean is no longer strictly needed by the filter chain but is harmless to keep.
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // Removed MvcRequestMatcher.Builder from params
         http
             .cors(withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
@@ -73,47 +74,33 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authz ->
                 authz
+                    // THIS IS THE FIX: Reverted to simpler, direct Ant-style matchers
                     .requestMatchers(HttpMethod.OPTIONS, "/**")
                     .permitAll()
-                    // Public POST endpoints
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
                     .permitAll()
-                    // Public GET endpoints
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts"))
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/blog-posts",
+                        "/api/blog-posts/**",
+                        "/api/skills",
+                        "/api/projects",
+                        "/api/project-images",
+                        "/api/services"
+                    )
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/blog-posts/**"))
+                    .requestMatchers(
+                        "/api/authenticate",
+                        "/api/register",
+                        "/api/account/reset-password/init",
+                        "/api/account/reset-password/finish"
+                    )
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/skills"))
+                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
                     .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/projects"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/project-images"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/services"))
-                    .permitAll()
-                    // Public endpoints for authentication, registration, etc.
-                    .requestMatchers(mvc.pattern("/api/authenticate"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/api/register"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/init"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/finish"))
-                    .permitAll()
-                    // Public actuator endpoints for health checks
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/health/**"))
-                    .permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/management/info"))
-                    .permitAll()
-                    // Admin-only endpoints
-                    .requestMatchers(mvc.pattern("/api/admin/**"))
+                    .requestMatchers("/api/admin/**", "/management/**")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(mvc.pattern("/management/**"))
-                    .hasAuthority(AuthoritiesConstants.ADMIN)
-                    // All other API endpoints require authentication
-                    .requestMatchers(mvc.pattern("/api/**"))
+                    .requestMatchers("/api/**")
                     .authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -130,7 +117,9 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://*.fly.dev"));
+        configuration.setAllowedOriginPatterns(
+            Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://*.fly.dev", "http://*.fly.dev")
+        );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
         configuration.setAllowCredentials(true);

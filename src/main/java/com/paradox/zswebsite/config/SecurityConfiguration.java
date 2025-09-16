@@ -133,10 +133,13 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
             Arrays.asList(
+                //                "http://localhost:9000",
+                //                "http://localhost:8080",
+                //                "https://zoranstepanoski-prof-website.fly.dev",
+                //                "http://zoranstepanoski-prof-website.fly.dev"
                 "http://localhost:9000",
                 "http://localhost:8080",
-                "https://zoranstepanoski-prof-website.fly.dev",
-                "http://zoranstepanoski-prof-website.fly.dev"
+                "https://*.fly.dev"
             )
         );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

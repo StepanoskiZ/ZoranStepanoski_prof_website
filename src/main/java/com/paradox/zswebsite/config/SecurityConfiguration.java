@@ -72,37 +72,38 @@ public class SecurityConfiguration {
                         )
                     )
             )
-            .authorizeHttpRequests(authz ->
-                authz
-                    // THIS IS THE FIX: Reverted to simpler, direct Ant-style matchers
-                    .requestMatchers(HttpMethod.OPTIONS, "/**")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
-                    .permitAll()
-                    .requestMatchers(
-                        HttpMethod.GET,
-                        "/api/blog-posts",
-                        "/api/blog-posts/**",
-                        "/api/skills",
-                        "/api/projects",
-                        "/api/project-images",
-                        "/api/services"
-                    )
-                    .permitAll()
-                    .requestMatchers(
-                        "/api/authenticate",
-                        "/api/register",
-                        "/api/account/reset-password/init",
-                        "/api/account/reset-password/finish"
-                    )
-                    .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
-                    .permitAll()
-                    .requestMatchers("/api/admin/**", "/management/**")
-                    .hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers("/api/**")
-                    .authenticated()
-            )
+            //            .authorizeHttpRequests(authz ->
+            //                authz
+            //                    // THIS IS THE FIX: Reverted to simpler, direct Ant-style matchers
+            //                    .requestMatchers(HttpMethod.OPTIONS, "/**")
+            //                    .permitAll()
+            //                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
+            //                    .permitAll()
+            //                    .requestMatchers(
+            //                        HttpMethod.GET,
+            //                        "/api/blog-posts",
+            //                        "/api/blog-posts/**",
+            //                        "/api/skills",
+            //                        "/api/projects",
+            //                        "/api/project-images",
+            //                        "/api/services"
+            //                    )
+            //                    .permitAll()
+            //                    .requestMatchers(
+            //                        "/api/authenticate",
+            //                        "/api/register",
+            //                        "/api/account/reset-password/init",
+            //                        "/api/account/reset-password/finish"
+            //                    )
+            //                    .permitAll()
+            //                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
+            //                    .permitAll()
+            //                    .requestMatchers("/api/admin/**", "/management/**")
+            //                    .hasAuthority(AuthoritiesConstants.ADMIN)
+            //                    .requestMatchers("/api/**")
+            //                    .authenticated()
+            //            )
+            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
                 exceptions

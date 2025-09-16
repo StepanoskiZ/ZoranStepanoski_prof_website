@@ -112,7 +112,7 @@ public class SecurityConfiguration {
     //            )
     //            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
     //
-    //        return http.build();
+    //        return httpd();
     //    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

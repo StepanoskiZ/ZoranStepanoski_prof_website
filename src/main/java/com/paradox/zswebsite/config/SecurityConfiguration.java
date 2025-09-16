@@ -38,7 +38,6 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
-        log.info("SECURITY CONFIG LOADED! Public /api/contact-messages enabled.");
     }
 
     @Bean
@@ -60,7 +59,6 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .cors(withDefaults())
-            // CSRF is disabled for stateless APIs
             .csrf(AbstractHttpConfigurer::disable)
             .headers(headers ->
                 headers
@@ -73,9 +71,10 @@ public class SecurityConfiguration {
                         )
                     )
             )
-            // Authorization rules using the robust MvcRequestMatcher
             .authorizeHttpRequests(authz ->
                 authz
+                    .requestMatchers(HttpMethod.OPTIONS, "/**")
+                    .permitAll()
                     // Public POST endpoints
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages"))
                     .permitAll()
@@ -131,17 +130,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(
-            Arrays.asList(
-                //                "http://localhost:9000",
-                //                "http://localhost:8080",
-                //                "https://zoranstepanoski-prof-website.fly.dev",
-                //                "http://zoranstepanoski-prof-website.fly.dev"
-                "http://localhost:9000",
-                "http://localhost:8080",
-                "https://*.fly.dev"
-            )
-        );
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://*.fly.dev"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
         configuration.setAllowCredentials(true);

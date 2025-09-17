@@ -2,7 +2,10 @@ package com.paradox.zswebsite.web.rest;
 
 import com.paradox.zswebsite.repository.ContactMessageRepository;
 import com.paradox.zswebsite.service.ContactMessageService;
+import com.paradox.zswebsite.service.EmailService;
 import com.paradox.zswebsite.service.dto.ContactMessageDTO;
+import com.paradox.zswebsite.service.dto.ContactMessageDTO;
+import com.paradox.zswebsite.service.mapper.ContactMessageMapper;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -32,19 +35,23 @@ import tech.jhipster.web.util.ResponseUtil;
 public class ContactMessageResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContactMessageResource.class);
-
     private static final String ENTITY_NAME = "contactMessage";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final ContactMessageService contactMessageService;
-
     private final ContactMessageRepository contactMessageRepository;
+    private final EmailService emailService; // <-- ADD THIS LINE
 
-    public ContactMessageResource(ContactMessageService contactMessageService, ContactMessageRepository contactMessageRepository) {
+    public ContactMessageResource(
+        ContactMessageService contactMessageService,
+        ContactMessageRepository contactMessageRepository,
+        EmailService emailService
+    ) {
         this.contactMessageService = contactMessageService;
         this.contactMessageRepository = contactMessageRepository;
+        this.emailService = emailService;
     }
 
     /**
@@ -61,10 +68,14 @@ public class ContactMessageResource {
         if (contactMessageDTO.getId() != null) {
             throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        contactMessageDTO = contactMessageService.save(contactMessageDTO);
-        return ResponseEntity.created(new URI("/api/contact-messages/" + contactMessageDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, contactMessageDTO.getId().toString()))
-            .body(contactMessageDTO);
+        ContactMessageDTO result = contactMessageService.save(contactMessageDTO);
+        if (result != null) {
+            LOG.debug("Contact message saved. Sending notification email.");
+            emailService.sendContactFormEmail(result); // Use the saved result DTO
+        }
+        return ResponseEntity.created(new URI("/api/contact-messages/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**

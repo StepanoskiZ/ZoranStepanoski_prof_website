@@ -36,6 +36,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         if (env.getActiveProfiles().length != 0) {
             LOG.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
         }
+
         LOG.info("Web application fully configured");
     }
 
@@ -48,10 +49,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         setLocationForStaticAssets(server);
     }
 
-    /**
-     * This logic is only necessary when running from an IDE.
-     * When running from a JAR, Spring Boot automatically finds the static assets.
-     */
     private void setLocationForStaticAssets(WebServerFactory server) {
         if (server instanceof ConfigurableServletWebServerFactory servletWebServer) {
             URL resource = getClass().getResource("/static/index.html");

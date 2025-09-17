@@ -56,116 +56,59 @@ public class SecurityConfiguration {
         return new MvcRequestMatcher.Builder(introspector);
     }
 
-    //    @Bean
-    //    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // Removed MvcRequestMatcher.Builder from params
-    //        http
-    //            .cors(withDefaults())
-    //            .csrf(AbstractHttpConfigurer::disable)
-    //            .headers(headers ->
-    //                headers
-    //                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-    //                    .frameOptions(FrameOptionsConfig::sameOrigin)
-    //                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
-    //                    .permissionsPolicyHeader(permissions ->
-    //                        permissions.policy(
-    //                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr()"
-    //                        )
-    //                    )
-    //            )
-    //            .authorizeHttpRequests(authz ->
-    //                authz
-    //                    // THIS IS THE FIX: Reverted to simpler, direct Ant-style matchers
-    //                    .requestMatchers(HttpMethod.OPTIONS, "/**")
-    //                    .permitAll()
-    //                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
-    //                    .permitAll()
-    //                    .requestMatchers(
-    //                        HttpMethod.GET,
-    //                        "/api/blog-posts",
-    //                        "/api/blog-posts/**",
-    //                        "/api/skills",
-    //                        "/api/projects",
-    //                        "/api/project-images",
-    //                        "/api/services"
-    //                    )
-    //                    .permitAll()
-    //                    .requestMatchers(
-    //                        "/api/authenticate",
-    //                        "/api/register",
-    //                        "/api/account/reset-password/init",
-    //                        "/api/account/reset-password/finish"
-    //                    )
-    //                    .permitAll()
-    //                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
-    //                    .permitAll()
-    //                    .requestMatchers("/api/admin/**", "/management/**")
-    //                    .hasAuthority(AuthoritiesConstants.ADMIN)
-    //                    .requestMatchers("/api/**")
-    //                    .authenticated()
-    //            )
-    //            //            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
-    //            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    //            .exceptionHandling(exceptions ->
-    //                exceptions
-    //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-    //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-    //            )
-    //            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
-    //
-    //        return httpd();
-    //    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).cors(withDefaults()).authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
-        // =======================================================================
-        //            .headers(headers ->
-        //                headers
-        //                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-        //                    .frameOptions(FrameOptionsConfig::sameOrigin)
-        //                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
-        //                    .permissionsPolicyHeader(permissions ->
-        //                        permissions.policy(
-        //                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr()"
-        //                        )
-        //                    )
-        //            )
-        //            .authorizeHttpRequests(authz ->
-        //                authz
-        //                    .requestMatchers(HttpMethod.OPTIONS, "/**")
-        //                    .permitAll()
-        //                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
-        //                    .permitAll()
-        //                    .requestMatchers(
-        //                        HttpMethod.GET,
-        //                        "/api/blog-posts",
-        //                        "/api/blog-posts/**",
-        //                        "/api/skills",
-        //                        "/api/projects",
-        //                        "/api/project-images",
-        //                        "/api/services"
-        //                    )
-        //                    .permitAll()
-        //                    .requestMatchers(
-        //                        "/api/authenticate",
-        //                        "/api/register",
-        //                        "/api/account/reset-password/init",
-        //                        "/api/account/reset-password/finish"
-        //                    )
-        //                    .permitAll()
-        //                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
-        //                    .permitAll()
-        //                    .requestMatchers("/api/admin/**", "/management/**")
-        //                    .hasAuthority(AuthoritiesConstants.ADMIN)
-        //                    .requestMatchers("/api/**")
-        //                    .authenticated()
-        //            )
-        //            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        //            .exceptionHandling(exceptions ->
-        //                exceptions
-        //                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-        //                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-        //            )
-        //            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+        http
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(withDefaults())
+            .headers(headers ->
+                headers
+                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
+                    .frameOptions(FrameOptionsConfig::sameOrigin)
+                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
+                    .permissionsPolicyHeader(permissions ->
+                        permissions.policy(
+                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr()"
+                        )
+                    )
+            )
+            .authorizeHttpRequests(authz ->
+                authz
+                    .requestMatchers(HttpMethod.OPTIONS, "/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
+                    .permitAll()
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/blog-posts",
+                        "/api/blog-posts/**",
+                        "/api/skills",
+                        "/api/projects",
+                        "/api/project-images",
+                        "/api/services"
+                    )
+                    .permitAll()
+                    .requestMatchers(
+                        "/api/authenticate",
+                        "/api/register",
+                        "/api/account/reset-password/init",
+                        "/api/account/reset-password/finish"
+                    )
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
+                    .permitAll()
+                    .requestMatchers("/api/admin/**", "/management/**")
+                    .hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers("/api/**")
+                    .authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(exceptions ->
+                exceptions
+                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
 
         return http.build();
     }

@@ -117,7 +117,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).cors(withDefaults()).authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
-        //        // =======================================================================
+        // =======================================================================
         //            .headers(headers ->
         //                headers
         //                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))

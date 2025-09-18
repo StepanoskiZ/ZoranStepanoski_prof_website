@@ -76,14 +76,15 @@ public class SecurityConfiguration {
                 authz
                     .requestMatchers(HttpMethod.OPTIONS, "/**")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/contact-messages")
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages", "/api/visitors/log")
                     .permitAll()
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/blog-posts",
                         "/api/blog-posts/**",
                         "/api/skills",
-                        "/api/projects",
+                        "/api/projects/**",
+                        "/api/project-images",
                         "/api/project-images",
                         "/api/services"
                     )

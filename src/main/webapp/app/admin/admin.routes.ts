@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { VisitorStatsComponent } from './visitor-stats/visitor-stats.component';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 const routes: Routes = [
@@ -31,6 +32,11 @@ const routes: Routes = [
     path: 'metrics',
     loadComponent: () => import('./metrics/metrics.component'),
     title: 'metrics.title',
+  },
+  {
+    path: 'visitor-stats', // <-- ADD THIS ROUTE OBJECT
+    component: VisitorStatsComponent,
+    title: 'global.menu.admin.visitorStats',
   },
   /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
 ];

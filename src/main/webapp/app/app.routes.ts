@@ -4,25 +4,58 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { errorRoute } from './layouts/error/error.route';
 import MainComponent from './layouts/main/main.component';
 import { LandingComponent } from './landing/landing.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { IntakeFormComponent } from './intake-form/intake-form.component';
 import BLOG_ROUTES from './public-blog/blog.routes';
 
 const routes: Routes = [
+  // --- Main Application Layout Route ---
+  // This is the single entry point for all pages that show the navbar and footer.
   {
     path: '',
     component: MainComponent,
     children: [
-      // This is the child route. It's the content that goes INSIDE the frame.
+      // Public-facing pages
       {
         path: '', // The root path is the landing page
         component: LandingComponent,
         title: 'global.mainTitle',
       },
-      // We spread the public blog routes here so they are children of MainComponent
+      //       {
+      //         path: 'privacy-policy',
+      //         component: PrivacyPolicyComponent,
+      //         title: 'privacyPolicy.title',
+      //       },
+      //       {
+      //         path: 'intake-form',
+      //         component: IntakeFormComponent,
+      //         title: 'intakeForm.title',
+      //       },
+      {
+        path: 'privacy-policy',
+        loadComponent: () => import('./privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent), // Use lazy loading
+        title: 'privacyPolicy.title',
+      },
+      {
+        path: 'intake-form',
+        loadComponent: () => import('./intake-form/intake-form.component').then(m => m.IntakeFormComponent), // Use lazy loading
+        title: 'intakeForm.title',
+      },
+      // All blog routes are also children of the main layout
       ...BLOG_ROUTES,
+
+      // JHipster-generated entity routes for admins should ALSO be children
+      // so they appear within the main layout.
+      {
+        path: '',
+        canActivate: [UserRouteAccessService],
+        loadChildren: () => import(`./entities/entity.routes`),
+      },
     ],
   },
 
-  // These are the standard JHipster routes for admin, login, etc.
+  // --- Full-Page Routes (No Main Layout) ---
+  // These routes take over the entire screen (admin dashboard, login page, etc.)
   {
     path: 'admin',
     data: { authorities: [Authority.ADMIN] },
@@ -38,12 +71,8 @@ const routes: Routes = [
     loadComponent: () => import('./login/login.component'),
     title: 'login.title',
   },
-  {
-    path: '',
-    canActivate: [UserRouteAccessService],
-    loadChildren: () => import(`./entities/entity.routes`),
-  },
 
+  // Error routes are at the top level
   ...errorRoute,
 ];
 

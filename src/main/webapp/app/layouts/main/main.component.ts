@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
 import NavbarComponent from '../navbar/navbar.component';
 import FooterComponent from '../footer/footer.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-main',
@@ -23,6 +24,7 @@ export default class MainComponent implements OnInit {
   private readonly accountService = inject(AccountService);
   private readonly translateService = inject(TranslateService);
   private readonly rootRenderer = inject(RendererFactory2);
+  private readonly http = inject(HttpClient);
 
   constructor() {
     this.renderer = this.rootRenderer.createRenderer(document.querySelector('html'), null);
@@ -31,6 +33,11 @@ export default class MainComponent implements OnInit {
   ngOnInit(): void {
     // try to log in automatically
     this.accountService.identity().subscribe();
+
+    this.http.post('/api/visitors/log', {}).subscribe({
+      next: () => console.log('Visitor event logged.'),
+      error: err => console.error('Failed to log visitor event:', err),
+    });
 
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.appPageTitleStrategy.updateTitle(this.router.routerState.snapshot);

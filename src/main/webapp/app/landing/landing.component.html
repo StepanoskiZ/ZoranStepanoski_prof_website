@@ -1,11 +1,4 @@
 <!-- =================== Hero Section =================== -->
-<!--<section #section id="home" class="landing-hero">-->
-<!--  <div class="hero-content mt-5" data-aos="fade-up">-->
-<!--    <h1 jhiTranslate="landing.heroTitle"></h1>-->
-<!--    <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>-->
-<!--    <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>-->
-<!--  </div>-->
-<!--</section>-->
 <section #section id="home" class="landing-hero">
   <div class="container">
     <div class="hero-content mt-5" data-aos="fade-up">
@@ -66,10 +59,48 @@
 </section>
 
 <!-- =================== Projects Section =================== -->
-<section #section id="projects" class="container my-5 text-center">
-  <h2 class="mb-4" jhiTranslate="landing.navProject"></h2>
-  <p>This is where your portfolio of projects will be displayed. You can fetch them from the backend.</p>
-  <!-- You would add an *ngFor loop here to show your projects -->
+<section #section id="projects" class="services-section bg-light py-5">
+  <div class="container">
+    <!-- Main Headings -->
+    <div class="text-center mb-5">
+      <p class="sub-heading" jhiTranslate="landing.projectsSubheading"></p>
+      <h2 class="fw-bold" jhiTranslate="landing.projectsHeading"></h2>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoadingProjects" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Projects Grid (Styled like Services) -->
+    <div *ngIf="!isLoadingProjects && projects.length > 0" class="row">
+      <div *ngFor="let project of projects; let i = index" class="col-lg-4 mb-4">
+        <!-- The link now goes to the detail page -->
+        <!--        <a [routerLink]="['/project', project.id, 'view']" class="project-card-link">-->
+        <div class="project-card-link" (click)="openProjectModal(project.id)">
+          <div class="service-card" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+            <img
+              [src]="project.firstImageUrl ? 'content/images/' + project.firstImageUrl : 'content/images/default-project.jpg'"
+              class="card-img-top"
+              [alt]="project.title"
+            />
+            <div class="card-body">
+              <h3 class="card-title">{{ project.title }} ></h3>
+              <p class="card-text">{{ project.description }}</p>
+            </div>
+          </div>
+        </div>
+        <!--        </a>-->
+      </div>
+    </div>
+
+    <!-- No Projects Message -->
+    <div *ngIf="!isLoadingProjects && projects.length === 0" class="text-center">
+      <p jhiTranslate="landing.noProjects"></p>
+    </div>
+  </div>
 </section>
 
 <!-- =================== Gallery Section =================== -->

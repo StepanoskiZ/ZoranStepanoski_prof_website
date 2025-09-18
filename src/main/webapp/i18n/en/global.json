@@ -30,13 +30,14 @@
       "admin": {
         "main": "Administration",
         "userManagement": "User management",
-        "tracker": "User tracker",
+        "visitorStats": "Visitor Stats",
         "metrics": "Metrics",
         "health": "Health",
         "configuration": "Configuration",
         "logs": "Logs",
         "apidocs": "API",
         "database": "Database",
+        "tracker": "User tracker",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
       "language": "Language"
@@ -152,5 +153,25 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer"
+  "footer": {
+    "completeIntake": "Complete Intake",
+    "privacyPolicy": "Privacy Policy",
+    "followMe": "Follow Me"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "heroTitle": "Your data matters",
+    "heroSubtitle": "Protecting your information is our priority",
+    "contentSubheading": "YOUR INFORMATION MATTERS",
+    "contentHeading": "We value your trust and data."
+  },
+  "visitorStats": {
+    "totalVisits": {
+      "title": "Total Page Views"
+    },
+    "uniqueVisitors": {
+      "title": "Unique Visitors (by IP)"
+    },
+    "error": "Could not load visitor statistics."
+  }
 }

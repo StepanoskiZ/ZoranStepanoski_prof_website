@@ -54,28 +54,6 @@ export default class NavbarComponent implements OnInit {
     this.navbarScrolled = window.scrollY > 50;
   }
 
-  // --- SECRET KEY COMBINATION ---
-  /*  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent): void {
-    // Check if Shift, Ctrl, Alt, and the 'Z' and 'S' keys are pressed
-    if (event.shiftKey && event.ctrlKey && event.altKey && event.key.toLowerCase() === 'z') {
-      // The next check is for 's'
-      const sKeyListener = (sEvent: KeyboardEvent) => {
-        if (sEvent.key.toLowerCase() === 's') {
-          // If 's' is pressed, toggle the visibility
-          this.showAdminControls.update(value => !value);
-          // Prevent the browser from doing anything else (like opening a Save dialog)
-          sEvent.preventDefault();
-        }
-        // Clean up the listener after one use
-        window.removeEventListener('keydown', sKeyListener);
-      };
-      // Add a temporary listener just for the 's' key
-      window.addEventListener('keydown', sKeyListener);
-      event.preventDefault();
-    }
-  }*/
-
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;
     this.profileService.getProfileInfo().subscribe(profileInfo => {
@@ -134,8 +112,4 @@ export default class NavbarComponent implements OnInit {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-
-  //  showAdminControls(): boolean {
-  //    return this.isAdminEnv && this.account() !== null;
-  //  }
 }

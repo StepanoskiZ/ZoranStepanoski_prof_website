@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Zoran (generated)" id="1758214747105-1">
+        <dropForeignKeyConstraint baseTableName="jhi_user_authority" constraintName="fk_authority_name"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-2">
+        <dropForeignKeyConstraint baseTableName="project_image" constraintName="fk_project_image__project_id"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-3">
+        <dropForeignKeyConstraint baseTableName="jhi_user_authority" constraintName="fk_user_id"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-4">
+        <dropUniqueConstraint constraintName="ux_blog_post__slug" tableName="blog_post"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-5">
+        <dropUniqueConstraint constraintName="ux_user_email" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-6">
+        <dropUniqueConstraint constraintName="ux_user_login" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-7">
+        <dropTable tableName="blog_post"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-8">
+        <dropTable tableName="business_service"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-9">
+        <dropTable tableName="contact_message"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-10">
+        <dropTable tableName="jhi_authority"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-11">
+        <dropTable tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-12">
+        <dropTable tableName="jhi_user_authority"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-13">
+        <dropTable tableName="project"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-14">
+        <dropTable tableName="project_image"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-15">
+        <dropTable tableName="skill"/>
+    </changeSet>
+    <changeSet author="Zoran (generated)" id="1758214747105-16">
+        <dropSequence sequenceName="sequence_generator"/>
+    </changeSet>
+</databaseChangeLog>

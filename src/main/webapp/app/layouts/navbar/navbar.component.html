@@ -66,7 +66,6 @@
 
       <!-- 2. JHIPSTER MENUS (RIGHT) -->
       <ul class="navbar-nav">
-        <!--        <ng-container *ngIf="showAdminControls()">-->
         <ng-container *ngIf="isAdminEnv">
           <!-- Entities Menu -->
           <li ngbDropdown class="nav-item dropdown">
@@ -109,6 +108,58 @@
                 <a class="dropdown-item" routerLink="/contact-message" (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.contactMessage">Contact Message</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Administration Menu -->
+          <li ngbDropdown class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle id="admin-menu" data-cy="adminMenu">
+              <fa-icon icon="users-cog"></fa-icon>
+              <span jhiTranslate="global.menu.admin.main"></span>
+            </a>
+            <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
+              <!-- User Management Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.userManagement">User management</span>
+                </a>
+              </li>
+              <!-- Visitor Stats Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/visitor-stats" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="chart-bar" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.visitorStats">Visitor Stats</span>
+                </a>
+              </li>
+              <!-- Metrics Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
+                </a>
+              </li>
+              <!-- Health Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.health">Health</span>
+                </a>
+              </li>
+              <!-- Configuration Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
+                </a>
+              </li>
+              <!-- Logs Link -->
+              <li>
+                <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
+                  <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.admin.logs">Logs</span>
                 </a>
               </li>
             </ul>

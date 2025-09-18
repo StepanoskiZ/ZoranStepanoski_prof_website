@@ -1,0 +1,88 @@
+// .project-details-content {
+//   flex-grow: 1;
+//   overflow-y: auto;
+//   padding-right: 10px; // Space for the scrollbar
+//
+//   // Custom scrollbar to match the screenshot
+//   &::-webkit-scrollbar {
+//     width: 6px;
+//   }
+//   &::-webkit-scrollbar-track {
+//     background: #f1f1f1;
+//     border-radius: 10px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     background: #ccc;
+//     border-radius: 10px;
+//   }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background: #aaa;
+//   }
+// }
+//
+// .project-title {
+//   font-weight: 600;
+// }
+//
+// .project-description {
+//   color: #555;
+//   line-height: 1.7;
+// }
+//
+// .nav-button {
+//   color: #333;
+//   text-decoration: none;
+//   font-size: 1.2rem;
+//
+//   &:hover {
+//     color: #000;
+//   }
+// }
+@use 'sass:color'; // Import the modern Sass color module
+
+// Define the primary color for this component
+$primary-color: #198754;
+
+.project-details-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 10px; // Space for the scrollbar
+
+  // Custom scrollbar to match the screenshot
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+}
+
+.project-title {
+  font-weight: 600;
+}
+
+.project-description {
+  color: #555;
+  line-height: 1.7;
+}
+
+// --- THIS IS THE UPDATED STYLE ---
+.nav-button {
+  color: $primary-color; // Set the arrow color to your theme's green
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.2s ease-in-out; // Add a smooth transition for the hover effect
+
+  &:hover {
+    // Use the modern color.adjust function for a slightly darker green on hover
+    color: color.adjust($primary-color, $lightness: -10%);
+  }
+}

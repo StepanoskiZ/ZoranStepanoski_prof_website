@@ -5,18 +5,39 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveSectionService } from '../layouts/active-section.service';
+import { IProject } from '../entities/project/project.model';
+import { ProjectService } from '../entities/project/service/project.service';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProjectDetailModalComponent } from '../project-detail-modal/project-detail-modal.component';
 
 declare var AOS: any;
+
+// Define a new interface for our card data
+export interface ProjectCard {
+  id: number;
+  title: string;
+  description: string;
+  firstImageUrl?: string;
+}
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, SharedModule, NgbDropdownModule, ContactFormComponent],
+  imports: [CommonModule, SharedModule, NgbDropdownModule, ContactFormComponent, RouterModule],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
+
+  projects: ProjectCard[] = [];
+  isLoadingProjects = true;
+
+  private readonly http = inject(HttpClient);
+  //  private readonly projectService = inject(ProjectService);
+  private readonly modalService = inject(NgbModal);
 
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
 
@@ -37,11 +58,34 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.updateCvLink(this.translateService.currentLang);
+    this.loadProjects();
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
       once: true,
     });
+  }
+
+  private loadProjects(): void {
+    this.isLoadingProjects = true;
+    this.http.get<ProjectCard[]>('/api/projects/cards').subscribe({
+      next: (data: ProjectCard[]) => {
+        this.projects = data;
+        this.isLoadingProjects = false;
+      },
+      error: () => {
+        this.isLoadingProjects = false;
+      },
+    });
+  }
+
+  openProjectModal(projectId: number): void {
+    const modalRef = this.modalService.open(ProjectDetailModalComponent, {
+      size: 'xl', // Extra large modal
+      centered: true,
+      scrollable: true, // Allows the modal content to scroll
+    });
+    modalRef.componentInstance.projectId = projectId;
   }
 
   ngAfterViewInit(): void {

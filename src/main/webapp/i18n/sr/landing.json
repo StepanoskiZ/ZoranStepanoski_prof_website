@@ -37,6 +37,9 @@
     "formError": "Ups! Nešto je pošlo naopako. Pokušajte ponovo kasnije.",
     "modalSuccessTitle": "Poruka je poslata!",
     "modalClose": "Zatvori",
-    "formProfanityWarning": "Jebem te u dupe baš i usta rutava! Popušiš mi kurac, pičko jedna! Molimo vas da pripazite na vaš rečnik u tekstu."
+    "formProfanityWarning": "Jebem te u dupe baš i usta rutava! Popušiš mi kurac, pičko jedna! Molimo vas da pripazite na vaš rečnik u tekstu.",
+    "projectsSubheading": "My Portfolio",
+    "projectsHeading": "Recent Work",
+    "noProjects": "More projects are coming soon. Please check back later!"
   }
 }

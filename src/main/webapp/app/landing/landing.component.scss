@@ -146,6 +146,21 @@ $text-color-muted: #555; // Muted gray for default links
   }
 }
 
+/* =================== Projects Section =================== */
+.project-card-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    .service-card {
+      // Re-use the hover effect from the service card
+      transform: translateY(-10px);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
 /* =================== General Styles =================== */
 .bg-light {
   background-color: #f8f9fa !important;

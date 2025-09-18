@@ -1,0 +1,43 @@
+<div class="modal-header border-0">
+  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+
+<div class="modal-body" *ngIf="!isLoading && project">
+  <div class="row g-4">
+    <!-- Left Column: Image Gallery -->
+    <div class="col-lg-6">
+      <div *ngIf="project.imageUrls && project.imageUrls.length > 0">
+        <img [src]="'content/images/' + project.imageUrls[currentImageIndex]" [alt]="project.title" class="img-fluid rounded" />
+      </div>
+      <div *ngIf="!project.imageUrls || project.imageUrls.length === 0">
+        <img src="content/images/default-project.jpg" [alt]="project.title" class="img-fluid rounded" />
+      </div>
+    </div>
+
+    <!-- Right Column: Details -->
+    <div class="col-lg-6 d-flex flex-column">
+      <div class="project-details-content">
+        <h2 class="project-title mb-3">{{ project.title }}</h2>
+        <p class="project-description">{{ project.description }}</p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="mt-auto d-flex justify-content-end align-items-center" *ngIf="project.imageUrls && project.imageUrls.length > 1">
+        <button class="btn btn-link nav-button" (click)="previousImage()">
+          <fa-icon icon="chevron-left"></fa-icon>
+        </button>
+        <span class="mx-2">{{ currentImageIndex + 1 }} / {{ project.imageUrls.length }}</span>
+        <button class="btn btn-link nav-button" (click)="nextImage()">
+          <fa-icon icon="chevron-right"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<div class="modal-body text-center" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<section class="page-hero">
+  <div class="container">
+    <div class="hero-content" data-aos="fade-up">
+      <h1 jhiTranslate="intakeForm.heroTitle"></h1>
+      <p class="lead" jhiTranslate="intakeForm.heroSubtitle"></p>
+    </div>
+  </div>
+</section>
+
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Name -->
+        <div class="mb-3">
+          <label class="form-label" for="name" jhiTranslate="intakeForm.name.label"></label>
+          <input type="text" id="name" class="form-control" formControlName="name" />
+        </div>
+        <!-- Email -->
+        <div class="mb-3">
+          <label class="form-label" for="email" jhiTranslate="intakeForm.email.label"></label>
+          <input type="email" id="email" class="form-control" formControlName="email" />
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="mb-4" *ngIf="skills.length > 0">
+          <label class="form-label d-block mb-3" jhiTranslate="intakeForm.stack.label"></label>
+          <div formArrayName="preferredStack">
+            <div *ngFor="let skill of skills; let i = index" class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" [formControlName]="i" [id]="'skill-' + skill.id" />
+              <label class="form-check-label" [for]="'skill-' + skill.id">{{ skill.name }}</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="form.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting" jhiTranslate="intakeForm.submit"></span>
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>

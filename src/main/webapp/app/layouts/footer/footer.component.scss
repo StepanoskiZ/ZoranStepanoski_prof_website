@@ -1,0 +1,79 @@
+/* src/main/webapp/app/layouts/footer/footer.component.scss */
+@use 'app/landing/landing.component.scss';
+@use 'sass:color';
+
+$primary-color: #198754; // Your existing primary green color
+$footer-bg: #1a1a1a;
+$footer-text-color: #adb5bd;
+$footer-heading-color: #ffffff;
+
+.page-hero {
+  // Inherit all the cool background effects from the landing page hero
+  @extend .landing-hero;
+
+  // Override the properties to make it shorter and center the text
+  min-height: 40vh;
+  text-align: center;
+}
+
+main {
+  h2 {
+    font-weight: 600;
+  }
+}
+
+.footer-container {
+  background-color: $footer-bg;
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: $footer-heading-color;
+  }
+
+  .text-muted {
+    color: $footer-text-color !important;
+  }
+
+  .footer-heading {
+    font-weight: 600;
+    color: $footer-heading-color;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-links {
+    li {
+      margin-bottom: 0.5rem;
+    }
+    a {
+      color: $footer-text-color;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .social-icons {
+    a {
+      color: $footer-text-color;
+      font-size: 1.5rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .copyright-text {
+    color: $footer-text-color;
+    font-size: 0.9rem;
+  }
+}

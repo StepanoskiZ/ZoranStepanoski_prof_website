@@ -1,10 +1,16 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.Project;
+import com.paradox.zswebsite.domain.ProjectImage;
+import com.paradox.zswebsite.repository.ProjectImageRepository;
 import com.paradox.zswebsite.repository.ProjectRepository;
+import com.paradox.zswebsite.service.dto.ProjectCardDTO;
 import com.paradox.zswebsite.service.dto.ProjectDTO;
+import com.paradox.zswebsite.service.dto.ProjectDetailDTO;
 import com.paradox.zswebsite.service.mapper.ProjectMapper;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,14 +26,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProjectService.class);
-
     private final ProjectRepository projectRepository;
-
     private final ProjectMapper projectMapper;
+    private final ProjectImageRepository projectImageRepository;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper, ProjectImageRepository projectImageRepository) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
+        this.projectImageRepository = projectImageRepository;
     }
 
     /**
@@ -108,5 +114,56 @@ public class ProjectService {
     public void delete(Long id) {
         LOG.debug("Request to delete Project : {}", id);
         projectRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProjectCardDTO> findAllForLandingPage() {
+        LOG.debug("Request to get all Projects for landing page");
+        return projectRepository
+            .findAll()
+            .stream()
+            .map(project -> {
+                ProjectCardDTO dto = new ProjectCardDTO();
+                dto.setId(project.getId());
+                dto.setTitle(project.getTitle());
+                // Truncate description for the card view
+                if (project.getDescription() != null && project.getDescription().length() > 150) {
+                    dto.setDescription(project.getDescription().substring(0, 150) + "...");
+                } else {
+                    dto.setDescription(project.getDescription());
+                }
+
+                // Find the first image for this project
+                projectImageRepository
+                    .findFirstByProjectId(project.getId())
+                    .ifPresent(firstImage -> dto.setFirstImageUrl(firstImage.getImageUrl()));
+
+                return dto;
+            })
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ProjectDetailDTO> findOneWithImages(Long id) {
+        LOG.debug("Request to get detailed Project with images : {}", id);
+        return projectRepository
+            .findById(id)
+            .map(project -> {
+                ProjectDetailDTO dto = new ProjectDetailDTO();
+                dto.setId(project.getId());
+                dto.setTitle(project.getTitle());
+                dto.setDescription(project.getDescription()); // Full description
+                dto.setUrl(project.getProjectUrl());
+
+                // Fetch all images and extract their URLs
+                List<String> imageUrls = projectImageRepository
+                    .findAllByProjectId(project.getId())
+                    .stream()
+                    .map(ProjectImage::getImageUrl)
+                    .collect(Collectors.toList());
+                dto.setImageUrls(imageUrls);
+
+                return dto;
+            });
     }
 }

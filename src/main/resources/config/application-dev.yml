@@ -56,6 +56,7 @@ spring:
       auto-commit: false
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
+    change-log: classpath:config/liquibase/master.xml
     contexts: dev
   #  mail:
   #    host: localhost

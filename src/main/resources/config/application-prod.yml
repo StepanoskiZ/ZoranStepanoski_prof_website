@@ -51,6 +51,7 @@ spring:
       auto-commit: false
       maximum-pool-size: 1
   liquibase:
+    change-log: classpath:config/liquibase/master.xml
     contexts: prod
     enabled: true
   thymeleaf:

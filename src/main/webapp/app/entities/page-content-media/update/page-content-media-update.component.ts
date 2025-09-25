@@ -13,12 +13,11 @@ import { UnifiedMediaType } from 'app/entities/enumerations/unified-media-type.m
 import { PageContentMediaService } from '../service/page-content-media.service';
 import { IPageContentMedia } from '../page-content-media.model';
 import { PageContentMediaFormGroup, PageContentMediaFormService } from './page-content-media-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-page-content-media-update',
   templateUrl: './page-content-media-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class PageContentMediaUpdateComponent implements OnInit {
   isSaving = false;

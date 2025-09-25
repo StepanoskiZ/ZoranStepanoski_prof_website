@@ -8,25 +8,16 @@ import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { BlogPostService } from '../service/blog-post.service';
 import { IBlogPost } from '../blog-post.model';
 import { BlogPostFormGroup, BlogPostFormService } from './blog-post-form.service';
-import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'jhi-blog-post-update',
-  standalone: true,
   templateUrl: './blog-post-update.component.html',
-  imports: [
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    QuillModule,
-    AlertErrorComponent
-  ],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class BlogPostUpdateComponent implements OnInit {
   isSaving = false;
@@ -40,14 +31,6 @@ export class BlogPostUpdateComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: BlogPostFormGroup = this.blogPostFormService.createBlogPostFormGroup();
-
-  editorModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      ['link', 'image', 'video', 'image', 'code-block'],
-    ],
-  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ blogPost }) => {

@@ -19,8 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -177,18 +175,5 @@ public class PageContentResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    /**
-     * {@code GET  /page-contents/by-key/:key} : get the pageContent by its "key".
-     *
-     * @param key the sectionKey of the pageContentDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the pageContentDTO, or with status {@code 404 (Not Found)}.
-     */
-    @GetMapping("/by-key/{key}")
-    public ResponseEntity<PageContentDTO> getPageContentByKey(@PathVariable("key") String key) {
-        LOG.debug("REST request to get PageContent by key : {}", key);
-        Optional<PageContentDTO> pageContentDTO = pageContentService.findOneBySectionKey(key);
-        return ResponseUtil.wrapOrNotFound(pageContentDTO);
     }
 }

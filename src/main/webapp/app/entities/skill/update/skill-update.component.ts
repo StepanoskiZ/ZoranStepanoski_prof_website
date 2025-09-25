@@ -10,13 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ISkill } from '../skill.model';
 import { SkillService } from '../service/skill.service';
 import { SkillFormGroup, SkillFormService } from './skill-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-skill-update',
   templateUrl: './skill-update.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class SkillUpdateComponent implements OnInit {
   isSaving = false;

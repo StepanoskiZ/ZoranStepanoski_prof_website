@@ -14,12 +14,11 @@ import { ProjectStatus } from 'app/entities/enumerations/project-status.model';
 import { ProjectService } from '../service/project.service';
 import { IProject } from '../project.model';
 import { ProjectFormGroup, ProjectFormService } from './project-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-project-update',
   templateUrl: './project-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ProjectUpdateComponent implements OnInit {
   isSaving = false;

@@ -16,13 +16,11 @@ import { IBlogPost } from '../blog-post.model';
 
 import { BlogPostService, EntityArrayResponseType } from '../service/blog-post.service';
 import { BlogPostDeleteDialogComponent } from '../delete/blog-post-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-blog-post',
   templateUrl: './blog-post.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
 })
 export class BlogPostComponent implements OnInit {
   subscription: Subscription | null = null;

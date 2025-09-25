@@ -15,13 +15,11 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IVisitorLog } from '../visitor-log.model';
 import { EntityArrayResponseType, VisitorLogService } from '../service/visitor-log.service';
 import { VisitorLogDeleteDialogComponent } from '../delete/visitor-log-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-visitor-log',
   templateUrl: './visitor-log.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
 })
 export class VisitorLogComponent implements OnInit {
   subscription: Subscription | null = null;

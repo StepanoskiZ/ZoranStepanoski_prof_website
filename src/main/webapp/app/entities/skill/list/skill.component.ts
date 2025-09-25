@@ -14,13 +14,11 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { ISkill } from '../skill.model';
 import { EntityArrayResponseType, SkillService } from '../service/skill.service';
 import { SkillDeleteDialogComponent } from '../delete/skill-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-skill',
   templateUrl: './skill.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
 })
 export class SkillComponent implements OnInit {
   subscription: Subscription | null = null;

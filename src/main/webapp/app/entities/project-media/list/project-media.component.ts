@@ -14,14 +14,11 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IProjectMedia } from '../project-media.model';
 import { EntityArrayResponseType, ProjectMediaService } from '../service/project-media.service';
 import { ProjectMediaDeleteDialogComponent } from '../delete/project-media-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-project-media',
   templateUrl: './project-media.component.html',
-  imports: [TranslateDirective, AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
 })
 export class ProjectMediaComponent implements OnInit {
   subscription: Subscription | null = null;

@@ -30,17 +30,8 @@
 
         @let contentRef = editForm.get('content')!;
         <div class="mb-3">
-          <!--            for="field_content"-->
-          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.content"> </label>
-<!--          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"> </textarea>-->
-          <quill-editor
-            id="field_content"
-            data-cy="content"
-            formControlName="content"
-            name="content"
-            [modules]="editorModules"
-            [styles]="{height: '300px'}">
-          </quill-editor>
+          <label class="form-label" for="field_content" jhiTranslate="zsWebsiteApp.blogPost.content">Content</label>
+          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"></textarea>
           @if (contentRef.invalid && (contentRef.dirty || contentRef.touched)) {
             <div>
               @if (editForm.get('content')?.errors?.required) {

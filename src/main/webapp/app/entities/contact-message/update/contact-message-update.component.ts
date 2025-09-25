@@ -13,12 +13,11 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ContactMessageService } from '../service/contact-message.service';
 import { IContactMessage } from '../contact-message.model';
 import { ContactMessageFormGroup, ContactMessageFormService } from './contact-message-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-contact-message-update',
   templateUrl: './contact-message-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ContactMessageUpdateComponent implements OnInit {
   isSaving = false;

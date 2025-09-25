@@ -14,14 +14,11 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IPageContentMedia } from '../page-content-media.model';
 import { EntityArrayResponseType, PageContentMediaService } from '../service/page-content-media.service';
 import { PageContentMediaDeleteDialogComponent } from '../delete/page-content-media-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-page-content-media',
   templateUrl: './page-content-media.component.html',
-  imports: [TranslateDirective, AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
 })
 export class PageContentMediaComponent implements OnInit {
   subscription: Subscription | null = null;

@@ -15,13 +15,11 @@ import { IPageContent } from '../page-content.model';
 
 import { EntityArrayResponseType, PageContentService } from '../service/page-content.service';
 import { PageContentDeleteDialogComponent } from '../delete/page-content-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-page-content',
   templateUrl: './page-content.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
 })
 export class PageContentComponent implements OnInit {
   subscription: Subscription | null = null;

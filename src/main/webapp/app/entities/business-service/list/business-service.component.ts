@@ -14,13 +14,11 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IBusinessService } from '../business-service.model';
 import { BusinessServiceService, EntityArrayResponseType } from '../service/business-service.service';
 import { BusinessServiceDeleteDialogComponent } from '../delete/business-service-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-business-service',
   templateUrl: './business-service.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
 })
 export class BusinessServiceComponent implements OnInit {
   subscription: Subscription | null = null;

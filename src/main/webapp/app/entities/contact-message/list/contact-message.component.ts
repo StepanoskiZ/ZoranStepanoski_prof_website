@@ -16,13 +16,11 @@ import { IContactMessage } from '../contact-message.model';
 
 import { ContactMessageService, EntityArrayResponseType } from '../service/contact-message.service';
 import { ContactMessageDeleteDialogComponent } from '../delete/contact-message-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-contact-message',
   templateUrl: './contact-message.component.html',
-  imports: [AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
 })
 export class ContactMessageComponent implements OnInit {
   subscription: Subscription | null = null;

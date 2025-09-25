@@ -5,13 +5,11 @@ import SharedModule from 'app/shared/shared.module';
 import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IBlogPost } from '../blog-post.model';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-blog-post-detail',
   templateUrl: './blog-post-detail.component.html',
-  imports: [AlertComponent, AlertErrorComponent, SharedModule, RouterModule, FormatMediumDatetimePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class BlogPostDetailComponent {
   blogPost = input<IBlogPost | null>(null);

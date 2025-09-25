@@ -6,12 +6,10 @@ import SharedModule from 'app/shared/shared.module';
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IProjectMedia } from '../project-media.model';
 import { ProjectMediaService } from '../service/project-media.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   templateUrl: './project-media-delete-dialog.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule],
+  imports: [SharedModule, FormsModule],
 })
 export class ProjectMediaDeleteDialogComponent {
   projectMedia?: IProjectMedia;

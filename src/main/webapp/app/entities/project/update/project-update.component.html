@@ -17,12 +17,12 @@
 
         @let titleRef = editForm.get('title')!;
         <div class="mb-3">
-          <label class="form-label" for="field_title" jhiTranslate="zsWebsiteApp.project.title"></label>
+          <label class="form-label" for="field_title" jhiTranslate="zsWebsiteApp.project.title">Title</label>
           <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
           @if (titleRef.invalid && (titleRef.dirty || titleRef.touched)) {
             <div>
               @if (editForm.get('title')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
             </div>
           }

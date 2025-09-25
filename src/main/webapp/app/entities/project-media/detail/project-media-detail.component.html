@@ -33,7 +33,7 @@
           <dd>
             @if (projectMedia()!.project) {
               <div>
-                <a [routerLink]="['/project', projectMedia()!.project?.id, 'view']">{{ projectMediaRef.project?.id }}</a>
+                <a [routerLink]="['/project', projectMedia()!.project?.id, 'view']">{{ projectMediaRef.project?.title }}</a>
               </div>
             }
           </dd>

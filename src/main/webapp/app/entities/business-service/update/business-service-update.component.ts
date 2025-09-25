@@ -10,12 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IBusinessService } from '../business-service.model';
 import { BusinessServiceService } from '../service/business-service.service';
 import { BusinessServiceFormGroup, BusinessServiceFormService } from './business-service-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-business-service-update',
   templateUrl: './business-service-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class BusinessServiceUpdateComponent implements OnInit {
   isSaving = false;

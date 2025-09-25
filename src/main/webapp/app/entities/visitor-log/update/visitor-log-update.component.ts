@@ -10,12 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IVisitorLog } from '../visitor-log.model';
 import { VisitorLogService } from '../service/visitor-log.service';
 import { VisitorLogFormGroup, VisitorLogFormService } from './visitor-log-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-visitor-log-update',
   templateUrl: './visitor-log-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class VisitorLogUpdateComponent implements OnInit {
   isSaving = false;

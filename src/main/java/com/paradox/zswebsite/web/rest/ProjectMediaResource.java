@@ -140,12 +140,21 @@ public class ProjectMediaResource {
      * {@code GET  /project-medias} : get all the projectMedias.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectMedias in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ProjectMediaDTO>> getAllProjectMedias(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ProjectMediaDTO>> getAllProjectMedias(
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+    ) {
         LOG.debug("REST request to get a page of ProjectMedias");
-        Page<ProjectMediaDTO> page = projectMediaService.findAll(pageable);
+        Page<ProjectMediaDTO> page;
+        if (eagerload) {
+            page = projectMediaService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = projectMediaService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

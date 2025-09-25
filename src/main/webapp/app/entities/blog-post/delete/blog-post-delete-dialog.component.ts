@@ -6,12 +6,10 @@ import SharedModule from 'app/shared/shared.module';
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IBlogPost } from '../blog-post.model';
 import { BlogPostService } from '../service/blog-post.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   templateUrl: './blog-post-delete-dialog.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule],
+  imports: [SharedModule, FormsModule],
 })
 export class BlogPostDeleteDialogComponent {
   blogPost?: IBlogPost;

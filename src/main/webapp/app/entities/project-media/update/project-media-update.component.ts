@@ -13,12 +13,11 @@ import { UnifiedMediaType } from 'app/entities/enumerations/unified-media-type.m
 import { ProjectMediaService } from '../service/project-media.service';
 import { IProjectMedia } from '../project-media.model';
 import { ProjectMediaFormGroup, ProjectMediaFormService } from './project-media-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-project-media-update',
   templateUrl: './project-media-update.component.html',
-  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ProjectMediaUpdateComponent implements OnInit {
   isSaving = false;

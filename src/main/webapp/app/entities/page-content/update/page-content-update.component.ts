@@ -13,20 +13,11 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { PageContentService } from '../service/page-content.service';
 import { IPageContent } from '../page-content.model';
 import { PageContentFormGroup, PageContentFormService } from './page-content-form.service';
-import { QuillModule } from 'ngx-quill';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 @Component({
   selector: 'jhi-page-content-update',
-  standalone: true,
   templateUrl: './page-content-update.component.html',
-  imports: [
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    QuillModule,
-    AlertErrorComponent
-  ],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class PageContentUpdateComponent implements OnInit {
   isSaving = false;
@@ -40,14 +31,6 @@ export class PageContentUpdateComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: PageContentFormGroup = this.pageContentFormService.createPageContentFormGroup();
-
-  editorModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      ['link', 'image', 'video', 'image', 'code-block'],
-    ],
-  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ pageContent }) => {

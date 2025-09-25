@@ -5,14 +5,11 @@ import SharedModule from 'app/shared/shared.module';
 import { FormatMediumDatePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IProject } from '../project.model';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-project-detail',
   templateUrl: './project-detail.component.html',
-  imports: [TranslateDirective, AlertComponent, AlertErrorComponent, SharedModule, RouterModule, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatePipe],
 })
 export class ProjectDetailComponent {
   project = input<IProject | null>(null);

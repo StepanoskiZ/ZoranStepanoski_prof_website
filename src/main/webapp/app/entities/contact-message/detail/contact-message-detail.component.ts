@@ -5,13 +5,11 @@ import SharedModule from 'app/shared/shared.module';
 import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IContactMessage } from '../contact-message.model';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-contact-message-detail',
   templateUrl: './contact-message-detail.component.html',
-  imports: [AlertComponent, AlertErrorComponent, SharedModule, RouterModule, FormatMediumDatetimePipe],
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
 export class ContactMessageDetailComponent {
   contactMessage = input<IContactMessage | null>(null);

@@ -6,12 +6,10 @@ import SharedModule from 'app/shared/shared.module';
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IProject } from '../project.model';
 import { ProjectService } from '../service/project.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   templateUrl: './project-delete-dialog.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule],
+  imports: [SharedModule, FormsModule],
 })
 export class ProjectDeleteDialogComponent {
   project?: IProject;

@@ -1,10 +1,7 @@
 {
   "global": {
     "title": "ZSWebsite",
-    "mainTitle": "Zoran Stepanoski",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
-    "readMore": "Read more",
-    "goBack": "Go back",
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
@@ -12,13 +9,14 @@
         "main": "Entities",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "project": "Project",
-        "projectImage": "Project Image",
         "skill": "Skill",
         "businessService": "Business Service",
         "blogPost": "Blog Post",
         "contactMessage": "Contact Message",
-        "visitorLog": "Visitors log",
-        "pageContent": "About content"
+        "projectMedia": "Project Media",
+        "visitorLog": "Visitor Log",
+        "pageContent": "Page Content",
+        "pageContentMedia": "Page Content Media"
       },
       "account": {
         "main": "Account",
@@ -32,14 +30,13 @@
       "admin": {
         "main": "Administration",
         "userManagement": "User management",
-        "visitorStats": "Visitor Stats",
+        "tracker": "User tracker",
         "metrics": "Metrics",
         "health": "Health",
         "configuration": "Configuration",
         "logs": "Logs",
         "apidocs": "API",
         "database": "Database",
-        "tracker": "User tracker",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
       "language": "Language"
@@ -155,25 +152,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": {
-    "completeIntake": "Complete Intake",
-    "privacyPolicy": "Privacy Policy",
-    "followMe": "Follow Me"
-  },
-  "privacyPolicy": {
-    "title": "Privacy Policy",
-    "heroTitle": "Your data matters",
-    "heroSubtitle": "Protecting your information is our priority",
-    "contentSubheading": "YOUR INFORMATION MATTERS",
-    "contentHeading": "We value your trust and data."
-  },
-  "visitorStats": {
-    "totalVisits": {
-      "title": "Total Page Views"
-    },
-    "uniqueVisitors": {
-      "title": "Unique Visitors (by IP)"
-    },
-    "error": "Could not load visitor statistics."
-  }
+  "footer": "This is your footer"
 }

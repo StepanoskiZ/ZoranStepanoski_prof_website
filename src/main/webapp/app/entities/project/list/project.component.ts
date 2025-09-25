@@ -16,14 +16,11 @@ import { IProject } from '../project.model';
 
 import { EntityArrayResponseType, ProjectService } from '../service/project.service';
 import { ProjectDeleteDialogComponent } from '../delete/project-delete-dialog.component';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { AlertComponent } from 'app/shared/alert/alert.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-project',
   templateUrl: './project.component.html',
-  imports: [TranslateDirective, AlertComponent, AlertErrorComponent, RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatePipe, ItemCountComponent],
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatePipe, ItemCountComponent],
 })
 export class ProjectComponent implements OnInit {
   subscription: Subscription | null = null;

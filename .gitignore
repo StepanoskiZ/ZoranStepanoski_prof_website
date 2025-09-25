@@ -61,6 +61,7 @@ classes/
 out/
 src/test/
 src/test/*
+package-lock.json
 
 ######################
 # Visual Studio Code

@@ -1,0 +1,69 @@
+// Define theme colors for the navbar
+$primary-color: #198754; // The green for active/hover links
+$brand-color: #000; // Black for your name
+$text-color-muted: #555; // Muted gray for default links
+
+/* ==========================================================================
+   Custom Navbar Styles
+   ========================================================================== */
+
+.navbar {
+  background-color: white !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+
+  // Style for your name (the brand)
+  .navbar-brand {
+    color: $brand-color !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  // General style for all navigation links
+  .nav-link {
+    color: $text-color-muted !important;
+    font-weight: 500;
+    padding-bottom: 0.5rem; // Space for the underline
+    border-bottom: 3px solid transparent; // Hidden underline by default
+    transition:
+      color 0.3s ease,
+      border-color 0.3s ease;
+    margin: 0 0.75rem; // Space out the menu items
+  }
+
+  // This rule targets a nav link on HOVER or when it has the .active class.
+  // The .active class is updated by the ActiveSectionService.
+  .nav-item:not(.btn-contact-nav) .nav-link:hover,
+  .nav-item:not(.btn-contact-nav) .nav-link.active {
+    color: $primary-color !important;
+    border-bottom-color: $primary-color; // Show the green underline
+  }
+
+  // Special styling for the "Contact" button
+  .btn-contact-nav {
+    .nav-link {
+      border: 2px solid $brand-color; // Black frame
+      border-radius: 5px;
+      padding: 0.5rem 1.5rem !important;
+      margin-left: 1rem;
+      color: $brand-color !important; // Black text
+      background-color: white;
+      transition: all 0.3s ease-in-out;
+
+      // Remove the underline effect from the contact button
+      &:hover {
+        border-bottom-color: transparent;
+      }
+    }
+
+    // The hover effect for the contact button
+    &:hover .nav-link {
+      background-color: $primary-color; // Green background
+      color: white !important; // White text
+      border-color: $primary-color; // Green frame
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (project(); as projectRef) {
+      <div>
+        <h2 data-cy="projectDetailsHeading"><span jhiTranslate="zsWebsiteApp.project.detail.title">Project</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ projectRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.title"></span></dt>
+          <dd>
+            <span>{{ projectRef.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.description"></span></dt>
+          <dd>
+            <span>{{ projectRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ projectRef.startDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ projectRef.endDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'zsWebsiteApp.ProjectStatus.' + (projectRef.status ?? 'null')">{{
+              { null: '', COMPLETED: 'COMPLETED', ONGOING: 'ONGOING' }[projectRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.projectUrl">Project Url</span></dt>
+          <dd>
+            <span>{{ projectRef.projectUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.category">Category</span></dt>
+          <dd>
+            <span>{{ projectRef.category }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/project', projectRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

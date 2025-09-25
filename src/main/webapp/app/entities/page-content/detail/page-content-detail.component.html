@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (pageContent(); as pageContentRef) {
+      <div>
+        <h2 data-cy="pageContentDetailsHeading"><span jhiTranslate="zsWebsiteApp.pageContent.detail.title">Page Content</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id"></span></dt>
+          <dd>
+            <span>{{ pageContentRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="global.pageContent.sectionKey"></span></dt>
+          <!--          <dd>-->
+          <!--            <span [jhiTranslate]="'global.ProjectStatus.' + (pageContentRef.sectionKey ?? 'null')">{{-->
+          <!--              { null: '', COMPLETED: 'COMPLETED', ONGOING: 'ONGOING' }[pageContentRef.sectionKey ?? 'null']-->
+          <!--            }}</span>-->
+          <!--          </dd>-->
+          <dd>
+            <span>{{ pageContentRef.sectionKey }}</span>
+          </dd>
+          <dt><span jhiTranslate="global.pageContent.contentHtml"></span></dt>
+          <dd>
+            <span>{{ pageContentRef.contentHtml }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/page-content', pageContentRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+        <br />
+      </div>
+    }
+  </div>
+</div>

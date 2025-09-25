@@ -1,0 +1,175 @@
+@use 'sass:color';
+
+$text-color: #2c3e50; // choose your preferred color
+$primary-color: #198754; // if not already defined
+
+/* -----------------------------------------------
+   Modal Content Wrapper
+-------------------------------------------------*/
+:host ::ng-deep .modal-content {
+  background-color: #f0f2ef;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  max-width: 70vw;
+  margin: auto;
+}
+
+/* Close Button */
+.modal-header .btn-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+}
+
+/* Title Container (Center) */
+.modal-title-container {
+  flex: 1;
+  text-align: center;
+}
+
+/* Main Title Styling */
+.modal-title {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.modal-description {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #4a5568;
+  line-height: 1.7;
+  font-size: 1rem;
+  white-space: pre-line;
+}
+
+/* -----------------------------------------------
+   Modal Body Layout
+-------------------------------------------------*/
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  min-height: 30vh;
+  padding: 1.5rem;
+}
+
+/* Two-column wrapper */
+.columns-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Left Column: Media */
+.media-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-height: 60vh;
+
+  img,
+  video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    cursor: zoom-in;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+/* Right Column: Details / Scrollable Text */
+.details-column {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.modal-details-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  line-height: 1.7;
+  color: #4a5568;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  white-space: pre-line;
+  /* --- CUSTOM SCROLLBAR --- */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #58645a;
+    border-radius: 10px;
+    border: 1px solid #f0f2ef;
+  }
+}
+
+/* -----------------------------------------------
+   Media Navigation (Bottom Row)
+-------------------------------------------------*/
+.media-navigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 0.75rem;
+  flex-shrink: 0;
+  color: #4a5568;
+
+  .nav-button {
+    color: #198754;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+    &:hover {
+      color: color.adjust(#198754, $lightness: -10%);
+    }
+  }
+}
+
+/* Generic clickable media cursor */
+.project-media-clickable {
+  cursor: zoom-in;
+}
+
+.read-more-link {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: $text-color;
+  text-decoration: none;
+  position: relative;
+
+  // Creates an underline that appears on hover
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: $primary-color;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}

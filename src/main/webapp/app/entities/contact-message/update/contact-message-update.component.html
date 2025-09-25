@@ -1,0 +1,124 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-contact-message-heading"
+        data-cy="ContactMessageCreateUpdateHeading"
+        jhiTranslate="zsWebsiteApp.contactMessage.home.createOrEditLabel"
+      >
+        Create or edit a Contact Message
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.contactMessage.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let visitorNameRef = editForm.get('visitorName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_visitorName" jhiTranslate="zsWebsiteApp.contactMessage.visitorName">Visitor Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="visitorName"
+            id="field_visitorName"
+            data-cy="visitorName"
+            formControlName="visitorName"
+          />
+          @if (visitorNameRef.invalid && (visitorNameRef.dirty || visitorNameRef.touched)) {
+            <div>
+              @if (editForm.get('visitorName')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let visitorEmailRef = editForm.get('visitorEmail')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_visitorEmail" jhiTranslate="zsWebsiteApp.contactMessage.visitorEmail">Visitor Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="visitorEmail"
+            id="field_visitorEmail"
+            data-cy="visitorEmail"
+            formControlName="visitorEmail"
+          />
+          @if (visitorEmailRef.invalid && (visitorEmailRef.dirty || visitorEmailRef.touched)) {
+            <div>
+              @if (editForm.get('visitorEmail')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let messageRef = editForm.get('message')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_message" jhiTranslate="zsWebsiteApp.contactMessage.message">Message</label>
+          <textarea class="form-control" name="message" id="field_message" data-cy="message" formControlName="message"></textarea>
+          @if (messageRef.invalid && (messageRef.dirty || messageRef.touched)) {
+            <div>
+              @if (editForm.get('message')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let submittedDateRef = editForm.get('submittedDate')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_submittedDate" jhiTranslate="zsWebsiteApp.contactMessage.submittedDate"
+            >Submitted Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_submittedDate"
+              data-cy="submittedDate"
+              type="datetime-local"
+              class="form-control"
+              name="submittedDate"
+              formControlName="submittedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (submittedDateRef.invalid && (submittedDateRef.dirty || submittedDateRef.touched)) {
+            <div>
+              @if (editForm.get('submittedDate')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('submittedDate')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

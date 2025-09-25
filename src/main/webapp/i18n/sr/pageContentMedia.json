@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "pageContentMedia": {
+      "home": {
+        "title": "Page Content Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Page Content Media",
+        "createOrEditLabel": "Kreirajte ili izmenite Page Content Media",
+        "notFound": "No Page Content Medias found"
+      },
+      "created": "Kreiran je novi Page Content Media pod nazivom {{ param }}",
+      "updated": "Page Content Media pod nazivom {{ param }} je ažuriran",
+      "deleted": "Page Content Media pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Page Content Media pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Page Content Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "pageContentMediaType": "Page Content Media Type",
+      "caption": "Caption",
+      "pagecontent": "Pagecontent"
+    }
+  }
+}

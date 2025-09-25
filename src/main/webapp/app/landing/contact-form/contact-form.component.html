@@ -1,0 +1,83 @@
+<div class="container my-5 py-5">
+  <div class="row justify-content-center">
+    <!-- Left Column: Headings & Form -->
+    <div class="col-lg-7 mb-5 mb-lg-0">
+      <div class="form-header mb-5">
+        <p class="sub-heading" jhiTranslate="landing.contactSubheading"></p>
+        <h2 class="main-heading" jhiTranslate="landing.contactTitle"></h2>
+      </div>
+      <form [formGroup]="editForm" (ngSubmit)="submit(successModal)" novalidate>
+        <!-- Name Input -->
+        <div class="form-group mb-4">
+          <label for="field_visitorName" class="form-label" jhiTranslate="landing.formName"></label>
+          <input type="text" class="form-control" id="field_visitorName" formControlName="visitorName" />
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group mb-4">
+          <label for="field_visitorEmail" class="form-label" jhiTranslate="landing.formEmail"></label>
+          <input type="email" class="form-control" id="field_visitorEmail" formControlName="visitorEmail" />
+        </div>
+
+        <!-- Message Textarea -->
+        <div class="form-group mb-4">
+          <label for="field_message" class="form-label" jhiTranslate="landing.formMessage"></label>
+          <textarea class="form-control" id="field_message" formControlName="message" rows="6"></textarea>
+        </div>
+
+        <div *ngIf="profanityError" class="alert alert-warning mt-2">
+          <span jhiTranslate="landing.formProfanityWarning"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-submit-green btn-lg w-100" [disabled]="isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span jhiTranslate="landing.formSubmit"></span>
+        </button>
+
+        <div *ngIf="isError" class="alert alert-danger mt-4">
+          <span jhiTranslate="landing.formError"></span>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Contact Info Box -->
+    <div class="col-lg-5">
+      <div class="contact-info-box">
+        <div class="info-item">
+          <strong jhiTranslate="landing.contactEmailTitle"></strong>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=zstepanoski@gmail.com" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-envelope"></i>
+            <span>zstepanoski&#64;gmail.com</span>
+          </a>
+        </div>
+        <div class="info-item">
+          <strong jhiTranslate="landing.contactAddressTitle"></strong>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=+17.+Oktobra+14,+Smederevo,+Serbia"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fas fa-map-marker-alt"></i>
+            <span>17. Oktobra 14, Smederevo, Republic of Serbia</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Angular-native modal -->
+<ng-template #successModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" jhiTranslate="landing.modalSuccessTitle"></h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body text-center">
+    <i class="fas fa-check-circle success-icon mb-3"></i>
+    <p jhiTranslate="landing.formSuccess"></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()" jhiTranslate="landing.modalClose"></button>
+  </div>
+</ng-template>

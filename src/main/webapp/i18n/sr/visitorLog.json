@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "visitorLog": {
+      "home": {
+        "title": "Visitor Logs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Visitor Log",
+        "createOrEditLabel": "Kreirajte ili izmenite Visitor Log",
+        "notFound": "No Visitor Logs found"
+      },
+      "created": "Kreiran je novi Visitor Log pod nazivom {{ param }}",
+      "updated": "Visitor Log pod nazivom {{ param }} je ažuriran",
+      "deleted": "Visitor Log pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Visitor Log pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Visitor Log"
+      },
+      "id": "ID",
+      "ipAddress": "Ip Address",
+      "pageVisited": "Page Visited",
+      "userAgent": "User Agent",
+      "visitTimestamp": "Visit Timestamp"
+    }
+  }
+}

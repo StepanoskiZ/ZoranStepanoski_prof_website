@@ -1,0 +1,33 @@
+import { Component, inject, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import SharedModule from 'app/shared/shared.module';
+import { FormatMediumDatePipe } from 'app/shared/date';
+import { DataUtils } from 'app/core/util/data-util.service';
+import { IProject } from '../project.model';
+import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
+import { AlertComponent } from 'app/shared/alert/alert.component';
+import { TranslateDirective } from 'app/shared/language';
+
+@Component({
+  selector: 'jhi-project-detail',
+  templateUrl: './project-detail.component.html',
+  imports: [TranslateDirective, AlertComponent, AlertErrorComponent, SharedModule, RouterModule, FormatMediumDatePipe],
+})
+export class ProjectDetailComponent {
+  project = input<IProject | null>(null);
+
+  protected dataUtils = inject(DataUtils);
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    this.dataUtils.openFile(base64String, contentType);
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+}

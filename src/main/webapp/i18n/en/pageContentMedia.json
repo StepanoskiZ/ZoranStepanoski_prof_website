@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "pageContentMedia": {
+      "home": {
+        "title": "Page Content Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Page Content Media",
+        "createOrEditLabel": "Create or edit a Page Content Media",
+        "notFound": "No Page Content Medias found"
+      },
+      "created": "A new Page Content Media is created with identifier {{ param }}",
+      "updated": "A Page Content Media is updated with identifier {{ param }}",
+      "deleted": "A Page Content Media is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Page Content Media {{ id }}?"
+      },
+      "detail": {
+        "title": "Page Content Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "pageContentMediaType": "Page Content Media Type",
+      "caption": "Caption",
+      "pagecontent": "Pagecontent"
+    }
+  }
+}

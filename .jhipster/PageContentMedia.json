@@ -1,0 +1,38 @@
+{
+  "annotations": {
+    "changelogDate": "20250924022053"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "mediaUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "pageContentMediaType",
+      "fieldType": "UnifiedMediaType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IMAGE,VIDEO"
+    },
+    {
+      "fieldName": "caption",
+      "fieldType": "String"
+    }
+  ],
+  "name": "PageContentMedia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "sectionKey",
+      "otherEntityName": "pageContent",
+      "otherEntityRelationshipName": "media",
+      "relationshipName": "pagecontent",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

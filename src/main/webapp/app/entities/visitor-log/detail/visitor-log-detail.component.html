@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (visitorLog(); as visitorLogRef) {
+      <div>
+        <h2 data-cy="visitorLogDetailsHeading"><span jhiTranslate="zsWebsiteApp.visitorLog.detail.title">Visitor Log</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ visitorLogRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.visitorLog.ipAddress">Ip Address</span></dt>
+          <dd>
+            <span>{{ visitorLogRef.ipAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.visitorLog.pageVisited">Page Visited</span></dt>
+          <dd>
+            <span>{{ visitorLogRef.pageVisited }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.visitorLog.userAgent">User Agent</span></dt>
+          <dd>
+            <span>{{ visitorLogRef.userAgent }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.visitorLog.visitTimestamp">Visit Timestamp</span></dt>
+          <dd>
+            <span>{{ visitorLogRef.visitTimestamp | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/visitor-log', visitorLogRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

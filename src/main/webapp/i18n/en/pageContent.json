@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "pageContent": {
+      "home": {
+        "title": "Page Contents",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Page Content",
+        "createOrEditLabel": "Create or edit a Page Content",
+        "notFound": "No Page Contents found"
+      },
+      "created": "A new Page Content is created with identifier {{ param }}",
+      "updated": "A Page Content is updated with identifier {{ param }}",
+      "deleted": "A Page Content is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Page Content {{ id }}?"
+      },
+      "detail": {
+        "title": "Page Content"
+      },
+      "id": "ID",
+      "sectionKey": "Section Key",
+      "contentHtml": "Content Html",
+      "media": "Media"
+    }
+  }
+}

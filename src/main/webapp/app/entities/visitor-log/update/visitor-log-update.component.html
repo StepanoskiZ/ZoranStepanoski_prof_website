@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-visitor-log-heading"
+        data-cy="VisitorLogCreateUpdateHeading"
+        jhiTranslate="zsWebsiteApp.visitorLog.home.createOrEditLabel"
+      >
+        Create or edit a Visitor Log
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.visitorLog.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_ipAddress" jhiTranslate="zsWebsiteApp.visitorLog.ipAddress">Ip Address</label>
+          <input type="text" class="form-control" name="ipAddress" id="field_ipAddress" data-cy="ipAddress" formControlName="ipAddress" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_pageVisited" jhiTranslate="zsWebsiteApp.visitorLog.pageVisited">Page Visited</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pageVisited"
+            id="field_pageVisited"
+            data-cy="pageVisited"
+            formControlName="pageVisited"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_userAgent" jhiTranslate="zsWebsiteApp.visitorLog.userAgent">User Agent</label>
+          <input type="text" class="form-control" name="userAgent" id="field_userAgent" data-cy="userAgent" formControlName="userAgent" />
+        </div>
+
+        @let visitTimestampRef = editForm.get('visitTimestamp')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_visitTimestamp" jhiTranslate="zsWebsiteApp.visitorLog.visitTimestamp">Visit Timestamp</label>
+          <div class="d-flex">
+            <input
+              id="field_visitTimestamp"
+              data-cy="visitTimestamp"
+              type="datetime-local"
+              class="form-control"
+              name="visitTimestamp"
+              formControlName="visitTimestamp"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (visitTimestampRef.invalid && (visitTimestampRef.dirty || visitTimestampRef.touched)) {
+            <div>
+              @if (editForm.get('visitTimestamp')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('visitTimestamp')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (pageContentMedia(); as pageContentMediaRef) {
+      <div>
+        <h2 data-cy="pageContentMediaDetailsHeading">
+          <span jhiTranslate="zsWebsiteApp.pageContentMedia.detail.title">Page Content Media</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ pageContentMediaRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ pageContentMediaRef.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.pageContentMediaType">Page Content Media Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'zsWebsiteApp.UnifiedMediaType.' + (pageContentMediaRef.pageContentMediaType ?? 'null')">{{
+              { null: '', IMAGE: 'IMAGE', VIDEO: 'VIDEO' }[pageContentMediaRef.pageContentMediaType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ pageContentMediaRef.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.pagecontent">Pagecontent</span></dt>
+          <dd>
+            @if (pageContentMedia()!.pagecontent) {
+              <div>
+                <a [routerLink]="['/page-content', pageContentMedia()!.pagecontent?.id, 'view']">{{
+                  pageContentMediaRef.pagecontent?.sectionKey
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/page-content-media', pageContentMediaRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

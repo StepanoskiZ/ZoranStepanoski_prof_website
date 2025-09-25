@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "projectMedia": {
+      "home": {
+        "title": "Project Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Project Media",
+        "createOrEditLabel": "Kreirajte ili izmenite Project Media",
+        "notFound": "No Project Medias found"
+      },
+      "created": "Kreiran je novi Project Media pod nazivom {{ param }}",
+      "updated": "Project Media pod nazivom {{ param }} je ažuriran",
+      "deleted": "Project Media pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Project Media pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Project Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "projectMediaType": "Project Media Type",
+      "caption": "Caption",
+      "project": "Project"
+    }
+  }
+}

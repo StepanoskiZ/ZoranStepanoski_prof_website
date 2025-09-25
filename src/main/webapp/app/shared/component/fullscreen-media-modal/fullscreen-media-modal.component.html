@@ -1,0 +1,12 @@
+<div class="fullscreen-backdrop" (click)="close()">
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+
+  @if (mediaType === 'IMAGE') {
+    <img [src]="mediaUrl" [alt]="mediaAlt" class="fullscreen-media" />
+  } @else if (mediaType === 'VIDEO') {
+    <video class="fullscreen-media" controls autoplay muted loop (click)="$event.stopPropagation()">
+      <source [src]="mediaUrl" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  }
+</div>

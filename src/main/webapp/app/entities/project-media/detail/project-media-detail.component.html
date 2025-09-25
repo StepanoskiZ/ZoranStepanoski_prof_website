@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (projectMedia(); as projectMediaRef) {
+      <div>
+        <h2 data-cy="projectMediaDetailsHeading"><span jhiTranslate="zsWebsiteApp.projectMedia.detail.title">Project Media</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ projectMediaRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ projectMediaRef.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.projectMediaType">Project Media Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'zsWebsiteApp.UnifiedMediaType.' + (projectMediaRef.projectMediaType ?? 'null')">{{
+              { null: '', IMAGE: 'IMAGE', VIDEO: 'VIDEO' }[projectMediaRef.projectMediaType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ projectMediaRef.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.project">Project</span></dt>
+          <dd>
+            @if (projectMedia()!.project) {
+              <div>
+                <a [routerLink]="['/project', projectMedia()!.project?.id, 'view']">{{ projectMediaRef.project?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/project-media', projectMediaRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "pageContent": {
+      "home": {
+        "title": "Page Contents",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Page Content",
+        "createOrEditLabel": "Kreirajte ili izmenite Page Content",
+        "notFound": "No Page Contents found"
+      },
+      "created": "Kreiran je novi Page Content pod nazivom {{ param }}",
+      "updated": "Page Content pod nazivom {{ param }} je ažuriran",
+      "deleted": "Page Content pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Page Content pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Page Content"
+      },
+      "id": "ID",
+      "sectionKey": "Section Key",
+      "contentHtml": "Content Html",
+      "media": "Media"
+    }
+  }
+}

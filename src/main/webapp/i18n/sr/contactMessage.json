@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "contactMessage": {
+      "home": {
+        "title": "Contact Messages",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Contact Message",
+        "createOrEditLabel": "Kreirajte ili izmenite Contact Message",
+        "notFound": "No Contact Messages found"
+      },
+      "created": "Kreiran je novi Contact Message pod nazivom {{ param }}",
+      "updated": "Contact Message pod nazivom {{ param }} je ažuriran",
+      "deleted": "Contact Message pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Contact Message pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Message"
+      },
+      "id": "ID",
+      "visitorName": "Visitor Name",
+      "visitorEmail": "Visitor Email",
+      "message": "Message",
+      "submittedDate": "Submitted Date"
+    }
+  }
+}

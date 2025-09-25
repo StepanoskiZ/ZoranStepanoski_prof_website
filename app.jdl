@@ -1,0 +1,78 @@
+enum ProjectStatus {
+  COMPLETED, ONGOING
+}
+
+enum UnifiedMediaType {
+  IMAGE, VIDEO
+}
+
+entity PageContent {
+  sectionKey String required unique, // e.g., "about-me", "contact-info"
+  contentHtml TextBlob required
+}
+
+entity PageContentMedia  {
+  mediaUrl String required,
+  pageContentMediaType UnifiedMediaType required,
+  caption String
+}
+
+entity Project {
+  title String required,
+  description TextBlob required,
+  startDate LocalDate,
+  endDate LocalDate,
+  status ProjectStatus,
+  projectUrl String,
+  category String
+}
+
+entity ProjectMedia  {
+  mediaUrl String required, // Renamed from imageUrl
+  projectMediaType UnifiedMediaType required, // Added this new field
+  caption String
+}
+
+entity Skill {
+  name String required,
+  percentage Integer required min(0) max(100)
+}
+
+entity BusinessService {
+  title String required,
+  description String,
+  icon String
+}
+
+entity BlogPost {
+  title String required,
+  content TextBlob required,
+  imageUrl String,
+  publishedDate Instant required
+}
+
+entity ContactMessage {
+  visitorName String required,
+  visitorEmail String required,
+  message TextBlob required,
+  submittedDate Instant required
+}
+
+entity VisitorLog {
+  ipAddress String,
+  pageVisited String,
+  userAgent String,
+  visitTimestamp Instant required
+}
+
+relationship OneToMany {
+  Project{media(mediaUrl)} to ProjectMedia{project(title)}
+}
+
+relationship OneToMany {
+  PageContent{media(mediaUrl)} to PageContentMedia{pagecontent(sectionKey)}
+}
+
+paginate PageContent, PageContentMedia, Project, ProjectMedia, Skill, BusinessService, BlogPost, ContactMessage, VisitorLog with pagination
+dto * with mapstruct
+service all with serviceClass

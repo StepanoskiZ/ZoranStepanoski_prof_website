@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20250919193016"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "sectionKey",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "contentHtml",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "PageContent",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "mediaUrl",
+      "otherEntityName": "pageContentMedia",
+      "otherEntityRelationshipName": "pagecontent",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

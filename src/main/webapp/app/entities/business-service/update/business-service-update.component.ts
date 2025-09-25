@@ -1,0 +1,77 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { IBusinessService } from '../business-service.model';
+import { BusinessServiceService } from '../service/business-service.service';
+import { BusinessServiceFormGroup, BusinessServiceFormService } from './business-service-form.service';
+import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
+
+@Component({
+  selector: 'jhi-business-service-update',
+  templateUrl: './business-service-update.component.html',
+  imports: [AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+})
+export class BusinessServiceUpdateComponent implements OnInit {
+  isSaving = false;
+  businessService: IBusinessService | null = null;
+
+  protected businessServiceService = inject(BusinessServiceService);
+  protected businessServiceFormService = inject(BusinessServiceFormService);
+  protected activatedRoute = inject(ActivatedRoute);
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: BusinessServiceFormGroup = this.businessServiceFormService.createBusinessServiceFormGroup();
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ businessService }) => {
+      this.businessService = businessService;
+      if (businessService) {
+        this.updateForm(businessService);
+      }
+    });
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  save(): void {
+    this.isSaving = true;
+    const businessService = this.businessServiceFormService.getBusinessService(this.editForm);
+    if (businessService.id !== null) {
+      this.subscribeToSaveResponse(this.businessServiceService.update(businessService));
+    } else {
+      this.subscribeToSaveResponse(this.businessServiceService.create(businessService));
+    }
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBusinessService>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    this.previousState();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
+
+  protected updateForm(businessService: IBusinessService): void {
+    this.businessService = businessService;
+    this.businessServiceFormService.resetForm(this.editForm, businessService);
+  }
+}

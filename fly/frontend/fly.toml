@@ -1,0 +1,51 @@
+# fly/frontend/fly.toml
+
+# This is your existing, public-facing application
+app = 'zoranstepanoski-prof-website'
+primary_region = 'cdg'
+
+[depends_on]
+  app = "zoranstepanoski-prof-api"
+
+[build]
+  # Point to the correct Dockerfile for the frontend
+  dockerfile = "./Dockerfile.frontend"
+
+# This is the public-facing service.
+# It handles HTTPS and forwards traffic to our Nginx container.
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080 # Nginx is listening on port 8080 inside the container
+  processes = ["app"]
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0 # Change to 0 for free tier, or 1 for always-on
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+# The health check for Nginx is simpler. We just check if the root path is available.
+[[services.http_checks]]
+  interval = "15s"
+  timeout = "5s"
+  grace_period = "30s"
+  method = "get"
+  path = "/"
+  protocol = "http"
+
+# Use much smaller resources for a static web server
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

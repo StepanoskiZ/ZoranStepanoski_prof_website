@@ -13,7 +13,7 @@ import { AlertErrorComponent } from '../../../shared/alert/alert-error.component
   templateUrl: './password-reset-init.component.html',
 })
 export default class PasswordResetInitComponent implements AfterViewInit {
-  email = viewChild.required<ElementRef>('email');
+  email = viewChild<ElementRef>('email');
 
   success = signal(false);
   resetRequestForm;
@@ -28,7 +28,11 @@ export default class PasswordResetInitComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.email().nativeElement.focus();
+    // --- FIX #2: Add a safety check before using the element ---
+    const emailEl = this.email();
+    if (emailEl) {
+      emailEl.nativeElement.focus();
+    }
   }
 
   requestReset(): void {

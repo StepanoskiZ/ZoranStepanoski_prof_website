@@ -59,8 +59,8 @@ local.properties
 Prod_details.txt
 classes/
 out/
-src/test/
-src/test/*
+#src/test/
+#src/test/*
 package-lock.json
 
 ######################

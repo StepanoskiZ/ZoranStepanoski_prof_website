@@ -33,7 +33,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/projects")
 public class ProjectResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProjectResource.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
     private static final String ENTITY_NAME = "project";
 
     @Value("${jhipster.clientApp.name}")
@@ -56,7 +56,7 @@ public class ProjectResource {
      */
     @PostMapping("")
     public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
-        LOG.debug("REST request to save Project : {}", projectDTO);
+        log.debug("REST request to save Project : {}", projectDTO);
         if (projectDTO.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -81,7 +81,7 @@ public class ProjectResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ProjectDTO projectDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update Project : {}, {}", id, projectDTO);
+        log.debug("REST request to update Project : {}, {}", id, projectDTO);
         if (projectDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -115,7 +115,7 @@ public class ProjectResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ProjectDTO projectDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update Project partially : {}, {}", id, projectDTO);
+        log.debug("REST request to partial update Project partially : {}, {}", id, projectDTO);
         if (projectDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -143,7 +143,7 @@ public class ProjectResource {
      */
     @GetMapping("")
     public ResponseEntity<List<ProjectDTO>> getAllProjects(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Projects");
+        log.debug("REST request to get a page of Projects");
         Page<ProjectDTO> page = projectService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -157,7 +157,7 @@ public class ProjectResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO> getProject(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get Project : {}", id);
+        log.debug("REST request to get Project : {}", id);
         Optional<ProjectDTO> projectDTO = projectService.findOne(id);
         return ResponseUtil.wrapOrNotFound(projectDTO);
     }
@@ -170,7 +170,7 @@ public class ProjectResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete Project : {}", id);
+        log.debug("REST request to delete Project : {}", id);
         projectService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
@@ -184,7 +184,7 @@ public class ProjectResource {
      */
     @GetMapping("/cards")
     public ResponseEntity<List<ProjectCardDTO>> getAllProjectCards() {
-        LOG.debug("REST request to get all Project cards for landing page");
+        log.debug("REST request to get all Project cards for landing page");
         List<ProjectCardDTO> cards = projectService.findAllForLandingPage();
         return ResponseEntity.ok().body(cards);
     }
@@ -197,7 +197,7 @@ public class ProjectResource {
      */
     @GetMapping("/{id}/details")
     public ResponseEntity<ProjectDetailDTO> getProjectDetails(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get detailed Project : {}", id);
+        log.debug("REST request to get detailed Project : {}", id);
         Optional<ProjectDetailDTO> projectDetailDTO = projectService.findOneWithDetails(id);
         return ResponseUtil.wrapOrNotFound(projectDetailDTO);
     }

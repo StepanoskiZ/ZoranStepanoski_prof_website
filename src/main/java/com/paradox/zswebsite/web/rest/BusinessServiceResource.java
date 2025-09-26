@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/business-services")
 public class BusinessServiceResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BusinessServiceResource.class);
+    private final Logger log = LoggerFactory.getLogger(BusinessServiceResource.class);
 
     private static final String ENTITY_NAME = "businessService";
 
@@ -57,7 +57,7 @@ public class BusinessServiceResource {
     @PostMapping("")
     public ResponseEntity<BusinessServiceDTO> createBusinessService(@Valid @RequestBody BusinessServiceDTO businessServiceDTO)
         throws URISyntaxException {
-        LOG.debug("REST request to save BusinessService : {}", businessServiceDTO);
+        log.debug("REST request to save BusinessService : {}", businessServiceDTO);
         if (businessServiceDTO.getId() != null) {
             throw new BadRequestAlertException("A new businessService cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -82,7 +82,7 @@ public class BusinessServiceResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody BusinessServiceDTO businessServiceDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update BusinessService : {}, {}", id, businessServiceDTO);
+        log.debug("REST request to update BusinessService : {}, {}", id, businessServiceDTO);
         if (businessServiceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -116,7 +116,7 @@ public class BusinessServiceResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BusinessServiceDTO businessServiceDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update BusinessService partially : {}, {}", id, businessServiceDTO);
+        log.debug("REST request to partial update BusinessService partially : {}, {}", id, businessServiceDTO);
         if (businessServiceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -146,7 +146,7 @@ public class BusinessServiceResource {
     public ResponseEntity<List<BusinessServiceDTO>> getAllBusinessServices(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
-        LOG.debug("REST request to get a page of BusinessServices");
+        log.debug("REST request to get a page of BusinessServices");
         Page<BusinessServiceDTO> page = businessServiceService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -160,7 +160,7 @@ public class BusinessServiceResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BusinessServiceDTO> getBusinessService(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get BusinessService : {}", id);
+        log.debug("REST request to get BusinessService : {}", id);
         Optional<BusinessServiceDTO> businessServiceDTO = businessServiceService.findOne(id);
         return ResponseUtil.wrapOrNotFound(businessServiceDTO);
     }
@@ -173,7 +173,7 @@ public class BusinessServiceResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBusinessService(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete BusinessService : {}", id);
+        log.debug("REST request to delete BusinessService : {}", id);
         businessServiceService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

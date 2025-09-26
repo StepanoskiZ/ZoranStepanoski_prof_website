@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BusinessServiceService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BusinessServiceService.class);
+    private final Logger log = LoggerFactory.getLogger(BusinessServiceService.class);
 
     private final BusinessServiceRepository businessServiceRepository;
 
@@ -37,7 +37,7 @@ public class BusinessServiceService {
      * @return the persisted entity.
      */
     public BusinessServiceDTO save(BusinessServiceDTO businessServiceDTO) {
-        LOG.debug("Request to save BusinessService : {}", businessServiceDTO);
+        log.debug("Request to save BusinessService : {}", businessServiceDTO);
         BusinessService businessService = businessServiceMapper.toEntity(businessServiceDTO);
         businessService = businessServiceRepository.save(businessService);
         return businessServiceMapper.toDto(businessService);
@@ -50,7 +50,7 @@ public class BusinessServiceService {
      * @return the persisted entity.
      */
     public BusinessServiceDTO update(BusinessServiceDTO businessServiceDTO) {
-        LOG.debug("Request to update BusinessService : {}", businessServiceDTO);
+        log.debug("Request to update BusinessService : {}", businessServiceDTO);
         BusinessService businessService = businessServiceMapper.toEntity(businessServiceDTO);
         businessService = businessServiceRepository.save(businessService);
         return businessServiceMapper.toDto(businessService);
@@ -63,7 +63,7 @@ public class BusinessServiceService {
      * @return the persisted entity.
      */
     public Optional<BusinessServiceDTO> partialUpdate(BusinessServiceDTO businessServiceDTO) {
-        LOG.debug("Request to partially update BusinessService : {}", businessServiceDTO);
+        log.debug("Request to partially update BusinessService : {}", businessServiceDTO);
 
         return businessServiceRepository
             .findById(businessServiceDTO.getId())
@@ -84,7 +84,7 @@ public class BusinessServiceService {
      */
     @Transactional(readOnly = true)
     public Page<BusinessServiceDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all BusinessServices");
+        log.debug("Request to get all BusinessServices");
         return businessServiceRepository.findAll(pageable).map(businessServiceMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class BusinessServiceService {
      */
     @Transactional(readOnly = true)
     public Optional<BusinessServiceDTO> findOne(Long id) {
-        LOG.debug("Request to get BusinessService : {}", id);
+        log.debug("Request to get BusinessService : {}", id);
         return businessServiceRepository.findById(id).map(businessServiceMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class BusinessServiceService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete BusinessService : {}", id);
+        log.debug("Request to delete BusinessService : {}", id);
         businessServiceRepository.deleteById(id);
     }
 }

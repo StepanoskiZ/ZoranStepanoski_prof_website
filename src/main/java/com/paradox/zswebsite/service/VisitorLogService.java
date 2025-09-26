@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class VisitorLogService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VisitorLogService.class);
+    private final Logger log = LoggerFactory.getLogger(VisitorLogService.class);
 
     private final VisitorLogRepository visitorLogRepository;
 
@@ -37,7 +37,7 @@ public class VisitorLogService {
      * @return the persisted entity.
      */
     public VisitorLogDTO save(VisitorLogDTO visitorLogDTO) {
-        LOG.debug("Request to save VisitorLog : {}", visitorLogDTO);
+        log.debug("Request to save VisitorLog : {}", visitorLogDTO);
         VisitorLog visitorLog = visitorLogMapper.toEntity(visitorLogDTO);
         visitorLog = visitorLogRepository.save(visitorLog);
         return visitorLogMapper.toDto(visitorLog);
@@ -50,7 +50,7 @@ public class VisitorLogService {
      * @return the persisted entity.
      */
     public VisitorLogDTO update(VisitorLogDTO visitorLogDTO) {
-        LOG.debug("Request to update VisitorLog : {}", visitorLogDTO);
+        log.debug("Request to update VisitorLog : {}", visitorLogDTO);
         VisitorLog visitorLog = visitorLogMapper.toEntity(visitorLogDTO);
         visitorLog = visitorLogRepository.save(visitorLog);
         return visitorLogMapper.toDto(visitorLog);
@@ -63,7 +63,7 @@ public class VisitorLogService {
      * @return the persisted entity.
      */
     public Optional<VisitorLogDTO> partialUpdate(VisitorLogDTO visitorLogDTO) {
-        LOG.debug("Request to partially update VisitorLog : {}", visitorLogDTO);
+        log.debug("Request to partially update VisitorLog : {}", visitorLogDTO);
 
         return visitorLogRepository
             .findById(visitorLogDTO.getId())
@@ -84,7 +84,7 @@ public class VisitorLogService {
      */
     @Transactional(readOnly = true)
     public Page<VisitorLogDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all VisitorLogs");
+        log.debug("Request to get all VisitorLogs");
         return visitorLogRepository.findAll(pageable).map(visitorLogMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class VisitorLogService {
      */
     @Transactional(readOnly = true)
     public Optional<VisitorLogDTO> findOne(Long id) {
-        LOG.debug("Request to get VisitorLog : {}", id);
+        log.debug("Request to get VisitorLog : {}", id);
         return visitorLogRepository.findById(id).map(visitorLogMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class VisitorLogService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete VisitorLog : {}", id);
+        log.debug("Request to delete VisitorLog : {}", id);
         visitorLogRepository.deleteById(id);
     }
 }

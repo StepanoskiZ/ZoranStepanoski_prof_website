@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BlogPostService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BlogPostService.class);
+    private final Logger log = LoggerFactory.getLogger(BlogPostService.class);
 
     private final BlogPostRepository blogPostRepository;
 
@@ -37,7 +37,7 @@ public class BlogPostService {
      * @return the persisted entity.
      */
     public BlogPostDTO save(BlogPostDTO blogPostDTO) {
-        LOG.debug("Request to save BlogPost : {}", blogPostDTO);
+        log.debug("Request to save BlogPost : {}", blogPostDTO);
         BlogPost blogPost = blogPostMapper.toEntity(blogPostDTO);
         blogPost = blogPostRepository.save(blogPost);
         return blogPostMapper.toDto(blogPost);
@@ -50,7 +50,7 @@ public class BlogPostService {
      * @return the persisted entity.
      */
     public BlogPostDTO update(BlogPostDTO blogPostDTO) {
-        LOG.debug("Request to update BlogPost : {}", blogPostDTO);
+        log.debug("Request to update BlogPost : {}", blogPostDTO);
         BlogPost blogPost = blogPostMapper.toEntity(blogPostDTO);
         blogPost = blogPostRepository.save(blogPost);
         return blogPostMapper.toDto(blogPost);
@@ -63,7 +63,7 @@ public class BlogPostService {
      * @return the persisted entity.
      */
     public Optional<BlogPostDTO> partialUpdate(BlogPostDTO blogPostDTO) {
-        LOG.debug("Request to partially update BlogPost : {}", blogPostDTO);
+        log.debug("Request to partially update BlogPost : {}", blogPostDTO);
 
         return blogPostRepository
             .findById(blogPostDTO.getId())
@@ -84,7 +84,7 @@ public class BlogPostService {
      */
     @Transactional(readOnly = true)
     public Page<BlogPostDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all BlogPosts");
+        log.debug("Request to get all BlogPosts");
         return blogPostRepository.findAll(pageable).map(blogPostMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class BlogPostService {
      */
     @Transactional(readOnly = true)
     public Optional<BlogPostDTO> findOne(Long id) {
-        LOG.debug("Request to get BlogPost : {}", id);
+        log.debug("Request to get BlogPost : {}", id);
         return blogPostRepository.findById(id).map(blogPostMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class BlogPostService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete BlogPost : {}", id);
+        log.debug("Request to delete BlogPost : {}", id);
         blogPostRepository.deleteById(id);
     }
 }

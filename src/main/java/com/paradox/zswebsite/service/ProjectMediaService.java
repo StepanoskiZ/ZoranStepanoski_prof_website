@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProjectMediaService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProjectMediaService.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectMediaService.class);
 
     private final ProjectMediaRepository projectMediaRepository;
 
@@ -37,7 +37,7 @@ public class ProjectMediaService {
      * @return the persisted entity.
      */
     public ProjectMediaDTO save(ProjectMediaDTO projectMediaDTO) {
-        LOG.debug("Request to save ProjectMedia : {}", projectMediaDTO);
+        log.debug("Request to save ProjectMedia : {}", projectMediaDTO);
         ProjectMedia projectMedia = projectMediaMapper.toEntity(projectMediaDTO);
         projectMedia = projectMediaRepository.save(projectMedia);
         return projectMediaMapper.toDto(projectMedia);
@@ -50,7 +50,7 @@ public class ProjectMediaService {
      * @return the persisted entity.
      */
     public ProjectMediaDTO update(ProjectMediaDTO projectMediaDTO) {
-        LOG.debug("Request to update ProjectMedia : {}", projectMediaDTO);
+        log.debug("Request to update ProjectMedia : {}", projectMediaDTO);
         ProjectMedia projectMedia = projectMediaMapper.toEntity(projectMediaDTO);
         projectMedia = projectMediaRepository.save(projectMedia);
         return projectMediaMapper.toDto(projectMedia);
@@ -63,7 +63,7 @@ public class ProjectMediaService {
      * @return the persisted entity.
      */
     public Optional<ProjectMediaDTO> partialUpdate(ProjectMediaDTO projectMediaDTO) {
-        LOG.debug("Request to partially update ProjectMedia : {}", projectMediaDTO);
+        log.debug("Request to partially update ProjectMedia : {}", projectMediaDTO);
 
         return projectMediaRepository
             .findById(projectMediaDTO.getId())
@@ -84,7 +84,7 @@ public class ProjectMediaService {
      */
     @Transactional(readOnly = true)
     public Page<ProjectMediaDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all ProjectMedias");
+        log.debug("Request to get all ProjectMedias");
         return projectMediaRepository.findAll(pageable).map(projectMediaMapper::toDto);
     }
 
@@ -105,7 +105,7 @@ public class ProjectMediaService {
      */
     @Transactional(readOnly = true)
     public Optional<ProjectMediaDTO> findOne(Long id) {
-        LOG.debug("Request to get ProjectMedia : {}", id);
+        log.debug("Request to get ProjectMedia : {}", id);
         return projectMediaRepository.findOneWithEagerRelationships(id).map(projectMediaMapper::toDto);
     }
 
@@ -115,7 +115,7 @@ public class ProjectMediaService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete ProjectMedia : {}", id);
+        log.debug("Request to delete ProjectMedia : {}", id);
         projectMediaRepository.deleteById(id);
     }
 }

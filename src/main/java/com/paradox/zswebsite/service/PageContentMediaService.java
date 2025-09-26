@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PageContentMediaService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PageContentMediaService.class);
+    private final Logger log = LoggerFactory.getLogger(PageContentMediaService.class);
 
     private final PageContentMediaRepository pageContentMediaRepository;
 
@@ -37,7 +37,7 @@ public class PageContentMediaService {
      * @return the persisted entity.
      */
     public PageContentMediaDTO save(PageContentMediaDTO pageContentMediaDTO) {
-        LOG.debug("Request to save PageContentMedia : {}", pageContentMediaDTO);
+        log.debug("Request to save PageContentMedia : {}", pageContentMediaDTO);
         PageContentMedia pageContentMedia = pageContentMediaMapper.toEntity(pageContentMediaDTO);
         pageContentMedia = pageContentMediaRepository.save(pageContentMedia);
         return pageContentMediaMapper.toDto(pageContentMedia);
@@ -50,7 +50,7 @@ public class PageContentMediaService {
      * @return the persisted entity.
      */
     public PageContentMediaDTO update(PageContentMediaDTO pageContentMediaDTO) {
-        LOG.debug("Request to update PageContentMedia : {}", pageContentMediaDTO);
+        log.debug("Request to update PageContentMedia : {}", pageContentMediaDTO);
         PageContentMedia pageContentMedia = pageContentMediaMapper.toEntity(pageContentMediaDTO);
         pageContentMedia = pageContentMediaRepository.save(pageContentMedia);
         return pageContentMediaMapper.toDto(pageContentMedia);
@@ -63,7 +63,7 @@ public class PageContentMediaService {
      * @return the persisted entity.
      */
     public Optional<PageContentMediaDTO> partialUpdate(PageContentMediaDTO pageContentMediaDTO) {
-        LOG.debug("Request to partially update PageContentMedia : {}", pageContentMediaDTO);
+        log.debug("Request to partially update PageContentMedia : {}", pageContentMediaDTO);
 
         return pageContentMediaRepository
             .findById(pageContentMediaDTO.getId())
@@ -84,7 +84,7 @@ public class PageContentMediaService {
      */
     @Transactional(readOnly = true)
     public Page<PageContentMediaDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all PageContentMedias");
+        log.debug("Request to get all PageContentMedias");
         return pageContentMediaRepository.findAll(pageable).map(pageContentMediaMapper::toDto);
     }
 
@@ -105,7 +105,7 @@ public class PageContentMediaService {
      */
     @Transactional(readOnly = true)
     public Optional<PageContentMediaDTO> findOne(Long id) {
-        LOG.debug("Request to get PageContentMedia : {}", id);
+        log.debug("Request to get PageContentMedia : {}", id);
         return pageContentMediaRepository.findOneWithEagerRelationships(id).map(pageContentMediaMapper::toDto);
     }
 
@@ -115,7 +115,7 @@ public class PageContentMediaService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete PageContentMedia : {}", id);
+        log.debug("Request to delete PageContentMedia : {}", id);
         pageContentMediaRepository.deleteById(id);
     }
 }

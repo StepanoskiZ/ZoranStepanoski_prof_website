@@ -34,7 +34,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/contact-messages")
 public class ContactMessageResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContactMessageResource.class);
+    private final Logger log = LoggerFactory.getLogger(ContactMessageResource.class);
     private static final String ENTITY_NAME = "contactMessage";
 
     @Value("${jhipster.clientApp.name}")
@@ -64,13 +64,13 @@ public class ContactMessageResource {
     @PostMapping("")
     public ResponseEntity<ContactMessageDTO> createContactMessage(@Valid @RequestBody ContactMessageDTO contactMessageDTO)
         throws URISyntaxException {
-        LOG.debug("REST request to save ContactMessage : {}", contactMessageDTO);
+        log.debug("REST request to save ContactMessage : {}", contactMessageDTO);
         if (contactMessageDTO.getId() != null) {
             throw new BadRequestAlertException("A new contactMessage cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ContactMessageDTO result = contactMessageService.save(contactMessageDTO);
         if (result != null) {
-            LOG.debug("Contact message saved. Sending notification email.");
+            log.debug("Contact message saved. Sending notification email.");
             emailService.sendContactFormEmail(result); // Use the saved result DTO
         }
         return ResponseEntity.created(new URI("/api/contact-messages/" + result.getId()))
@@ -93,7 +93,7 @@ public class ContactMessageResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ContactMessageDTO contactMessageDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update ContactMessage : {}, {}", id, contactMessageDTO);
+        log.debug("REST request to update ContactMessage : {}, {}", id, contactMessageDTO);
         if (contactMessageDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -127,7 +127,7 @@ public class ContactMessageResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ContactMessageDTO contactMessageDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update ContactMessage partially : {}, {}", id, contactMessageDTO);
+        log.debug("REST request to partial update ContactMessage partially : {}, {}", id, contactMessageDTO);
         if (contactMessageDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -157,7 +157,7 @@ public class ContactMessageResource {
     public ResponseEntity<List<ContactMessageDTO>> getAllContactMessages(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
-        LOG.debug("REST request to get a page of ContactMessages");
+        log.debug("REST request to get a page of ContactMessages");
         Page<ContactMessageDTO> page = contactMessageService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -171,7 +171,7 @@ public class ContactMessageResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ContactMessageDTO> getContactMessage(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get ContactMessage : {}", id);
+        log.debug("REST request to get ContactMessage : {}", id);
         Optional<ContactMessageDTO> contactMessageDTO = contactMessageService.findOne(id);
         return ResponseUtil.wrapOrNotFound(contactMessageDTO);
     }
@@ -184,7 +184,7 @@ public class ContactMessageResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContactMessage(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete ContactMessage : {}", id);
+        log.debug("REST request to delete ContactMessage : {}", id);
         contactMessageService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

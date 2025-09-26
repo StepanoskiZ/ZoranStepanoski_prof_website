@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PageContentService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PageContentService.class);
+    private final Logger log = LoggerFactory.getLogger(PageContentService.class);
 
     private final PageContentRepository pageContentRepository;
 
@@ -37,7 +37,7 @@ public class PageContentService {
      * @return the persisted entity.
      */
     public PageContentDTO save(PageContentDTO pageContentDTO) {
-        LOG.debug("Request to save PageContent : {}", pageContentDTO);
+        log.debug("Request to save PageContent : {}", pageContentDTO);
         PageContent pageContent = pageContentMapper.toEntity(pageContentDTO);
         pageContent = pageContentRepository.save(pageContent);
         return pageContentMapper.toDto(pageContent);
@@ -50,7 +50,7 @@ public class PageContentService {
      * @return the persisted entity.
      */
     public PageContentDTO update(PageContentDTO pageContentDTO) {
-        LOG.debug("Request to update PageContent : {}", pageContentDTO);
+        log.debug("Request to update PageContent : {}", pageContentDTO);
         PageContent pageContent = pageContentMapper.toEntity(pageContentDTO);
         pageContent = pageContentRepository.save(pageContent);
         return pageContentMapper.toDto(pageContent);
@@ -63,7 +63,7 @@ public class PageContentService {
      * @return the persisted entity.
      */
     public Optional<PageContentDTO> partialUpdate(PageContentDTO pageContentDTO) {
-        LOG.debug("Request to partially update PageContent : {}", pageContentDTO);
+        log.debug("Request to partially update PageContent : {}", pageContentDTO);
 
         return pageContentRepository
             .findById(pageContentDTO.getId())
@@ -84,7 +84,7 @@ public class PageContentService {
      */
     @Transactional(readOnly = true)
     public Page<PageContentDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all PageContents");
+        log.debug("Request to get all PageContents");
         return pageContentRepository.findAll(pageable).map(pageContentMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class PageContentService {
      */
     @Transactional(readOnly = true)
     public Optional<PageContentDTO> findOne(Long id) {
-        LOG.debug("Request to get PageContent : {}", id);
+        log.debug("Request to get PageContent : {}", id);
         return pageContentRepository.findById(id).map(pageContentMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class PageContentService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete PageContent : {}", id);
+        log.debug("Request to delete PageContent : {}", id);
         pageContentRepository.deleteById(id);
     }
 
@@ -118,7 +118,7 @@ public class PageContentService {
      */
     @Transactional(readOnly = true)
     public Optional<PageContentDTO> findOneBySectionKey(String sectionKey) {
-        LOG.debug("Request to get PageContent by sectionKey : {}", sectionKey);
+        log.debug("Request to get PageContent by sectionKey : {}", sectionKey);
         return pageContentRepository.findBySectionKey(sectionKey).map(pageContentMapper::toDto);
     }
 }

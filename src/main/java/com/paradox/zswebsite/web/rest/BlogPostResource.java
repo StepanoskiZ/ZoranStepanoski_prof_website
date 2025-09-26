@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/blog-posts")
 public class BlogPostResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BlogPostResource.class);
+    private final Logger log = LoggerFactory.getLogger(BlogPostResource.class);
 
     private static final String ENTITY_NAME = "blogPost";
 
@@ -56,7 +56,7 @@ public class BlogPostResource {
      */
     @PostMapping("")
     public ResponseEntity<BlogPostDTO> createBlogPost(@Valid @RequestBody BlogPostDTO blogPostDTO) throws URISyntaxException {
-        LOG.debug("REST request to save BlogPost : {}", blogPostDTO);
+        log.debug("REST request to save BlogPost : {}", blogPostDTO);
         if (blogPostDTO.getId() != null) {
             throw new BadRequestAlertException("A new blogPost cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -81,7 +81,7 @@ public class BlogPostResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody BlogPostDTO blogPostDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update BlogPost : {}, {}", id, blogPostDTO);
+        log.debug("REST request to update BlogPost : {}, {}", id, blogPostDTO);
         if (blogPostDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -115,7 +115,7 @@ public class BlogPostResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BlogPostDTO blogPostDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update BlogPost partially : {}, {}", id, blogPostDTO);
+        log.debug("REST request to partial update BlogPost partially : {}, {}", id, blogPostDTO);
         if (blogPostDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -143,7 +143,7 @@ public class BlogPostResource {
      */
     @GetMapping("")
     public ResponseEntity<List<BlogPostDTO>> getAllBlogPosts(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of BlogPosts");
+        log.debug("REST request to get a page of BlogPosts");
         Page<BlogPostDTO> page = blogPostService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -157,7 +157,7 @@ public class BlogPostResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BlogPostDTO> getBlogPost(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get BlogPost : {}", id);
+        log.debug("REST request to get BlogPost : {}", id);
         Optional<BlogPostDTO> blogPostDTO = blogPostService.findOne(id);
         return ResponseUtil.wrapOrNotFound(blogPostDTO);
     }
@@ -170,7 +170,7 @@ public class BlogPostResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlogPost(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete BlogPost : {}", id);
+        log.debug("REST request to delete BlogPost : {}", id);
         blogPostService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

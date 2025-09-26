@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/skills")
 public class SkillResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SkillResource.class);
+    private final Logger log = LoggerFactory.getLogger(SkillResource.class);
 
     private static final String ENTITY_NAME = "skill";
 
@@ -56,7 +56,7 @@ public class SkillResource {
      */
     @PostMapping("")
     public ResponseEntity<SkillDTO> createSkill(@Valid @RequestBody SkillDTO skillDTO) throws URISyntaxException {
-        LOG.debug("REST request to save Skill : {}", skillDTO);
+        log.debug("REST request to save Skill : {}", skillDTO);
         if (skillDTO.getId() != null) {
             throw new BadRequestAlertException("A new skill cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -81,7 +81,7 @@ public class SkillResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody SkillDTO skillDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update Skill : {}, {}", id, skillDTO);
+        log.debug("REST request to update Skill : {}, {}", id, skillDTO);
         if (skillDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -115,7 +115,7 @@ public class SkillResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody SkillDTO skillDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update Skill partially : {}, {}", id, skillDTO);
+        log.debug("REST request to partial update Skill partially : {}, {}", id, skillDTO);
         if (skillDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -143,7 +143,7 @@ public class SkillResource {
      */
     @GetMapping("")
     public ResponseEntity<List<SkillDTO>> getAllSkills(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Skills");
+        log.debug("REST request to get a page of Skills");
         Page<SkillDTO> page = skillService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -157,7 +157,7 @@ public class SkillResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<SkillDTO> getSkill(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get Skill : {}", id);
+        log.debug("REST request to get Skill : {}", id);
         Optional<SkillDTO> skillDTO = skillService.findOne(id);
         return ResponseUtil.wrapOrNotFound(skillDTO);
     }
@@ -170,7 +170,7 @@ public class SkillResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSkill(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete Skill : {}", id);
+        log.debug("REST request to delete Skill : {}", id);
         skillService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

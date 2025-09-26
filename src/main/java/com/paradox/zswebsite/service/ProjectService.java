@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProjectService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProjectService.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectService.class);
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
     private final ProjectMediaRepository projectMediaRepository;
@@ -44,7 +44,7 @@ public class ProjectService {
      * @return the persisted entity.
      */
     public ProjectDTO save(ProjectDTO projectDTO) {
-        LOG.debug("Request to save Project : {}", projectDTO);
+        log.debug("Request to save Project : {}", projectDTO);
         Project project = projectMapper.toEntity(projectDTO);
         project = projectRepository.save(project);
         return projectMapper.toDto(project);
@@ -57,7 +57,7 @@ public class ProjectService {
      * @return the persisted entity.
      */
     public ProjectDTO update(ProjectDTO projectDTO) {
-        LOG.debug("Request to update Project : {}", projectDTO);
+        log.debug("Request to update Project : {}", projectDTO);
         Project project = projectMapper.toEntity(projectDTO);
         project = projectRepository.save(project);
         return projectMapper.toDto(project);
@@ -70,7 +70,7 @@ public class ProjectService {
      * @return the persisted entity.
      */
     public Optional<ProjectDTO> partialUpdate(ProjectDTO projectDTO) {
-        LOG.debug("Request to partially update Project : {}", projectDTO);
+        log.debug("Request to partially update Project : {}", projectDTO);
 
         return projectRepository
             .findById(projectDTO.getId())
@@ -91,7 +91,7 @@ public class ProjectService {
      */
     @Transactional(readOnly = true)
     public Page<ProjectDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Projects");
+        log.debug("Request to get all Projects");
         return projectRepository.findAll(pageable).map(projectMapper::toDto);
     }
 
@@ -103,7 +103,7 @@ public class ProjectService {
      */
     @Transactional(readOnly = true)
     public Optional<ProjectDTO> findOne(Long id) {
-        LOG.debug("Request to get Project : {}", id);
+        log.debug("Request to get Project : {}", id);
         return projectRepository.findById(id).map(projectMapper::toDto);
     }
 
@@ -113,14 +113,14 @@ public class ProjectService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete Project : {}", id);
+        log.debug("Request to delete Project : {}", id);
         projectRepository.deleteById(id);
     }
 
     // --- Custom Method 1 ---
     @Transactional(readOnly = true)
     public List<ProjectCardDTO> findAllForLandingPage() {
-        LOG.debug("Request to get all Projects for landing page");
+        log.debug("Request to get all Projects for landing page");
         return projectRepository
             .findAllWithEagerRelationships()
             .stream()
@@ -156,7 +156,7 @@ public class ProjectService {
     // --- Custom Method 2 ---
     @Transactional(readOnly = true)
     public Optional<ProjectDetailDTO> findOneWithDetails(Long id) {
-        LOG.debug("Request to get detailed Project with media : {}", id);
+        log.debug("Request to get detailed Project with media : {}", id);
         return projectRepository
             .findOneWithEagerRelationships(id)
             .map(project -> {

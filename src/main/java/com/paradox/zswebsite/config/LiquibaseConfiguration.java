@@ -21,7 +21,7 @@ import tech.jhipster.config.liquibase.SpringLiquibaseUtil;
 @Configuration
 public class LiquibaseConfiguration {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LiquibaseConfiguration.class);
+    private final Logger log = LoggerFactory.getLogger(LiquibaseConfiguration.class);
 
     private final Environment env;
 
@@ -76,7 +76,7 @@ public class LiquibaseConfiguration {
             liquibase.setShouldRun(false);
         } else {
             liquibase.setShouldRun(liquibaseProperties.isEnabled());
-            LOG.debug("Configuring Liquibase");
+            log.debug("Configuring Liquibase");
         }
         return liquibase;
     }

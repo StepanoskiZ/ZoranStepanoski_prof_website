@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/project-medias")
 public class ProjectMediaResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProjectMediaResource.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectMediaResource.class);
 
     private static final String ENTITY_NAME = "projectMedia";
 
@@ -57,7 +57,7 @@ public class ProjectMediaResource {
     @PostMapping("")
     public ResponseEntity<ProjectMediaDTO> createProjectMedia(@Valid @RequestBody ProjectMediaDTO projectMediaDTO)
         throws URISyntaxException {
-        LOG.debug("REST request to save ProjectMedia : {}", projectMediaDTO);
+        log.debug("REST request to save ProjectMedia : {}", projectMediaDTO);
         if (projectMediaDTO.getId() != null) {
             throw new BadRequestAlertException("A new projectMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -82,7 +82,7 @@ public class ProjectMediaResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ProjectMediaDTO projectMediaDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update ProjectMedia : {}, {}", id, projectMediaDTO);
+        log.debug("REST request to update ProjectMedia : {}, {}", id, projectMediaDTO);
         if (projectMediaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -116,7 +116,7 @@ public class ProjectMediaResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ProjectMediaDTO projectMediaDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update ProjectMedia partially : {}, {}", id, projectMediaDTO);
+        log.debug("REST request to partial update ProjectMedia partially : {}, {}", id, projectMediaDTO);
         if (projectMediaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -148,7 +148,7 @@ public class ProjectMediaResource {
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
-        LOG.debug("REST request to get a page of ProjectMedias");
+        log.debug("REST request to get a page of ProjectMedias");
         Page<ProjectMediaDTO> page;
         if (eagerload) {
             page = projectMediaService.findAllWithEagerRelationships(pageable);
@@ -167,7 +167,7 @@ public class ProjectMediaResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ProjectMediaDTO> getProjectMedia(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get ProjectMedia : {}", id);
+        log.debug("REST request to get ProjectMedia : {}", id);
         Optional<ProjectMediaDTO> projectMediaDTO = projectMediaService.findOne(id);
         return ResponseUtil.wrapOrNotFound(projectMediaDTO);
     }
@@ -180,7 +180,7 @@ public class ProjectMediaResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProjectMedia(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete ProjectMedia : {}", id);
+        log.debug("REST request to delete ProjectMedia : {}", id);
         projectMediaService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

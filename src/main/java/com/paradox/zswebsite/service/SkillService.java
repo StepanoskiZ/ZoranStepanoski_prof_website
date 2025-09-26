@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SkillService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SkillService.class);
+    private final Logger log = LoggerFactory.getLogger(SkillService.class);
 
     private final SkillRepository skillRepository;
 
@@ -37,7 +37,7 @@ public class SkillService {
      * @return the persisted entity.
      */
     public SkillDTO save(SkillDTO skillDTO) {
-        LOG.debug("Request to save Skill : {}", skillDTO);
+        log.debug("Request to save Skill : {}", skillDTO);
         Skill skill = skillMapper.toEntity(skillDTO);
         skill = skillRepository.save(skill);
         return skillMapper.toDto(skill);
@@ -50,7 +50,7 @@ public class SkillService {
      * @return the persisted entity.
      */
     public SkillDTO update(SkillDTO skillDTO) {
-        LOG.debug("Request to update Skill : {}", skillDTO);
+        log.debug("Request to update Skill : {}", skillDTO);
         Skill skill = skillMapper.toEntity(skillDTO);
         skill = skillRepository.save(skill);
         return skillMapper.toDto(skill);
@@ -63,7 +63,7 @@ public class SkillService {
      * @return the persisted entity.
      */
     public Optional<SkillDTO> partialUpdate(SkillDTO skillDTO) {
-        LOG.debug("Request to partially update Skill : {}", skillDTO);
+        log.debug("Request to partially update Skill : {}", skillDTO);
 
         return skillRepository
             .findById(skillDTO.getId())
@@ -84,7 +84,7 @@ public class SkillService {
      */
     @Transactional(readOnly = true)
     public Page<SkillDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Skills");
+        log.debug("Request to get all Skills");
         return skillRepository.findAll(pageable).map(skillMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class SkillService {
      */
     @Transactional(readOnly = true)
     public Optional<SkillDTO> findOne(Long id) {
-        LOG.debug("Request to get Skill : {}", id);
+        log.debug("Request to get Skill : {}", id);
         return skillRepository.findById(id).map(skillMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class SkillService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete Skill : {}", id);
+        log.debug("Request to delete Skill : {}", id);
         skillRepository.deleteById(id);
     }
 }

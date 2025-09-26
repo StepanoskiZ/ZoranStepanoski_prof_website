@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ContactMessageService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContactMessageService.class);
+    private final Logger log = LoggerFactory.getLogger(ContactMessageService.class);
 
     private final ContactMessageRepository contactMessageRepository;
 
@@ -37,7 +37,7 @@ public class ContactMessageService {
      * @return the persisted entity.
      */
     public ContactMessageDTO save(ContactMessageDTO contactMessageDTO) {
-        LOG.debug("Request to save ContactMessage : {}", contactMessageDTO);
+        log.debug("Request to save ContactMessage : {}", contactMessageDTO);
         ContactMessage contactMessage = contactMessageMapper.toEntity(contactMessageDTO);
         contactMessage = contactMessageRepository.save(contactMessage);
         return contactMessageMapper.toDto(contactMessage);
@@ -50,7 +50,7 @@ public class ContactMessageService {
      * @return the persisted entity.
      */
     public ContactMessageDTO update(ContactMessageDTO contactMessageDTO) {
-        LOG.debug("Request to update ContactMessage : {}", contactMessageDTO);
+        log.debug("Request to update ContactMessage : {}", contactMessageDTO);
         ContactMessage contactMessage = contactMessageMapper.toEntity(contactMessageDTO);
         contactMessage = contactMessageRepository.save(contactMessage);
         return contactMessageMapper.toDto(contactMessage);
@@ -63,7 +63,7 @@ public class ContactMessageService {
      * @return the persisted entity.
      */
     public Optional<ContactMessageDTO> partialUpdate(ContactMessageDTO contactMessageDTO) {
-        LOG.debug("Request to partially update ContactMessage : {}", contactMessageDTO);
+        log.debug("Request to partially update ContactMessage : {}", contactMessageDTO);
 
         return contactMessageRepository
             .findById(contactMessageDTO.getId())
@@ -84,7 +84,7 @@ public class ContactMessageService {
      */
     @Transactional(readOnly = true)
     public Page<ContactMessageDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all ContactMessages");
+        log.debug("Request to get all ContactMessages");
         return contactMessageRepository.findAll(pageable).map(contactMessageMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class ContactMessageService {
      */
     @Transactional(readOnly = true)
     public Optional<ContactMessageDTO> findOne(Long id) {
-        LOG.debug("Request to get ContactMessage : {}", id);
+        log.debug("Request to get ContactMessage : {}", id);
         return contactMessageRepository.findById(id).map(contactMessageMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class ContactMessageService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        LOG.debug("Request to delete ContactMessage : {}", id);
+        log.debug("Request to delete ContactMessage : {}", id);
         contactMessageRepository.deleteById(id);
     }
 }

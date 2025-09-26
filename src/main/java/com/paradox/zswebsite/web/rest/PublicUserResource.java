@@ -23,7 +23,7 @@ public class PublicUserResource {
         Arrays.asList("id", "login", "firstName", "lastName", "email", "activated", "langKey")
     );
 
-    private static final Logger LOG = LoggerFactory.getLogger(PublicUserResource.class);
+    private final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
     private final UserService userService;
 
@@ -39,7 +39,7 @@ public class PublicUserResource {
      */
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllPublicUsers(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get all public User names");
+        log.debug("REST request to get all public User names");
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }

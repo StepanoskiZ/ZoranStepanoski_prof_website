@@ -33,7 +33,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/page-contents")
 public class PageContentResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PageContentResource.class);
+    private final Logger log = LoggerFactory.getLogger(PageContentResource.class);
 
     private static final String ENTITY_NAME = "pageContent";
 
@@ -58,7 +58,7 @@ public class PageContentResource {
      */
     @PostMapping("")
     public ResponseEntity<PageContentDTO> createPageContent(@Valid @RequestBody PageContentDTO pageContentDTO) throws URISyntaxException {
-        LOG.debug("REST request to save PageContent : {}", pageContentDTO);
+        log.debug("REST request to save PageContent : {}", pageContentDTO);
         if (pageContentDTO.getId() != null) {
             throw new BadRequestAlertException("A new pageContent cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -83,7 +83,7 @@ public class PageContentResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PageContentDTO pageContentDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update PageContent : {}, {}", id, pageContentDTO);
+        log.debug("REST request to update PageContent : {}, {}", id, pageContentDTO);
         if (pageContentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -117,7 +117,7 @@ public class PageContentResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PageContentDTO pageContentDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update PageContent partially : {}, {}", id, pageContentDTO);
+        log.debug("REST request to partial update PageContent partially : {}, {}", id, pageContentDTO);
         if (pageContentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -145,7 +145,7 @@ public class PageContentResource {
      */
     @GetMapping("")
     public ResponseEntity<List<PageContentDTO>> getAllPageContents(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of PageContents");
+        log.debug("REST request to get a page of PageContents");
         Page<PageContentDTO> page = pageContentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -159,7 +159,7 @@ public class PageContentResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<PageContentDTO> getPageContent(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get PageContent : {}", id);
+        log.debug("REST request to get PageContent : {}", id);
         Optional<PageContentDTO> pageContentDTO = pageContentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(pageContentDTO);
     }
@@ -172,7 +172,7 @@ public class PageContentResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePageContent(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete PageContent : {}", id);
+        log.debug("REST request to delete PageContent : {}", id);
         pageContentService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
@@ -187,7 +187,7 @@ public class PageContentResource {
      */
     @GetMapping("/by-key/{key}")
     public ResponseEntity<PageContentDTO> getPageContentByKey(@PathVariable("key") String key) {
-        LOG.debug("REST request to get PageContent by key : {}", key);
+        log.debug("REST request to get PageContent by key : {}", key);
         Optional<PageContentDTO> pageContentDTO = pageContentService.findOneBySectionKey(key);
         return ResponseUtil.wrapOrNotFound(pageContentDTO);
     }

@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/page-content-medias")
 public class PageContentMediaResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PageContentMediaResource.class);
+    private final Logger log = LoggerFactory.getLogger(PageContentMediaResource.class);
 
     private static final String ENTITY_NAME = "pageContentMedia";
 
@@ -60,7 +60,7 @@ public class PageContentMediaResource {
     @PostMapping("")
     public ResponseEntity<PageContentMediaDTO> createPageContentMedia(@Valid @RequestBody PageContentMediaDTO pageContentMediaDTO)
         throws URISyntaxException {
-        LOG.debug("REST request to save PageContentMedia : {}", pageContentMediaDTO);
+        log.debug("REST request to save PageContentMedia : {}", pageContentMediaDTO);
         if (pageContentMediaDTO.getId() != null) {
             throw new BadRequestAlertException("A new pageContentMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -85,7 +85,7 @@ public class PageContentMediaResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PageContentMediaDTO pageContentMediaDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update PageContentMedia : {}, {}", id, pageContentMediaDTO);
+        log.debug("REST request to update PageContentMedia : {}, {}", id, pageContentMediaDTO);
         if (pageContentMediaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -119,7 +119,7 @@ public class PageContentMediaResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PageContentMediaDTO pageContentMediaDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update PageContentMedia partially : {}, {}", id, pageContentMediaDTO);
+        log.debug("REST request to partial update PageContentMedia partially : {}, {}", id, pageContentMediaDTO);
         if (pageContentMediaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -151,7 +151,7 @@ public class PageContentMediaResource {
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
-        LOG.debug("REST request to get a page of PageContentMedias");
+        log.debug("REST request to get a page of PageContentMedias");
         Page<PageContentMediaDTO> page;
         if (eagerload) {
             page = pageContentMediaService.findAllWithEagerRelationships(pageable);
@@ -170,7 +170,7 @@ public class PageContentMediaResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<PageContentMediaDTO> getPageContentMedia(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get PageContentMedia : {}", id);
+        log.debug("REST request to get PageContentMedia : {}", id);
         Optional<PageContentMediaDTO> pageContentMediaDTO = pageContentMediaService.findOne(id);
         return ResponseUtil.wrapOrNotFound(pageContentMediaDTO);
     }
@@ -183,7 +183,7 @@ public class PageContentMediaResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePageContentMedia(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete PageContentMedia : {}", id);
+        log.debug("REST request to delete PageContentMedia : {}", id);
         pageContentMediaService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

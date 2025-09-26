@@ -33,7 +33,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/visitor-logs")
 public class VisitorLogResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VisitorLogResource.class);
+    private final Logger log = LoggerFactory.getLogger(VisitorLogResource.class);
 
     private static final String ENTITY_NAME = "visitorLog";
 
@@ -58,7 +58,7 @@ public class VisitorLogResource {
      */
     @PostMapping("")
     public ResponseEntity<VisitorLogDTO> createVisitorLog(@Valid @RequestBody VisitorLogDTO visitorLogDTO) throws URISyntaxException {
-        LOG.debug("REST request to save VisitorLog : {}", visitorLogDTO);
+        log.debug("REST request to save VisitorLog : {}", visitorLogDTO);
         if (visitorLogDTO.getId() != null) {
             throw new BadRequestAlertException("A new visitorLog cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -83,7 +83,7 @@ public class VisitorLogResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody VisitorLogDTO visitorLogDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to update VisitorLog : {}, {}", id, visitorLogDTO);
+        log.debug("REST request to update VisitorLog : {}, {}", id, visitorLogDTO);
         if (visitorLogDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -117,7 +117,7 @@ public class VisitorLogResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody VisitorLogDTO visitorLogDTO
     ) throws URISyntaxException {
-        LOG.debug("REST request to partial update VisitorLog partially : {}, {}", id, visitorLogDTO);
+        log.debug("REST request to partial update VisitorLog partially : {}, {}", id, visitorLogDTO);
         if (visitorLogDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -145,7 +145,7 @@ public class VisitorLogResource {
      */
     @GetMapping("")
     public ResponseEntity<List<VisitorLogDTO>> getAllVisitorLogs(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of VisitorLogs");
+        log.debug("REST request to get a page of VisitorLogs");
         Page<VisitorLogDTO> page = visitorLogService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -159,7 +159,7 @@ public class VisitorLogResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<VisitorLogDTO> getVisitorLog(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get VisitorLog : {}", id);
+        log.debug("REST request to get VisitorLog : {}", id);
         Optional<VisitorLogDTO> visitorLogDTO = visitorLogService.findOne(id);
         return ResponseUtil.wrapOrNotFound(visitorLogDTO);
     }
@@ -172,7 +172,7 @@ public class VisitorLogResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVisitorLog(@PathVariable("id") Long id) {
-        LOG.debug("REST request to delete VisitorLog : {}", id);
+        log.debug("REST request to delete VisitorLog : {}", id);
         visitorLogService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
@@ -187,7 +187,7 @@ public class VisitorLogResource {
      */
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getVisitorStats() {
-        LOG.debug("REST request to get Visitor stats");
+        log.debug("REST request to get Visitor stats");
 
         long totalVisits = visitorLogRepository.count();
         long uniqueVisitors = visitorLogRepository.countDistinctByIpAddress();

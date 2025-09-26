@@ -60,10 +60,10 @@ public class BlogPostResource {
         if (blogPostDTO.getId() != null) {
             throw new BadRequestAlertException("A new blogPost cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        blogPostDTO = blogPostService.save(blogPostDTO);
-        return ResponseEntity.created(new URI("/api/blog-posts/" + blogPostDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, blogPostDTO.getId().toString()))
-            .body(blogPostDTO);
+        BlogPostDTO result = blogPostService.save(blogPostDTO);
+        return ResponseEntity.created(new URI("/api/blog-posts/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**

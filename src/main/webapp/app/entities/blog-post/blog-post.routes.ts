@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { BlogPostComponent } from './list/blog-post.component';
+import { BlogPostDetailComponent } from './detail/blog-post-detail.component';
+import { BlogPostUpdateComponent } from './update/blog-post-update.component';
 import BlogPostResolve from './route/blog-post-routing-resolve.service';
 
 const blogPostRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/blog-post.component').then(m => m.BlogPostComponent),
+    component: BlogPostComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/blog-post-detail.component').then(m => m.BlogPostDetailComponent),
+    component: BlogPostDetailComponent,
     resolve: {
       blogPost: BlogPostResolve,
     },
@@ -23,7 +26,7 @@ const blogPostRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/blog-post-update.component').then(m => m.BlogPostUpdateComponent),
+    component: BlogPostUpdateComponent,
     resolve: {
       blogPost: BlogPostResolve,
     },
@@ -31,7 +34,7 @@ const blogPostRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/blog-post-update.component').then(m => m.BlogPostUpdateComponent),
+    component: BlogPostUpdateComponent,
     resolve: {
       blogPost: BlogPostResolve,
     },

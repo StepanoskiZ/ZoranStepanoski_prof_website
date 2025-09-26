@@ -1,20 +1,24 @@
-import { Component, inject, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { FormatMediumDatePipe } from 'app/shared/date';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IProject } from '../project.model';
 
 @Component({
   selector: 'jhi-project-detail',
+  standalone: true,
   templateUrl: './project-detail.component.html',
-  imports: [SharedModule, RouterModule, FormatMediumDatePipe],
+  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
 })
 export class ProjectDetailComponent {
-  project = input<IProject | null>(null);
+  @Input() project: IProject | null = null;
 
-  protected dataUtils = inject(DataUtils);
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);

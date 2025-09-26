@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { IPageContent } from '../page-content.model';
-import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../page-content.test-samples';
+import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../page-content.test-samples';
 
 import { PageContentService } from './page-content.service';
 
@@ -18,7 +17,7 @@ describe('PageContent Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [HttpClientTestingModule],
     });
     expectedResult = null;
     service = TestBed.inject(PageContentService);
@@ -155,7 +154,7 @@ describe('PageContent Service', () => {
     });
 
     describe('comparePageContent', () => {
-      it('should return true if both entities are null', () => {
+      it('Should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -164,8 +163,8 @@ describe('PageContent Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('should return false if one entity is null', () => {
-        const entity1 = { id: 27977 };
+      it('Should return false if one entity is null', () => {
+        const entity1 = { id: 123 };
         const entity2 = null;
 
         const compareResult1 = service.comparePageContent(entity1, entity2);
@@ -175,9 +174,9 @@ describe('PageContent Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey differs', () => {
-        const entity1 = { id: 27977 };
-        const entity2 = { id: 7034 };
+      it('Should return false if primaryKey differs', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 456 };
 
         const compareResult1 = service.comparePageContent(entity1, entity2);
         const compareResult2 = service.comparePageContent(entity2, entity1);
@@ -186,9 +185,9 @@ describe('PageContent Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey matches', () => {
-        const entity1 = { id: 27977 };
-        const entity2 = { id: 27977 };
+      it('Should return false if primaryKey matches', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 123 };
 
         const compareResult1 = service.comparePageContent(entity1, entity2);
         const compareResult2 = service.comparePageContent(entity2, entity1);

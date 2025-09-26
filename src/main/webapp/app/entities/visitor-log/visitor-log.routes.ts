@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { VisitorLogComponent } from './list/visitor-log.component';
+import { VisitorLogDetailComponent } from './detail/visitor-log-detail.component';
+import { VisitorLogUpdateComponent } from './update/visitor-log-update.component';
 import VisitorLogResolve from './route/visitor-log-routing-resolve.service';
 
 const visitorLogRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/visitor-log.component').then(m => m.VisitorLogComponent),
+    component: VisitorLogComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/visitor-log-detail.component').then(m => m.VisitorLogDetailComponent),
+    component: VisitorLogDetailComponent,
     resolve: {
       visitorLog: VisitorLogResolve,
     },
@@ -23,7 +26,7 @@ const visitorLogRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/visitor-log-update.component').then(m => m.VisitorLogUpdateComponent),
+    component: VisitorLogUpdateComponent,
     resolve: {
       visitorLog: VisitorLogResolve,
     },
@@ -31,7 +34,7 @@ const visitorLogRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/visitor-log-update.component').then(m => m.VisitorLogUpdateComponent),
+    component: VisitorLogUpdateComponent,
     resolve: {
       visitorLog: VisitorLogResolve,
     },

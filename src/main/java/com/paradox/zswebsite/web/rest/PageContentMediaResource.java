@@ -64,10 +64,10 @@ public class PageContentMediaResource {
         if (pageContentMediaDTO.getId() != null) {
             throw new BadRequestAlertException("A new pageContentMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        pageContentMediaDTO = pageContentMediaService.save(pageContentMediaDTO);
-        return ResponseEntity.created(new URI("/api/page-content-medias/" + pageContentMediaDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, pageContentMediaDTO.getId().toString()))
-            .body(pageContentMediaDTO);
+        PageContentMediaDTO result = pageContentMediaService.save(pageContentMediaDTO);
+        return ResponseEntity.created(new URI("/api/page-content-medias/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -97,10 +97,10 @@ public class PageContentMediaResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        pageContentMediaDTO = pageContentMediaService.update(pageContentMediaDTO);
+        PageContentMediaDTO result = pageContentMediaService.update(pageContentMediaDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, pageContentMediaDTO.getId().toString()))
-            .body(pageContentMediaDTO);
+            .body(result);
     }
 
     /**

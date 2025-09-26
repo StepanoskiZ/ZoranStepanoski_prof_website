@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { ProjectComponent } from './list/project.component';
+import { ProjectDetailComponent } from './detail/project-detail.component';
+import { ProjectUpdateComponent } from './update/project-update.component';
 import ProjectResolve from './route/project-routing-resolve.service';
 
 const projectRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/project.component').then(m => m.ProjectComponent),
+    component: ProjectComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/project-detail.component').then(m => m.ProjectDetailComponent),
+    component: ProjectDetailComponent,
     resolve: {
       project: ProjectResolve,
     },
@@ -23,7 +26,7 @@ const projectRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/project-update.component').then(m => m.ProjectUpdateComponent),
+    component: ProjectUpdateComponent,
     resolve: {
       project: ProjectResolve,
     },
@@ -31,7 +34,7 @@ const projectRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/project-update.component').then(m => m.ProjectUpdateComponent),
+    component: ProjectUpdateComponent,
     resolve: {
       project: ProjectResolve,
     },

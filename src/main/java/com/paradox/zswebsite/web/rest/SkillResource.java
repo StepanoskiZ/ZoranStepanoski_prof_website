@@ -60,10 +60,10 @@ public class SkillResource {
         if (skillDTO.getId() != null) {
             throw new BadRequestAlertException("A new skill cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        skillDTO = skillService.save(skillDTO);
-        return ResponseEntity.created(new URI("/api/skills/" + skillDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, skillDTO.getId().toString()))
-            .body(skillDTO);
+        SkillDTO result = skillService.save(skillDTO);
+        return ResponseEntity.created(new URI("/api/skills/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -93,10 +93,10 @@ public class SkillResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        skillDTO = skillService.update(skillDTO);
+        SkillDTO result = skillService.update(skillDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, skillDTO.getId().toString()))
-            .body(skillDTO);
+            .body(result);
     }
 
     /**

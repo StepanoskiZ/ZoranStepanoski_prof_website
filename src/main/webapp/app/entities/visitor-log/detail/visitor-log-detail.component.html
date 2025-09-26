@@ -1,35 +1,35 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (visitorLog(); as visitorLogRef) {
+    @if (visitorLog) {
       <div>
         <h2 data-cy="visitorLogDetailsHeading"><span jhiTranslate="zsWebsiteApp.visitorLog.detail.title">Visitor Log</span></h2>
 
         <hr />
 
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
-        <jhi-alert />
+        <jhi-alert></jhi-alert>
 
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ visitorLogRef.id }}</span>
+            <span>{{ visitorLog.id }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.visitorLog.ipAddress">Ip Address</span></dt>
           <dd>
-            <span>{{ visitorLogRef.ipAddress }}</span>
+            <span>{{ visitorLog.ipAddress }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.visitorLog.pageVisited">Page Visited</span></dt>
           <dd>
-            <span>{{ visitorLogRef.pageVisited }}</span>
+            <span>{{ visitorLog.pageVisited }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.visitorLog.userAgent">User Agent</span></dt>
           <dd>
-            <span>{{ visitorLogRef.userAgent }}</span>
+            <span>{{ visitorLog.userAgent }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.visitorLog.visitTimestamp">Visit Timestamp</span></dt>
           <dd>
-            <span>{{ visitorLogRef.visitTimestamp | formatMediumDatetime }}</span>
+            <span>{{ visitorLog.visitTimestamp | formatMediumDatetime }}</span>
           </dd>
         </dl>
 
@@ -37,7 +37,7 @@
           <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
-        <button type="button" [routerLink]="['/visitor-log', visitorLogRef.id, 'edit']" class="btn btn-primary">
+        <button type="button" [routerLink]="['/visitor-log', visitorLog.id, 'edit']" class="btn btn-primary">
           <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>

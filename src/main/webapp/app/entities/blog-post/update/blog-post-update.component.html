@@ -1,25 +1,24 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-blog-post-heading" data-cy="BlogPostCreateUpdateHeading" jhiTranslate="zsWebsiteApp.blogPost.home.createOrEditLabel">
         Create or edit a Blog Post
       </h2>
 
       <div>
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.blogPost.id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
-        @let titleRef = editForm.get('title')!;
         <div class="mb-3">
-          <label class="form-label" for="field_title" jhiTranslate="zsWebsiteApp.blogPost.title">Title</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.title" for="field_title"></label>
           <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
-          @if (titleRef.invalid && (titleRef.dirty || titleRef.touched)) {
+          @if (editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)) {
             <div>
               @if (editForm.get('title')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -28,27 +27,34 @@
           }
         </div>
 
-        @let contentRef = editForm.get('content')!;
         <div class="mb-3">
-          <label class="form-label" for="field_content" jhiTranslate="zsWebsiteApp.blogPost.content">Content</label>
-          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"></textarea>
-          @if (contentRef.invalid && (contentRef.dirty || contentRef.touched)) {
+          <!--            for="field_content"-->
+          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.content"> </label>
+          <quill-editor
+            id="field_content"
+            data-cy="content"
+            formControlName="content"
+            name="content"
+            [modules]="editorModules"
+            [styles]="{ height: '300px' }"
+          >
+          </quill-editor>
+          @if (editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)) {
             <div>
               @if (editForm.get('content')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_imageUrl" jhiTranslate="zsWebsiteApp.blogPost.imageUrl">Image Url</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.imageUrl" for="field_imageUrl">Image Url</label>
           <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
         </div>
 
-        @let publishedDateRef = editForm.get('publishedDate')!;
         <div class="mb-3">
-          <label class="form-label" for="field_publishedDate" jhiTranslate="zsWebsiteApp.blogPost.publishedDate">Published Date</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.publishedDate" for="field_publishedDate">Published Date</label>
           <div class="d-flex">
             <input
               id="field_publishedDate"
@@ -60,7 +66,7 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
-          @if (publishedDateRef.invalid && (publishedDateRef.dirty || publishedDateRef.touched)) {
+          @if (editForm.get('publishedDate')!.invalid && (editForm.get('publishedDate')!.dirty || editForm.get('publishedDate')!.touched)) {
             <div>
               @if (editForm.get('publishedDate')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

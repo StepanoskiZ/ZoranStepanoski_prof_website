@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { DataUtils } from 'app/core/util/data-util.service';
@@ -8,20 +8,18 @@ import { DataUtils } from 'app/core/util/data-util.service';
 import { ContactMessageDetailComponent } from './contact-message-detail.component';
 
 describe('ContactMessage Management Detail Component', () => {
-  let comp: ContactMessageDetailComponent;
-  let fixture: ComponentFixture<ContactMessageDetailComponent>;
   let dataUtils: DataUtils;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContactMessageDetailComponent],
+      imports: [ContactMessageDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
       providers: [
         provideRouter(
           [
             {
               path: '**',
-              loadComponent: () => import('./contact-message-detail.component').then(m => m.ContactMessageDetailComponent),
-              resolve: { contactMessage: () => of({ id: 14574 }) },
+              component: ContactMessageDetailComponent,
+              resolve: { contactMessage: () => of({ id: 123 }) },
             },
           ],
           withComponentInputBinding(),
@@ -34,46 +32,36 @@ describe('ContactMessage Management Detail Component', () => {
     jest.spyOn(window, 'open').mockImplementation(() => null);
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ContactMessageDetailComponent);
-    comp = fixture.componentInstance;
-  });
-
   describe('OnInit', () => {
-    it('should load contactMessage on init', async () => {
+    it('Should load contactMessage on init', async () => {
       const harness = await RouterTestingHarness.create();
       const instance = await harness.navigateByUrl('/', ContactMessageDetailComponent);
 
       // THEN
-      expect(instance.contactMessage()).toEqual(expect.objectContaining({ id: 14574 }));
-    });
-  });
-
-  describe('PreviousState', () => {
-    it('should navigate to previous state', () => {
-      jest.spyOn(window.history, 'back');
-      comp.previousState();
-      expect(window.history.back).toHaveBeenCalled();
+      expect(instance.contactMessage).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 
   describe('byteSize', () => {
-    it('should call byteSize from DataUtils', () => {
+    it('Should call byteSize from DataUtils', () => {
       // GIVEN
       jest.spyOn(dataUtils, 'byteSize');
       const fakeBase64 = 'fake base64';
+      const fixture = TestBed.createComponent(ContactMessageDetailComponent);
+      const comp = fixture.componentInstance;
 
       // WHEN
       comp.byteSize(fakeBase64);
 
       // THEN
-      expect(dataUtils.byteSize).toHaveBeenCalledWith(fakeBase64);
+      expect(dataUtils.byteSize).toBeCalledWith(fakeBase64);
     });
   });
 
   describe('openFile', () => {
-    it('should call openFile from DataUtils', () => {
+    it('Should call openFile from DataUtils', () => {
       const newWindow = { ...window };
+      newWindow.document.write = jest.fn();
       window.open = jest.fn(() => newWindow);
       window.onload = jest.fn(() => newWindow) as any;
       window.URL.createObjectURL = jest.fn() as any;
@@ -81,12 +69,14 @@ describe('ContactMessage Management Detail Component', () => {
       jest.spyOn(dataUtils, 'openFile');
       const fakeContentType = 'fake content type';
       const fakeBase64 = 'fake base64';
+      const fixture = TestBed.createComponent(ContactMessageDetailComponent);
+      const comp = fixture.componentInstance;
 
       // WHEN
       comp.openFile(fakeBase64, fakeContentType);
 
       // THEN
-      expect(dataUtils.openFile).toHaveBeenCalledWith(fakeBase64, fakeContentType);
+      expect(dataUtils.openFile).toBeCalledWith(fakeBase64, fakeContentType);
     });
   });
 });

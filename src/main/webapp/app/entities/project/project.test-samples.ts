@@ -3,31 +3,32 @@ import dayjs from 'dayjs/esm';
 import { IProject, NewProject } from './project.model';
 
 export const sampleWithRequiredData: IProject = {
-  id: 22823,
-  title: 'anxiously',
+  id: 16800,
+  title: 'dimly',
   description: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithPartialData: IProject = {
-  id: 12852,
-  title: 'likewise',
+  id: 2347,
+  title: 'though',
   description: '../fake-data/blob/hipster.txt',
-  endDate: dayjs('2025-08-29'),
+  status: 'COMPLETED',
+  projectUrl: 'against duh',
 };
 
 export const sampleWithFullData: IProject = {
-  id: 1375,
-  title: 'tray pack hydrolyze',
+  id: 30859,
+  title: 'yowza gloom swimming',
   description: '../fake-data/blob/hipster.txt',
   startDate: dayjs('2025-08-30'),
   endDate: dayjs('2025-08-30'),
   status: 'COMPLETED',
-  projectUrl: 'emerge whether across',
-  category: 'robust silver',
+  projectUrl: 'whose officially',
+  category: 'far amongst',
 };
 
 export const sampleWithNewData: NewProject = {
-  title: 'zowie vice',
+  title: 'aged',
   description: '../fake-data/blob/hipster.txt',
   id: null,
 };

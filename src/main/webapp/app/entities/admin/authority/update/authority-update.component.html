@@ -12,7 +12,6 @@
       <div>
         <jhi-alert-error />
 
-        @let nameRef = editForm.get('name')!;
         <div class="mb-3">
           <label class="form-label" for="field_name" jhiTranslate="zsWebsiteApp.adminAuthority.name">Name</label>
           <input
@@ -24,18 +23,21 @@
             formControlName="name"
             [readonly]="editForm.get('name')!.disabled"
           />
-          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
-            <div>
-              @if (editForm.get('name')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('name')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
-                  >This field cannot be longer than 50 characters.</small
-                >
-              }
+
+          <!-- This is the block that shows validation errors -->
+          <ng-container *ngIf="editForm.get('name') as nameRef">
+            <div *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+              <div>
+                <small *ngIf="nameRef.errors?.required" class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
+                <small
+                  *ngIf="nameRef.errors?.maxlength"
+                  class="form-text text-danger"
+                  jhiTranslate="entity.validation.maxlength"
+                  [translateValues]="{ max: '50' }"
+                ></small>
+              </div>
             </div>
-          }
+          </ng-container>
         </div>
       </div>
 

@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
 import { BusinessServiceService } from '../service/business-service.service';
 import { IBusinessService } from '../business-service.model';
@@ -19,9 +21,8 @@ describe('BusinessService Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BusinessServiceUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), BusinessServiceUpdateComponent],
       providers: [
-        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -43,8 +44,8 @@ describe('BusinessService Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should update editForm', () => {
-      const businessService: IBusinessService = { id: 13532 };
+    it('Should update editForm', () => {
+      const businessService: IBusinessService = { id: 456 };
 
       activatedRoute.data = of({ businessService });
       comp.ngOnInit();
@@ -54,10 +55,10 @@ describe('BusinessService Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('should call update service on save for existing entity', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IBusinessService>>();
-      const businessService = { id: 917 };
+      const businessService = { id: 123 };
       jest.spyOn(businessServiceFormService, 'getBusinessService').mockReturnValue(businessService);
       jest.spyOn(businessServiceService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -77,10 +78,10 @@ describe('BusinessService Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('should call create service on save for new entity', () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IBusinessService>>();
-      const businessService = { id: 917 };
+      const businessService = { id: 123 };
       jest.spyOn(businessServiceFormService, 'getBusinessService').mockReturnValue({ id: null });
       jest.spyOn(businessServiceService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -100,10 +101,10 @@ describe('BusinessService Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('should set isSaving to false on error', () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IBusinessService>>();
-      const businessService = { id: 917 };
+      const businessService = { id: 123 };
       jest.spyOn(businessServiceService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ businessService });

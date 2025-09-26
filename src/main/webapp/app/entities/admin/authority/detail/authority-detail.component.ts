@@ -8,6 +8,7 @@ import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-authority-detail',
+  standalone: true,
   templateUrl: './authority-detail.component.html',
   imports: [AlertComponent, AlertErrorComponent, SharedModule, RouterModule],
 })

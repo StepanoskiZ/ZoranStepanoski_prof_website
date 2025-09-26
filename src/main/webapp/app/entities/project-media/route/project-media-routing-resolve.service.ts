@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
-import { EMPTY, Observable, of } from 'rxjs';
+import { of, EMPTY, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 import { IProjectMedia } from '../project-media.model';
 import { ProjectMediaService } from '../service/project-media.service';
 
-const projectMediaResolve = (route: ActivatedRouteSnapshot): Observable<null | IProjectMedia> => {
-  const id = route.params.id;
+export const projectMediaResolve = (route: ActivatedRouteSnapshot): Observable<null | IProjectMedia> => {
+  const id = route.params['id'];
   if (id) {
     return inject(ProjectMediaService)
       .find(id)
@@ -16,9 +16,10 @@ const projectMediaResolve = (route: ActivatedRouteSnapshot): Observable<null | I
         mergeMap((projectMedia: HttpResponse<IProjectMedia>) => {
           if (projectMedia.body) {
             return of(projectMedia.body);
+          } else {
+            inject(Router).navigate(['404']);
+            return EMPTY;
           }
-          inject(Router).navigate(['404']);
-          return EMPTY;
         }),
       );
   }

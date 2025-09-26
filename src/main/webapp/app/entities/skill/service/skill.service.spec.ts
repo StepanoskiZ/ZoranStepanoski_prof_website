@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { ISkill } from '../skill.model';
-import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../skill.test-samples';
+import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../skill.test-samples';
 
 import { SkillService } from './skill.service';
 
@@ -18,7 +17,7 @@ describe('Skill Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [HttpClientTestingModule],
     });
     expectedResult = null;
     service = TestBed.inject(SkillService);
@@ -155,7 +154,7 @@ describe('Skill Service', () => {
     });
 
     describe('compareSkill', () => {
-      it('should return true if both entities are null', () => {
+      it('Should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -164,8 +163,8 @@ describe('Skill Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('should return false if one entity is null', () => {
-        const entity1 = { id: 24455 };
+      it('Should return false if one entity is null', () => {
+        const entity1 = { id: 123 };
         const entity2 = null;
 
         const compareResult1 = service.compareSkill(entity1, entity2);
@@ -175,9 +174,9 @@ describe('Skill Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey differs', () => {
-        const entity1 = { id: 24455 };
-        const entity2 = { id: 21768 };
+      it('Should return false if primaryKey differs', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 456 };
 
         const compareResult1 = service.compareSkill(entity1, entity2);
         const compareResult2 = service.compareSkill(entity2, entity1);
@@ -186,9 +185,9 @@ describe('Skill Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey matches', () => {
-        const entity1 = { id: 24455 };
-        const entity2 = { id: 24455 };
+      it('Should return false if primaryKey matches', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 123 };
 
         const compareResult1 = service.compareSkill(entity1, entity2);
         const compareResult2 = service.compareSkill(entity2, entity1);

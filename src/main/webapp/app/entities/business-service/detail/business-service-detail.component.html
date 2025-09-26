@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (businessService(); as businessServiceRef) {
+    @if (businessService) {
       <div>
         <h2 data-cy="businessServiceDetailsHeading">
           <span jhiTranslate="zsWebsiteApp.businessService.detail.title">Business Service</span>
@@ -8,35 +8,35 @@
 
         <hr />
 
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
-        <jhi-alert />
+        <jhi-alert></jhi-alert>
 
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ businessServiceRef.id }}</span>
+            <span>{{ businessService.id }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.businessService.title">Title</span></dt>
           <dd>
-            <span>{{ businessServiceRef.title }}</span>
+            <span>{{ businessService.title }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.businessService.description">Description</span></dt>
           <dd>
-            <span>{{ businessServiceRef.description }}</span>
+            <span>{{ businessService.description }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.businessService.icon">Icon</span></dt>
           <dd>
-            <span>{{ businessServiceRef.icon }}</span>
+            <span>{{ businessService.icon }}</span>
           </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"></span>
         </button>
 
-        <button type="button" [routerLink]="['/business-service', businessServiceRef.id, 'edit']" class="btn btn-primary">
-          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        <button type="button" [routerLink]="['/business-service', businessService.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"></span>
         </button>
       </div>
     }

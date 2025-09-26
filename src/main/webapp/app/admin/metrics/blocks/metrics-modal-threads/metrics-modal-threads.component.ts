@@ -6,6 +6,7 @@ import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
 
 @Component({
   selector: 'jhi-thread-modal',
+  standalone: true,
   templateUrl: './metrics-modal-threads.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,15 +7,13 @@ import SharedModule from 'app/shared/shared.module';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { LANGUAGES } from 'app/config/language.constants';
-import { TranslateDirective } from 'app/shared/language';
-import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
 
 const initialAccount: Account = {} as Account;
 
 @Component({
   selector: 'jhi-settings',
-  imports: [AlertErrorComponent, FindLanguageFromKeyPipe, TranslateDirective, SharedModule, FormsModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule],
   templateUrl: './settings.component.html',
 })
 export default class SettingsComponent implements OnInit {

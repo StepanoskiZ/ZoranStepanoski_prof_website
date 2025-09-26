@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    @if (pageContentMedia(); as pageContentMediaRef) {
+    @if (pageContentMedia) {
       <div>
         <h2 data-cy="pageContentMediaDetailsHeading">
           <span jhiTranslate="zsWebsiteApp.pageContentMedia.detail.title">Page Content Media</span>
@@ -8,35 +8,35 @@
 
         <hr />
 
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
-        <jhi-alert />
+        <jhi-alert></jhi-alert>
 
         <dl class="row-md jh-entity-details">
           <dt><span jhiTranslate="global.field.id">ID</span></dt>
           <dd>
-            <span>{{ pageContentMediaRef.id }}</span>
+            <span>{{ pageContentMedia.id }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.mediaUrl">Media Url</span></dt>
           <dd>
-            <span>{{ pageContentMediaRef.mediaUrl }}</span>
+            <span>{{ pageContentMedia.mediaUrl }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.pageContentMediaType">Page Content Media Type</span></dt>
           <dd>
-            <span [jhiTranslate]="'zsWebsiteApp.UnifiedMediaType.' + (pageContentMediaRef.pageContentMediaType ?? 'null')">{{
-              { null: '', IMAGE: 'IMAGE', VIDEO: 'VIDEO' }[pageContentMediaRef.pageContentMediaType ?? 'null']
+            <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + pageContentMedia.pageContentMediaType }}">{{
+              pageContentMedia.pageContentMediaType
             }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.caption">Caption</span></dt>
           <dd>
-            <span>{{ pageContentMediaRef.caption }}</span>
+            <span>{{ pageContentMedia.caption }}</span>
           </dd>
           <dt><span jhiTranslate="zsWebsiteApp.pageContentMedia.pagecontent">Pagecontent</span></dt>
           <dd>
-            @if (pageContentMedia()!.pagecontent) {
+            @if (pageContentMedia.pagecontent) {
               <div>
-                <a [routerLink]="['/page-content', pageContentMedia()!.pagecontent?.id, 'view']">{{
-                  pageContentMediaRef.pagecontent?.sectionKey
+                <a [routerLink]="['/page-content', pageContentMedia.pagecontent.id, 'view']">{{
+                  pageContentMedia.pagecontent.sectionKey
                 }}</a>
               </div>
             }
@@ -47,7 +47,7 @@
           <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
         </button>
 
-        <button type="button" [routerLink]="['/page-content-media', pageContentMediaRef.id, 'edit']" class="btn btn-primary">
+        <button type="button" [routerLink]="['/page-content-media', pageContentMedia.id, 'edit']" class="btn btn-primary">
           <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
         </button>
       </div>

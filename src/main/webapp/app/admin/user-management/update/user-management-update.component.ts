@@ -6,9 +6,6 @@ import SharedModule from 'app/shared/shared.module';
 import { LANGUAGES } from 'app/config/language.constants';
 import { IUser } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
-import FindLanguageFromKeyPipe from 'app/shared/language/find-language-from-key.pipe';
 
 const userTemplate = {} as IUser;
 
@@ -19,8 +16,9 @@ const newUser: IUser = {
 
 @Component({
   selector: 'jhi-user-mgmt-update',
+  standalone: true,
   templateUrl: './user-management-update.component.html',
-  imports: [FindLanguageFromKeyPipe, TranslateDirective, SharedModule, AlertErrorComponent, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export default class UserManagementUpdateComponent implements OnInit {
   languages = LANGUAGES;

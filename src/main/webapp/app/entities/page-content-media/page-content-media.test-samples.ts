@@ -1,26 +1,27 @@
 import { IPageContentMedia, NewPageContentMedia } from './page-content-media.model';
 
 export const sampleWithRequiredData: IPageContentMedia = {
-  id: 27803,
-  mediaUrl: 'mid thorny accept',
-  pageContentMediaType: 'IMAGE',
+  id: 27190,
+  mediaUrl: 'aha whenever hence',
+  pageContentMediaType: 'VIDEO',
 };
 
 export const sampleWithPartialData: IPageContentMedia = {
-  id: 30880,
-  mediaUrl: 'whoever',
-  pageContentMediaType: 'IMAGE',
+  id: 17433,
+  mediaUrl: 'next yippee yearly',
+  pageContentMediaType: 'VIDEO',
+  caption: 'ha though coordination',
 };
 
 export const sampleWithFullData: IPageContentMedia = {
-  id: 20484,
-  mediaUrl: 'maroon dark',
-  pageContentMediaType: 'VIDEO',
-  caption: 'woot',
+  id: 26235,
+  mediaUrl: 'briefly ocean result',
+  pageContentMediaType: 'IMAGE',
+  caption: 'verbally occasion elderly',
 };
 
 export const sampleWithNewData: NewPageContentMedia = {
-  mediaUrl: 'gadzooks cheetah',
+  mediaUrl: 'bah might cry',
   pageContentMediaType: 'VIDEO',
   id: null,
 };

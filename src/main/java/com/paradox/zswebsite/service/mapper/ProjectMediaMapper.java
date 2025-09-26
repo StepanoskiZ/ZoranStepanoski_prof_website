@@ -11,12 +11,11 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface ProjectMediaMapper extends EntityMapper<ProjectMediaDTO, ProjectMedia> {
-    @Mapping(target = "project", source = "project", qualifiedByName = "projectTitle")
+    @Mapping(target = "project", source = "project", qualifiedByName = "projectId")
     ProjectMediaDTO toDto(ProjectMedia s);
 
-    @Named("projectTitle")
+    @Named("projectId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "title", source = "title")
-    ProjectDTO toDtoProjectTitle(Project project);
+    ProjectDTO toDtoProjectId(Project project);
 }

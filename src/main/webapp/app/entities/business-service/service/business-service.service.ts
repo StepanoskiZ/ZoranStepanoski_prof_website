@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,10 +14,12 @@ export type EntityArrayResponseType = HttpResponse<IBusinessService[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BusinessServiceService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/business-services');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(businessService: NewBusinessService): Observable<EntityResponseType> {
     return this.http.post<IBusinessService>(this.resourceUrl, businessService, { observe: 'response' });
@@ -62,8 +64,8 @@ export class BusinessServiceService {
   ): Type[] {
     const businessServices: Type[] = businessServicesToCheck.filter(isPresent);
     if (businessServices.length > 0) {
-      const businessServiceCollectionIdentifiers = businessServiceCollection.map(businessServiceItem =>
-        this.getBusinessServiceIdentifier(businessServiceItem),
+      const businessServiceCollectionIdentifiers = businessServiceCollection.map(
+        businessServiceItem => this.getBusinessServiceIdentifier(businessServiceItem)!,
       );
       const businessServicesToAdd = businessServices.filter(businessServiceItem => {
         const businessServiceIdentifier = this.getBusinessServiceIdentifier(businessServiceItem);

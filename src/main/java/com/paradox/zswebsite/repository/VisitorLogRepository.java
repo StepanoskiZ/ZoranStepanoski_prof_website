@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface VisitorLogRepository extends JpaRepository<VisitorLog, Long> {}
+public interface VisitorLogRepository extends JpaRepository<VisitorLog, Long> {
+    @Query("SELECT COUNT(DISTINCT v.ipAddress) FROM VisitorLog v")
+    Long countDistinctByIpAddress();
+}

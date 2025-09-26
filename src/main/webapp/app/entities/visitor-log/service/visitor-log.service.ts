@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { map } from 'rxjs/operators';
 
 import dayjs from 'dayjs/esm';
 
@@ -26,10 +28,12 @@ export type EntityArrayResponseType = HttpResponse<IVisitorLog[]>;
 
 @Injectable({ providedIn: 'root' })
 export class VisitorLogService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/visitor-logs');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(visitorLog: NewVisitorLog): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(visitorLog);
@@ -83,7 +87,7 @@ export class VisitorLogService {
   ): Type[] {
     const visitorLogs: Type[] = visitorLogsToCheck.filter(isPresent);
     if (visitorLogs.length > 0) {
-      const visitorLogCollectionIdentifiers = visitorLogCollection.map(visitorLogItem => this.getVisitorLogIdentifier(visitorLogItem));
+      const visitorLogCollectionIdentifiers = visitorLogCollection.map(visitorLogItem => this.getVisitorLogIdentifier(visitorLogItem)!);
       const visitorLogsToAdd = visitorLogs.filter(visitorLogItem => {
         const visitorLogIdentifier = this.getVisitorLogIdentifier(visitorLogItem);
         if (visitorLogCollectionIdentifiers.includes(visitorLogIdentifier)) {

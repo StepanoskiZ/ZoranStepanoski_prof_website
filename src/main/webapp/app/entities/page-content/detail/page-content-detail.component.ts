@@ -1,19 +1,24 @@
-import { Component, inject, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IPageContent } from '../page-content.model';
 
 @Component({
   selector: 'jhi-page-content-detail',
+  standalone: true,
   templateUrl: './page-content-detail.component.html',
-  imports: [SharedModule, RouterModule],
+  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
 })
 export class PageContentDetailComponent {
-  pageContent = input<IPageContent | null>(null);
+  @Input() pageContent: IPageContent | null = null;
 
-  protected dataUtils = inject(DataUtils);
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);

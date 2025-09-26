@@ -26,7 +26,7 @@ class ProjectTest {
     }
 
     @Test
-    void mediaTest() {
+    void mediaTest() throws Exception {
         Project project = getProjectRandomSampleGenerator();
         ProjectMedia projectMediaBack = getProjectMediaRandomSampleGenerator();
 

@@ -4,6 +4,7 @@
   },
   "applications": "*",
   "dto": "mapstruct",
+  "entityTableName": "contact_message",
   "fields": [
     {
       "fieldName": "visitorName",
@@ -17,7 +18,8 @@
     },
     {
       "fieldName": "message",
-      "fieldType": "TextBlob",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,13 +9,16 @@ import { ProjectMediaService } from '../service/project-media.service';
 
 @Component({
   templateUrl: './project-media-delete-dialog.component.html',
+  standalone: true,
   imports: [SharedModule, FormsModule],
 })
 export class ProjectMediaDeleteDialogComponent {
   projectMedia?: IProjectMedia;
 
-  protected projectMediaService = inject(ProjectMediaService);
-  protected activeModal = inject(NgbActiveModal);
+  constructor(
+    protected projectMediaService: ProjectMediaService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

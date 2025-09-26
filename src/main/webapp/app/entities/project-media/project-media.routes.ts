@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { ProjectMediaComponent } from './list/project-media.component';
+import { ProjectMediaDetailComponent } from './detail/project-media-detail.component';
+import { ProjectMediaUpdateComponent } from './update/project-media-update.component';
 import ProjectMediaResolve from './route/project-media-routing-resolve.service';
 
 const projectMediaRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/project-media.component').then(m => m.ProjectMediaComponent),
+    component: ProjectMediaComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/project-media-detail.component').then(m => m.ProjectMediaDetailComponent),
+    component: ProjectMediaDetailComponent,
     resolve: {
       projectMedia: ProjectMediaResolve,
     },
@@ -23,7 +26,7 @@ const projectMediaRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/project-media-update.component').then(m => m.ProjectMediaUpdateComponent),
+    component: ProjectMediaUpdateComponent,
     resolve: {
       projectMedia: ProjectMediaResolve,
     },
@@ -31,7 +34,7 @@ const projectMediaRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/project-media-update.component').then(m => m.ProjectMediaUpdateComponent),
+    component: ProjectMediaUpdateComponent,
     resolve: {
       projectMedia: ProjectMediaResolve,
     },

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../blog-post.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../blog-post.test-samples';
 
 import { BlogPostFormService } from './blog-post-form.service';
 

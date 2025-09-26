@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../page-content.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../page-content.test-samples';
 
 import { PageContentFormService } from './page-content-form.service';
 

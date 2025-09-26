@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../contact-message.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../contact-message.test-samples';
 
 import { ContactMessageFormService } from './contact-message-form.service';
 

@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
 import { VisitorLogService } from '../service/visitor-log.service';
 import { IVisitorLog } from '../visitor-log.model';
@@ -19,9 +21,8 @@ describe('VisitorLog Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [VisitorLogUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), VisitorLogUpdateComponent],
       providers: [
-        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -43,8 +44,8 @@ describe('VisitorLog Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should update editForm', () => {
-      const visitorLog: IVisitorLog = { id: 31041 };
+    it('Should update editForm', () => {
+      const visitorLog: IVisitorLog = { id: 456 };
 
       activatedRoute.data = of({ visitorLog });
       comp.ngOnInit();
@@ -54,10 +55,10 @@ describe('VisitorLog Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('should call update service on save for existing entity', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IVisitorLog>>();
-      const visitorLog = { id: 18305 };
+      const visitorLog = { id: 123 };
       jest.spyOn(visitorLogFormService, 'getVisitorLog').mockReturnValue(visitorLog);
       jest.spyOn(visitorLogService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -77,10 +78,10 @@ describe('VisitorLog Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('should call create service on save for new entity', () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IVisitorLog>>();
-      const visitorLog = { id: 18305 };
+      const visitorLog = { id: 123 };
       jest.spyOn(visitorLogFormService, 'getVisitorLog').mockReturnValue({ id: null });
       jest.spyOn(visitorLogService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -100,10 +101,10 @@ describe('VisitorLog Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('should set isSaving to false on error', () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IVisitorLog>>();
-      const visitorLog = { id: 18305 };
+      const visitorLog = { id: 123 };
       jest.spyOn(visitorLogService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ visitorLog });

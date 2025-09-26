@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
         id="jhi-contact-message-heading"
         data-cy="ContactMessageCreateUpdateHeading"
@@ -10,18 +10,17 @@
       </h2>
 
       <div>
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.contactMessage.id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
-        @let visitorNameRef = editForm.get('visitorName')!;
         <div class="mb-3">
-          <label class="form-label" for="field_visitorName" jhiTranslate="zsWebsiteApp.contactMessage.visitorName">Visitor Name</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.contactMessage.visitorName" for="field_visitorName">Visitor Name</label>
           <input
             type="text"
             class="form-control"
@@ -30,7 +29,7 @@
             data-cy="visitorName"
             formControlName="visitorName"
           />
-          @if (visitorNameRef.invalid && (visitorNameRef.dirty || visitorNameRef.touched)) {
+          @if (editForm.get('visitorName')!.invalid && (editForm.get('visitorName')!.dirty || editForm.get('visitorName')!.touched)) {
             <div>
               @if (editForm.get('visitorName')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -39,9 +38,8 @@
           }
         </div>
 
-        @let visitorEmailRef = editForm.get('visitorEmail')!;
         <div class="mb-3">
-          <label class="form-label" for="field_visitorEmail" jhiTranslate="zsWebsiteApp.contactMessage.visitorEmail">Visitor Email</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.contactMessage.visitorEmail" for="field_visitorEmail">Visitor Email</label>
           <input
             type="text"
             class="form-control"
@@ -50,7 +48,7 @@
             data-cy="visitorEmail"
             formControlName="visitorEmail"
           />
-          @if (visitorEmailRef.invalid && (visitorEmailRef.dirty || visitorEmailRef.touched)) {
+          @if (editForm.get('visitorEmail')!.invalid && (editForm.get('visitorEmail')!.dirty || editForm.get('visitorEmail')!.touched)) {
             <div>
               @if (editForm.get('visitorEmail')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -59,11 +57,10 @@
           }
         </div>
 
-        @let messageRef = editForm.get('message')!;
         <div class="mb-3">
-          <label class="form-label" for="field_message" jhiTranslate="zsWebsiteApp.contactMessage.message">Message</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.contactMessage.message" for="field_message">Message</label>
           <textarea class="form-control" name="message" id="field_message" data-cy="message" formControlName="message"></textarea>
-          @if (messageRef.invalid && (messageRef.dirty || messageRef.touched)) {
+          @if (editForm.get('message')!.invalid && (editForm.get('message')!.dirty || editForm.get('message')!.touched)) {
             <div>
               @if (editForm.get('message')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -72,9 +69,8 @@
           }
         </div>
 
-        @let submittedDateRef = editForm.get('submittedDate')!;
         <div class="mb-3">
-          <label class="form-label" for="field_submittedDate" jhiTranslate="zsWebsiteApp.contactMessage.submittedDate"
+          <label class="form-label" jhiTranslate="zsWebsiteApp.contactMessage.submittedDate" for="field_submittedDate"
             >Submitted Date</label
           >
           <div class="d-flex">
@@ -88,7 +84,7 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
-          @if (submittedDateRef.invalid && (submittedDateRef.dirty || submittedDateRef.touched)) {
+          @if (editForm.get('submittedDate')!.invalid && (editForm.get('submittedDate')!.dirty || editForm.get('submittedDate')!.touched)) {
             <div>
               @if (editForm.get('submittedDate')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { IBlogPost } from '../blog-post.model';
-import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../blog-post.test-samples';
+import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../blog-post.test-samples';
 
 import { BlogPostService, RestBlogPost } from './blog-post.service';
 
@@ -19,7 +18,7 @@ describe('BlogPost Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [HttpClientTestingModule],
     });
     expectedResult = null;
     service = TestBed.inject(BlogPostService);
@@ -156,7 +155,7 @@ describe('BlogPost Service', () => {
     });
 
     describe('compareBlogPost', () => {
-      it('should return true if both entities are null', () => {
+      it('Should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -165,8 +164,8 @@ describe('BlogPost Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('should return false if one entity is null', () => {
-        const entity1 = { id: 11641 };
+      it('Should return false if one entity is null', () => {
+        const entity1 = { id: 123 };
         const entity2 = null;
 
         const compareResult1 = service.compareBlogPost(entity1, entity2);
@@ -176,9 +175,9 @@ describe('BlogPost Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey differs', () => {
-        const entity1 = { id: 11641 };
-        const entity2 = { id: 15145 };
+      it('Should return false if primaryKey differs', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 456 };
 
         const compareResult1 = service.compareBlogPost(entity1, entity2);
         const compareResult2 = service.compareBlogPost(entity2, entity1);
@@ -187,9 +186,9 @@ describe('BlogPost Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey matches', () => {
-        const entity1 = { id: 11641 };
-        const entity2 = { id: 11641 };
+      it('Should return false if primaryKey matches', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 123 };
 
         const compareResult1 = service.compareBlogPost(entity1, entity2);
         const compareResult2 = service.compareBlogPost(entity2, entity1);

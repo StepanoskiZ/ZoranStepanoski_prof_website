@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,10 +14,12 @@ export type EntityArrayResponseType = HttpResponse<IProjectMedia[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ProjectMediaService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/project-medias');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(projectMedia: NewProjectMedia): Observable<EntityResponseType> {
     return this.http.post<IProjectMedia>(this.resourceUrl, projectMedia, { observe: 'response' });
@@ -62,8 +64,8 @@ export class ProjectMediaService {
   ): Type[] {
     const projectMedias: Type[] = projectMediasToCheck.filter(isPresent);
     if (projectMedias.length > 0) {
-      const projectMediaCollectionIdentifiers = projectMediaCollection.map(projectMediaItem =>
-        this.getProjectMediaIdentifier(projectMediaItem),
+      const projectMediaCollectionIdentifiers = projectMediaCollection.map(
+        projectMediaItem => this.getProjectMediaIdentifier(projectMediaItem)!,
       );
       const projectMediasToAdd = projectMedias.filter(projectMediaItem => {
         const projectMediaIdentifier = this.getProjectMediaIdentifier(projectMediaItem);

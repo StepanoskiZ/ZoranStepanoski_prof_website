@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,10 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IVisitorLog } from '../visitor-log.model';
 import { VisitorLogService } from '../service/visitor-log.service';
-import { VisitorLogFormGroup, VisitorLogFormService } from './visitor-log-form.service';
+import { VisitorLogFormService, VisitorLogFormGroup } from './visitor-log-form.service';
 
 @Component({
   selector: 'jhi-visitor-log-update',
+  standalone: true,
   templateUrl: './visitor-log-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -20,12 +21,13 @@ export class VisitorLogUpdateComponent implements OnInit {
   isSaving = false;
   visitorLog: IVisitorLog | null = null;
 
-  protected visitorLogService = inject(VisitorLogService);
-  protected visitorLogFormService = inject(VisitorLogFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: VisitorLogFormGroup = this.visitorLogFormService.createVisitorLogFormGroup();
+
+  constructor(
+    protected visitorLogService: VisitorLogService,
+    protected visitorLogFormService: VisitorLogFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ visitorLog }) => {

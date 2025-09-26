@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,24 +13,31 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { BlogPostService } from '../service/blog-post.service';
 import { IBlogPost } from '../blog-post.model';
 import { BlogPostFormGroup, BlogPostFormService } from './blog-post-form.service';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'jhi-blog-post-update',
+  standalone: true,
   templateUrl: './blog-post-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule, QuillModule],
 })
 export class BlogPostUpdateComponent implements OnInit {
   isSaving = false;
   blogPost: IBlogPost | null = null;
 
-  protected dataUtils = inject(DataUtils);
-  protected eventManager = inject(EventManager);
-  protected blogPostService = inject(BlogPostService);
-  protected blogPostFormService = inject(BlogPostFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: BlogPostFormGroup = this.blogPostFormService.createBlogPostFormGroup();
+
+  editorModules = {
+    toolbar: [[{ header: [1, 2, 3, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video', 'image', 'code-block']],
+  };
+
+  constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
+    protected blogPostService: BlogPostService,
+    protected blogPostFormService: BlogPostFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ blogPost }) => {
@@ -52,7 +59,7 @@ export class BlogPostUpdateComponent implements OnInit {
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: `error.file.${err.key}` })),
+        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: 'error.file.' + err.key })),
     });
   }
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../visitor-log.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../visitor-log.test-samples';
 
 import { VisitorLogFormService } from './visitor-log-form.service';
 

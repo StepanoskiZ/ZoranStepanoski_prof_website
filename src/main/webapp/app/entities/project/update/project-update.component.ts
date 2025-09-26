@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,10 +13,11 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ProjectStatus } from 'app/entities/enumerations/project-status.model';
 import { ProjectService } from '../service/project.service';
 import { IProject } from '../project.model';
-import { ProjectFormGroup, ProjectFormService } from './project-form.service';
+import { ProjectFormService, ProjectFormGroup } from './project-form.service';
 
 @Component({
   selector: 'jhi-project-update',
+  standalone: true,
   templateUrl: './project-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -25,14 +26,15 @@ export class ProjectUpdateComponent implements OnInit {
   project: IProject | null = null;
   projectStatusValues = Object.keys(ProjectStatus);
 
-  protected dataUtils = inject(DataUtils);
-  protected eventManager = inject(EventManager);
-  protected projectService = inject(ProjectService);
-  protected projectFormService = inject(ProjectFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: ProjectFormGroup = this.projectFormService.createProjectFormGroup();
+
+  constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
+    protected projectService: ProjectService,
+    protected projectFormService: ProjectFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ project }) => {
@@ -54,7 +56,7 @@ export class ProjectUpdateComponent implements OnInit {
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: `error.file.${err.key}` })),
+        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: 'error.file.' + err.key })),
     });
   }
 

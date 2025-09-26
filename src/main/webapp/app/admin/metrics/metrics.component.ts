@@ -15,6 +15,7 @@ import { MetricsSystemComponent } from './blocks/metrics-system/metrics-system.c
 
 @Component({
   selector: 'jhi-metrics',
+  standalone: true,
   templateUrl: './metrics.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

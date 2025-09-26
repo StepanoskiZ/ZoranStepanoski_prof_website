@@ -6,12 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { SortByDirective, SortDirective, SortService, sortStateSignal } from 'app/shared/sort';
 import { Level, Log, LoggersResponse } from './log.model';
 import { LogsService } from './logs.service';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-logs',
+  standalone: true,
   templateUrl: './logs.component.html',
-  imports: [TranslateDirective, SharedModule, FormsModule, SortDirective, SortByDirective],
+  imports: [SharedModule, FormsModule, SortDirective, SortByDirective],
 })
 export default class LogsComponent implements OnInit {
   loggers = signal<Log[] | undefined>(undefined);

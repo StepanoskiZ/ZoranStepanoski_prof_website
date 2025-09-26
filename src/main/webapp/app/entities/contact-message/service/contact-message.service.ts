@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { map } from 'rxjs/operators';
 
 import dayjs from 'dayjs/esm';
 
@@ -26,10 +28,12 @@ export type EntityArrayResponseType = HttpResponse<IContactMessage[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ContactMessageService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/contact-messages');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(contactMessage: NewContactMessage): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(contactMessage);
@@ -83,8 +87,8 @@ export class ContactMessageService {
   ): Type[] {
     const contactMessages: Type[] = contactMessagesToCheck.filter(isPresent);
     if (contactMessages.length > 0) {
-      const contactMessageCollectionIdentifiers = contactMessageCollection.map(contactMessageItem =>
-        this.getContactMessageIdentifier(contactMessageItem),
+      const contactMessageCollectionIdentifiers = contactMessageCollection.map(
+        contactMessageItem => this.getContactMessageIdentifier(contactMessageItem)!,
       );
       const contactMessagesToAdd = contactMessages.filter(contactMessageItem => {
         const contactMessageIdentifier = this.getContactMessageIdentifier(contactMessageItem);

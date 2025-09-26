@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { DataUtils } from 'app/core/util/data-util.service';
@@ -8,20 +8,18 @@ import { DataUtils } from 'app/core/util/data-util.service';
 import { ProjectDetailComponent } from './project-detail.component';
 
 describe('Project Management Detail Component', () => {
-  let comp: ProjectDetailComponent;
-  let fixture: ComponentFixture<ProjectDetailComponent>;
   let dataUtils: DataUtils;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectDetailComponent],
+      imports: [ProjectDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
       providers: [
         provideRouter(
           [
             {
               path: '**',
-              loadComponent: () => import('./project-detail.component').then(m => m.ProjectDetailComponent),
-              resolve: { project: () => of({ id: 10300 }) },
+              component: ProjectDetailComponent,
+              resolve: { project: () => of({ id: 123 }) },
             },
           ],
           withComponentInputBinding(),
@@ -34,46 +32,36 @@ describe('Project Management Detail Component', () => {
     jest.spyOn(window, 'open').mockImplementation(() => null);
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectDetailComponent);
-    comp = fixture.componentInstance;
-  });
-
   describe('OnInit', () => {
-    it('should load project on init', async () => {
+    it('Should load project on init', async () => {
       const harness = await RouterTestingHarness.create();
       const instance = await harness.navigateByUrl('/', ProjectDetailComponent);
 
       // THEN
-      expect(instance.project()).toEqual(expect.objectContaining({ id: 10300 }));
-    });
-  });
-
-  describe('PreviousState', () => {
-    it('should navigate to previous state', () => {
-      jest.spyOn(window.history, 'back');
-      comp.previousState();
-      expect(window.history.back).toHaveBeenCalled();
+      expect(instance.project).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 
   describe('byteSize', () => {
-    it('should call byteSize from DataUtils', () => {
+    it('Should call byteSize from DataUtils', () => {
       // GIVEN
       jest.spyOn(dataUtils, 'byteSize');
       const fakeBase64 = 'fake base64';
+      const fixture = TestBed.createComponent(ProjectDetailComponent);
+      const comp = fixture.componentInstance;
 
       // WHEN
       comp.byteSize(fakeBase64);
 
       // THEN
-      expect(dataUtils.byteSize).toHaveBeenCalledWith(fakeBase64);
+      expect(dataUtils.byteSize).toBeCalledWith(fakeBase64);
     });
   });
 
   describe('openFile', () => {
-    it('should call openFile from DataUtils', () => {
+    it('Should call openFile from DataUtils', () => {
       const newWindow = { ...window };
+      newWindow.document.write = jest.fn();
       window.open = jest.fn(() => newWindow);
       window.onload = jest.fn(() => newWindow) as any;
       window.URL.createObjectURL = jest.fn() as any;
@@ -81,12 +69,14 @@ describe('Project Management Detail Component', () => {
       jest.spyOn(dataUtils, 'openFile');
       const fakeContentType = 'fake content type';
       const fakeBase64 = 'fake base64';
+      const fixture = TestBed.createComponent(ProjectDetailComponent);
+      const comp = fixture.componentInstance;
 
       // WHEN
       comp.openFile(fakeBase64, fakeContentType);
 
       // THEN
-      expect(dataUtils.openFile).toHaveBeenCalledWith(fakeBase64, fakeContentType);
+      expect(dataUtils.openFile).toBeCalledWith(fakeBase64, fakeContentType);
     });
   });
 });

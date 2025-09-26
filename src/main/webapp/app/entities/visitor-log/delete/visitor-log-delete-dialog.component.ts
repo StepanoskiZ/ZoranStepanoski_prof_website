@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,14 +8,17 @@ import { IVisitorLog } from '../visitor-log.model';
 import { VisitorLogService } from '../service/visitor-log.service';
 
 @Component({
+  standalone: true,
   templateUrl: './visitor-log-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })
 export class VisitorLogDeleteDialogComponent {
   visitorLog?: IVisitorLog;
 
-  protected visitorLogService = inject(VisitorLogService);
-  protected activeModal = inject(NgbActiveModal);
+  constructor(
+    protected visitorLogService: VisitorLogService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

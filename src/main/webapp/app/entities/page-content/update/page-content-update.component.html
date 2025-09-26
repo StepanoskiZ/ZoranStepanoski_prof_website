@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
         id="jhi-page-content-heading"
         data-cy="PageContentCreateUpdateHeading"
@@ -10,18 +10,17 @@
       </h2>
 
       <div>
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.pageContent.id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
-        @let sectionKeyRef = editForm.get('sectionKey')!;
         <div class="mb-3">
-          <label class="form-label" for="field_sectionKey" jhiTranslate="zsWebsiteApp.pageContent.sectionKey">Section Key</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContent.sectionKey" for="field_sectionKey">Section Key</label>
           <input
             type="text"
             class="form-control"
@@ -30,7 +29,7 @@
             data-cy="sectionKey"
             formControlName="sectionKey"
           />
-          @if (sectionKeyRef.invalid && (sectionKeyRef.dirty || sectionKeyRef.touched)) {
+          @if (editForm.get('sectionKey')!.invalid && (editForm.get('sectionKey')!.dirty || editForm.get('sectionKey')!.touched)) {
             <div>
               @if (editForm.get('sectionKey')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -39,9 +38,8 @@
           }
         </div>
 
-        @let contentHtmlRef = editForm.get('contentHtml')!;
         <div class="mb-3">
-          <label class="form-label" for="field_contentHtml" jhiTranslate="zsWebsiteApp.pageContent.contentHtml">Content Html</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContent.contentHtml" for="field_contentHtml">Content Html</label>
           <textarea
             class="form-control"
             name="contentHtml"
@@ -49,7 +47,7 @@
             data-cy="contentHtml"
             formControlName="contentHtml"
           ></textarea>
-          @if (contentHtmlRef.invalid && (contentHtmlRef.dirty || contentHtmlRef.touched)) {
+          @if (editForm.get('contentHtml')!.invalid && (editForm.get('contentHtml')!.dirty || editForm.get('contentHtml')!.touched)) {
             <div>
               @if (editForm.get('contentHtml')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>

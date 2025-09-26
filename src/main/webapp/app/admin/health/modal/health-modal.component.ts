@@ -3,12 +3,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
 import { HealthDetails, HealthKey } from '../health.model';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-health-modal',
+  standalone: true,
   templateUrl: './health-modal.component.html',
-  imports: [TranslateDirective, SharedModule],
+  imports: [SharedModule],
 })
 export default class HealthModalComponent {
   health?: { key: HealthKey; value: HealthDetails };

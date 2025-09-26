@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { map } from 'rxjs/operators';
 
 import dayjs from 'dayjs/esm';
 
@@ -26,10 +28,12 @@ export type EntityArrayResponseType = HttpResponse<IBlogPost[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BlogPostService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/blog-posts');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(blogPost: NewBlogPost): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(blogPost);
@@ -83,7 +87,7 @@ export class BlogPostService {
   ): Type[] {
     const blogPosts: Type[] = blogPostsToCheck.filter(isPresent);
     if (blogPosts.length > 0) {
-      const blogPostCollectionIdentifiers = blogPostCollection.map(blogPostItem => this.getBlogPostIdentifier(blogPostItem));
+      const blogPostCollectionIdentifiers = blogPostCollection.map(blogPostItem => this.getBlogPostIdentifier(blogPostItem)!);
       const blogPostsToAdd = blogPosts.filter(blogPostItem => {
         const blogPostIdentifier = this.getBlogPostIdentifier(blogPostItem);
         if (blogPostCollectionIdentifiers.includes(blogPostIdentifier)) {

@@ -61,10 +61,10 @@ public class ProjectMediaResource {
         if (projectMediaDTO.getId() != null) {
             throw new BadRequestAlertException("A new projectMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        projectMediaDTO = projectMediaService.save(projectMediaDTO);
-        return ResponseEntity.created(new URI("/api/project-medias/" + projectMediaDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, projectMediaDTO.getId().toString()))
-            .body(projectMediaDTO);
+        ProjectMediaDTO result = projectMediaService.save(projectMediaDTO);
+        return ResponseEntity.created(new URI("/api/project-medias/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -94,10 +94,10 @@ public class ProjectMediaResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        projectMediaDTO = projectMediaService.update(projectMediaDTO);
+        ProjectMediaDTO result = projectMediaService.update(projectMediaDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectMediaDTO.getId().toString()))
-            .body(projectMediaDTO);
+            .body(result);
     }
 
     /**

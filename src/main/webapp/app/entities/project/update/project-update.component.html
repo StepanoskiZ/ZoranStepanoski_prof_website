@@ -1,25 +1,24 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-project-heading" data-cy="ProjectCreateUpdateHeading" jhiTranslate="zsWebsiteApp.project.home.createOrEditLabel">
         Create or edit a Project
       </h2>
 
       <div>
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.project.id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
-        @let titleRef = editForm.get('title')!;
         <div class="mb-3">
-          <label class="form-label" for="field_title" jhiTranslate="zsWebsiteApp.project.title">Title</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.title" for="field_title">Title</label>
           <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
-          @if (titleRef.invalid && (titleRef.dirty || titleRef.touched)) {
+          @if (editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)) {
             <div>
               @if (editForm.get('title')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -28,9 +27,8 @@
           }
         </div>
 
-        @let descriptionRef = editForm.get('description')!;
         <div class="mb-3">
-          <label class="form-label" for="field_description" jhiTranslate="zsWebsiteApp.project.description">Description</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.description" for="field_description">Description</label>
           <textarea
             class="form-control"
             name="description"
@@ -38,7 +36,7 @@
             data-cy="description"
             formControlName="description"
           ></textarea>
-          @if (descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)) {
+          @if (editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)) {
             <div>
               @if (editForm.get('description')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -48,7 +46,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_startDate" jhiTranslate="zsWebsiteApp.project.startDate">Start Date</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.startDate" for="field_startDate">Start Date</label>
           <div class="input-group">
             <input
               id="field_startDate"
@@ -65,7 +63,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_endDate" jhiTranslate="zsWebsiteApp.project.endDate">End Date</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.endDate" for="field_endDate">End Date</label>
           <div class="input-group">
             <input
               id="field_endDate"
@@ -82,7 +80,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_status" jhiTranslate="zsWebsiteApp.project.status">Status</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.status" for="field_status">Status</label>
           <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
             <option [ngValue]="null">{{ 'zsWebsiteApp.ProjectStatus.null' | translate }}</option>
             @for (projectStatus of projectStatusValues; track $index) {
@@ -92,7 +90,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_projectUrl" jhiTranslate="zsWebsiteApp.project.projectUrl">Project Url</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.projectUrl" for="field_projectUrl">Project Url</label>
           <input
             type="text"
             class="form-control"
@@ -104,7 +102,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_category" jhiTranslate="zsWebsiteApp.project.category">Category</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.project.category" for="field_category">Category</label>
           <input type="text" class="form-control" name="category" id="field_category" data-cy="category" formControlName="category" />
         </div>
       </div>

@@ -1,10 +1,17 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.Project;
+import com.paradox.zswebsite.domain.ProjectMedia;
+import com.paradox.zswebsite.repository.ProjectMediaRepository;
 import com.paradox.zswebsite.repository.ProjectRepository;
+import com.paradox.zswebsite.service.dto.ProjectCardDTO;
 import com.paradox.zswebsite.service.dto.ProjectDTO;
+import com.paradox.zswebsite.service.dto.ProjectDetailDTO;
 import com.paradox.zswebsite.service.mapper.ProjectMapper;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,14 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProjectService.class);
-
     private final ProjectRepository projectRepository;
-
     private final ProjectMapper projectMapper;
+    private final ProjectMediaRepository projectMediaRepository;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper, ProjectMediaRepository projectMediaRepository) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
+        this.projectMediaRepository = projectMediaRepository;
     }
 
     /**
@@ -108,5 +115,59 @@ public class ProjectService {
     public void delete(Long id) {
         LOG.debug("Request to delete Project : {}", id);
         projectRepository.deleteById(id);
+    }
+
+    // --- Custom Method 1 ---
+    @Transactional(readOnly = true)
+    public List<ProjectCardDTO> findAllForLandingPage() {
+        LOG.debug("Request to get all Projects for landing page");
+        return projectRepository
+            .findAllWithEagerRelationships()
+            .stream()
+            .map(project -> {
+                ProjectCardDTO dto = new ProjectCardDTO();
+                // ... (setting id, title, description is the same) ...
+                dto.setId(project.getId());
+                dto.setTitle(project.getTitle());
+                if (project.getDescription() != null && project.getDescription().length() > 150) {
+                    dto.setDescription(project.getDescription().substring(0, 150) + "...");
+                } else {
+                    dto.setDescription(project.getDescription());
+                }
+
+                // --- THIS IS THE FIX ---
+                project
+                    .getMedia()
+                    .stream()
+                    // 1. Sort the media by ID to get a predictable order
+                    .sorted(Comparator.comparing(ProjectMedia::getId))
+                    // 2. Now, findFirst() will always get the one with the lowest ID
+                    .findFirst()
+                    .ifPresent(firstMedia -> {
+                        dto.setFirstMediaUrl(firstMedia.getMediaUrl());
+                        dto.setFirstMediaType(firstMedia.getProjectMediaType());
+                    });
+
+                return dto;
+            })
+            .collect(Collectors.toList());
+    }
+
+    // --- Custom Method 2 ---
+    @Transactional(readOnly = true)
+    public Optional<ProjectDetailDTO> findOneWithDetails(Long id) {
+        LOG.debug("Request to get detailed Project with media : {}", id);
+        return projectRepository
+            .findOneWithEagerRelationships(id)
+            .map(project -> {
+                ProjectDetailDTO dto = new ProjectDetailDTO();
+                dto.setId(project.getId());
+                dto.setTitle(project.getTitle());
+                dto.setDescription(project.getDescription());
+                dto.setUrl(project.getProjectUrl());
+                List<String> urls = project.getMedia().stream().map(ProjectMedia::getMediaUrl).collect(Collectors.toList());
+                dto.setMediaUrls(urls);
+                return dto;
+            });
     }
 }

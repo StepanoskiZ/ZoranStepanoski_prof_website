@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
 import { IPageContent } from 'app/entities/page-content/page-content.model';
 import { PageContentService } from 'app/entities/page-content/service/page-content.service';
@@ -22,9 +24,8 @@ describe('PageContentMedia Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PageContentMediaUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), PageContentMediaUpdateComponent],
       providers: [
-        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -47,12 +48,12 @@ describe('PageContentMedia Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call PageContent query and add missing value', () => {
-      const pageContentMedia: IPageContentMedia = { id: 29596 };
-      const pagecontent: IPageContent = { id: 27977 };
+    it('Should call PageContent query and add missing value', () => {
+      const pageContentMedia: IPageContentMedia = { id: 456 };
+      const pagecontent: IPageContent = { id: 14207 };
       pageContentMedia.pagecontent = pagecontent;
 
-      const pageContentCollection: IPageContent[] = [{ id: 27977 }];
+      const pageContentCollection: IPageContent[] = [{ id: 32610 }];
       jest.spyOn(pageContentService, 'query').mockReturnValue(of(new HttpResponse({ body: pageContentCollection })));
       const additionalPageContents = [pagecontent];
       const expectedCollection: IPageContent[] = [...additionalPageContents, ...pageContentCollection];
@@ -69,24 +70,24 @@ describe('PageContentMedia Management Update Component', () => {
       expect(comp.pageContentsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('should update editForm', () => {
-      const pageContentMedia: IPageContentMedia = { id: 29596 };
-      const pagecontent: IPageContent = { id: 27977 };
+    it('Should update editForm', () => {
+      const pageContentMedia: IPageContentMedia = { id: 456 };
+      const pagecontent: IPageContent = { id: 21678 };
       pageContentMedia.pagecontent = pagecontent;
 
       activatedRoute.data = of({ pageContentMedia });
       comp.ngOnInit();
 
-      expect(comp.pageContentsSharedCollection).toContainEqual(pagecontent);
+      expect(comp.pageContentsSharedCollection).toContain(pagecontent);
       expect(comp.pageContentMedia).toEqual(pageContentMedia);
     });
   });
 
   describe('save', () => {
-    it('should call update service on save for existing entity', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPageContentMedia>>();
-      const pageContentMedia = { id: 5814 };
+      const pageContentMedia = { id: 123 };
       jest.spyOn(pageContentMediaFormService, 'getPageContentMedia').mockReturnValue(pageContentMedia);
       jest.spyOn(pageContentMediaService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -106,10 +107,10 @@ describe('PageContentMedia Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('should call create service on save for new entity', () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPageContentMedia>>();
-      const pageContentMedia = { id: 5814 };
+      const pageContentMedia = { id: 123 };
       jest.spyOn(pageContentMediaFormService, 'getPageContentMedia').mockReturnValue({ id: null });
       jest.spyOn(pageContentMediaService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -129,10 +130,10 @@ describe('PageContentMedia Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('should set isSaving to false on error', () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IPageContentMedia>>();
-      const pageContentMedia = { id: 5814 };
+      const pageContentMedia = { id: 123 };
       jest.spyOn(pageContentMediaService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ pageContentMedia });
@@ -152,9 +153,9 @@ describe('PageContentMedia Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('comparePageContent', () => {
-      it('should forward to pageContentService', () => {
-        const entity = { id: 27977 };
-        const entity2 = { id: 7034 };
+      it('Should forward to pageContentService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
         jest.spyOn(pageContentService, 'comparePageContent');
         comp.comparePageContent(entity, entity2);
         expect(pageContentService.comparePageContent).toHaveBeenCalledWith(entity, entity2);

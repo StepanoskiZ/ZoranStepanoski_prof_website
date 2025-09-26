@@ -4,6 +4,7 @@
   },
   "applications": "*",
   "dto": "mapstruct",
+  "entityTableName": "page_content_media",
   "fields": [
     {
       "fieldName": "mediaUrl",

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,10 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ISkill } from '../skill.model';
 import { SkillService } from '../service/skill.service';
-import { SkillFormGroup, SkillFormService } from './skill-form.service';
+import { SkillFormService, SkillFormGroup } from './skill-form.service';
 
 @Component({
   selector: 'jhi-skill-update',
+  standalone: true,
   templateUrl: './skill-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -20,12 +21,13 @@ export class SkillUpdateComponent implements OnInit {
   isSaving = false;
   skill: ISkill | null = null;
 
-  protected skillService = inject(SkillService);
-  protected skillFormService = inject(SkillFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: SkillFormGroup = this.skillFormService.createSkillFormGroup();
+
+  constructor(
+    protected skillService: SkillService,
+    protected skillFormService: SkillFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ skill }) => {

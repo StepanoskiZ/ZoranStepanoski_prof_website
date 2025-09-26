@@ -1,13 +1,10 @@
 package com.paradox.zswebsite.web.rest;
 
-import static com.paradox.zswebsite.domain.BlogPostAsserts.*;
-import static com.paradox.zswebsite.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paradox.zswebsite.IntegrationTest;
 import com.paradox.zswebsite.domain.BlogPost;
 import com.paradox.zswebsite.repository.BlogPostRepository;
@@ -16,9 +13,9 @@ import com.paradox.zswebsite.service.mapper.BlogPostMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +52,6 @@ class BlogPostResourceIT {
     private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
-    private ObjectMapper om;
-
-    @Autowired
     private BlogPostRepository blogPostRepository;
 
     @Autowired
@@ -71,20 +65,19 @@ class BlogPostResourceIT {
 
     private BlogPost blogPost;
 
-    private BlogPost insertedBlogPost;
-
     /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BlogPost createEntity() {
-        return new BlogPost()
+    public static BlogPost createEntity(EntityManager em) {
+        BlogPost blogPost = new BlogPost()
             .title(DEFAULT_TITLE)
             .content(DEFAULT_CONTENT)
             .imageUrl(DEFAULT_IMAGE_URL)
             .publishedDate(DEFAULT_PUBLISHED_DATE);
+        return blogPost;
     }
 
     /**
@@ -93,49 +86,38 @@ class BlogPostResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BlogPost createUpdatedEntity() {
-        return new BlogPost()
+    public static BlogPost createUpdatedEntity(EntityManager em) {
+        BlogPost blogPost = new BlogPost()
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)
             .imageUrl(UPDATED_IMAGE_URL)
             .publishedDate(UPDATED_PUBLISHED_DATE);
+        return blogPost;
     }
 
     @BeforeEach
-    void initTest() {
-        blogPost = createEntity();
-    }
-
-    @AfterEach
-    void cleanup() {
-        if (insertedBlogPost != null) {
-            blogPostRepository.delete(insertedBlogPost);
-            insertedBlogPost = null;
-        }
+    public void initTest() {
+        blogPost = createEntity(em);
     }
 
     @Test
     @Transactional
     void createBlogPost() throws Exception {
-        long databaseSizeBeforeCreate = getRepositoryCount();
+        int databaseSizeBeforeCreate = blogPostRepository.findAll().size();
         // Create the BlogPost
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(blogPost);
-        var returnedBlogPostDTO = om.readValue(
-            restBlogPostMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogPostDTO)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(),
-            BlogPostDTO.class
-        );
+        restBlogPostMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(blogPostDTO)))
+            .andExpect(status().isCreated());
 
         // Validate the BlogPost in the database
-        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        var returnedBlogPost = blogPostMapper.toEntity(returnedBlogPostDTO);
-        assertBlogPostUpdatableFieldsEquals(returnedBlogPost, getPersistedBlogPost(returnedBlogPost));
-
-        insertedBlogPost = returnedBlogPost;
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeCreate + 1);
+        BlogPost testBlogPost = blogPostList.get(blogPostList.size() - 1);
+        assertThat(testBlogPost.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testBlogPost.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testBlogPost.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
+        assertThat(testBlogPost.getPublishedDate()).isEqualTo(DEFAULT_PUBLISHED_DATE);
     }
 
     @Test
@@ -145,21 +127,22 @@ class BlogPostResourceIT {
         blogPost.setId(1L);
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(blogPost);
 
-        long databaseSizeBeforeCreate = getRepositoryCount();
+        int databaseSizeBeforeCreate = blogPostRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBlogPostMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogPostDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(blogPostDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeCreate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     void checkTitleIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
+        int databaseSizeBeforeTest = blogPostRepository.findAll().size();
         // set the field null
         blogPost.setTitle(null);
 
@@ -167,16 +150,17 @@ class BlogPostResourceIT {
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(blogPost);
 
         restBlogPostMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogPostDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(blogPostDTO)))
             .andExpect(status().isBadRequest());
 
-        assertSameRepositoryCount(databaseSizeBeforeTest);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkPublishedDateIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
+        int databaseSizeBeforeTest = blogPostRepository.findAll().size();
         // set the field null
         blogPost.setPublishedDate(null);
 
@@ -184,17 +168,18 @@ class BlogPostResourceIT {
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(blogPost);
 
         restBlogPostMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogPostDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(blogPostDTO)))
             .andExpect(status().isBadRequest());
 
-        assertSameRepositoryCount(databaseSizeBeforeTest);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void getAllBlogPosts() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
         // Get all the blogPostList
         restBlogPostMockMvc
@@ -203,7 +188,7 @@ class BlogPostResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(blogPost.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].publishedDate").value(hasItem(DEFAULT_PUBLISHED_DATE.toString())));
     }
@@ -212,7 +197,7 @@ class BlogPostResourceIT {
     @Transactional
     void getBlogPost() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
         // Get the blogPost
         restBlogPostMockMvc
@@ -221,7 +206,7 @@ class BlogPostResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(blogPost.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT))
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.publishedDate").value(DEFAULT_PUBLISHED_DATE.toString()));
     }
@@ -237,9 +222,9 @@ class BlogPostResourceIT {
     @Transactional
     void putExistingBlogPost() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
 
         // Update the blogPost
         BlogPost updatedBlogPost = blogPostRepository.findById(blogPost.getId()).orElseThrow();
@@ -252,19 +237,24 @@ class BlogPostResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, blogPostDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(blogPostDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
             )
             .andExpect(status().isOk());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertPersistedBlogPostToMatchAllProperties(updatedBlogPost);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
+        BlogPost testBlogPost = blogPostList.get(blogPostList.size() - 1);
+        assertThat(testBlogPost.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testBlogPost.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testBlogPost.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
+        assertThat(testBlogPost.getPublishedDate()).isEqualTo(UPDATED_PUBLISHED_DATE);
     }
 
     @Test
     @Transactional
     void putNonExistingBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -275,18 +265,19 @@ class BlogPostResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, blogPostDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(blogPostDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -297,18 +288,19 @@ class BlogPostResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(blogPostDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -316,20 +308,21 @@ class BlogPostResourceIT {
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBlogPostMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogPostDTO)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(blogPostDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void partialUpdateBlogPostWithPatch() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
 
         // Update the blogPost using partial update
         BlogPost partialUpdatedBlogPost = new BlogPost();
@@ -339,23 +332,27 @@ class BlogPostResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedBlogPost.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedBlogPost))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBlogPost))
             )
             .andExpect(status().isOk());
 
         // Validate the BlogPost in the database
-
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertBlogPostUpdatableFieldsEquals(createUpdateProxyForBean(partialUpdatedBlogPost, blogPost), getPersistedBlogPost(blogPost));
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
+        BlogPost testBlogPost = blogPostList.get(blogPostList.size() - 1);
+        assertThat(testBlogPost.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testBlogPost.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testBlogPost.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
+        assertThat(testBlogPost.getPublishedDate()).isEqualTo(DEFAULT_PUBLISHED_DATE);
     }
 
     @Test
     @Transactional
     void fullUpdateBlogPostWithPatch() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
 
         // Update the blogPost using partial update
         BlogPost partialUpdatedBlogPost = new BlogPost();
@@ -371,20 +368,24 @@ class BlogPostResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedBlogPost.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedBlogPost))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedBlogPost))
             )
             .andExpect(status().isOk());
 
         // Validate the BlogPost in the database
-
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertBlogPostUpdatableFieldsEquals(partialUpdatedBlogPost, getPersistedBlogPost(partialUpdatedBlogPost));
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
+        BlogPost testBlogPost = blogPostList.get(blogPostList.size() - 1);
+        assertThat(testBlogPost.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testBlogPost.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testBlogPost.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
+        assertThat(testBlogPost.getPublishedDate()).isEqualTo(UPDATED_PUBLISHED_DATE);
     }
 
     @Test
     @Transactional
     void patchNonExistingBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -395,18 +396,19 @@ class BlogPostResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, blogPostDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(blogPostDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -417,18 +419,19 @@ class BlogPostResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(blogPostDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamBlogPost() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = blogPostRepository.findAll().size();
         blogPost.setId(longCount.incrementAndGet());
 
         // Create the BlogPost
@@ -436,20 +439,23 @@ class BlogPostResourceIT {
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restBlogPostMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(blogPostDTO)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(blogPostDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the BlogPost in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void deleteBlogPost() throws Exception {
         // Initialize the database
-        insertedBlogPost = blogPostRepository.saveAndFlush(blogPost);
+        blogPostRepository.saveAndFlush(blogPost);
 
-        long databaseSizeBeforeDelete = getRepositoryCount();
+        int databaseSizeBeforeDelete = blogPostRepository.findAll().size();
 
         // Delete the blogPost
         restBlogPostMockMvc
@@ -457,34 +463,7 @@ class BlogPostResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
-    }
-
-    protected long getRepositoryCount() {
-        return blogPostRepository.count();
-    }
-
-    protected void assertIncrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
-    }
-
-    protected void assertDecrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
-    }
-
-    protected void assertSameRepositoryCount(long countBefore) {
-        assertThat(countBefore).isEqualTo(getRepositoryCount());
-    }
-
-    protected BlogPost getPersistedBlogPost(BlogPost blogPost) {
-        return blogPostRepository.findById(blogPost.getId()).orElseThrow();
-    }
-
-    protected void assertPersistedBlogPostToMatchAllProperties(BlogPost expectedBlogPost) {
-        assertBlogPostAllPropertiesEquals(expectedBlogPost, getPersistedBlogPost(expectedBlogPost));
-    }
-
-    protected void assertPersistedBlogPostToMatchUpdatableProperties(BlogPost expectedBlogPost) {
-        assertBlogPostAllUpdatablePropertiesEquals(expectedBlogPost, getPersistedBlogPost(expectedBlogPost));
+        List<BlogPost> blogPostList = blogPostRepository.findAll();
+        assertThat(blogPostList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

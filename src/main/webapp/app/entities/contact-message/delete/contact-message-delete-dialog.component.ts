@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,14 +8,17 @@ import { IContactMessage } from '../contact-message.model';
 import { ContactMessageService } from '../service/contact-message.service';
 
 @Component({
+  standalone: true,
   templateUrl: './contact-message-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })
 export class ContactMessageDeleteDialogComponent {
   contactMessage?: IContactMessage;
 
-  protected contactMessageService = inject(ContactMessageService);
-  protected activeModal = inject(NgbActiveModal);
+  constructor(
+    protected contactMessageService: ContactMessageService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

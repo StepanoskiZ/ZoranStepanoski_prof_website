@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
         id="jhi-page-content-media-heading"
         data-cy="PageContentMediaCreateUpdateHeading"
@@ -10,20 +10,19 @@
       </h2>
 
       <div>
-        <jhi-alert-error />
+        <jhi-alert-error></jhi-alert-error>
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" for="field_id" jhiTranslate="zsWebsiteApp.pageContentMedia.id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
-        @let mediaUrlRef = editForm.get('mediaUrl')!;
         <div class="mb-3">
-          <label class="form-label" for="field_mediaUrl" jhiTranslate="zsWebsiteApp.pageContentMedia.mediaUrl">Media Url</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContentMedia.mediaUrl" for="field_mediaUrl">Media Url</label>
           <input type="text" class="form-control" name="mediaUrl" id="field_mediaUrl" data-cy="mediaUrl" formControlName="mediaUrl" />
-          @if (mediaUrlRef.invalid && (mediaUrlRef.dirty || mediaUrlRef.touched)) {
+          @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
             <div>
               @if (editForm.get('mediaUrl')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -32,9 +31,8 @@
           }
         </div>
 
-        @let pageContentMediaTypeRef = editForm.get('pageContentMediaType')!;
         <div class="mb-3">
-          <label class="form-label" for="field_pageContentMediaType" jhiTranslate="zsWebsiteApp.pageContentMedia.pageContentMediaType"
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContentMedia.pageContentMediaType" for="field_pageContentMediaType"
             >Page Content Media Type</label
           >
           <select
@@ -49,7 +47,10 @@
               <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
             }
           </select>
-          @if (pageContentMediaTypeRef.invalid && (pageContentMediaTypeRef.dirty || pageContentMediaTypeRef.touched)) {
+          @if (
+            editForm.get('pageContentMediaType')!.invalid &&
+            (editForm.get('pageContentMediaType')!.dirty || editForm.get('pageContentMediaType')!.touched)
+          ) {
             <div>
               @if (editForm.get('pageContentMediaType')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
@@ -59,12 +60,12 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_caption" jhiTranslate="zsWebsiteApp.pageContentMedia.caption">Caption</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContentMedia.caption" for="field_caption">Caption</label>
           <input type="text" class="form-control" name="caption" id="field_caption" data-cy="caption" formControlName="caption" />
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_pagecontent" jhiTranslate="zsWebsiteApp.pageContentMedia.pagecontent">Pagecontent</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.pageContentMedia.pagecontent" for="field_pagecontent">Pagecontent</label>
           <select
             class="form-control"
             id="field_pagecontent"

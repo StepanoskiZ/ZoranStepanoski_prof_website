@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
 import { SkillService } from '../service/skill.service';
 import { ISkill } from '../skill.model';
@@ -19,9 +21,8 @@ describe('Skill Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkillUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), SkillUpdateComponent],
       providers: [
-        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -43,8 +44,8 @@ describe('Skill Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should update editForm', () => {
-      const skill: ISkill = { id: 21768 };
+    it('Should update editForm', () => {
+      const skill: ISkill = { id: 456 };
 
       activatedRoute.data = of({ skill });
       comp.ngOnInit();
@@ -54,10 +55,10 @@ describe('Skill Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('should call update service on save for existing entity', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISkill>>();
-      const skill = { id: 24455 };
+      const skill = { id: 123 };
       jest.spyOn(skillFormService, 'getSkill').mockReturnValue(skill);
       jest.spyOn(skillService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -77,10 +78,10 @@ describe('Skill Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('should call create service on save for new entity', () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISkill>>();
-      const skill = { id: 24455 };
+      const skill = { id: 123 };
       jest.spyOn(skillFormService, 'getSkill').mockReturnValue({ id: null });
       jest.spyOn(skillService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -100,10 +101,10 @@ describe('Skill Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('should set isSaving to false on error', () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISkill>>();
-      const skill = { id: 24455 };
+      const skill = { id: 123 };
       jest.spyOn(skillService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ skill });

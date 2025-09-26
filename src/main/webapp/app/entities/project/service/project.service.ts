@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { map } from 'rxjs/operators';
 
 import dayjs from 'dayjs/esm';
 
@@ -28,10 +30,12 @@ export type EntityArrayResponseType = HttpResponse<IProject[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/projects');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(project: NewProject): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(project);
@@ -85,7 +89,7 @@ export class ProjectService {
   ): Type[] {
     const projects: Type[] = projectsToCheck.filter(isPresent);
     if (projects.length > 0) {
-      const projectCollectionIdentifiers = projectCollection.map(projectItem => this.getProjectIdentifier(projectItem));
+      const projectCollectionIdentifiers = projectCollection.map(projectItem => this.getProjectIdentifier(projectItem)!);
       const projectsToAdd = projects.filter(projectItem => {
         const projectIdentifier = this.getProjectIdentifier(projectItem);
         if (projectCollectionIdentifiers.includes(projectIdentifier)) {

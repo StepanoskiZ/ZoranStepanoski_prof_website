@@ -1,7 +1,10 @@
 {
   "global": {
     "title": "ZSWebsite",
+    "mainTitle": "Zoran Stepanoski",
     "browsehappy": "Koristite <strong>zastareli</strong> pretraživač. Molimo vas <a href=\"http://browsehappy.com/?locale=en\">nadogradite pretraživač</a> kako biste poboljšali Vaše iskustvo.",
+    "readMore": "Pročitaj",
+    "goBack": "Prethodna strana",
     "menu": {
       "home": "Početna stranica",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
@@ -9,13 +12,14 @@
         "main": "Entiteti",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "project": "Project",
+        "projectImage": "Project Image",
         "skill": "Skill",
         "businessService": "Business Service",
         "blogPost": "Blog Post",
         "contactMessage": "Contact Message",
         "projectMedia": "Project Media",
         "visitorLog": "Visitor Log",
-        "pageContent": "Page Content",
+        "pageContent": "About Content",
         "pageContentMedia": "Page Content Media"
       },
       "account": {
@@ -30,13 +34,14 @@
       "admin": {
         "main": "Administracija",
         "userManagement": "Korisnički manadžment",
-        "tracker": "Praćenje korisnika",
+        "visitorStats": "Statistika posetilaca",
         "metrics": "Metrika",
         "health": "Ispravnost sistema",
         "configuration": "Konfiguracija",
         "logs": "Logovi",
         "apidocs": "API",
         "database": "Baza podataka",
+        "tracker": "Praćenje korisnika",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
       "language": "Jezik"
@@ -149,5 +154,25 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "Ovo je vaše podnožje"
+  "footer": {
+    "completeIntake": "Complete Intake",
+    "privacyPolicy": "Politika privatnosti",
+    "followMe": "Zaprati me"
+  },
+  "privacyPolicy": {
+    "title": "Politika privatnosti",
+    "heroTitle": "Vaši podaci su nam bitni",
+    "heroSubtitle": "Yaštita vaših podataka nam je prioritet",
+    "contentSubheading": "VAŠI PODACI SU NAM BITNI",
+    "contentHeading": "Mi cenimo vaše poverenje i podatke."
+  },
+  "visitorStats": {
+    "totalVisits": {
+      "title": "Total Page Views"
+    },
+    "uniqueVisitors": {
+      "title": "Unique Visitors (by IP)"
+    },
+    "error": "Could not load visitor statistics."
+  }
 }

@@ -1,13 +1,10 @@
 package com.paradox.zswebsite.web.rest;
 
-import static com.paradox.zswebsite.domain.ContactMessageAsserts.*;
-import static com.paradox.zswebsite.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paradox.zswebsite.IntegrationTest;
 import com.paradox.zswebsite.domain.ContactMessage;
 import com.paradox.zswebsite.repository.ContactMessageRepository;
@@ -16,9 +13,9 @@ import com.paradox.zswebsite.service.mapper.ContactMessageMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +52,6 @@ class ContactMessageResourceIT {
     private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
-    private ObjectMapper om;
-
-    @Autowired
     private ContactMessageRepository contactMessageRepository;
 
     @Autowired
@@ -71,20 +65,19 @@ class ContactMessageResourceIT {
 
     private ContactMessage contactMessage;
 
-    private ContactMessage insertedContactMessage;
-
     /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ContactMessage createEntity() {
-        return new ContactMessage()
+    public static ContactMessage createEntity(EntityManager em) {
+        ContactMessage contactMessage = new ContactMessage()
             .visitorName(DEFAULT_VISITOR_NAME)
             .visitorEmail(DEFAULT_VISITOR_EMAIL)
             .message(DEFAULT_MESSAGE)
             .submittedDate(DEFAULT_SUBMITTED_DATE);
+        return contactMessage;
     }
 
     /**
@@ -93,49 +86,40 @@ class ContactMessageResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ContactMessage createUpdatedEntity() {
-        return new ContactMessage()
+    public static ContactMessage createUpdatedEntity(EntityManager em) {
+        ContactMessage contactMessage = new ContactMessage()
             .visitorName(UPDATED_VISITOR_NAME)
             .visitorEmail(UPDATED_VISITOR_EMAIL)
             .message(UPDATED_MESSAGE)
             .submittedDate(UPDATED_SUBMITTED_DATE);
+        return contactMessage;
     }
 
     @BeforeEach
-    void initTest() {
-        contactMessage = createEntity();
-    }
-
-    @AfterEach
-    void cleanup() {
-        if (insertedContactMessage != null) {
-            contactMessageRepository.delete(insertedContactMessage);
-            insertedContactMessage = null;
-        }
+    public void initTest() {
+        contactMessage = createEntity(em);
     }
 
     @Test
     @Transactional
     void createContactMessage() throws Exception {
-        long databaseSizeBeforeCreate = getRepositoryCount();
+        int databaseSizeBeforeCreate = contactMessageRepository.findAll().size();
         // Create the ContactMessage
         ContactMessageDTO contactMessageDTO = contactMessageMapper.toDto(contactMessage);
-        var returnedContactMessageDTO = om.readValue(
-            restContactMessageMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(),
-            ContactMessageDTO.class
-        );
+        restContactMessageMockMvc
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
+            .andExpect(status().isCreated());
 
         // Validate the ContactMessage in the database
-        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        var returnedContactMessage = contactMessageMapper.toEntity(returnedContactMessageDTO);
-        assertContactMessageUpdatableFieldsEquals(returnedContactMessage, getPersistedContactMessage(returnedContactMessage));
-
-        insertedContactMessage = returnedContactMessage;
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeCreate + 1);
+        ContactMessage testContactMessage = contactMessageList.get(contactMessageList.size() - 1);
+        assertThat(testContactMessage.getVisitorName()).isEqualTo(DEFAULT_VISITOR_NAME);
+        assertThat(testContactMessage.getVisitorEmail()).isEqualTo(DEFAULT_VISITOR_EMAIL);
+        assertThat(testContactMessage.getMessage()).isEqualTo(DEFAULT_MESSAGE);
+        assertThat(testContactMessage.getSubmittedDate()).isEqualTo(DEFAULT_SUBMITTED_DATE);
     }
 
     @Test
@@ -145,21 +129,24 @@ class ContactMessageResourceIT {
         contactMessage.setId(1L);
         ContactMessageDTO contactMessageDTO = contactMessageMapper.toDto(contactMessage);
 
-        long databaseSizeBeforeCreate = getRepositoryCount();
+        int databaseSizeBeforeCreate = contactMessageRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restContactMessageMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeCreate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     void checkVisitorNameIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
+        int databaseSizeBeforeTest = contactMessageRepository.findAll().size();
         // set the field null
         contactMessage.setVisitorName(null);
 
@@ -167,16 +154,19 @@ class ContactMessageResourceIT {
         ContactMessageDTO contactMessageDTO = contactMessageMapper.toDto(contactMessage);
 
         restContactMessageMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isBadRequest());
 
-        assertSameRepositoryCount(databaseSizeBeforeTest);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkVisitorEmailIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
+        int databaseSizeBeforeTest = contactMessageRepository.findAll().size();
         // set the field null
         contactMessage.setVisitorEmail(null);
 
@@ -184,16 +174,19 @@ class ContactMessageResourceIT {
         ContactMessageDTO contactMessageDTO = contactMessageMapper.toDto(contactMessage);
 
         restContactMessageMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isBadRequest());
 
-        assertSameRepositoryCount(databaseSizeBeforeTest);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkSubmittedDateIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
+        int databaseSizeBeforeTest = contactMessageRepository.findAll().size();
         // set the field null
         contactMessage.setSubmittedDate(null);
 
@@ -201,17 +194,20 @@ class ContactMessageResourceIT {
         ContactMessageDTO contactMessageDTO = contactMessageMapper.toDto(contactMessage);
 
         restContactMessageMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isBadRequest());
 
-        assertSameRepositoryCount(databaseSizeBeforeTest);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void getAllContactMessages() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
         // Get all the contactMessageList
         restContactMessageMockMvc
@@ -221,7 +217,7 @@ class ContactMessageResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(contactMessage.getId().intValue())))
             .andExpect(jsonPath("$.[*].visitorName").value(hasItem(DEFAULT_VISITOR_NAME)))
             .andExpect(jsonPath("$.[*].visitorEmail").value(hasItem(DEFAULT_VISITOR_EMAIL)))
-            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE)))
+            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())))
             .andExpect(jsonPath("$.[*].submittedDate").value(hasItem(DEFAULT_SUBMITTED_DATE.toString())));
     }
 
@@ -229,7 +225,7 @@ class ContactMessageResourceIT {
     @Transactional
     void getContactMessage() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
         // Get the contactMessage
         restContactMessageMockMvc
@@ -239,7 +235,7 @@ class ContactMessageResourceIT {
             .andExpect(jsonPath("$.id").value(contactMessage.getId().intValue()))
             .andExpect(jsonPath("$.visitorName").value(DEFAULT_VISITOR_NAME))
             .andExpect(jsonPath("$.visitorEmail").value(DEFAULT_VISITOR_EMAIL))
-            .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE))
+            .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()))
             .andExpect(jsonPath("$.submittedDate").value(DEFAULT_SUBMITTED_DATE.toString()));
     }
 
@@ -254,9 +250,9 @@ class ContactMessageResourceIT {
     @Transactional
     void putExistingContactMessage() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
 
         // Update the contactMessage
         ContactMessage updatedContactMessage = contactMessageRepository.findById(contactMessage.getId()).orElseThrow();
@@ -273,19 +269,24 @@ class ContactMessageResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, contactMessageDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(contactMessageDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
             )
             .andExpect(status().isOk());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertPersistedContactMessageToMatchAllProperties(updatedContactMessage);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
+        ContactMessage testContactMessage = contactMessageList.get(contactMessageList.size() - 1);
+        assertThat(testContactMessage.getVisitorName()).isEqualTo(UPDATED_VISITOR_NAME);
+        assertThat(testContactMessage.getVisitorEmail()).isEqualTo(UPDATED_VISITOR_EMAIL);
+        assertThat(testContactMessage.getMessage()).isEqualTo(UPDATED_MESSAGE);
+        assertThat(testContactMessage.getSubmittedDate()).isEqualTo(UPDATED_SUBMITTED_DATE);
     }
 
     @Test
     @Transactional
     void putNonExistingContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -296,18 +297,19 @@ class ContactMessageResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, contactMessageDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(contactMessageDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -318,18 +320,19 @@ class ContactMessageResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(contactMessageDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -337,51 +340,55 @@ class ContactMessageResourceIT {
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restContactMessageMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void partialUpdateContactMessageWithPatch() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
 
         // Update the contactMessage using partial update
         ContactMessage partialUpdatedContactMessage = new ContactMessage();
         partialUpdatedContactMessage.setId(contactMessage.getId());
 
-        partialUpdatedContactMessage.visitorEmail(UPDATED_VISITOR_EMAIL);
+        partialUpdatedContactMessage.visitorEmail(UPDATED_VISITOR_EMAIL).message(UPDATED_MESSAGE);
 
         restContactMessageMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedContactMessage.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedContactMessage))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedContactMessage))
             )
             .andExpect(status().isOk());
 
         // Validate the ContactMessage in the database
-
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertContactMessageUpdatableFieldsEquals(
-            createUpdateProxyForBean(partialUpdatedContactMessage, contactMessage),
-            getPersistedContactMessage(contactMessage)
-        );
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
+        ContactMessage testContactMessage = contactMessageList.get(contactMessageList.size() - 1);
+        assertThat(testContactMessage.getVisitorName()).isEqualTo(DEFAULT_VISITOR_NAME);
+        assertThat(testContactMessage.getVisitorEmail()).isEqualTo(UPDATED_VISITOR_EMAIL);
+        assertThat(testContactMessage.getMessage()).isEqualTo(UPDATED_MESSAGE);
+        assertThat(testContactMessage.getSubmittedDate()).isEqualTo(DEFAULT_SUBMITTED_DATE);
     }
 
     @Test
     @Transactional
     void fullUpdateContactMessageWithPatch() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
 
         // Update the contactMessage using partial update
         ContactMessage partialUpdatedContactMessage = new ContactMessage();
@@ -397,20 +404,24 @@ class ContactMessageResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedContactMessage.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedContactMessage))
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedContactMessage))
             )
             .andExpect(status().isOk());
 
         // Validate the ContactMessage in the database
-
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertContactMessageUpdatableFieldsEquals(partialUpdatedContactMessage, getPersistedContactMessage(partialUpdatedContactMessage));
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
+        ContactMessage testContactMessage = contactMessageList.get(contactMessageList.size() - 1);
+        assertThat(testContactMessage.getVisitorName()).isEqualTo(UPDATED_VISITOR_NAME);
+        assertThat(testContactMessage.getVisitorEmail()).isEqualTo(UPDATED_VISITOR_EMAIL);
+        assertThat(testContactMessage.getMessage()).isEqualTo(UPDATED_MESSAGE);
+        assertThat(testContactMessage.getSubmittedDate()).isEqualTo(UPDATED_SUBMITTED_DATE);
     }
 
     @Test
     @Transactional
     void patchNonExistingContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -421,18 +432,19 @@ class ContactMessageResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, contactMessageDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(contactMessageDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -443,18 +455,19 @@ class ContactMessageResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(contactMessageDTO))
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamContactMessage() throws Exception {
-        long databaseSizeBeforeUpdate = getRepositoryCount();
+        int databaseSizeBeforeUpdate = contactMessageRepository.findAll().size();
         contactMessage.setId(longCount.incrementAndGet());
 
         // Create the ContactMessage
@@ -462,20 +475,25 @@ class ContactMessageResourceIT {
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restContactMessageMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(contactMessageDTO)))
+            .perform(
+                patch(ENTITY_API_URL)
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(contactMessageDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the ContactMessage in the database
-        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void deleteContactMessage() throws Exception {
         // Initialize the database
-        insertedContactMessage = contactMessageRepository.saveAndFlush(contactMessage);
+        contactMessageRepository.saveAndFlush(contactMessage);
 
-        long databaseSizeBeforeDelete = getRepositoryCount();
+        int databaseSizeBeforeDelete = contactMessageRepository.findAll().size();
 
         // Delete the contactMessage
         restContactMessageMockMvc
@@ -483,34 +501,7 @@ class ContactMessageResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
-    }
-
-    protected long getRepositoryCount() {
-        return contactMessageRepository.count();
-    }
-
-    protected void assertIncrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
-    }
-
-    protected void assertDecrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
-    }
-
-    protected void assertSameRepositoryCount(long countBefore) {
-        assertThat(countBefore).isEqualTo(getRepositoryCount());
-    }
-
-    protected ContactMessage getPersistedContactMessage(ContactMessage contactMessage) {
-        return contactMessageRepository.findById(contactMessage.getId()).orElseThrow();
-    }
-
-    protected void assertPersistedContactMessageToMatchAllProperties(ContactMessage expectedContactMessage) {
-        assertContactMessageAllPropertiesEquals(expectedContactMessage, getPersistedContactMessage(expectedContactMessage));
-    }
-
-    protected void assertPersistedContactMessageToMatchUpdatableProperties(ContactMessage expectedContactMessage) {
-        assertContactMessageAllUpdatablePropertiesEquals(expectedContactMessage, getPersistedContactMessage(expectedContactMessage));
+        List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
+        assertThat(contactMessageList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

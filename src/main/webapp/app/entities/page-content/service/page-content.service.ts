@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,10 +14,12 @@ export type EntityArrayResponseType = HttpResponse<IPageContent[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PageContentService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/page-contents');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(pageContent: NewPageContent): Observable<EntityResponseType> {
     return this.http.post<IPageContent>(this.resourceUrl, pageContent, { observe: 'response' });
@@ -62,7 +64,9 @@ export class PageContentService {
   ): Type[] {
     const pageContents: Type[] = pageContentsToCheck.filter(isPresent);
     if (pageContents.length > 0) {
-      const pageContentCollectionIdentifiers = pageContentCollection.map(pageContentItem => this.getPageContentIdentifier(pageContentItem));
+      const pageContentCollectionIdentifiers = pageContentCollection.map(
+        pageContentItem => this.getPageContentIdentifier(pageContentItem)!,
+      );
       const pageContentsToAdd = pageContents.filter(pageContentItem => {
         const pageContentIdentifier = this.getPageContentIdentifier(pageContentItem);
         if (pageContentCollectionIdentifiers.includes(pageContentIdentifier)) {

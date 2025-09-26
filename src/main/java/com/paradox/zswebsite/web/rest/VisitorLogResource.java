@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -60,10 +62,10 @@ public class VisitorLogResource {
         if (visitorLogDTO.getId() != null) {
             throw new BadRequestAlertException("A new visitorLog cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        visitorLogDTO = visitorLogService.save(visitorLogDTO);
-        return ResponseEntity.created(new URI("/api/visitor-logs/" + visitorLogDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, visitorLogDTO.getId().toString()))
-            .body(visitorLogDTO);
+        VisitorLogDTO result = visitorLogService.save(visitorLogDTO);
+        return ResponseEntity.created(new URI("/api/visitor-logs/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -93,10 +95,10 @@ public class VisitorLogResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        visitorLogDTO = visitorLogService.update(visitorLogDTO);
+        VisitorLogDTO result = visitorLogService.update(visitorLogDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, visitorLogDTO.getId().toString()))
-            .body(visitorLogDTO);
+            .body(result);
     }
 
     /**
@@ -175,5 +177,23 @@ public class VisitorLogResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET  /admin/visitor-logs/stats} : get visitor statistics.
+     * This is an example endpoint.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and a map of stats in the body.
+     */
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getVisitorStats() {
+        LOG.debug("REST request to get Visitor stats");
+
+        long totalVisits = visitorLogRepository.count();
+        long uniqueVisitors = visitorLogRepository.countDistinctByIpAddress();
+
+        Map<String, Object> stats = Map.of("totalVisits", totalVisits, "uniqueVisitors", uniqueVisitors);
+
+        return ResponseEntity.ok(stats);
     }
 }

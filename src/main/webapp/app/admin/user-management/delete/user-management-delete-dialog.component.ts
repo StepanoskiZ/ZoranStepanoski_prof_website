@@ -6,12 +6,12 @@ import SharedModule from 'app/shared/shared.module';
 import { User } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
 import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-user-mgmt-delete-dialog',
+  standalone: true,
   templateUrl: './user-management-delete-dialog.component.html',
-  imports: [TranslateDirective, SharedModule, FormsModule, AlertErrorComponent],
+  imports: [SharedModule, FormsModule, AlertErrorComponent],
 })
 export default class UserManagementDeleteDialogComponent {
   user?: User;

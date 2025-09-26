@@ -93,10 +93,10 @@ public class BlogPostResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        blogPostDTO = blogPostService.update(blogPostDTO);
+        BlogPostDTO result = blogPostService.update(blogPostDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blogPostDTO.getId().toString()))
-            .body(blogPostDTO);
+            .body(result);
     }
 
     /**

@@ -18,6 +18,7 @@ import { AlertComponent } from 'app/shared/alert/alert.component';
 
 @Component({
   selector: 'jhi-user-mgmt',
+  standalone: true,
   templateUrl: './user-management.component.html',
   imports: [AlertComponent, RouterModule, SharedModule, AlertErrorComponent, SortDirective, SortByDirective, ItemCountComponent],
 })

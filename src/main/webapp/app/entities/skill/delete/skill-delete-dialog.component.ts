@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,14 +8,17 @@ import { ISkill } from '../skill.model';
 import { SkillService } from '../service/skill.service';
 
 @Component({
+  standalone: true,
   templateUrl: './skill-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })
 export class SkillDeleteDialogComponent {
   skill?: ISkill;
 
-  protected skillService = inject(SkillService);
-  protected activeModal = inject(NgbActiveModal);
+  constructor(
+    protected skillService: SkillService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

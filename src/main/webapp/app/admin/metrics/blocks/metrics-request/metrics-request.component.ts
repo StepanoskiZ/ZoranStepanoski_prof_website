@@ -6,6 +6,7 @@ import { filterNaN } from 'app/core/util/operators';
 
 @Component({
   selector: 'jhi-metrics-request',
+  standalone: true,
   templateUrl: './metrics-request.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],

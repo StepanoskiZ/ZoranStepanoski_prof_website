@@ -7,6 +7,7 @@ import { MetricsModalThreadsComponent } from '../metrics-modal-threads/metrics-m
 
 @Component({
   selector: 'jhi-jvm-threads',
+  standalone: true,
   templateUrl: './jvm-threads.component.html',
   imports: [SharedModule],
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,10 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IBusinessService } from '../business-service.model';
 import { BusinessServiceService } from '../service/business-service.service';
-import { BusinessServiceFormGroup, BusinessServiceFormService } from './business-service-form.service';
+import { BusinessServiceFormService, BusinessServiceFormGroup } from './business-service-form.service';
 
 @Component({
   selector: 'jhi-business-service-update',
+  standalone: true,
   templateUrl: './business-service-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -20,12 +21,13 @@ export class BusinessServiceUpdateComponent implements OnInit {
   isSaving = false;
   businessService: IBusinessService | null = null;
 
-  protected businessServiceService = inject(BusinessServiceService);
-  protected businessServiceFormService = inject(BusinessServiceFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: BusinessServiceFormGroup = this.businessServiceFormService.createBusinessServiceFormGroup();
+
+  constructor(
+    protected businessServiceService: BusinessServiceService,
+    protected businessServiceFormService: BusinessServiceFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ businessService }) => {

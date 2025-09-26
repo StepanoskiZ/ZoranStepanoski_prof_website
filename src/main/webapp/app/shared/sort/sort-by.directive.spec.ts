@@ -9,6 +9,7 @@ import { SortDirective } from './sort.directive';
 import { sortStateSignal } from './sort-state';
 
 @Component({
+  standalone: true,
   imports: [SortDirective, SortByDirective, FaIconComponent],
   template: `
     <table>

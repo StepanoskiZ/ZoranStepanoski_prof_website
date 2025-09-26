@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { PageContentMediaComponent } from './list/page-content-media.component';
+import { PageContentMediaDetailComponent } from './detail/page-content-media-detail.component';
+import { PageContentMediaUpdateComponent } from './update/page-content-media-update.component';
 import PageContentMediaResolve from './route/page-content-media-routing-resolve.service';
 
 const pageContentMediaRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/page-content-media.component').then(m => m.PageContentMediaComponent),
+    component: PageContentMediaComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/page-content-media-detail.component').then(m => m.PageContentMediaDetailComponent),
+    component: PageContentMediaDetailComponent,
     resolve: {
       pageContentMedia: PageContentMediaResolve,
     },
@@ -23,7 +26,7 @@ const pageContentMediaRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/page-content-media-update.component').then(m => m.PageContentMediaUpdateComponent),
+    component: PageContentMediaUpdateComponent,
     resolve: {
       pageContentMedia: PageContentMediaResolve,
     },
@@ -31,7 +34,7 @@ const pageContentMediaRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/page-content-media-update.component').then(m => m.PageContentMediaUpdateComponent),
+    component: PageContentMediaUpdateComponent,
     resolve: {
       pageContentMedia: PageContentMediaResolve,
     },

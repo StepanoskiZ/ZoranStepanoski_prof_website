@@ -4,6 +4,7 @@
   },
   "applications": "*",
   "dto": "mapstruct",
+  "entityTableName": "blog_post",
   "fields": [
     {
       "fieldName": "title",
@@ -12,7 +13,8 @@
     },
     {
       "fieldName": "content",
-      "fieldType": "TextBlob",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {

@@ -23,9 +23,9 @@
       "status": "Status"
     },
     "status": {
-      "UNKNOWN": "UNKNOWN",
+      "UNKNOWN": "NEPOZNAT",
       "UP": "AKTIVAN",
-      "OUT_OF_SERVICE": "OUT_OF_SERVICE",
+      "OUT_OF_SERVICE": "VAN UPOTREBE",
       "DOWN": "NEAKTIVAN"
     }
   }

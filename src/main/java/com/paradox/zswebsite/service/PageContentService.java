@@ -109,4 +109,16 @@ public class PageContentService {
         LOG.debug("Request to delete PageContent : {}", id);
         pageContentRepository.deleteById(id);
     }
+
+    /**
+     * Get one pageContent by its sectionKey.
+     *
+     * @param sectionKey the key of the entity.
+     * @return the entity DTO, or an empty Optional if not found.
+     */
+    @Transactional(readOnly = true)
+    public Optional<PageContentDTO> findOneBySectionKey(String sectionKey) {
+        LOG.debug("Request to get PageContent by sectionKey : {}", sectionKey);
+        return pageContentRepository.findBySectionKey(sectionKey).map(pageContentMapper::toDto);
+    }
 }

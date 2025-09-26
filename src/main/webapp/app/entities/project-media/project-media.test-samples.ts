@@ -1,26 +1,26 @@
 import { IProjectMedia, NewProjectMedia } from './project-media.model';
 
 export const sampleWithRequiredData: IProjectMedia = {
-  id: 3645,
-  mediaUrl: 'pomelo option safeguard',
+  id: 2021,
+  mediaUrl: 'rubbery',
   projectMediaType: 'VIDEO',
 };
 
 export const sampleWithPartialData: IProjectMedia = {
-  id: 28754,
-  mediaUrl: 'huzzah',
-  projectMediaType: 'VIDEO',
+  id: 31765,
+  mediaUrl: 'what',
+  projectMediaType: 'IMAGE',
 };
 
 export const sampleWithFullData: IProjectMedia = {
-  id: 16800,
-  mediaUrl: 'haversack frizz gosh',
+  id: 24299,
+  mediaUrl: 'sparkling denominator criminal',
   projectMediaType: 'VIDEO',
-  caption: 'square',
+  caption: 'feline whenever eek',
 };
 
 export const sampleWithNewData: NewProjectMedia = {
-  mediaUrl: 'source which coarse',
+  mediaUrl: 'to likewise yowza',
   projectMediaType: 'VIDEO',
   id: null,
 };

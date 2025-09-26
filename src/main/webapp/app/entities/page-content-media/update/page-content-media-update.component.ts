@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,10 +12,11 @@ import { PageContentService } from 'app/entities/page-content/service/page-conte
 import { UnifiedMediaType } from 'app/entities/enumerations/unified-media-type.model';
 import { PageContentMediaService } from '../service/page-content-media.service';
 import { IPageContentMedia } from '../page-content-media.model';
-import { PageContentMediaFormGroup, PageContentMediaFormService } from './page-content-media-form.service';
+import { PageContentMediaFormService, PageContentMediaFormGroup } from './page-content-media-form.service';
 
 @Component({
   selector: 'jhi-page-content-media-update',
+  standalone: true,
   templateUrl: './page-content-media-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -26,13 +27,14 @@ export class PageContentMediaUpdateComponent implements OnInit {
 
   pageContentsSharedCollection: IPageContent[] = [];
 
-  protected pageContentMediaService = inject(PageContentMediaService);
-  protected pageContentMediaFormService = inject(PageContentMediaFormService);
-  protected pageContentService = inject(PageContentService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: PageContentMediaFormGroup = this.pageContentMediaFormService.createPageContentMediaFormGroup();
+
+  constructor(
+    protected pageContentMediaService: PageContentMediaService,
+    protected pageContentMediaFormService: PageContentMediaFormService,
+    protected pageContentService: PageContentService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   comparePageContent = (o1: IPageContent | null, o2: IPageContent | null): boolean => this.pageContentService.comparePageContent(o1, o2);
 

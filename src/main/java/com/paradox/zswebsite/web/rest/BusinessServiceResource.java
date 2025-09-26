@@ -61,10 +61,10 @@ public class BusinessServiceResource {
         if (businessServiceDTO.getId() != null) {
             throw new BadRequestAlertException("A new businessService cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        businessServiceDTO = businessServiceService.save(businessServiceDTO);
-        return ResponseEntity.created(new URI("/api/business-services/" + businessServiceDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, businessServiceDTO.getId().toString()))
-            .body(businessServiceDTO);
+        BusinessServiceDTO result = businessServiceService.save(businessServiceDTO);
+        return ResponseEntity.created(new URI("/api/business-services/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -94,10 +94,10 @@ public class BusinessServiceResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        businessServiceDTO = businessServiceService.update(businessServiceDTO);
+        BusinessServiceDTO result = businessServiceService.update(businessServiceDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, businessServiceDTO.getId().toString()))
-            .body(businessServiceDTO);
+            .body(result);
     }
 
     /**

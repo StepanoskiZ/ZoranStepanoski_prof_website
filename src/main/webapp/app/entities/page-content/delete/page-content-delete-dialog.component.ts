@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,14 +8,17 @@ import { IPageContent } from '../page-content.model';
 import { PageContentService } from '../service/page-content.service';
 
 @Component({
+  standalone: true,
   templateUrl: './page-content-delete-dialog.component.html',
   imports: [SharedModule, FormsModule],
 })
 export class PageContentDeleteDialogComponent {
   pageContent?: IPageContent;
 
-  protected pageContentService = inject(PageContentService);
-  protected activeModal = inject(NgbActiveModal);
+  constructor(
+    protected pageContentService: PageContentService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

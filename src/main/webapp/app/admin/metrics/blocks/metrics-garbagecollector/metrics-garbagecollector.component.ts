@@ -5,6 +5,7 @@ import { GarbageCollector } from 'app/admin/metrics/metrics.model';
 
 @Component({
   selector: 'jhi-metrics-garbagecollector',
+  standalone: true,
   templateUrl: './metrics-garbagecollector.component.html',
   imports: [SharedModule],
 })

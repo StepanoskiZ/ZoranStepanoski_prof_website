@@ -1,25 +1,25 @@
 import { IPageContent, NewPageContent } from './page-content.model';
 
 export const sampleWithRequiredData: IPageContent = {
-  id: 32411,
-  sectionKey: 'instead',
+  id: 7878,
+  sectionKey: 'exhilarate consequently',
   contentHtml: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithPartialData: IPageContent = {
-  id: 5986,
-  sectionKey: 'rise palatable',
+  id: 22677,
+  sectionKey: 'armchair violate',
   contentHtml: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithFullData: IPageContent = {
-  id: 29492,
-  sectionKey: 'knowledgeably',
+  id: 23641,
+  sectionKey: 'how however till',
   contentHtml: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithNewData: NewPageContent = {
-  sectionKey: 'yahoo stealthily hypothesise',
+  sectionKey: 'grain ick where',
   contentHtml: '../fake-data/blob/hipster.txt',
   id: null,
 };

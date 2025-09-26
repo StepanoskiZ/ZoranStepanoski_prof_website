@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../skill.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../skill.test-samples';
 
 import { SkillFormService } from './skill-form.service';
 

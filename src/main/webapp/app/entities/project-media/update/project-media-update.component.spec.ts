@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, from, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, Subject, from } from 'rxjs';
 
 import { IProject } from 'app/entities/project/project.model';
 import { ProjectService } from 'app/entities/project/service/project.service';
@@ -22,9 +24,8 @@ describe('ProjectMedia Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ProjectMediaUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), ProjectMediaUpdateComponent],
       providers: [
-        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -47,12 +48,12 @@ describe('ProjectMedia Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call Project query and add missing value', () => {
-      const projectMedia: IProjectMedia = { id: 8913 };
-      const project: IProject = { id: 10300 };
+    it('Should call Project query and add missing value', () => {
+      const projectMedia: IProjectMedia = { id: 456 };
+      const project: IProject = { id: 12641 };
       projectMedia.project = project;
 
-      const projectCollection: IProject[] = [{ id: 10300 }];
+      const projectCollection: IProject[] = [{ id: 26687 }];
       jest.spyOn(projectService, 'query').mockReturnValue(of(new HttpResponse({ body: projectCollection })));
       const additionalProjects = [project];
       const expectedCollection: IProject[] = [...additionalProjects, ...projectCollection];
@@ -69,24 +70,24 @@ describe('ProjectMedia Management Update Component', () => {
       expect(comp.projectsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('should update editForm', () => {
-      const projectMedia: IProjectMedia = { id: 8913 };
-      const project: IProject = { id: 10300 };
+    it('Should update editForm', () => {
+      const projectMedia: IProjectMedia = { id: 456 };
+      const project: IProject = { id: 26605 };
       projectMedia.project = project;
 
       activatedRoute.data = of({ projectMedia });
       comp.ngOnInit();
 
-      expect(comp.projectsSharedCollection).toContainEqual(project);
+      expect(comp.projectsSharedCollection).toContain(project);
       expect(comp.projectMedia).toEqual(projectMedia);
     });
   });
 
   describe('save', () => {
-    it('should call update service on save for existing entity', () => {
+    it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IProjectMedia>>();
-      const projectMedia = { id: 4307 };
+      const projectMedia = { id: 123 };
       jest.spyOn(projectMediaFormService, 'getProjectMedia').mockReturnValue(projectMedia);
       jest.spyOn(projectMediaService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -106,10 +107,10 @@ describe('ProjectMedia Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('should call create service on save for new entity', () => {
+    it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IProjectMedia>>();
-      const projectMedia = { id: 4307 };
+      const projectMedia = { id: 123 };
       jest.spyOn(projectMediaFormService, 'getProjectMedia').mockReturnValue({ id: null });
       jest.spyOn(projectMediaService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -129,10 +130,10 @@ describe('ProjectMedia Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('should set isSaving to false on error', () => {
+    it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IProjectMedia>>();
-      const projectMedia = { id: 4307 };
+      const projectMedia = { id: 123 };
       jest.spyOn(projectMediaService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ projectMedia });
@@ -152,9 +153,9 @@ describe('ProjectMedia Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareProject', () => {
-      it('should forward to projectService', () => {
-        const entity = { id: 10300 };
-        const entity2 = { id: 3319 };
+      it('Should forward to projectService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
         jest.spyOn(projectService, 'compareProject');
         comp.compareProject(entity, entity2);
         expect(projectService.compareProject).toHaveBeenCalledWith(entity, entity2);

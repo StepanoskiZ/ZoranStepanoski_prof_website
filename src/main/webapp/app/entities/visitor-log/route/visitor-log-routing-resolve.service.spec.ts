@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router, convertToParamMap } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { IVisitorLog } from '../visitor-log.model';
@@ -16,8 +18,8 @@ describe('VisitorLog routing resolve service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -51,7 +53,7 @@ describe('VisitorLog routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toHaveBeenCalledWith(123);
+      expect(service.find).toBeCalledWith(123);
       expect(resultVisitorLog).toEqual({ id: 123 });
     });
 
@@ -70,7 +72,7 @@ describe('VisitorLog routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).not.toHaveBeenCalled();
+      expect(service.find).not.toBeCalled();
       expect(resultVisitorLog).toEqual(null);
     });
 
@@ -89,7 +91,7 @@ describe('VisitorLog routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toHaveBeenCalledWith(123);
+      expect(service.find).toBeCalledWith(123);
       expect(resultVisitorLog).toEqual(undefined);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });

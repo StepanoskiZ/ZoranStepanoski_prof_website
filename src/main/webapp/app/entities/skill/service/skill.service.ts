@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,10 +14,12 @@ export type EntityArrayResponseType = HttpResponse<ISkill[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SkillService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/skills');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(skill: NewSkill): Observable<EntityResponseType> {
     return this.http.post<ISkill>(this.resourceUrl, skill, { observe: 'response' });
@@ -58,7 +60,7 @@ export class SkillService {
   ): Type[] {
     const skills: Type[] = skillsToCheck.filter(isPresent);
     if (skills.length > 0) {
-      const skillCollectionIdentifiers = skillCollection.map(skillItem => this.getSkillIdentifier(skillItem));
+      const skillCollectionIdentifiers = skillCollection.map(skillItem => this.getSkillIdentifier(skillItem)!);
       const skillsToAdd = skills.filter(skillItem => {
         const skillIdentifier = this.getSkillIdentifier(skillItem);
         if (skillCollectionIdentifiers.includes(skillIdentifier)) {

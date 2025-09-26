@@ -13,6 +13,7 @@
     "creationTimestamp": 1725000000000,
     "databaseType": "sql",
     "devDatabaseType": "postgresql",
+    "devServerPort": 4200,
     "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
     "enableTranslation": true,
@@ -28,7 +29,7 @@
       "PageContentMedia"
     ],
     "jhiPrefix": "jhi",
-    "jhipsterVersion": "8.11.0",
+    "jhipsterVersion": "8.1.0",
     "jwtSecretKey": "ZGYxNGMyNmZmZjk2Y2VlNzRmYjIyMDFlNzYxMDUwMjAyOGRmN2VkMTFlMTljNzBiMWYzNDU4ZTA3OTc1NDYyMjBmNDI2ZTBkZDlkNTlkNWVlOTllZDY1MTAyNTQxOGI2ZThhZDg2ZTgyNmQ5MDc3MTVkZmFmYTZkZWQyMmVjNmY=",
     "languages": ["en", "sr"],
     "lastLiquibaseTimestamp": 1758680453000,

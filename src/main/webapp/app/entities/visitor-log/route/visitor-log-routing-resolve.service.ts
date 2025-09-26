@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
-import { EMPTY, Observable, of } from 'rxjs';
+import { of, EMPTY, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 import { IVisitorLog } from '../visitor-log.model';
 import { VisitorLogService } from '../service/visitor-log.service';
 
-const visitorLogResolve = (route: ActivatedRouteSnapshot): Observable<null | IVisitorLog> => {
-  const id = route.params.id;
+export const visitorLogResolve = (route: ActivatedRouteSnapshot): Observable<null | IVisitorLog> => {
+  const id = route.params['id'];
   if (id) {
     return inject(VisitorLogService)
       .find(id)
@@ -16,9 +16,10 @@ const visitorLogResolve = (route: ActivatedRouteSnapshot): Observable<null | IVi
         mergeMap((visitorLog: HttpResponse<IVisitorLog>) => {
           if (visitorLog.body) {
             return of(visitorLog.body);
+          } else {
+            inject(Router).navigate(['404']);
+            return EMPTY;
           }
-          inject(Router).navigate(['404']);
-          return EMPTY;
         }),
       );
   }

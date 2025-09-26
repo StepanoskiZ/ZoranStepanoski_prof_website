@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
-import { HttpHeaders, HttpResponse, provideHttpClient } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, of } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { sampleWithRequiredData } from '../blog-post.test-samples';
 import { BlogPostService } from '../service/blog-post.service';
 
 import { BlogPostComponent } from './blog-post.component';
@@ -18,9 +18,12 @@ describe('BlogPost Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BlogPostComponent],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'blog-post', component: BlogPostComponent }]),
+        HttpClientTestingModule,
+        BlogPostComponent,
+      ],
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -34,14 +37,7 @@ describe('BlogPost Management Component', () => {
                 sort: 'id,desc',
               }),
             ),
-            snapshot: {
-              queryParams: {},
-              queryParamMap: jest.requireActual('@angular/router').convertToParamMap({
-                page: '1',
-                size: '1',
-                sort: 'id,desc',
-              }),
-            },
+            snapshot: { queryParams: {} },
           },
         },
       ],
@@ -54,62 +50,34 @@ describe('BlogPost Management Component', () => {
     service = TestBed.inject(BlogPostService);
     routerNavigateSpy = jest.spyOn(comp.router, 'navigate');
 
-    jest
-      .spyOn(service, 'query')
-      .mockReturnValueOnce(
-        of(
-          new HttpResponse({
-            body: [{ id: 11641 }],
-            headers: new HttpHeaders({
-              link: '<http://localhost/api/foo?page=1&size=20>; rel="next"',
-            }),
-          }),
-        ),
-      )
-      .mockReturnValueOnce(
-        of(
-          new HttpResponse({
-            body: [{ id: 15145 }],
-            headers: new HttpHeaders({
-              link: '<http://localhost/api/foo?page=0&size=20>; rel="prev",<http://localhost/api/foo?page=2&size=20>; rel="next"',
-            }),
-          }),
-        ),
-      );
+    const headers = new HttpHeaders();
+    jest.spyOn(service, 'query').mockReturnValue(
+      of(
+        new HttpResponse({
+          body: [{ id: 123 }],
+          headers,
+        }),
+      ),
+    );
   });
 
-  it('should call load all on init', () => {
+  it('Should call load all on init', () => {
     // WHEN
     comp.ngOnInit();
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.blogPosts()[0]).toEqual(expect.objectContaining({ id: 11641 }));
+    expect(comp.blogPosts?.[0]).toEqual(expect.objectContaining({ id: 123 }));
   });
 
   describe('trackId', () => {
-    it('should forward to blogPostService', () => {
-      const entity = { id: 11641 };
+    it('Should forward to blogPostService', () => {
+      const entity = { id: 123 };
       jest.spyOn(service, 'getBlogPostIdentifier');
-      const id = comp.trackId(entity);
+      const id = comp.trackId(0, entity);
       expect(service.getBlogPostIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
     });
-  });
-
-  it('should calculate the sort attribute for a non-id attribute', () => {
-    // WHEN
-    comp.navigateToWithComponentValues({ predicate: 'non-existing-column', order: 'asc' });
-
-    // THEN
-    expect(routerNavigateSpy).toHaveBeenLastCalledWith(
-      expect.anything(),
-      expect.objectContaining({
-        queryParams: expect.objectContaining({
-          sort: ['non-existing-column,asc'],
-        }),
-      }),
-    );
   });
 
   it('should load a page', () => {
@@ -128,50 +96,21 @@ describe('BlogPost Management Component', () => {
     expect(service.query).toHaveBeenLastCalledWith(expect.objectContaining({ sort: ['id,desc'] }));
   });
 
-  describe('delete', () => {
-    let ngbModal: NgbModal;
-    let deleteModalMock: any;
+  it('should calculate the sort attribute for a non-id attribute', () => {
+    // GIVEN
+    comp.predicate = 'name';
 
-    beforeEach(() => {
-      deleteModalMock = { componentInstance: {}, closed: new Subject() };
-      // NgbModal is not a singleton using TestBed.inject.
-      // ngbModal = TestBed.inject(NgbModal);
-      ngbModal = (comp as any).modalService;
-      jest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
-    });
+    // WHEN
+    comp.navigateToWithComponentValues();
 
-    it('on confirm should call load', inject(
-      [],
-      fakeAsync(() => {
-        // GIVEN
-        jest.spyOn(comp, 'load');
-
-        // WHEN
-        comp.delete(sampleWithRequiredData);
-        deleteModalMock.closed.next('deleted');
-        tick();
-
-        // THEN
-        expect(ngbModal.open).toHaveBeenCalled();
-        expect(comp.load).toHaveBeenCalled();
+    // THEN
+    expect(routerNavigateSpy).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        queryParams: expect.objectContaining({
+          sort: ['name,asc'],
+        }),
       }),
-    ));
-
-    it('on dismiss should call load', inject(
-      [],
-      fakeAsync(() => {
-        // GIVEN
-        jest.spyOn(comp, 'load');
-
-        // WHEN
-        comp.delete(sampleWithRequiredData);
-        deleteModalMock.closed.next();
-        tick();
-
-        // THEN
-        expect(ngbModal.open).toHaveBeenCalled();
-        expect(comp.load).not.toHaveBeenCalled();
-      }),
-    ));
+    );
   });
 });

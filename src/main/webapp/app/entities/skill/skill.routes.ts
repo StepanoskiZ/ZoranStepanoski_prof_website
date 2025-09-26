@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { SkillComponent } from './list/skill.component';
+import { SkillDetailComponent } from './detail/skill-detail.component';
+import { SkillUpdateComponent } from './update/skill-update.component';
 import SkillResolve from './route/skill-routing-resolve.service';
 
 const skillRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/skill.component').then(m => m.SkillComponent),
+    component: SkillComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/skill-detail.component').then(m => m.SkillDetailComponent),
+    component: SkillDetailComponent,
     resolve: {
       skill: SkillResolve,
     },
@@ -23,7 +26,7 @@ const skillRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/skill-update.component').then(m => m.SkillUpdateComponent),
+    component: SkillUpdateComponent,
     resolve: {
       skill: SkillResolve,
     },
@@ -31,7 +34,7 @@ const skillRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/skill-update.component').then(m => m.SkillUpdateComponent),
+    component: SkillUpdateComponent,
     resolve: {
       skill: SkillResolve,
     },

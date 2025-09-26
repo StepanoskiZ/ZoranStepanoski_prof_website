@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { BusinessServiceComponent } from './list/business-service.component';
+import { BusinessServiceDetailComponent } from './detail/business-service-detail.component';
+import { BusinessServiceUpdateComponent } from './update/business-service-update.component';
 import BusinessServiceResolve from './route/business-service-routing-resolve.service';
 
 const businessServiceRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/business-service.component').then(m => m.BusinessServiceComponent),
+    component: BusinessServiceComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/business-service-detail.component').then(m => m.BusinessServiceDetailComponent),
+    component: BusinessServiceDetailComponent,
     resolve: {
       businessService: BusinessServiceResolve,
     },
@@ -23,7 +26,7 @@ const businessServiceRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/business-service-update.component').then(m => m.BusinessServiceUpdateComponent),
+    component: BusinessServiceUpdateComponent,
     resolve: {
       businessService: BusinessServiceResolve,
     },
@@ -31,7 +34,7 @@ const businessServiceRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/business-service-update.component').then(m => m.BusinessServiceUpdateComponent),
+    component: BusinessServiceUpdateComponent,
     resolve: {
       businessService: BusinessServiceResolve,
     },

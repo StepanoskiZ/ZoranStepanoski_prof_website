@@ -6,6 +6,7 @@ import SharedModule from 'app/shared/shared.module';
 
 @Component({
   selector: 'jhi-error',
+  standalone: true,
   templateUrl: './error.component.html',
   imports: [SharedModule],
 })

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithNewData, sampleWithRequiredData } from '../business-service.test-samples';
+import { sampleWithRequiredData, sampleWithNewData } from '../business-service.test-samples';
 
 import { BusinessServiceFormService } from './business-service-form.service';
 

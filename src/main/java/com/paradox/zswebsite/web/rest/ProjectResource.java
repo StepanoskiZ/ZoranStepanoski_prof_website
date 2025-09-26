@@ -2,7 +2,9 @@ package com.paradox.zswebsite.web.rest;
 
 import com.paradox.zswebsite.repository.ProjectRepository;
 import com.paradox.zswebsite.service.ProjectService;
+import com.paradox.zswebsite.service.dto.ProjectCardDTO;
 import com.paradox.zswebsite.service.dto.ProjectDTO;
+import com.paradox.zswebsite.service.dto.ProjectDetailDTO;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -32,14 +34,12 @@ import tech.jhipster.web.util.ResponseUtil;
 public class ProjectResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProjectResource.class);
-
     private static final String ENTITY_NAME = "project";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final ProjectService projectService;
-
     private final ProjectRepository projectRepository;
 
     public ProjectResource(ProjectService projectService, ProjectRepository projectRepository) {
@@ -60,10 +60,10 @@ public class ProjectResource {
         if (projectDTO.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        projectDTO = projectService.save(projectDTO);
-        return ResponseEntity.created(new URI("/api/projects/" + projectDTO.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString()))
-            .body(projectDTO);
+        ProjectDTO result = projectService.save(projectDTO);
+        return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -93,10 +93,10 @@ public class ProjectResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        projectDTO = projectService.update(projectDTO);
+        ProjectDTO result = projectService.update(projectDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString()))
-            .body(projectDTO);
+            .body(result);
     }
 
     /**
@@ -175,5 +175,30 @@ public class ProjectResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET  /projects/cards} : get all the projects formatted for landing page cards.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of project cards in body.
+     */
+    @GetMapping("/cards")
+    public ResponseEntity<List<ProjectCardDTO>> getAllProjectCards() {
+        LOG.debug("REST request to get all Project cards for landing page");
+        List<ProjectCardDTO> cards = projectService.findAllForLandingPage();
+        return ResponseEntity.ok().body(cards);
+    }
+
+    /**
+     * {@code GET  /projects/:id/details} : get the "id" project with all its images.
+     *
+     * @param id the id of the project to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectDetailDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/{id}/details")
+    public ResponseEntity<ProjectDetailDTO> getProjectDetails(@PathVariable("id") Long id) {
+        LOG.debug("REST request to get detailed Project : {}", id);
+        Optional<ProjectDetailDTO> projectDetailDTO = projectService.findOneWithDetails(id);
+        return ResponseUtil.wrapOrNotFound(projectDetailDTO);
     }
 }

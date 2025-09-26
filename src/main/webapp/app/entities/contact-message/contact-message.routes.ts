@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { ContactMessageComponent } from './list/contact-message.component';
+import { ContactMessageDetailComponent } from './detail/contact-message-detail.component';
+import { ContactMessageUpdateComponent } from './update/contact-message-update.component';
 import ContactMessageResolve from './route/contact-message-routing-resolve.service';
 
 const contactMessageRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/contact-message.component').then(m => m.ContactMessageComponent),
+    component: ContactMessageComponent,
     data: {
-      defaultSort: `id,${ASC}`,
+      defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/contact-message-detail.component').then(m => m.ContactMessageDetailComponent),
+    component: ContactMessageDetailComponent,
     resolve: {
       contactMessage: ContactMessageResolve,
     },
@@ -23,7 +26,7 @@ const contactMessageRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/contact-message-update.component').then(m => m.ContactMessageUpdateComponent),
+    component: ContactMessageUpdateComponent,
     resolve: {
       contactMessage: ContactMessageResolve,
     },
@@ -31,7 +34,7 @@ const contactMessageRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/contact-message-update.component').then(m => m.ContactMessageUpdateComponent),
+    component: ContactMessageUpdateComponent,
     resolve: {
       contactMessage: ContactMessageResolve,
     },

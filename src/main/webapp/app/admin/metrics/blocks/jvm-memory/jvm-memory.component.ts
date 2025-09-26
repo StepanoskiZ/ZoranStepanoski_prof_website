@@ -5,6 +5,7 @@ import { JvmMetrics } from 'app/admin/metrics/metrics.model';
 
 @Component({
   selector: 'jhi-jvm-memory',
+  standalone: true,
   templateUrl: './jvm-memory.component.html',
   imports: [SharedModule],
 })

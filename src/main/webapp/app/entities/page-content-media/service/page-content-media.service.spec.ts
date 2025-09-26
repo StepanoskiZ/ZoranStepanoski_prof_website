@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { IPageContentMedia } from '../page-content-media.model';
-import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../page-content-media.test-samples';
+import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../page-content-media.test-samples';
 
 import { PageContentMediaService } from './page-content-media.service';
 
@@ -18,7 +17,7 @@ describe('PageContentMedia Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [HttpClientTestingModule],
     });
     expectedResult = null;
     service = TestBed.inject(PageContentMediaService);
@@ -155,7 +154,7 @@ describe('PageContentMedia Service', () => {
     });
 
     describe('comparePageContentMedia', () => {
-      it('should return true if both entities are null', () => {
+      it('Should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -164,8 +163,8 @@ describe('PageContentMedia Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('should return false if one entity is null', () => {
-        const entity1 = { id: 5814 };
+      it('Should return false if one entity is null', () => {
+        const entity1 = { id: 123 };
         const entity2 = null;
 
         const compareResult1 = service.comparePageContentMedia(entity1, entity2);
@@ -175,9 +174,9 @@ describe('PageContentMedia Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey differs', () => {
-        const entity1 = { id: 5814 };
-        const entity2 = { id: 29596 };
+      it('Should return false if primaryKey differs', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 456 };
 
         const compareResult1 = service.comparePageContentMedia(entity1, entity2);
         const compareResult2 = service.comparePageContentMedia(entity2, entity1);
@@ -186,9 +185,9 @@ describe('PageContentMedia Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('should return false if primaryKey matches', () => {
-        const entity1 = { id: 5814 };
-        const entity2 = { id: 5814 };
+      it('Should return false if primaryKey matches', () => {
+        const entity1 = { id: 123 };
+        const entity2 = { id: 123 };
 
         const compareResult1 = service.comparePageContentMedia(entity1, entity2);
         const compareResult2 = service.comparePageContentMedia(entity2, entity1);

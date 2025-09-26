@@ -1,52 +1,65 @@
-import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
-import { Observable, Subscription, combineLatest, filter, tap } from 'rxjs';
+import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
+import { SortDirective, SortByDirective, SortState } from 'app/shared/sort'; // Import SortState
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
 
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
-import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { IProjectMedia } from '../project-media.model';
 import { EntityArrayResponseType, ProjectMediaService } from '../service/project-media.service';
 import { ProjectMediaDeleteDialogComponent } from '../delete/project-media-delete-dialog.component';
 
 @Component({
   selector: 'jhi-project-media',
+  standalone: true,
   templateUrl: './project-media.component.html',
-  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, ItemCountComponent],
+  imports: [
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    SortDirective,
+    SortByDirective,
+    DurationPipe,
+    FormatMediumDatetimePipe,
+    FormatMediumDatePipe,
+    ItemCountComponent,
+  ],
 })
 export class ProjectMediaComponent implements OnInit {
-  subscription: Subscription | null = null;
-  projectMedias = signal<IProjectMedia[]>([]);
+  projectMedias?: IProjectMedia[];
   isLoading = false;
 
-  sortState = sortStateSignal({});
+  predicate = 'id';
+  ascending = true;
 
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
 
-  public readonly router = inject(Router);
-  protected readonly projectMediaService = inject(ProjectMediaService);
-  protected readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly sortService = inject(SortService);
-  protected modalService = inject(NgbModal);
-  protected ngZone = inject(NgZone);
+  constructor(
+    protected projectMediaService: ProjectMediaService,
+    protected activatedRoute: ActivatedRoute,
+    public router: Router,
+    protected modalService: NgbModal,
+  ) {}
 
-  trackId = (item: IProjectMedia): number => this.projectMediaService.getProjectMediaIdentifier(item);
+  trackId = (_index: number, item: IProjectMedia): number => this.projectMediaService.getProjectMediaIdentifier(item);
 
   ngOnInit(): void {
-    this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])
-      .pipe(
-        tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-        tap(() => this.load()),
-      )
-      .subscribe();
+    this.load();
+  }
+
+  onSortChange($event: SortState): void {
+    this.predicate = $event.predicate ?? 'id';
+    this.ascending = $event.order === 'asc';
+    this.navigateToWithComponentValues();
   }
 
   delete(projectMedia: IProjectMedia): void {
@@ -56,37 +69,50 @@ export class ProjectMediaComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        tap(() => this.load()),
+        switchMap(() => this.loadFromBackendWithRouteInformations()),
       )
-      .subscribe();
+      .subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.onResponseSuccess(res);
+        },
+      });
   }
 
   load(): void {
-    this.queryBackend().subscribe({
+    this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
       },
     });
   }
 
-  navigateToWithComponentValues(event: SortState): void {
-    this.handleNavigation(this.page, event);
+  navigateToWithComponentValues(): void {
+    this.handleNavigation(this.page, this.predicate, this.ascending);
   }
 
-  navigateToPage(page: number): void {
-    this.handleNavigation(page, this.sortState());
+  navigateToPage(page = this.page): void {
+    this.handleNavigation(page, this.predicate, this.ascending);
+  }
+
+  protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending)),
+    );
   }
 
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const page = params.get(PAGE_HEADER);
     this.page = +(page ?? 1);
-    this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
+    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
+    this.predicate = sort[0];
+    this.ascending = sort[1] === ASC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.projectMedias.set(dataFromBody);
+    this.projectMedias = dataFromBody;
   }
 
   protected fillComponentAttributesFromResponseBody(data: IProjectMedia[] | null): IProjectMedia[] {
@@ -97,32 +123,37 @@ export class ProjectMediaComponent implements OnInit {
     this.totalItems = Number(headers.get(TOTAL_COUNT_RESPONSE_HEADER));
   }
 
-  protected queryBackend(): Observable<EntityArrayResponseType> {
-    const { page } = this;
-
+  protected queryBackend(page?: number, predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-    const pageToLoad: number = page;
+    const pageToLoad: number = page ?? 1;
     const queryObject: any = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       eagerload: true,
-      sort: this.sortService.buildSortParam(this.sortState()),
+      sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.projectMediaService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
-  protected handleNavigation(page: number, sortState: SortState): void {
+  protected handleNavigation(page = this.page, predicate?: string, ascending?: boolean): void {
     const queryParamsObj = {
       page,
       size: this.itemsPerPage,
-      sort: this.sortService.buildSortParam(sortState),
+      sort: this.getSortQueryParam(predicate, ascending),
     };
 
-    this.ngZone.run(() => {
-      this.router.navigate(['./'], {
-        relativeTo: this.activatedRoute,
-        queryParams: queryParamsObj,
-      });
+    this.router.navigate(['./'], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParamsObj,
     });
+  }
+
+  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
+    const ascendingQueryParam = ascending ? ASC : DESC;
+    if (predicate === '') {
+      return [];
+    } else {
+      return [predicate + ',' + ascendingQueryParam];
+    }
   }
 }

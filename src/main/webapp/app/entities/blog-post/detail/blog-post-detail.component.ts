@@ -1,20 +1,24 @@
-import { Component, inject, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { FormatMediumDatetimePipe } from 'app/shared/date';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IBlogPost } from '../blog-post.model';
 
 @Component({
   selector: 'jhi-blog-post-detail',
+  standalone: true,
   templateUrl: './blog-post-detail.component.html',
-  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
+  imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
 })
 export class BlogPostDetailComponent {
-  blogPost = input<IBlogPost | null>(null);
+  @Input() blogPost: IBlogPost | null = null;
 
-  protected dataUtils = inject(DataUtils);
+  constructor(
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);

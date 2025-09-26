@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import SharedModule from 'app/shared/shared.module';
@@ -7,6 +8,7 @@ import { AlertErrorComponent } from '../../../shared/alert/alert-error.component
 
 @Component({
   selector: 'jhi-password-reset-init',
+  standalone: true,
   imports: [SharedModule, AlertErrorComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './password-reset-init.component.html',
 })

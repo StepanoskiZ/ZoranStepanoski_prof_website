@@ -6,12 +6,12 @@ import SharedModule from 'app/shared/shared.module';
 import { HealthService } from './health.service';
 import { Health, HealthDetails, HealthStatus } from './health.model';
 import HealthModalComponent from './modal/health-modal.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-health',
+  standalone: true,
   templateUrl: './health.component.html',
-  imports: [TranslateDirective, SharedModule],
+  imports: [SharedModule],
 })
 export default class HealthComponent implements OnInit {
   health?: Health;

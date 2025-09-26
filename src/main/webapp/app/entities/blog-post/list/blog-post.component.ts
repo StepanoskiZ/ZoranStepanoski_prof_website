@@ -1,55 +1,68 @@
-import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
-import { Observable, Subscription, combineLatest, filter, tap } from 'rxjs';
+import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
-import { FormatMediumDatetimePipe } from 'app/shared/date';
+import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
-import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IBlogPost } from '../blog-post.model';
+import { SortState } from 'app/shared/sort';
 
-import { BlogPostService, EntityArrayResponseType } from '../service/blog-post.service';
+import { EntityArrayResponseType, BlogPostService } from '../service/blog-post.service';
 import { BlogPostDeleteDialogComponent } from '../delete/blog-post-delete-dialog.component';
 
 @Component({
   selector: 'jhi-blog-post',
+  standalone: true,
   templateUrl: './blog-post.component.html',
-  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, ItemCountComponent],
+  imports: [
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    SortDirective,
+    SortByDirective,
+    DurationPipe,
+    FormatMediumDatetimePipe,
+    FormatMediumDatePipe,
+    ItemCountComponent,
+  ],
 })
 export class BlogPostComponent implements OnInit {
-  subscription: Subscription | null = null;
-  blogPosts = signal<IBlogPost[]>([]);
+  blogPosts?: IBlogPost[];
   isLoading = false;
 
-  sortState = sortStateSignal({});
+  predicate = 'id';
+  ascending = true;
 
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
 
-  public readonly router = inject(Router);
-  protected readonly blogPostService = inject(BlogPostService);
-  protected readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly sortService = inject(SortService);
-  protected dataUtils = inject(DataUtils);
-  protected modalService = inject(NgbModal);
-  protected ngZone = inject(NgZone);
+  constructor(
+    protected blogPostService: BlogPostService,
+    protected activatedRoute: ActivatedRoute,
+    public router: Router,
+    protected dataUtils: DataUtils,
+    protected modalService: NgbModal,
+  ) {}
 
-  trackId = (item: IBlogPost): number => this.blogPostService.getBlogPostIdentifier(item);
+  onSortChange($event: SortState): void {
+    this.predicate = $event.predicate ?? 'id'; // Handle undefined predicate
+    this.ascending = $event.order === 'asc';
+    this.navigateToWithComponentValues();
+  }
+
+  trackId = (_index: number, item: IBlogPost): number => this.blogPostService.getBlogPostIdentifier(item);
 
   ngOnInit(): void {
-    this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])
-      .pipe(
-        tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-        tap(() => this.load()),
-      )
-      .subscribe();
+    this.load();
   }
 
   byteSize(base64String: string): string {
@@ -67,37 +80,50 @@ export class BlogPostComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        tap(() => this.load()),
+        switchMap(() => this.loadFromBackendWithRouteInformations()),
       )
-      .subscribe();
+      .subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.onResponseSuccess(res);
+        },
+      });
   }
 
   load(): void {
-    this.queryBackend().subscribe({
+    this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
       },
     });
   }
 
-  navigateToWithComponentValues(event: SortState): void {
-    this.handleNavigation(this.page, event);
+  navigateToWithComponentValues(): void {
+    this.handleNavigation(this.page, this.predicate, this.ascending);
   }
 
-  navigateToPage(page: number): void {
-    this.handleNavigation(page, this.sortState());
+  navigateToPage(page = this.page): void {
+    this.handleNavigation(page, this.predicate, this.ascending);
+  }
+
+  protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending)),
+    );
   }
 
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const page = params.get(PAGE_HEADER);
     this.page = +(page ?? 1);
-    this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
+    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
+    this.predicate = sort[0];
+    this.ascending = sort[1] === ASC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.blogPosts.set(dataFromBody);
+    this.blogPosts = dataFromBody;
   }
 
   protected fillComponentAttributesFromResponseBody(data: IBlogPost[] | null): IBlogPost[] {
@@ -108,31 +134,36 @@ export class BlogPostComponent implements OnInit {
     this.totalItems = Number(headers.get(TOTAL_COUNT_RESPONSE_HEADER));
   }
 
-  protected queryBackend(): Observable<EntityArrayResponseType> {
-    const { page } = this;
-
+  protected queryBackend(page?: number, predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-    const pageToLoad: number = page;
+    const pageToLoad: number = page ?? 1;
     const queryObject: any = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
-      sort: this.sortService.buildSortParam(this.sortState()),
+      sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.blogPostService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
-  protected handleNavigation(page: number, sortState: SortState): void {
+  protected handleNavigation(page = this.page, predicate?: string, ascending?: boolean): void {
     const queryParamsObj = {
       page,
       size: this.itemsPerPage,
-      sort: this.sortService.buildSortParam(sortState),
+      sort: this.getSortQueryParam(predicate, ascending),
     };
 
-    this.ngZone.run(() => {
-      this.router.navigate(['./'], {
-        relativeTo: this.activatedRoute,
-        queryParams: queryParamsObj,
-      });
+    this.router.navigate(['./'], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParamsObj,
     });
+  }
+
+  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
+    const ascendingQueryParam = ascending ? ASC : DESC;
+    if (predicate === '') {
+      return [];
+    } else {
+      return [predicate + ',' + ascendingQueryParam];
+    }
   }
 }

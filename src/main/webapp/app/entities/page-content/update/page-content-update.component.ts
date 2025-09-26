@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,10 +12,11 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { PageContentService } from '../service/page-content.service';
 import { IPageContent } from '../page-content.model';
-import { PageContentFormGroup, PageContentFormService } from './page-content-form.service';
+import { PageContentFormService, PageContentFormGroup } from './page-content-form.service';
 
 @Component({
   selector: 'jhi-page-content-update',
+  standalone: true,
   templateUrl: './page-content-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -23,14 +24,15 @@ export class PageContentUpdateComponent implements OnInit {
   isSaving = false;
   pageContent: IPageContent | null = null;
 
-  protected dataUtils = inject(DataUtils);
-  protected eventManager = inject(EventManager);
-  protected pageContentService = inject(PageContentService);
-  protected pageContentFormService = inject(PageContentFormService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: PageContentFormGroup = this.pageContentFormService.createPageContentFormGroup();
+
+  constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
+    protected pageContentService: PageContentService,
+    protected pageContentFormService: PageContentFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ pageContent }) => {
@@ -52,7 +54,7 @@ export class PageContentUpdateComponent implements OnInit {
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: `error.file.${err.key}` })),
+        this.eventManager.broadcast(new EventWithContent<AlertError>('zsWebsiteApp.error', { ...err, key: 'error.file.' + err.key })),
     });
   }
 

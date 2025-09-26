@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,10 +12,11 @@ import { ProjectService } from 'app/entities/project/service/project.service';
 import { UnifiedMediaType } from 'app/entities/enumerations/unified-media-type.model';
 import { ProjectMediaService } from '../service/project-media.service';
 import { IProjectMedia } from '../project-media.model';
-import { ProjectMediaFormGroup, ProjectMediaFormService } from './project-media-form.service';
+import { ProjectMediaFormService, ProjectMediaFormGroup } from './project-media-form.service';
 
 @Component({
   selector: 'jhi-project-media-update',
+  standalone: true,
   templateUrl: './project-media-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
@@ -26,13 +27,14 @@ export class ProjectMediaUpdateComponent implements OnInit {
 
   projectsSharedCollection: IProject[] = [];
 
-  protected projectMediaService = inject(ProjectMediaService);
-  protected projectMediaFormService = inject(ProjectMediaFormService);
-  protected projectService = inject(ProjectService);
-  protected activatedRoute = inject(ActivatedRoute);
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: ProjectMediaFormGroup = this.projectMediaFormService.createProjectMediaFormGroup();
+
+  constructor(
+    protected projectMediaService: ProjectMediaService,
+    protected projectMediaFormService: ProjectMediaFormService,
+    protected projectService: ProjectService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   compareProject = (o1: IProject | null, o2: IProject | null): boolean => this.projectService.compareProject(o1, o2);
 

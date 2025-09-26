@@ -10,13 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IAuthority } from '../authority.model';
 import { AuthorityService } from '../service/authority.service';
 import { AuthorityFormGroup, AuthorityFormService } from './authority-form.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-authority-update',
+  standalone: true,
   templateUrl: './authority-update.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class AuthorityUpdateComponent implements OnInit {
   isSaving = false;

@@ -6,12 +6,11 @@ import SharedModule from 'app/shared/shared.module';
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IAuthority } from '../authority.model';
 import { AuthorityService } from '../service/authority.service';
-import { AlertErrorComponent } from 'app/shared/alert/alert-error.component';
-import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   templateUrl: './authority-delete-dialog.component.html',
-  imports: [TranslateDirective, AlertErrorComponent, SharedModule, FormsModule],
+  standalone: true,
+  imports: [SharedModule, FormsModule],
 })
 export class AuthorityDeleteDialogComponent {
   authority?: IAuthority;

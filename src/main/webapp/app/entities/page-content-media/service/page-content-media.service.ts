@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,10 +14,12 @@ export type EntityArrayResponseType = HttpResponse<IPageContentMedia[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PageContentMediaService {
-  protected readonly http = inject(HttpClient);
-  protected readonly applicationConfigService = inject(ApplicationConfigService);
-
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/page-content-medias');
+
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(pageContentMedia: NewPageContentMedia): Observable<EntityResponseType> {
     return this.http.post<IPageContentMedia>(this.resourceUrl, pageContentMedia, { observe: 'response' });
@@ -66,8 +68,8 @@ export class PageContentMediaService {
   ): Type[] {
     const pageContentMedias: Type[] = pageContentMediasToCheck.filter(isPresent);
     if (pageContentMedias.length > 0) {
-      const pageContentMediaCollectionIdentifiers = pageContentMediaCollection.map(pageContentMediaItem =>
-        this.getPageContentMediaIdentifier(pageContentMediaItem),
+      const pageContentMediaCollectionIdentifiers = pageContentMediaCollection.map(
+        pageContentMediaItem => this.getPageContentMediaIdentifier(pageContentMediaItem)!,
       );
       const pageContentMediasToAdd = pageContentMedias.filter(pageContentMediaItem => {
         const pageContentMediaIdentifier = this.getPageContentMediaIdentifier(pageContentMediaItem);

@@ -22,13 +22,13 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import tech.jhipster.config.JHipsterProperties;
-import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -62,15 +62,18 @@ public class SecurityConfiguration {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
-            .headers(headers ->
-                headers
-                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-                    .frameOptions(FrameOptionsConfig::sameOrigin)
-                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
-                    .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "fullscreen=(self)"))
-//                    .permissionsPolicyHeader(permissions ->
-//                        permissions.policy("fullscreen=(self)")
-//                    )
+            .headers(
+                headers ->
+                    headers
+                        .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
+                        .frameOptions(FrameOptionsConfig::sameOrigin)
+                        .referrerPolicy(referrer ->
+                            referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                        .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "fullscreen=(self)"))
+                //                    .permissionsPolicyHeader(permissions ->
+                //                        permissions.policy("fullscreen=(self)")
+                //                    )
             )
             .authorizeHttpRequests(authz ->
                 authz
@@ -90,10 +93,7 @@ public class SecurityConfiguration {
                         "/swagger-ui/**"
                     )
                     .permitAll()
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/contact-messages",
-                        "/api/visitor-logs")
+                    .requestMatchers(HttpMethod.POST, "/api/contact-messages", "/api/visitor-logs")
                     .permitAll()
                     .requestMatchers(
                         HttpMethod.GET,

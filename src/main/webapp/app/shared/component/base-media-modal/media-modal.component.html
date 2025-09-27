@@ -17,33 +17,33 @@
     <!-- Left Column: Media -->
     <div class="media-column" (wheel)="onMediaWheel($event)">
       <div class="media-container" #mediaContainer>
-        <ng-container *ngIf="mediaUrls?.length; else noMedia">
-          <ng-container *ngIf="currentUrl as current">
+        <ng-container *ngIf="mediaUrls && mediaUrls.length > 0">
+          <div
+            *ngFor="let media of mediaUrls; let i = index"
+            class="media-slide"
+            [class.active]="i === currentMediaIndex"
+            [class.previous]="hasMultipleMedia && (i === currentMediaIndex - 1 || (currentMediaIndex === 0 && i === mediaUrls.length - 1))"
+            [class.next]="hasMultipleMedia && (i === currentMediaIndex + 1 || (currentMediaIndex === mediaUrls.length - 1 && i === 0))"
+          >
             <img
-              *ngIf="getMediaType(current) === 'IMAGE'"
-              [src]="getFullMediaPath(current)"
+              *ngIf="getMediaType(media.url) === 'IMAGE'"
+              [src]="getFullMediaPath(media.url, defaultMedia)"
               alt="Media"
               class="img-fluid rounded project-media-clickable"
               (click)="openFullscreenMedia()"
             />
             <video
-              *ngIf="getMediaType(current) === 'VIDEO'"
-              [src]="getFullMediaPath(current)"
+              *ngIf="getMediaType(media.url) === 'VIDEO'"
+              [src]="getFullMediaPath(media.url)"
               class="img-fluid rounded project-media-clickable"
               autoplay
               muted
               loop
               controls
               (click)="openFullscreenMedia()"
-            >
-              <!--              <source [src]="getFullMediaPath(current)" type="video/mp4" />-->
-            </video>
-          </ng-container>
+            ></video>
+          </div>
         </ng-container>
-
-        <ng-template #noMedia>
-          <img src="/content/images/default-profile.jpg" alt="Media" class="img-fluid rounded" />
-        </ng-template>
       </div>
     </div>
 
@@ -56,13 +56,31 @@
   </div>
 
   <!-- Media Navigation -->
-  <div class="media-navigation" *ngIf="hasMultipleMedia">
-    <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex - 1)">
-      <fa-icon icon="chevron-left"></fa-icon>
-    </button>
-    <span class="mx-2">{{ currentMediaIndex + 1 }} / {{ mediaUrls.length }}</span>
-    <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex + 1)">
-      <fa-icon icon="chevron-right"></fa-icon>
-    </button>
+  <!--  <div class="media-navigation" *ngIf="hasMultipleMedia">-->
+  <!--    <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex - 1)">-->
+  <!--      <fa-icon icon="chevron-left"></fa-icon>-->
+  <!--    </button>-->
+  <!--    <span class="mx-2">{{ currentMediaIndex + 1 }} / {{ mediaUrls.length }}</span>-->
+  <!--    <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex + 1)">-->
+  <!--      <fa-icon icon="chevron-right"></fa-icon>-->
+  <!--    </button>-->
+  <!--  </div>-->
+
+  <div class="media-header d-flex justify-content-between align-items-center">
+    <div class="media-title-caption" *ngIf="currentMediaCaption">
+      {{ currentMediaCaption }}
+    </div>
+
+    <!-- Media Navigation -->
+    <div class="media-navigation">
+      <!--    <div class="media-navigation" *ngIf="hasMultipleMedia">-->
+      <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex - 1)">
+        <fa-icon icon="chevron-left"></fa-icon>
+      </button>
+      <span class="mx-2">{{ currentMediaIndex + 1 }} / {{ mediaUrls.length }}</span>
+      <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex + 1)">
+        <fa-icon icon="chevron-right"></fa-icon>
+      </button>
+    </div>
   </div>
 </div>

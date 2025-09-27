@@ -11,7 +11,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ProjectDetailModalComponent } from '../entities/project/detail/project-detail-modal.component';
+import { ProjectDetailModalComponent } from './project-detail-modal/project-detail-modal.component';
 import { AboutMeModalComponent } from './about-me-modal/about-me-modal.component';
 import { BaseMediaModalComponent } from '../shared/component/base-media-modal/base-media-modal.component';
 
@@ -92,15 +92,17 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('✅ Raw projects from backend:', data);
 
         // Normalize data (make sure every project has an `id` property)
-        this.projects = data.map((p, index) => {
-          return {
-            id: p.id ?? p.projectId ?? index, // fallback to projectId or index
-            title: p.title ?? '(Untitled project)',
-            description: p.description ?? '',
-            firstMediaUrl: p.firstMediaUrl ?? null,
-            firstMediaType: p.firstMediaType ?? null,
-          };
-        });
+        this.projects = data
+          .map((p, index) => {
+            return {
+              id: p.id ?? p.projectId ?? index, // fallback to projectId or index
+              title: p.title ?? '(Untitled project)',
+              description: p.description ?? '',
+              firstMediaUrl: p.firstMediaUrl ?? null,
+              firstMediaType: p.firstMediaType ?? null,
+            };
+          })
+          .sort((a, b) => a.id - b.id);
 
         console.log('✅ Normalized projects stored in this.projects:', this.projects);
         this.isLoadingProjects = false;

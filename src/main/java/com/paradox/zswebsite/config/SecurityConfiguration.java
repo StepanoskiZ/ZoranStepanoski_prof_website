@@ -108,10 +108,15 @@ public class SecurityConfiguration {
                     .requestMatchers(
                         "/api/authenticate",
                         "/api/register",
+                        "/api/register",
+                        "/api/activate",
                         "/api/account/reset-password/init",
-                        "/api/account/reset-password/finish"
+                        "/api/account/reset-password/finish",
+                        "/api/page-contents/by-key/**"
                     )
                     .permitAll()
+                    //                    .requestMatchers("/api/page-contents/by-key/**")
+                    //                    .permitAll()
                     .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
                     .permitAll()
                     .requestMatchers("/api/admin/**", "/management/**")

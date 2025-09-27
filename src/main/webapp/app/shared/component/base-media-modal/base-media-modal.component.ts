@@ -7,17 +7,16 @@ export interface MediaItem {
   id?: number;
   url: string;
   type?: 'IMAGE' | 'VIDEO';
+  caption?: string;
 }
 
 @Directive()
 export abstract class BaseMediaModalComponent implements OnInit {
   @ViewChild('mediaContainer', { static: false }) mediaContainerRef!: ElementRef<HTMLDivElement>;
 
-  // Raw content (setter sanitizes immediately — works when parent sets componentInstance.content = '...')
   private _content = '';
   sanitizedContent: SafeHtml = '';
 
-  // Normalized media array (always MediaItem[])
   private _mediaUrls: MediaItem[] = [];
 
   @Input()
@@ -26,6 +25,7 @@ export abstract class BaseMediaModalComponent implements OnInit {
     // sanitize immediately whenever content is assigned
     this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this._content);
   }
+
   get content(): string {
     return this._content;
   }
@@ -37,22 +37,29 @@ export abstract class BaseMediaModalComponent implements OnInit {
       this.currentMediaIndex = 0;
       return;
     }
-    // normalize to MediaItem[]
     if (typeof v[0] === 'string') {
-      this._mediaUrls = (v as string[]).map((u, i) => ({ id: i, url: u }));
+      this._mediaUrls = (v as string[]).map((u, i) => ({ id: i, url: u, caption: '' }));
     } else {
-      // copy to ensure ids exist
-      this._mediaUrls = (v as MediaItem[]).map((m, i) => ({ id: m.id ?? i, url: m.url, type: m.type }));
+      this._mediaUrls = (v as any[]).map((m, i) => ({
+        id: m.id ?? i,
+        url: m.mediaUrl ?? m.url,
+        type: m.type,
+        caption: m.caption,
+      }));
     }
-    // ensure type and sort by id
     this._mediaUrls.forEach(item => {
       if (!item.type) item.type = this.getMediaType(item.url) === 'VIDEO' ? 'VIDEO' : 'IMAGE';
     });
     this._mediaUrls.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     if (this.currentMediaIndex >= this._mediaUrls.length) this.currentMediaIndex = 0;
   }
+
   get mediaUrls(): MediaItem[] {
     return this._mediaUrls;
+  }
+
+  get currentMediaCaption(): string {
+    return this._mediaUrls[this.currentMediaIndex]?.caption ?? '';
   }
 
   currentMediaIndex = 0;
@@ -78,17 +85,12 @@ export abstract class BaseMediaModalComponent implements OnInit {
 
   switchMedia(index: number) {
     const list = this._mediaUrls;
-    if (!list?.length) return;
+    if (!list?.length) {
+      return;
+    }
+
     const length = list.length;
-    const normalizedIndex = ((index % length) + length) % length;
-
-    const container = this.mediaContainerRef?.nativeElement;
-    if (container) container.classList.add('fade-out');
-
-    setTimeout(() => {
-      this.currentMediaIndex = normalizedIndex;
-      if (container) container.classList.remove('fade-out');
-    }, 150);
+    this.currentMediaIndex = ((index % length) + length) % length;
   }
 
   onMediaWheel(event: WheelEvent) {
@@ -109,12 +111,6 @@ export abstract class BaseMediaModalComponent implements OnInit {
     return 'UNKNOWN';
   }
 
-  /**
-   * Default path logic:
-   * - if url starts with '/' or 'http' -> return as-is
-   * - if filename -> return /content/images/<file> (images) or /content/videos/<file> (videos)
-   * - fallback param can be supplied by child via override.
-   */
   getFullMediaPath(url: string, fallback = '/content/images/default-profile.jpg'): string {
     if (!url) return fallback;
     if (url.startsWith('/') || url.startsWith('http')) return url;

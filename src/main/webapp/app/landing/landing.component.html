@@ -115,22 +115,23 @@
               [src]="getFullMediaPath(project.firstMediaUrl)"
               [alt]="project.title"
               class="img-fluid rounded"
-              (click)="openProjectMediaModal(project.id)"
             />
+            <!--              (click)="openProjectMediaModal(project.id)"-->
             <video
               *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"
               [src]="getFullMediaPath(project.firstMediaUrl)"
               class="img-fluid rounded project-media-clickable"
               muted
               loop
-              (click)="openProjectMediaModal(project.id)"
             ></video>
+            <!--            (click)="openProjectMediaModal(project.id)"-->
           </div>
 
           <!-- Card Body -->
           <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ project?.title }}</h3>
-            <p class="card-text flex-grow-1">{{ project.description }}</p>
+            <!--            <p class="card-text flex-grow-1" >{{ project.description }}</p>-->
+            <p class="card-text flex-grow-1" [innerHTML]="project.description"></p>
 
             <!-- Read more link -->
             <a href="#" class="read-more-link ms-4" (click)="openProjectMediaModal(project.id); $event.preventDefault()">

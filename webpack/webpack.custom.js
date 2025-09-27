@@ -26,7 +26,7 @@ module.exports = async (config, options, targetOptions) => {
       new WebpackNotifierPlugin({
         title: 'ZS Website',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
-      })
+      }),
     );
   }
 
@@ -37,18 +37,22 @@ module.exports = async (config, options, targetOptions) => {
           host: 'localhost',
           port: 9000,
           https: tls,
-          proxy: {
-            target: `http${tls ? 's' : ''}://localhost:4200`,
-            ws: true,
-          },
+          open: 'local',
           middleware: [
-            ...proxyConfig({ tls }).map(proxy => createProxyMiddleware(proxy)),
+            ...proxyConfig({ tls }).map(proxy => createProxyMiddleware(proxy.context, proxy)),
+
+            createProxyMiddleware({
+              target: `http${tls ? 's' : ''}://localhost:4200`,
+              ws: true,
+              changeOrigin: true,
+              proxyTimeout: 60000,
+            }),
           ],
         },
         {
           reload: false,
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -58,7 +62,7 @@ module.exports = async (config, options, targetOptions) => {
         analyzerMode: 'static',
         openAnalyzer: false,
         reportFilename: '../../stats.html',
-      })
+      }),
     );
   }
 
@@ -93,7 +97,7 @@ module.exports = async (config, options, targetOptions) => {
           { pattern: './src/main/webapp/i18n/sr/*.json', fileName: './i18n/sr.json' },
         ],
       },
-    })
+    }),
   );
 
   config = merge(config);

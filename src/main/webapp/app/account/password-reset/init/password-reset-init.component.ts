@@ -28,7 +28,6 @@ export default class PasswordResetInitComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // --- FIX #2: Add a safety check before using the element ---
     const emailEl = this.email();
     if (emailEl) {
       emailEl.nativeElement.focus();

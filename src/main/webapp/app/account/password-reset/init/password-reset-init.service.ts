@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,8 @@ export class PasswordResetInitService {
   private readonly applicationConfigService = inject(ApplicationConfigService);
 
   save(mail: string): Observable<{}> {
-    return this.http.post(this.applicationConfigService.getEndpointFor('api/account/reset-password/init'), mail);
+    const payload = { mail: mail };
+
+    return this.http.post(this.applicationConfigService.getEndpointFor('api/account/reset-password/init'), payload);
   }
 }

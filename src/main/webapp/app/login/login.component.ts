@@ -37,7 +37,10 @@ export default class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.username().nativeElement.focus();
+    const usernameEl = this.username();
+    if (usernameEl) {
+      usernameEl.nativeElement.focus();
+    }
   }
 
   login(): void {

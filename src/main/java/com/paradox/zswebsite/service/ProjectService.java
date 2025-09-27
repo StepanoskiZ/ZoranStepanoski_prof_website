@@ -7,7 +7,9 @@ import com.paradox.zswebsite.repository.ProjectRepository;
 import com.paradox.zswebsite.service.dto.ProjectCardDTO;
 import com.paradox.zswebsite.service.dto.ProjectDTO;
 import com.paradox.zswebsite.service.dto.ProjectDetailDTO;
+import com.paradox.zswebsite.service.dto.ProjectMediaDTO;
 import com.paradox.zswebsite.service.mapper.ProjectMapper;
+import com.paradox.zswebsite.service.mapper.ProjectMediaMapper;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +32,18 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
     private final ProjectMediaRepository projectMediaRepository;
+    private final ProjectMediaMapper projectMediaMapper;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper, ProjectMediaRepository projectMediaRepository) {
+    public ProjectService(
+        ProjectRepository projectRepository,
+        ProjectMapper projectMapper,
+        ProjectMediaRepository projectMediaRepository,
+        ProjectMediaMapper projectMediaMapper
+    ) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
         this.projectMediaRepository = projectMediaRepository;
+        this.projectMediaMapper = projectMediaMapper;
     }
 
     /**
@@ -164,9 +173,14 @@ public class ProjectService {
                 dto.setId(project.getId());
                 dto.setTitle(project.getTitle());
                 dto.setDescription(project.getDescription());
-                dto.setUrl(project.getProjectUrl());
-                List<String> urls = project.getMedia().stream().map(ProjectMedia::getMediaUrl).collect(Collectors.toList());
-                dto.setMediaUrls(urls);
+                //                dto.setUrl(project.getProjectUrl());
+                List<ProjectMediaDTO> mediaDTOs = project
+                    .getMedia()
+                    .stream()
+                    .map(projectMediaMapper::toDto) // Use the injected mapper
+                    .sorted(Comparator.comparing(ProjectMediaDTO::getId)) // Sort by ID
+                    .collect(Collectors.toList());
+                dto.setMediaFiles(mediaDTOs);
                 return dto;
             });
     }

@@ -12,7 +12,7 @@ public class ProjectDetailDTO implements Serializable {
     private String title;
     private String description; // Full description
     private String url;
-    private List<String> mediaUrls; // The field your frontend will receive
+    private List<ProjectMediaDTO> mediaFiles; // The field your frontend will receive
 
     // Getters and Setters for all fields...
 
@@ -48,11 +48,11 @@ public class ProjectDetailDTO implements Serializable {
         this.url = url;
     }
 
-    public List<String> getMediaUrls() {
-        return mediaUrls;
+    public List<ProjectMediaDTO> getMediaFiles() {
+        return mediaFiles;
     }
 
-    public void setMediaUrls(List<String> mediaUrls) {
-        this.mediaUrls = mediaUrls;
+    public void setMediaFiles(List<ProjectMediaDTO> mediaFiles) {
+        this.mediaFiles = mediaFiles;
     }
 }

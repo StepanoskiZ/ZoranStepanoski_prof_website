@@ -13,9 +13,5 @@ import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen
 })
 export class AboutMeModalComponent extends BaseMediaModalComponent {
   project?: any = null;
-
-  // override fallback image if desired:
-  override getFullMediaPath(url: string): string {
-    return super.getFullMediaPath(url, '/content/images/default-profile.jpg');
-  }
+  defaultMedia = '/content/images/default-profile.jpg';
 }

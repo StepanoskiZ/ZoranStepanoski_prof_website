@@ -4,7 +4,6 @@ import com.paradox.zswebsite.repository.ContactMessageRepository;
 import com.paradox.zswebsite.service.ContactMessageService;
 import com.paradox.zswebsite.service.EmailService;
 import com.paradox.zswebsite.service.dto.ContactMessageDTO;
-import com.paradox.zswebsite.service.dto.ContactMessageDTO;
 import com.paradox.zswebsite.service.mapper.ContactMessageMapper;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;

@@ -6,7 +6,8 @@ primary_region = "cdg"
   dockerfile = "./Dockerfile.backend"
 
 [env]
-PORT = "8080"
+  PORT = "8080"
+  SERVER_ADDRESS = "0.0.0.0"
 
 # Private service only accessible within Fly network
 [[services]]

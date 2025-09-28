@@ -20,6 +20,10 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "quill-delta",
+              "buffer"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/main/webapp/content/scss", "node_modules", "src/main/webapp/app/shared/styles"]
             },

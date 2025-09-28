@@ -71,9 +71,6 @@ public class SecurityConfiguration {
                             referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                         )
                         .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "fullscreen=(self)"))
-                //                    .permissionsPolicyHeader(permissions ->
-                //                        permissions.policy("fullscreen=(self)")
-                //                    )
             )
             .authorizeHttpRequests(authz ->
                 authz

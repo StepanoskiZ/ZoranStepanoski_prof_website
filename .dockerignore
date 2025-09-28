@@ -1,0 +1,33 @@
+# Maven build outputs
+target/
+!target/*.jar
+
+# Node build outputs
+node_modules/
+dist/
+build/
+
+# IDE / editor files
+.git/
+.gitignore
+.idea/
+*.iml
+*.ipr
+*.iws
+*.ids
+
+# OS files
+*.log
+*.orig
+*.crt
+.DS_Store
+
+# Misc
+Dockerfile
+fly.toml
+fly/**/fly.toml
+README.md
+Prod_details.txt
+classes/
+out/
+src/test/

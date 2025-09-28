@@ -1,0 +1,32 @@
+{
+  "annotations": {
+    "changelogDate": "20250919003538"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "visitor_log",
+  "fields": [
+    {
+      "fieldName": "ipAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pageVisited",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "userAgent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "visitTimestamp",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "VisitorLog",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

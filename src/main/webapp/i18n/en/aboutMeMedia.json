@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "aboutMeMedia": {
+      "home": {
+        "title": "About Me Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new About Me Media",
+        "createOrEditLabel": "Create or edit a About Me Media",
+        "notFound": "No About Me Medias found"
+      },
+      "created": "A new About Me Media is created with identifier {{ param }}",
+      "updated": "A About Me Media is updated with identifier {{ param }}",
+      "deleted": "A About Me Media is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete About Me Media {{ id }}?"
+      },
+      "detail": {
+        "title": "About Me Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "aboutMeMediaType": "About Me Media Type",
+      "caption": "Caption",
+      "aboutMe": "About Me"
+    }
+  }
+}

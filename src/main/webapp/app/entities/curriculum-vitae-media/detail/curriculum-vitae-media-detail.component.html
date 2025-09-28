@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (curriculumVitaeMedia) {
+      <div>
+        <h2 data-cy="curriculumVitaeMediaDetailsHeading">
+          <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.detail.title">Curriculum Vitae Media</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ curriculumVitaeMedia.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ curriculumVitaeMedia.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitaeMediaType">Curriculum Vitae Media Type</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + curriculumVitaeMedia.curriculumVitaeMediaType }}">{{
+              curriculumVitaeMedia.curriculumVitaeMediaType
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ curriculumVitaeMedia.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitae">Curriculum Vitae</span></dt>
+          <dd>
+            @if (curriculumVitaeMedia.curriculumVitae) {
+              <div>
+                <a [routerLink]="['/curriculum-vitae', curriculumVitaeMedia.curriculumVitae.id, 'view']">{{
+                  curriculumVitaeMedia.curriculumVitae.companyName
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/curriculum-vitae-media', curriculumVitaeMedia.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (curriculumVitae) {
+      <div>
+        <h2 data-cy="curriculumVitaeDetailsHeading">
+          <span jhiTranslate="zsWebsiteApp.curriculumVitae.detail.title">Curriculum Vitae</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.companyName">Company Name</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.companyName }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.language">Language</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.Language.' + curriculumVitae.language }}">{{ curriculumVitae.language }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML">Job Description HTML</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.jobDescriptionHTML }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.startDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.endDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.status">Status</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.WorkingStatus.' + curriculumVitae.status }}">{{ curriculumVitae.status }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.type">Type</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.WorkingType.' + curriculumVitae.type }}">{{ curriculumVitae.type }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.curriculumVitae.category">Category</span></dt>
+          <dd>
+            <span>{{ curriculumVitae.category }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/curriculum-vitae', curriculumVitae.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

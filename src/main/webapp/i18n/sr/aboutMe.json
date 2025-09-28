@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "aboutMe": {
+      "home": {
+        "title": "About Mes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi About Me",
+        "createOrEditLabel": "Kreirajte ili izmenite About Me",
+        "notFound": "No About Mes found"
+      },
+      "created": "Kreiran je novi About Me pod nazivom {{ param }}",
+      "updated": "About Me pod nazivom {{ param }} je ažuriran",
+      "deleted": "About Me pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete About Me pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "About Me"
+      },
+      "id": "ID",
+      "contentHtml": "Content Html",
+      "language": "Language",
+      "media": "Media"
+    }
+  }
+}

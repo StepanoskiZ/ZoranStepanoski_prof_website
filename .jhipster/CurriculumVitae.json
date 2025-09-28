@@ -1,0 +1,63 @@
+{
+  "annotations": {
+    "changelogDate": "20240830064300"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "curriculum_vitae",
+  "fields": [
+    {
+      "fieldName": "companyName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EN,SR"
+    },
+    {
+      "fieldName": "jobDescriptionHTML",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "WorkingStatus",
+      "fieldValues": "STILLACTIVE,FINISHED"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "WorkingType",
+      "fieldValues": "FULLTIME,PARTTIME,CONTRACT,FREELANCING"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "String"
+    }
+  ],
+  "name": "CurriculumVitae",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "mediaUrl",
+      "otherEntityName": "curriculumVitaeMedia",
+      "otherEntityRelationshipName": "curriculumVitae",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

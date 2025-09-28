@@ -1,0 +1,11 @@
+{
+  "zsWebsiteApp": {
+    "WorkingType": {
+      "null": "",
+      "FULLTIME": "FULLTIME",
+      "PARTTIME": "PARTTIME",
+      "CONTRACT": "CONTRACT",
+      "FREELANCING": "FREELANCING"
+    }
+  }
+}

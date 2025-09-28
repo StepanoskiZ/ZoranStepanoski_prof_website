@@ -1,0 +1,15 @@
+{
+  "annotations": {
+    "changelogDate": "20250928070354"
+  },
+  "dto": "mapstruct",
+  "entityTableName": "authority",
+  "fields": [],
+  "jpaMetamodelFiltering": false,
+  "name": "Authority",
+  "pagination": "no",
+  "readOnly": true,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

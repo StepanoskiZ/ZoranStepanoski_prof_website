@@ -1,0 +1,34 @@
+// --- Hero Section Styling (Copied from privacy-policy.component.scss) ---
+.page-hero {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 50vh;
+  color: white;
+  text-align: left;
+  padding: 0 1rem;
+
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+
+  .hero-content {
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+    .lead {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+// --- Form-specific styles ---
+.form-label {
+  font-weight: 600;
+}
+
+.form-check-label {
+  cursor: pointer;
+}

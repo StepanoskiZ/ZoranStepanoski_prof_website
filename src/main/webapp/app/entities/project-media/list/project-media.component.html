@@ -1,0 +1,136 @@
+<div>
+  <h2 id="page-heading" data-cy="ProjectMediaHeading">
+    <span jhiTranslate="zsWebsiteApp.projectMedia.home.title">Project Medias</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="zsWebsiteApp.projectMedia.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-project-media"
+        [routerLink]="['/project-media/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="zsWebsiteApp.projectMedia.home.createLabel">Create a new Project Media</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (projectMedias?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="zsWebsiteApp.projectMedia.home.notFound">No Project Medias found</span>
+    </div>
+  }
+
+  @if (projectMedias && projectMedias.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="{ predicate, order: ascending ? 'asc' : 'desc' }" (sortChange)="onSortChange($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="mediaUrl">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.projectMedia.mediaUrl">Media Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="projectMediaType">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.projectMedia.projectMediaType">Project Media Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="caption">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.projectMedia.caption">Caption</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="project.title">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.projectMedia.project">Project</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (projectMedia of projectMedias; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/project-media', projectMedia.id, 'view']">{{ projectMedia.id }}</a>
+              </td>
+              <td>{{ projectMedia.mediaUrl }}</td>
+              <td jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + projectMedia.projectMediaType }}">
+                {{ projectMedia.projectMediaType }}
+              </td>
+              <td>{{ projectMedia.caption }}</td>
+              <td>
+                @if (projectMedia.project) {
+                  <div>
+                    <a [routerLink]="['/project', projectMedia.project.id, 'view']">{{ projectMedia.project.title }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/project-media', projectMedia.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/project-media', projectMedia.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(projectMedia)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (projectMedias && projectMedias.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "businessService": {
+      "home": {
+        "title": "Business Services",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Business Service",
+        "createOrEditLabel": "Kreirajte ili izmenite Business Service",
+        "notFound": "No Business Services found"
+      },
+      "created": "Kreiran je novi Business Service pod nazivom {{ param }}",
+      "updated": "Business Service pod nazivom {{ param }} je ažuriran",
+      "deleted": "Business Service pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Business Service pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Business Service"
+      },
+      "id": "ID",
+      "title": "Title",
+      "descriptionHTML": "Description HTML",
+      "icon": "Icon"
+    }
+  }
+}

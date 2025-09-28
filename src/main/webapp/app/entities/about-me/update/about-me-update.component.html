@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-about-me-heading" data-cy="AboutMeCreateUpdateHeading" jhiTranslate="zsWebsiteApp.aboutMe.home.createOrEditLabel">
+        Create or edit a About Me
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMe.contentHtml" for="field_contentHtml">Content Html</label>
+          <textarea
+            class="form-control"
+            name="contentHtml"
+            id="field_contentHtml"
+            data-cy="contentHtml"
+            formControlName="contentHtml"
+          ></textarea>
+          @if (editForm.get('contentHtml')!.invalid && (editForm.get('contentHtml')!.dirty || editForm.get('contentHtml')!.touched)) {
+            <div>
+              @if (editForm.get('contentHtml')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMe.language" for="field_language">Language</label>
+          <select class="form-control" name="language" formControlName="language" id="field_language" data-cy="language">
+            <option [ngValue]="null">{{ 'zsWebsiteApp.Language.null' | translate }}</option>
+            @for (language of languageValues; track $index) {
+              <option [value]="language">{{ 'zsWebsiteApp.Language.' + language | translate }}</option>
+            }
+          </select>
+          @if (editForm.get('language')!.invalid && (editForm.get('language')!.dirty || editForm.get('language')!.touched)) {
+            <div>
+              @if (editForm.get('language')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

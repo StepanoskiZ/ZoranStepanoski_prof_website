@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "visitorLog": {
+      "home": {
+        "title": "Visitor Logs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Visitor Log",
+        "createOrEditLabel": "Create or edit a Visitor Log",
+        "notFound": "No Visitor Logs found"
+      },
+      "created": "A new Visitor Log is created with identifier {{ param }}",
+      "updated": "A Visitor Log is updated with identifier {{ param }}",
+      "deleted": "A Visitor Log is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Visitor Log {{ id }}?"
+      },
+      "detail": {
+        "title": "Visitor Log"
+      },
+      "id": "ID",
+      "ipAddress": "Ip Address",
+      "pageVisited": "Page Visited",
+      "userAgent": "User Agent",
+      "visitTimestamp": "Visit Timestamp"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "curriculumVitaeMedia": {
+      "home": {
+        "title": "Curriculum Vitae Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Curriculum Vitae Media",
+        "createOrEditLabel": "Create or edit a Curriculum Vitae Media",
+        "notFound": "No Curriculum Vitae Medias found"
+      },
+      "created": "A new Curriculum Vitae Media is created with identifier {{ param }}",
+      "updated": "A Curriculum Vitae Media is updated with identifier {{ param }}",
+      "deleted": "A Curriculum Vitae Media is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Curriculum Vitae Media {{ id }}?"
+      },
+      "detail": {
+        "title": "Curriculum Vitae Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "curriculumVitaeMediaType": "Curriculum Vitae Media Type",
+      "caption": "Caption",
+      "curriculumVitae": "Curriculum Vitae"
+    }
+  }
+}

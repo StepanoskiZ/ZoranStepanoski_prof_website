@@ -1,0 +1,35 @@
+<div>
+  <h2 jhiTranslate="global.menu.admin.visitorStats"></h2>
+
+  <!-- 1. Loading State -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden" jhiTranslate="global.loading">Loading...</span>
+    </div>
+  </div>
+
+  <!-- 2. Success State -->
+  <div *ngIf="!isLoading && stats" class="row mt-4">
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title" jhiTranslate="visitorStats.totalVisits.title">Total Page Views</h5>
+          <p class="card-text display-4 fw-bold text-primary">{{ stats.totalVisits }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title" jhiTranslate="visitorStats.uniqueVisitors.title">Unique Visitors (by IP)</h5>
+          <p class="card-text display-4 fw-bold text-primary">{{ stats.uniqueVisitors }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Error State -->
+  <div *ngIf="!isLoading && !stats" class="alert alert-warning mt-4" role="alert">
+    <span jhiTranslate="visitorStats.error">Could not load visitor statistics.</span>
+  </div>
+</div>

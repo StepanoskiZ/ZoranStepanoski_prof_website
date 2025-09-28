@@ -1,0 +1,38 @@
+<!--<footer class="footer bg-white mt-5">-->
+<!--  <div class="container text-center py-3">-->
+<!--    <span jhiTranslate="landing.allRightsReserved"></span>-->
+<!--  </div>-->
+<!--</footer>-->
+<!-- src/main/webapp/app/layouts/footer/footer.component.html -->
+<footer class="footer-container text-light py-5">
+  <div class="container">
+    <div class="row gy-4">
+      <!-- Column 3: Legal & Intake -->
+      <div class="col-lg-3 col-md-6">
+        <ul class="list-unstyled footer-links">
+          <!--          <li class="d-inline me-3"><a routerLink="/intake-form" jhiTranslate="footer.completeIntake"></a></li>-->
+          <li class="d-inline me-3"><a jhiTranslate="footer.completeIntake"></a></li>
+          <li class="d-inline"><a routerLink="/privacy-policy" jhiTranslate="footer.privacyPolicy"></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Social Media -->
+      <div class="col-lg-3 col-md-6 text-md-end">
+        <h5 class="footer-heading" jhiTranslate="footer.followMe"></h5>
+        <div class="social-icons">
+          <a href="https://github.com/ZoranStepanoski" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/zoran-stepanoski-388889146/" target="_blank" aria-label="LinkedIn"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="row mt-5">
+      <div class="col text-center border-top border-secondary pt-4">
+        <span jhiTranslate="landing.allRightsReserved"></span>
+      </div>
+    </div>
+  </div>
+</footer>

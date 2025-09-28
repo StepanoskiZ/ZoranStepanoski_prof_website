@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20250919003537"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "project_media",
+  "fields": [
+    {
+      "fieldName": "mediaUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "projectMediaType",
+      "fieldType": "UnifiedMediaType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IMAGE,VIDEO"
+    },
+    {
+      "fieldName": "caption",
+      "fieldType": "String"
+    }
+  ],
+  "name": "ProjectMedia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "project",
+      "otherEntityRelationshipName": "media",
+      "relationshipName": "project",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

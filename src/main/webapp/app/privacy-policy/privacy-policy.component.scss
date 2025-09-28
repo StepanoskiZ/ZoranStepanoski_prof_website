@@ -1,0 +1,46 @@
+// Define the primary color locally, as it's used in the content styles
+$primary-color: #198754;
+
+// --- Hero Section Styling (Adapted from landing.component.scss) ---
+.page-hero {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // Aligns content to the left
+  min-height: 50vh; // A shorter height for internal pages
+  color: white;
+  text-align: left; // Aligns text to the left
+  padding: 0 1rem;
+
+  // Use the exact background properties from your working landing-hero
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+
+  .hero-content {
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+    .lead {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+// --- Main Content Styling ---
+main {
+  .sub-heading {
+    color: $primary-color;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .content-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+  }
+}

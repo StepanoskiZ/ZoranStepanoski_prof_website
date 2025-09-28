@@ -1,0 +1,108 @@
+enum Language {
+  EN, SR
+}
+
+enum WorkingStatus {
+  STILLACTIVE, FINISHED
+}
+
+enum WorkingType {
+  FULLTIME, PARTTIME, CONTRACT, FREELANCING
+}
+
+enum ProjectStatus {
+  COMPLETED, ONGOING
+}
+
+enum UnifiedMediaType {
+  IMAGE, VIDEO
+}
+
+
+entity AboutMe {
+  contentHtml TextBlob required,
+  language Language required
+}
+
+entity AboutMeMedia {
+  mediaUrl String required,
+  aboutMeMediaType UnifiedMediaType required,
+  caption String
+}
+
+entity Project {
+  title String required,
+  descriptionHTML TextBlob required,
+  startDate LocalDate,
+  endDate LocalDate,
+  status ProjectStatus,
+  projectUrl String,
+  category String,
+  language Language required
+}
+
+entity ProjectMedia {
+  mediaUrl String required,
+  projectMediaType UnifiedMediaType required,
+  caption String
+}
+
+entity CurriculumVitae {
+  companyName String required,
+  language Language required,
+  jobDescriptionHTML TextBlob required,
+  startDate LocalDate,
+  endDate LocalDate,
+  status WorkingStatus,
+  type WorkingType,
+  category String
+}
+
+entity CurriculumVitaeMedia {
+  mediaUrl String required,
+  curriculumVitaeMediaType UnifiedMediaType required,
+  caption String
+}
+
+entity Skill {
+  name String required,
+  percentage Integer required min(0) max(100)
+}
+
+entity BusinessService {
+  title String required,
+  descriptionHTML String,
+  icon String
+}
+
+entity BlogPost {
+  title String required,
+  contentHTML TextBlob required,
+  imageUrl String,
+  publishedDate Instant required
+}
+
+entity ContactMessage {
+  visitorName String required,
+  visitorEmail String required,
+  message TextBlob required,
+  submittedDate Instant required
+}
+
+entity VisitorLog {
+  ipAddress String,
+  pageVisited String,
+  userAgent String,
+  visitTimestamp Instant required
+}
+
+relationship OneToMany {
+  AboutMe{media(mediaUrl)} to AboutMeMedia{aboutMe(id)},
+  CurriculumVitae{media(mediaUrl)} to CurriculumVitaeMedia{curriculumVitae(companyName)},
+  Project{media(mediaUrl)} to ProjectMedia{project(title)}
+}
+
+paginate AboutMe, AboutMeMedia, CurriculumVitae, CurriculumVitaeMedia, Project, ProjectMedia, Skill, BusinessService, BlogPost, ContactMessage, VisitorLog with pagination
+
+dto * with mapstruct
+service all with serviceClass

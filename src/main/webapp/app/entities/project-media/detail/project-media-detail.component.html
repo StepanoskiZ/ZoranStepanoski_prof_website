@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (projectMedia) {
+      <div>
+        <h2 data-cy="projectMediaDetailsHeading"><span jhiTranslate="zsWebsiteApp.projectMedia.detail.title">Project Media</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ projectMedia.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ projectMedia.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.projectMediaType">Project Media Type</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + projectMedia.projectMediaType }}">{{
+              projectMedia.projectMediaType
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ projectMedia.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.projectMedia.project">Project</span></dt>
+          <dd>
+            @if (projectMedia.project) {
+              <div>
+                <a [routerLink]="['/project', projectMedia.project.id, 'view']">{{ projectMedia.project.title }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/project-media', projectMedia.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,9 @@
+export enum WorkingType {
+  FULLTIME = 'FULLTIME',
+
+  PARTTIME = 'PARTTIME',
+
+  CONTRACT = 'CONTRACT',
+
+  FREELANCING = 'FREELANCING',
+}

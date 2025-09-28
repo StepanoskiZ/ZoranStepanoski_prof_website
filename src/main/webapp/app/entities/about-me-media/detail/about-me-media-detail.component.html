@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (aboutMeMedia) {
+      <div>
+        <h2 data-cy="aboutMeMediaDetailsHeading"><span jhiTranslate="zsWebsiteApp.aboutMeMedia.detail.title">About Me Media</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ aboutMeMedia.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMeMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ aboutMeMedia.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType">About Me Media Type</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + aboutMeMedia.aboutMeMediaType }}">{{
+              aboutMeMedia.aboutMeMediaType
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMeMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ aboutMeMedia.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe">About Me</span></dt>
+          <dd>
+            @if (aboutMeMedia.aboutMe) {
+              <div>
+                <a [routerLink]="['/about-me', aboutMeMedia.aboutMe.id, 'view']">{{ aboutMeMedia.aboutMe.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/about-me-media', aboutMeMedia.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

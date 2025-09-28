@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "projectMedia": {
+      "home": {
+        "title": "Project Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Project Media",
+        "createOrEditLabel": "Create or edit a Project Media",
+        "notFound": "No Project Medias found"
+      },
+      "created": "A new Project Media is created with identifier {{ param }}",
+      "updated": "A Project Media is updated with identifier {{ param }}",
+      "deleted": "A Project Media is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Project Media {{ id }}?"
+      },
+      "detail": {
+        "title": "Project Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "projectMediaType": "Project Media Type",
+      "caption": "Caption",
+      "project": "Project"
+    }
+  }
+}

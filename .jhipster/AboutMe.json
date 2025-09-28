@@ -1,0 +1,36 @@
+{
+  "annotations": {
+    "changelogDate": "20240830064100"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "about_me",
+  "fields": [
+    {
+      "fieldName": "contentHtml",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EN,SR"
+    }
+  ],
+  "name": "AboutMe",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "mediaUrl",
+      "otherEntityName": "aboutMeMedia",
+      "otherEntityRelationshipName": "aboutMe",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,43 @@
+<div>
+  <h2>AI Application Assistant</h2>
+
+  <!-- Selection Sections -->
+  <h3>1. Select Your Relevant Experience, Projects, and Skills</h3>
+  <!-- Add sections with checkboxes for CVs, Projects, and Skills using *ngFor -->
+
+  <h3>2. Paste the Job Description</h3>
+  <textarea [(ngModel)]="jobPost" rows="10" style="width: 100%"></textarea>
+
+  <button (click)="generateAnalysis()" [disabled]="isLoading">
+    {{ isLoading ? 'Analyzing...' : 'Analyze and Generate Letter' }}
+  </button>
+
+  <!-- Results Section -->
+  <div *ngIf="analysisResult">
+    <hr />
+    <h3>Analysis Results</h3>
+
+    <h4>Fit Score: {{ analysisResult.fitAnalysis.scorePercentage }}%</h4>
+    <p><strong>Reasoning:</strong> {{ analysisResult.fitAnalysis.reasoning }}</p>
+
+    <div>
+      <strong>Matching Skills:</strong>
+      <ul>
+        <li *ngFor="let skill of analysisResult.fitAnalysis.matchingSkills">{{ skill }}</li>
+      </ul>
+    </div>
+    <div>
+      <strong>Potential Gaps:</strong>
+      <ul>
+        <li *ngFor="let skill of analysisResult.fitAnalysis?.missingSkills">{{ skill }}</li>
+      </ul>
+    </div>
+
+    <h3>Generated Cover Letter</h3>
+    <pre>{{ analysisResult.coverLetter }}</pre>
+    <h3>Generated Application Letter</h3>
+    <pre>{{ analysisResult.applicationLetter }}</pre>
+    <h3>Generated Motivation Letter</h3>
+    <pre>{{ analysisResult.motivationLetter }}</pre>
+  </div>
+</div>

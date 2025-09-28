@@ -1,0 +1,251 @@
+@use 'sass:color';
+/* ==========================================================================
+   Landing Page Styles
+   ========================================================================== */
+
+// Define theme colors to make them easy to change later
+$primary-color: #198754; // The green for active/hover links and buttons
+$brand-color: #000; // Black for your name
+$text-color-muted: #555; // Muted gray for default links
+
+/* =================== Typography & General Styles =================== */
+.sub-heading {
+  color: $primary-color; // Green color
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+/* =================== Hero Section =================== */
+.landing-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  color: white;
+  text-align: left;
+  padding: 0 1rem;
+
+  // These properties create the fixed background effect
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-size: cover;
+  background-position: center center;
+
+  background-attachment: fixed;
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      // No color needed here, it inherits 'white' from the parent
+    }
+    .lead {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      // No color needed here, it inherits 'white' from the parent
+    }
+    .btn-primary {
+      background-color: $primary-color; // Green button
+      border-color: $primary-color;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: -10%); // Darker green on hover
+        border-color: color.adjust($primary-color, $lightness: -12%);
+      }
+    }
+  }
+}
+
+// This is the new style for our background image div
+.hero-background-image {
+  // Position it absolutely to fill the parent container
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; // Make it the same height as the section
+  // Place it behind the content
+  z-index: 1;
+
+  // Move the background properties here from the parent
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-size: cover;
+  background-position: center center;
+  // DO NOT use background-attachment: fixed here. The TypeScript will handle the movement.
+}
+
+/* =================== About Section =================== */
+.about-section {
+  .underscore-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    color: #212529;
+    text-decoration: none;
+    border-bottom: 2px solid #ccc;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+    &:hover {
+      border-color: $primary-color;
+    }
+  }
+}
+
+// .about-preview {
+//   max-height: 180px; /* fixed height, adjust as needed */
+//   overflow: hidden;
+//   position: relative;
+//   cursor: pointer;
+//
+//   /* Add a fade effect at the bottom so it looks intentional */
+//   &::after {
+//     content: '...';
+//   }
+// }
+// Add this to your landing.component.scss file
+
+.about-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 5; // <-- Adjust this number to show more or fewer lines
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 120px; /* Optional: Fallback and helps contain the element. Adjust as needed. */
+
+  // This removes the fade-out effect
+  &::after {
+    content: none;
+  }
+}
+
+/* =================== Services Section =================== */
+.card {
+  //   cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  }
+}
+
+// This container enforces a fixed aspect ratio for all media
+.card-img-top-container {
+  width: 100%;
+  aspect-ratio: 16 / 9; // A standard 16:9 ratio
+  overflow: hidden;
+  background-color: #f0f2f5; // A light background for any letterboxing
+
+  img,
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // This makes the media fill the container
+  }
+}
+
+.services-section {
+  // The .bg-light class in the HTML gives it a light gray.
+  // To make it a bit darker as requested, we can override it.
+  background-color: #f0f2f5 !important;
+
+  .service-card {
+    background: #fff;
+    border: none; // Remove default border
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    overflow: hidden; // Important for keeping the image corners rounded
+    height: 100%; // Make all cards in a row the same height
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top {
+      width: 100%;
+      height: 200px; // Set a fixed height for all images
+      object-fit: cover; // Ensures the image covers the area without distortion
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 0.75rem;
+      white-space: pre-line;
+    }
+
+    .card-text {
+      color: #555;
+      font-size: 1rem;
+    }
+  }
+}
+
+/* =================== Projects Section =================== */
+.read-more-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  text-decoration: none;
+  border-bottom: 2px solid #ccc;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+  align-self: flex-start;
+
+  &:hover {
+    border-color: $primary-color;
+  }
+}
+
+/* =================== General Styles =================== */
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+/* ==========================================================================
+   Section Height Correction for Scrollspy
+   ========================================================================== */
+
+// Target the sections that are too short to be detected by the scrollspy.
+// We give them significant vertical padding to ensure they can become the "most visible"
+// element as the user scrolls past them.
+#projects,
+#cv {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
+// You might also want to give the 'About' and 'Services' sections
+// a bit more breathing room for consistency.
+#about,
+#services {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+/* ==========================================================================
+   Mouse hover pointer
+   ========================================================================== */
+.card-img-top-container img {
+  cursor: default;
+}

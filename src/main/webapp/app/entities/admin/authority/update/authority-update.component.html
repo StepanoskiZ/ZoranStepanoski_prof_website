@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-authority-heading"
+        data-cy="AuthorityCreateUpdateHeading"
+        jhiTranslate="zsWebsiteApp.adminAuthority.home.createOrEditLabel"
+      >
+        Create or edit a Authority
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="zsWebsiteApp.adminAuthority.name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            id="field_name"
+            data-cy="name"
+            formControlName="name"
+            [readonly]="editForm.get('name')!.disabled"
+          />
+
+          <!-- This is the block that shows validation errors -->
+          <ng-container *ngIf="editForm.get('name') as nameRef">
+            <div *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+              <div>
+                <small *ngIf="nameRef.errors?.required" class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
+                <small
+                  *ngIf="nameRef.errors?.maxlength"
+                  class="form-text text-danger"
+                  jhiTranslate="entity.validation.maxlength"
+                  [translateValues]="{ max: '50' }"
+                ></small>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

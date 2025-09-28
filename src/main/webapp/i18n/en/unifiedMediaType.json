@@ -1,0 +1,9 @@
+{
+  "zsWebsiteApp": {
+    "UnifiedMediaType": {
+      "null": "",
+      "IMAGE": "IMAGE",
+      "VIDEO": "VIDEO"
+    }
+  }
+}

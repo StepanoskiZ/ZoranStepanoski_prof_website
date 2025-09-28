@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20240830064400"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "curriculum_vitae_media",
+  "fields": [
+    {
+      "fieldName": "mediaUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "curriculumVitaeMediaType",
+      "fieldType": "UnifiedMediaType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IMAGE,VIDEO"
+    },
+    {
+      "fieldName": "caption",
+      "fieldType": "String"
+    }
+  ],
+  "name": "CurriculumVitaeMedia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "companyName",
+      "otherEntityName": "curriculumVitae",
+      "otherEntityRelationshipName": "media",
+      "relationshipName": "curriculumVitae",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

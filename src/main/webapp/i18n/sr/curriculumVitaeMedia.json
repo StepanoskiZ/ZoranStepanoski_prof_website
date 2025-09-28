@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "curriculumVitaeMedia": {
+      "home": {
+        "title": "Curriculum Vitae Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Curriculum Vitae Media",
+        "createOrEditLabel": "Kreirajte ili izmenite Curriculum Vitae Media",
+        "notFound": "No Curriculum Vitae Medias found"
+      },
+      "created": "Kreiran je novi Curriculum Vitae Media pod nazivom {{ param }}",
+      "updated": "Curriculum Vitae Media pod nazivom {{ param }} je ažuriran",
+      "deleted": "Curriculum Vitae Media pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Curriculum Vitae Media pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Curriculum Vitae Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "curriculumVitaeMediaType": "Curriculum Vitae Media Type",
+      "caption": "Caption",
+      "curriculumVitae": "Curriculum Vitae"
+    }
+  }
+}

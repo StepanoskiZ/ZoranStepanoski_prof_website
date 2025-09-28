@@ -1,0 +1,32 @@
+{
+  "zsWebsiteApp": {
+    "curriculumVitae": {
+      "home": {
+        "title": "Curriculum Vitaes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Curriculum Vitae",
+        "createOrEditLabel": "Kreirajte ili izmenite Curriculum Vitae",
+        "notFound": "No Curriculum Vitaes found"
+      },
+      "created": "Kreiran je novi Curriculum Vitae pod nazivom {{ param }}",
+      "updated": "Curriculum Vitae pod nazivom {{ param }} je ažuriran",
+      "deleted": "Curriculum Vitae pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Curriculum Vitae pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Curriculum Vitae"
+      },
+      "id": "ID",
+      "companyName": "Company Name",
+      "language": "Language",
+      "jobDescriptionHTML": "Job Description HTML",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "type": "Type",
+      "category": "Category",
+      "media": "Media"
+    }
+  }
+}

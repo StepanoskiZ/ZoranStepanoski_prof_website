@@ -1,0 +1,36 @@
+# fly/backend/Dockerfile.backend
+
+# Stage 1: Build the Spring Boot JAR
+FROM eclipse-temurin:21-jdk-jammy AS builder
+WORKDIR /app
+
+# Copy only what's needed to build the backend
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+COPY src ./src/
+
+# Make the Maven wrapper executable
+RUN chmod +x mvnw
+
+# Build the JAR with prod profile, skip frontend/tests
+RUN ./mvnw package -Pprod -DskipTests -Dskip.frontend=true
+
+# Stage 2: Runtime image
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+
+# Copy only the built JAR from the builder stage
+COPY --from=builder /app/target/*.jar /app/app.jar
+
+# Expose port 8080 (Fly uses $PORT environment variable)
+EXPOSE 8080
+
+# # Set the command to run the application
+#CMD ["java", "-jar", "/app/app.jar"]
+
+# Ensure Spring Boot binds to 0.0.0.0 and picks up PORT
+ENV JAVA_OPTS=""
+ENV PORT=8080
+
+# Run the JAR
+CMD ["sh", "-c", "java $JAVA_OPTS -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar /app/app.jar"]

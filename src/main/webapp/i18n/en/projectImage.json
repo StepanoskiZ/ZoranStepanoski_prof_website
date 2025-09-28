@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "projectImage": {
+      "home": {
+        "title": "Project Images",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Project Image",
+        "createOrEditLabel": "Create or edit a Project Image",
+        "notFound": "No Project Images found"
+      },
+      "created": "A new Project Image is created with identifier {{ param }}",
+      "updated": "A Project Image is updated with identifier {{ param }}",
+      "deleted": "A Project Image is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Project Image {{ id }}?"
+      },
+      "detail": {
+        "title": "Project Image"
+      },
+      "id": "ID",
+      "imageUrl": "Image Url",
+      "caption": "Caption",
+      "project": "Project"
+    }
+  }
+}

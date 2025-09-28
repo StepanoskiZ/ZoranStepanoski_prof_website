@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (project) {
+      <div>
+        <h2 data-cy="projectDetailsHeading"><span jhiTranslate="zsWebsiteApp.project.detail.title">Project</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ project.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.title">Title</span></dt>
+          <dd>
+            <span>{{ project.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.descriptionHTML">Description HTML</span></dt>
+          <dd>
+            <span>{{ project.descriptionHTML }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ project.startDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ project.endDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.status">Status</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.ProjectStatus.' + project.status }}">{{ project.status }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.projectUrl">Project Url</span></dt>
+          <dd>
+            <span>{{ project.projectUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.category">Category</span></dt>
+          <dd>
+            <span>{{ project.category }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.project.language">Language</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.Language.' + project.language }}">{{ project.language }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/project', project.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

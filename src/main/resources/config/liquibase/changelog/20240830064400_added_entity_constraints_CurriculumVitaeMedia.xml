@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity CurriculumVitaeMedia.
+    -->
+    <changeSet id="20240830064400-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="curriculum_vitae_id"
+                                 baseTableName="curriculum_vitae_media"
+                                 constraintName="fk_curriculum_vitae_media__curriculum_vitae_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="curriculum_vitae"
+                                 />
+    </changeSet>
+</databaseChangeLog>

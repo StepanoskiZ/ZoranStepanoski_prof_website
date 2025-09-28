@@ -1,0 +1,26 @@
+{
+  "zsWebsiteApp": {
+    "projectImage": {
+      "home": {
+        "title": "Project Images",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Project Image",
+        "createOrEditLabel": "Kreirajte ili izmenite Project Image",
+        "notFound": "No Project Images found"
+      },
+      "created": "Kreiran je novi Project Image pod nazivom {{ param }}",
+      "updated": "Project Image pod nazivom {{ param }} je ažuriran",
+      "deleted": "Project Image pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Project Image pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Project Image"
+      },
+      "id": "ID",
+      "imageUrl": "Image Url",
+      "caption": "Caption",
+      "project": "Project"
+    }
+  }
+}

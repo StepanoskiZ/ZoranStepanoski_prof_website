@@ -1,0 +1,77 @@
+<ng-container *ngIf="!updating() && datasourceMetrics() as datasourceMetricsRef">
+  <div class="table-responsive">
+    <table class="table table-striped" aria-describedby="datasourceMetrics">
+      <thead>
+        <tr>
+          <th scope="col">
+            <span jhiTranslate="metrics.datasource.usage">Connection Pool Usage</span>
+            (active: {{ datasourceMetricsRef.active.value }}, min: {{ datasourceMetricsRef.min.value }}, max:
+            {{ datasourceMetricsRef.max.value }}, idle: {{ datasourceMetricsRef.idle.value }})
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource.count">Count</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource.mean">Mean</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource['0.0']">0.0</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource['0.5']">0.5</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource['0.75']">0.75</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource['0.95']">0.95</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource['0.99']">0.99</span>
+          </th>
+          <th scope="col" class="text-end">
+            <span jhiTranslate="metrics.datasource.max">Max</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td jhiTranslate="metrics.datasource.acquire">Acquire</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire.count }}</td>
+          <td class="text-end">{{ filterNaN(datasourceMetricsRef.acquire.mean) | number: '1.0-2' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire['0.0'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire['0.5'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire['0.75'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire['0.95'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire['0.99'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.acquire.max | number: '1.0-3' }}</td>
+        </tr>
+
+        <tr>
+          <td jhiTranslate="metrics.datasource.creation">Creation</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation.count }}</td>
+          <td class="text-end">{{ filterNaN(datasourceMetricsRef.creation.mean) | number: '1.0-2' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation['0.0'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation['0.5'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation['0.75'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation['0.95'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation['0.99'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.creation.max | number: '1.0-3' }}</td>
+        </tr>
+
+        <tr>
+          <td jhiTranslate="metrics.datasource.usage">Usage</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage.count }}</td>
+          <td class="text-end">{{ filterNaN(datasourceMetricsRef.usage.mean) | number: '1.0-2' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage['0.0'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage['0.5'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage['0.75'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage['0.95'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage['0.99'] | number: '1.0-3' }}</td>
+          <td class="text-end">{{ datasourceMetricsRef.usage.max | number: '1.0-3' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

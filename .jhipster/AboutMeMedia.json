@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20240830064200"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "about_me_media",
+  "fields": [
+    {
+      "fieldName": "mediaUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "aboutMeMediaType",
+      "fieldType": "UnifiedMediaType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IMAGE,VIDEO"
+    },
+    {
+      "fieldName": "caption",
+      "fieldType": "String"
+    }
+  ],
+  "name": "AboutMeMedia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "aboutMe",
+      "otherEntityRelationshipName": "media",
+      "relationshipName": "aboutMe",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

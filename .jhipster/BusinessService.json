@@ -1,0 +1,28 @@
+{
+  "annotations": {
+    "changelogDate": "20250830185439"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "business_service",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descriptionHTML",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "icon",
+      "fieldType": "String"
+    }
+  ],
+  "name": "BusinessService",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

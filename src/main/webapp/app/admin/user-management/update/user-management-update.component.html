@@ -1,0 +1,136 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="myUserLabel" jhiTranslate="userManagement.home.createOrEditLabel">Create or edit a user</h2>
+
+      <jhi-alert-error />
+
+      <div class="mb-3" [hidden]="!editForm.value.id">
+        <label class="form-label" for="field_id" jhiTranslate="global.field.id">ID</label>
+        <input type="text" id="field_id" class="form-control" name="id" formControlName="id" readonly />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="field_login" jhiTranslate="userManagement.login">Login</label>
+        <input type="text" id="field_login" class="form-control" name="login" formControlName="login" />
+
+        <ng-container *ngIf="editForm.get('login') as loginRef">
+          <div *ngIf="loginRef.invalid && (loginRef.dirty || loginRef.touched)">
+            <div>
+              <small *ngIf="loginRef.errors?.required" class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
+              <small
+                *ngIf="loginRef.errors?.maxlength"
+                class="form-text text-danger"
+                jhiTranslate="entity.validation.maxlength"
+                [translateValues]="{ max: '50' }"
+              ></small>
+              <small *ngIf="loginRef.errors?.pattern" class="form-text text-danger" jhiTranslate="entity.validation.patternLogin"></small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="field_firstName" jhiTranslate="userManagement.firstName">First name</label>
+        <input type="text" id="field_firstName" class="form-control" name="firstName" formControlName="firstName" />
+
+        <ng-container *ngIf="editForm.get('firstName') as firstNameRef">
+          <div *ngIf="firstNameRef.invalid && (firstNameRef.dirty || firstNameRef.touched)">
+            <div>
+              <small
+                *ngIf="firstNameRef.errors?.maxlength"
+                class="form-text text-danger"
+                jhiTranslate="entity.validation.maxlength"
+                [translateValues]="{ max: '50' }"
+              ></small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="field_lastName" jhiTranslate="userManagement.lastName">Last name</label>
+        <input type="text" id="field_lastName" class="form-control" name="lastName" formControlName="lastName" />
+
+        <ng-container *ngIf="editForm.get('lastName') as lastNameRef">
+          <div *ngIf="lastNameRef.invalid && (lastNameRef.dirty || lastNameRef.touched)">
+            <div>
+              <small
+                *ngIf="lastNameRef.errors?.maxlength"
+                class="form-text text-danger"
+                jhiTranslate="entity.validation.maxlength"
+                [translateValues]="{ max: '50' }"
+              ></small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="field_email" jhiTranslate="userManagement.email">Email</label>
+        <input type="email" id="field_email" class="form-control" name="email" formControlName="email" />
+
+        <ng-container *ngIf="editForm.get('email') as emailRef">
+          <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+            <div>
+              <small *ngIf="emailRef.errors?.required" class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
+              <small
+                *ngIf="emailRef.errors?.maxlength"
+                class="form-text text-danger"
+                jhiTranslate="entity.validation.maxlength"
+                [translateValues]="{ max: '100' }"
+              ></small>
+              <small
+                *ngIf="emailRef.errors?.minlength"
+                class="form-text text-danger"
+                jhiTranslate="entity.validation.minlength"
+                [translateValues]="{ min: '5' }"
+              ></small>
+              <small
+                *ngIf="emailRef.errors?.email"
+                class="form-text text-danger"
+                jhiTranslate="global.messages.validate.email.invalid"
+              ></small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-check">
+        <label class="form-check-label" for="activated">
+          <input
+            class="form-check-input"
+            [attr.disabled]="editForm.value.id === undefined ? 'disabled' : null"
+            type="checkbox"
+            id="activated"
+            name="activated"
+            formControlName="activated"
+          />
+          <span jhiTranslate="userManagement.activated">Activated</span>
+        </label>
+      </div>
+
+      <div *ngIf="languages && languages.length > 0" class="mb-3">
+        <label class="form-label" for="langKey" jhiTranslate="userManagement.langKey">Language</label>
+        <select class="form-control" id="langKey" name="langKey" formControlName="langKey">
+          <option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="field_authority" jhiTranslate="userManagement.profiles">Profiles</label>
+        <select class="form-control" id="field_authority" multiple name="authority" formControlName="authorities">
+          @for (authority of authorities(); track $index) {
+            <option [value]="authority">{{ authority }}</option>
+          }
+        </select>
+      </div>
+      <button type="button" class="btn btn-secondary" (click)="previousState()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      </button>
+
+      <button type="submit" [disabled]="editForm.invalid || isSaving()" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      </button>
+    </form>
+  </div>
+</div>

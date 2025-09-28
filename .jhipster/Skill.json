@@ -1,0 +1,27 @@
+{
+  "annotations": {
+    "changelogDate": "20250830185438"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "skill",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "percentage",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "100",
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "name": "Skill",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,32 @@
+{
+  "zsWebsiteApp": {
+    "curriculumVitae": {
+      "home": {
+        "title": "Curriculum Vitaes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Curriculum Vitae",
+        "createOrEditLabel": "Create or edit a Curriculum Vitae",
+        "notFound": "No Curriculum Vitaes found"
+      },
+      "created": "A new Curriculum Vitae is created with identifier {{ param }}",
+      "updated": "A Curriculum Vitae is updated with identifier {{ param }}",
+      "deleted": "A Curriculum Vitae is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Curriculum Vitae {{ id }}?"
+      },
+      "detail": {
+        "title": "Curriculum Vitae"
+      },
+      "id": "ID",
+      "companyName": "Company Name",
+      "language": "Language",
+      "jobDescriptionHTML": "Job Description HTML",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "type": "Type",
+      "category": "Category",
+      "media": "Media"
+    }
+  }
+}

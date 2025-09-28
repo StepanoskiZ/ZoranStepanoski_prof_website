@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (aboutMe) {
+      <div>
+        <h2 data-cy="aboutMeDetailsHeading"><span jhiTranslate="zsWebsiteApp.aboutMe.detail.title">About Me</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ aboutMe.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMe.contentHtml">Content Html</span></dt>
+          <dd>
+            <span>{{ aboutMe.contentHtml }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.aboutMe.language">Language</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.Language.' + aboutMe.language }}">{{ aboutMe.language }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/about-me', aboutMe.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

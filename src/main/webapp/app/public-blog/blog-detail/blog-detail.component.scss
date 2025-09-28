@@ -1,0 +1,58 @@
+// article {
+//   // This ensures that content from your rich text editor (like paragraphs, lists, etc.)
+//   // is styled nicely.
+//   h1, h2, h3, h4, h5, h6 {
+//     font-weight: 700;
+//     margin-top: 1.5em;
+//     margin-bottom: 0.5em;
+//   }
+//
+//   p {
+//     line-height: 1.7;
+//     margin-bottom: 1em;
+//   }
+//
+//   // Style images that might be in your blog content
+//   img {
+//     max-width: 100%;
+//     height: auto;
+//     border-radius: 5px;
+//     margin: 1.5em 0;
+//   }
+// }
+.blog-article {
+  .article-title {
+    font-size: 2.5rem; // Larger, more impactful title
+    font-weight: 700;
+    color: #212529;
+  }
+
+  // Styles for the main content coming from your rich text editor
+  .article-body {
+    font-family: 'Lora', serif; // A classic, readable serif font for body text
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #343a40;
+
+    p {
+      margin-bottom: 1.5em;
+    }
+
+    h2,
+    h3,
+    h4 {
+      font-family: 'Montserrat', sans-serif; // A clean sans-serif for headings
+      font-weight: 600;
+      margin-top: 2em;
+      margin-bottom: 0.75em;
+    }
+
+    // Style images that might be inside your blog content
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin: 1.5em 0;
+    }
+  }
+}

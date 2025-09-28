@@ -1,0 +1,15 @@
+{
+  "zsWebsiteApp": {
+    "authority": {
+      "home": {
+        "title": "Authorities",
+        "refreshListLabel": "Refresh list",
+        "notFound": "No Authorities found"
+      },
+      "detail": {
+        "title": "Authority"
+      },
+      "id": "ID"
+    }
+  }
+}

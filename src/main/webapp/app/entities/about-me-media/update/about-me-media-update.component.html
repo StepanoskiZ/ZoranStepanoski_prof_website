@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-about-me-media-heading"
+        data-cy="AboutMeMediaCreateUpdateHeading"
+        jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createOrEditLabel"
+      >
+        Create or edit a About Me Media
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.mediaUrl" for="field_mediaUrl">Media Url</label>
+          <input type="text" class="form-control" name="mediaUrl" id="field_mediaUrl" data-cy="mediaUrl" formControlName="mediaUrl" />
+          @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
+            <div>
+              @if (editForm.get('mediaUrl')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType" for="field_aboutMeMediaType"
+            >About Me Media Type</label
+          >
+          <select
+            class="form-control"
+            name="aboutMeMediaType"
+            formControlName="aboutMeMediaType"
+            id="field_aboutMeMediaType"
+            data-cy="aboutMeMediaType"
+          >
+            <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
+            @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
+              <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
+            }
+          </select>
+          @if (
+            editForm.get('aboutMeMediaType')!.invalid &&
+            (editForm.get('aboutMeMediaType')!.dirty || editForm.get('aboutMeMediaType')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('aboutMeMediaType')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.caption" for="field_caption">Caption</label>
+          <input type="text" class="form-control" name="caption" id="field_caption" data-cy="caption" formControlName="caption" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe" for="field_aboutMe">About Me</label>
+          <select
+            class="form-control"
+            id="field_aboutMe"
+            data-cy="aboutMe"
+            name="aboutMe"
+            formControlName="aboutMe"
+            [compareWith]="compareAboutMe"
+          >
+            <option [ngValue]="null"></option>
+            @for (aboutMeOption of aboutMesSharedCollection; track $index) {
+              <option [ngValue]="aboutMeOption">{{ aboutMeOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

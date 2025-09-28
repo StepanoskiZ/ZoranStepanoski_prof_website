@@ -5,7 +5,8 @@ name: Fly Deploy
 on:
   push:
     branches:
-      - master # This is your deployment branch
+      - main
+      - master
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -9,28 +9,36 @@ primary_region = "cdg"
   PORT = "8080"
   SERVER_ADDRESS = "0.0.0.0"
 
-# Private service only accessible within Fly network
-[[services]]
-  protocol = "tcp"
+## Private service only accessible within Fly network
+#[[services]]
+#  protocol = "tcp"
+#  internal_port = 8080
+#  processes = ["app"]
+#  auto_stop_machines = true
+#  auto_start_machines = true
+#  min_machines_running = 1    # <--- This is the key: it forces at least 1 machine to always be on
+#
+## This exposes the service privately on port 8080.
+## It will be reachable at zoranstepanoski-prof-api.flycast:8080
+#[[services.ports]]
+#  port = 8080 # internal port exposed on private Fly network
+#
+## HTTP health check for Fly
+#[[services.http_checks]]
+#  interval = "30s"
+#  timeout = "10s"
+#  grace_period = "90s"
+#  method = "get"
+#  path = "/management/health"
+#  protocol = "http"
+
+[http_service]
   internal_port = 8080
-  processes = ["app"]
+  force_https = true
   auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 1    # <--- This is the key: it forces at least 1 machine to always be on
-
-# This exposes the service privately on port 8080.
-# It will be reachable at zoranstepanoski-prof-api.flycast:8080
-[[services.ports]]
-  port = 8080 # internal port exposed on private Fly network
-
-# HTTP health check for Fly
-[[services.http_checks]]
-  interval = "30s"
-  timeout = "10s"
-  grace_period = "90s"
-  method = "get"
-  path = "/management/health"
-  protocol = "http"
+  min_machines_running = 1
+  processes = ["app"]
 
 [[vm]]
   memory = "1024mb"

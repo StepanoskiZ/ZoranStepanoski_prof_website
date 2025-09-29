@@ -126,11 +126,11 @@ public class AboutMeService {
     }
 
     /**
-     * Get the first AboutMe entry found.
+     * Get the first AboutMe entry found, including its media files.
      *
      * @return the entity if found.
      */
-    @Transactional(readOnly = true) // This annotation is CRITICAL for lazy loading to work.
+    @Transactional(readOnly = true)
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
@@ -150,6 +150,5 @@ public class AboutMeService {
 
             return dto;
         });
-    }
-}
+    }}
 

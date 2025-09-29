@@ -14,7 +14,7 @@ export type EntityArrayResponseType = HttpResponse<IAboutMe[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AboutMeService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/about-mes');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/about-me');
 
   constructor(
     protected http: HttpClient,

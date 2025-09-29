@@ -5,21 +5,17 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveSectionService } from '../layouts/active-section.service';
-import { IProject } from '../entities/project/project.model';
-import { ProjectService } from '../entities/project/service/project.service';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProjectDetailModalComponent } from './project-detail-modal/project-detail-modal.component';
 import { AboutMeModalComponent } from './about-me-modal/about-me-modal.component';
 import { CurriculumVitaeDetailModalComponent } from './curriculum-vitae-detail-modal/curriculum-vitae-detail-modal.component';
-import { BaseMediaModalComponent } from '../shared/component/base-media-modal/base-media-modal.component';
 import { environment } from 'environments/environment';
 
 declare var AOS: any;
 
-// Define a new interface for our card data
 export interface ProjectCard {
   id: number;
   title: string;
@@ -32,7 +28,7 @@ export interface CvCard {
   id: number;
   companyName: string;
   jobDescriptionHTML: string;
-  startDate?: string; // Dates will come as strings
+  startDate?: string;
   endDate?: string;
   firstMediaUrl?: string;
 }
@@ -55,25 +51,21 @@ export interface CvCard {
 })
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
-  aboutContent: SafeHtml = '';
   projects: ProjectCard[] = [];
   isLoadingProjects = true;
   aboutMediaUrls: string[] = [];
   isLoadingAbout = false;
   cvEntries: CvCard[] = [];
   isLoadingCv = true;
-
   isAdminEnv = environment.isAdminEnv;
+
+  // --- SINGLE SOURCE OF TRUTH FOR "ABOUT ME" DATA ---
   fullAboutContent: string = '';
   aboutContentPreview: SafeHtml = '';
 
-  private _aboutContent = '';
   private readonly http = inject(HttpClient);
-  //  private readonly projectService = inject(ProjectService);
   private readonly modalService = inject(NgbModal);
-
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
-
   private observer!: IntersectionObserver;
   private readonly activeSectionService = inject(ActiveSectionService);
 
@@ -104,25 +96,67 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadCvEntries();
   }
 
+  private loadAboutContent(): void {
+    this.isLoadingAbout = true;
+    this.http.get<any>('/api/about-me').subscribe({
+      next: data => {
+        console.log('✅ Received "About Me" data from API:', data);
+        const decodedHtml = this.decodeHtml(data.contentHtml || '');
+
+        this.fullAboutContent = decodedHtml;
+        this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
+        this.aboutMediaUrls = data.mediaUrls ?? [];
+        this.isLoadingAbout = false;
+      },
+      error: err => {
+        console.error('❌ Failed to load About Me content', err);
+        this.isLoadingAbout = false;
+      },
+    });
+  }
+
+  openAboutModal(): void {
+    if (this.isLoadingAbout) {
+      console.warn('About Me content is still loading.');
+      return;
+    }
+
+    console.log('🟢 Opening About Me modal with content:', this.fullAboutContent);
+    console.log('🟢 Opening About Me modal with mediaUrls:', this.aboutMediaUrls);
+
+    const modalRef = this.modalService.open(AboutMeModalComponent, {
+      size: 'xl',
+      centered: true,
+      windowClass: 'project-detail-custom-modal',
+    });
+
+    modalRef.componentInstance.content = this.fullAboutContent;
+
+    modalRef.componentInstance.mediaUrls = (this.aboutMediaUrls?.length > 0 ? this.aboutMediaUrls : ['profile-picture.jpg']);
+  }
+
+  // --- HELPER FUNCTIONS ---
+
+  private decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
   private loadProjects(): void {
     this.isLoadingProjects = true;
     this.http.get<any[]>('/api/projects/cards').subscribe({
       next: (data: any[]) => {
         console.log('✅ Raw projects from backend:', data);
-
-        // Normalize data (make sure every project has an `id` property)
         this.projects = data
-          .map((p, index) => {
-            return {
-              id: p.id ?? p.projectId ?? index, // fallback to projectId or index
-              title: p.title ?? '(Untitled project)',
-              description: p.description ?? '',
-              firstMediaUrl: p.firstMediaUrl ?? null,
-              firstMediaType: p.firstMediaType ?? null,
-            };
-          })
+          .map((p, index) => ({
+            id: p.id ?? p.projectId ?? index,
+            title: p.title ?? '(Untitled project)',
+            description: p.description ?? '',
+            firstMediaUrl: p.firstMediaUrl ?? null,
+            firstMediaType: p.firstMediaType ?? null,
+          }))
           .sort((a, b) => a.id - b.id);
-
         console.log('✅ Normalized projects stored in this.projects:', this.projects);
         this.isLoadingProjects = false;
       },
@@ -135,106 +169,18 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openProjectMediaModal(projectId: number): void {
     console.log('🔎 openProjectMediaModal called with projectId:', projectId);
-    console.log('Available projects:', this.projects);
-
     const project = this.projects.find(p => p.id === projectId);
-
     if (!project) {
       console.error(`❌ No project found for id ${projectId}. Projects array:`, this.projects);
       return;
     }
-
     console.log('✅ Found project for modal:', project);
-
     const modalRef = this.modalService.open(ProjectDetailModalComponent, {
       size: 'xl',
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
-
     modalRef.componentInstance.item = project;
-  }
-
-  get aboutPreview(): SafeHtml {
-    const preview = this._aboutContent?.substring(0, 300) ?? '';
-    return this.sanitizer.bypassSecurityTrustHtml(preview);
-  }
-
-  setAboutContent(html: string) {
-    this._aboutContent = html;
-//    const preview = html.length > 300 ? html.substring(0, 300) : html;
-//    this.aboutContent = this.sanitizer.bypassSecurityTrustHtml(preview);
-    this.aboutContent = this.sanitizer.bypassSecurityTrustHtml(html);
-  }
-
-  private loadAboutContent(): void {
-    this.isLoadingAbout = true;
-    this.http.get<any>('/api/about-me').subscribe({
-      next: data => {
-        // Store the full, raw HTML
-        this.fullAboutContent = data.contentHtml || '';
-
-        // Create and set the sanitized preview
-        this.aboutContentPreview = this.createSanitizedPreview(this.fullAboutContent, 300);
-
-        this.aboutMediaUrls = data.mediaUrls ?? [];
-        this.isLoadingAbout = false;
-      },
-      error: err => {
-        console.error('❌ Failed to load About Me content', err);
-        this.isLoadingAbout = false;
-      },
-    });
-  }
-
-  private createSanitizedPreview(html: string, maxLength: number): SafeHtml {
-      if (!html) {
-        return '';
-      }
-
-      // 1. Create a temporary div to parse the HTML
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-
-      // 2. Get the plain text content
-      const plainText = tempDiv.textContent || tempDiv.innerText || '';
-
-      // 3. If plain text is already short enough, return the full sanitized HTML
-      if (plainText.length <= maxLength) {
-        return this.sanitizer.bypassSecurityTrustHtml(html);
-      }
-
-      // 4. Truncate the plain text
-      let truncatedText = plainText.substring(0, maxLength);
-
-      // 5. Go back to the last space to avoid cutting words in half
-      truncatedText = truncatedText.substring(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' ')));
-
-      // 6. At this point, for simplicity, we are just returning the truncated plain text.
-      // A more complex solution would be needed to preserve HTML tags in the preview.
-      // For now, this is safer than showing broken HTML.
-      return this.sanitizer.bypassSecurityTrustHtml(`<p>${truncatedText}...</p>`);
-  }
-
-  openAboutModal(): void {
-    if (this.isLoadingAbout) {
-      console.warn('About Me content is still loading.');
-      return;
-    }
-
-    const modalRef = this.modalService.open(AboutMeModalComponent, {
-      size: 'xl',
-      centered: true,
-      windowClass: 'project-detail-custom-modal',
-    });
-
-    // Pass sanitized HTML content
-    modalRef.componentInstance.content = this._aboutContent;
-
-    // Normalize media URLs into MediaItem[]
-    modalRef.componentInstance.mediaUrls = (this.aboutMediaUrls?.length ? this.aboutMediaUrls : ['profile-picture.jpg']).map(
-      (u: string, i: number) => ({ id: i, url: u }),
-    );
   }
 
   private loadCvEntries(): void {
@@ -260,31 +206,22 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const modalRef = this.modalService.open(CurriculumVitaeDetailModalComponent, {
       size: 'xl',
       centered: true,
-      windowClass: 'project-detail-custom-modal', // Reusing the same style
+      windowClass: 'project-detail-custom-modal',
     });
-
     modalRef.componentInstance.item = cvEntry;
   }
 
   ngAfterViewInit(): void {
-    // This is the new, smarter observer logic
     const options = {
       root: null,
       rootMargin: '0px',
-      // We create a range of thresholds to check how much is visible
       threshold: [0, 0.25, 0.5, 0.75, 1.0],
     };
-
-    // This map will store the visibility ratio of each section
     const visibilityMap = new Map<string, number>();
-
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        // Update the map with the current visibility ratio of the section
         visibilityMap.set(entry.target.id, entry.intersectionRatio);
       });
-
-      // Find the section with the highest visibility ratio
       let mostVisibleSectionId = '';
       let maxRatio = 0;
       visibilityMap.forEach((ratio, id) => {
@@ -293,19 +230,15 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
           mostVisibleSectionId = id;
         }
       });
-
-      // If we found a most visible section, update the service
       if (mostVisibleSectionId) {
         this.activeSectionService.setActiveSection(mostVisibleSectionId);
       }
     }, options);
-
     this.sections.forEach(section => {
       this.observer.observe(section.nativeElement);
     });
   }
 
-  // It's good practice to disconnect the observer when the component is destroyed
   ngOnDestroy(): void {
     if (this.observer) {
       this.observer.disconnect();
@@ -317,12 +250,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getFullMediaPath(url?: string): string {
-    console.log('getFullMediaPath called with url:', url);
     return this.getMediaType(url) === 'IMAGE'
       ? `/content/images/${url}`
       : this.getMediaType(url) === 'VIDEO'
-        ? `/content/videos/${url}`
-        : `/content/images/default-project.jpg`;
+      ? `/content/videos/${url}`
+      : `/content/images/default-project.jpg`;
   }
 
   getMediaType(url?: string): 'IMAGE' | 'VIDEO' | 'UNKNOWN' {

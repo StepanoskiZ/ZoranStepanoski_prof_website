@@ -17,7 +17,7 @@ export interface CurriculumVitaeDetail {
   selector: 'jhi-curriculum-vitae-detail-modal',
   standalone: true,
   imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent],
-  templateUrl: '../../shared/component/base-media-modal/media-modal.component.html',
+  templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
   styleUrls: ['./curriculum-vitae-detail-modal.component.scss'],
 })
 export class CurriculumVitaeDetailModalComponent extends BaseMediaModalComponent implements OnInit {

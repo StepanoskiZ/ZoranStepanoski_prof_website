@@ -42,17 +42,17 @@
       <!-- Your Picture (Right Column) -->
       <div class="col-lg-5">
         <img src="content/images/profile-picture.jpg" alt="Zoran Stepanoski" class="profile-picture img-fluid rounded shadow-lg" />
-        <!--        <img-->
-        <!--          *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"-->
-        <!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
-        <!--          [alt]="project.title"-->
-        <!--          class="profile-picture img-fluid rounded shadow-lg"/>-->
-        <!--        <video-->
-        <!--          *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"-->
-        <!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
-        <!--          class="img-fluid rounded project-media-clickable"-->
-        <!--          muted>-->
-        <!--        </video>-->
+<!--        <img-->
+<!--          *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"-->
+<!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
+<!--          [alt]="project.title"-->
+<!--          class="profile-picture img-fluid rounded shadow-lg"/>-->
+<!--        <video-->
+<!--          *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"-->
+<!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
+<!--          class="img-fluid rounded project-media-clickable"-->
+<!--          muted>-->
+<!--        </video>-->
       </div>
     </div>
   </div>
@@ -81,21 +81,6 @@
           </div>
         </div>
       </div>
-      <!--      <div class="col-lg-4 mb-4" *ngFor="let service of services" data-aos="fade-up" [attr.data-aos-delay]="service.delay">-->
-      <!--        <div class="service-card">-->
-      <!--          <img-->
-      <!--            [src]="service.icon"-->
-      <!--            class="card-img-top"-->
-      <!--            [alt]="service.title"/>-->
-      <!--          <div class="card-body">-->
-      <!--            <h3 class="card-title">{{ service.title | translate }} ></h3>-->
-      <!--            <p class="card-text">{{ service.description | translate }}</p>-->
-      <!--            <a href="#" class="read-more-link ms-4">-->
-      <!--              {{ 'global.readMore' | translate }}-->
-      <!--            </a>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </section>
@@ -118,17 +103,14 @@
               *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"
               [src]="getFullMediaPath(project.firstMediaUrl)"
               [alt]="project.title"
-              class="img-fluid rounded"
-            />
-            <!--              (click)="openProjectMediaModal(project.id)"-->
+              class="img-fluid rounded"/>
             <video
               *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"
               [src]="getFullMediaPath(project.firstMediaUrl)"
               class="img-fluid rounded project-media-clickable"
               muted
-              loop
-            ></video>
-            <!--            (click)="openProjectMediaModal(project.id)"-->
+              loop>
+            </video>
           </div>
 
           <!-- Card Body -->

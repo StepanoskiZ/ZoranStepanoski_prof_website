@@ -17,7 +17,7 @@ export interface ProjectDetail {
   selector: 'jhi-project-detail-modal',
   standalone: true,
   imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent],
-  templateUrl: '../../shared/component/base-media-modal/media-modal.component.html',
+  templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
   styleUrls: ['./project-detail-modal.component.scss'],
 })
 export class ProjectDetailModalComponent extends BaseMediaModalComponent implements OnInit {

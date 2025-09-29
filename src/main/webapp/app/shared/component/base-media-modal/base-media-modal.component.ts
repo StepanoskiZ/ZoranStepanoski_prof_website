@@ -21,6 +21,7 @@ export abstract class BaseMediaModalComponent implements OnInit {
 
   @Input()
   set content(value: string) {
+    console.log('[AboutMeModalComponent] content Input received:', value);
     this._content = value ?? '';
     // sanitize immediately whenever content is assigned
     this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this._content);

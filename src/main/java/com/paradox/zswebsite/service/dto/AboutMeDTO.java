@@ -5,6 +5,8 @@ import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.paradox.zswebsite.domain.AboutMe} entity.
@@ -16,6 +18,8 @@ public class AboutMeDTO implements Serializable {
 
     @Lob
     private String contentHtml;
+
+    private Set<AboutMeMediaDTO> mediaFiles = new HashSet<>();
 
     @NotNull
     private Language language;
@@ -43,6 +47,10 @@ public class AboutMeDTO implements Serializable {
     public void setLanguage(Language language) {
         this.language = language;
     }
+
+    public Set<AboutMeMediaDTO> getMediaFiles() { return mediaFiles; }
+
+    public void setMediaFiles(Set<AboutMeMediaDTO> mediaFiles) { this.mediaFiles = mediaFiles; }
 
     @Override
     public boolean equals(Object o) {

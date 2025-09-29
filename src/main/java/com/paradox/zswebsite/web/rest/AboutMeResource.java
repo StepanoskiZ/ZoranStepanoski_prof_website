@@ -182,6 +182,7 @@ public class AboutMeResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
     /**
      * {@code GET  /api/about-me} : get the first AboutMe entity.
      *

@@ -4,13 +4,16 @@ import com.paradox.zswebsite.domain.AboutMe;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
+import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.AboutMe}.
@@ -24,6 +27,9 @@ public class AboutMeService {
     private final AboutMeRepository aboutMeRepository;
 
     private final AboutMeMapper aboutMeMapper;
+
+    @Autowired
+    private AboutMeMediaMapper aboutMeMediaMapper;
 
     public AboutMeService(AboutMeRepository aboutMeRepository, AboutMeMapper aboutMeMapper) {
         this.aboutMeRepository = aboutMeRepository;
@@ -115,13 +121,39 @@ public class AboutMeService {
      *
      * @return the entity if found.
      */
-     @Transactional(readOnly = true)
-     public Optional<AboutMeDTO> findFirst() {
-        log.debug("Request to get first AboutMe");
+//     @Transactional(readOnly = true)
+//     public Optional<AboutMeDTO> findFirst() {
+//        log.debug("Request to get first AboutMe");
+//        return aboutMeRepository
+//            .findAll()
+//            .stream()
+//            .findFirst()
+//            .map(aboutMeMapper::toDto);
+//     }
+
+    /**
+     * Get the first AboutMe entry found, including its media files.
+     *
+     * @return the entity if found.
+     */
+    @Transactional(readOnly = true)
+    public Optional<AboutMeDTO> findFirst() {
+        log.debug("Request to get first AboutMe with details");
         return aboutMeRepository
             .findAll()
             .stream()
             .findFirst()
-            .map(aboutMeMapper::toDto);
-     }
-}
+            .map(aboutMe -> {
+                // First, map the AboutMe entity to its DTO
+                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+
+                // Then, get its media, map each media entity to a DTO, and set it on our main DTO
+                dto.setMediaFiles(
+                    aboutMe.getMedia()
+                        .stream()
+                        .map(aboutMeMediaMapper::toDto)
+                        .collect(Collectors.toSet())
+                );
+                return dto;
+            });
+    }}

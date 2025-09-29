@@ -21,7 +21,7 @@ public class AboutMeMediaDTO implements Serializable {
 
     private String caption;
 
-    private AboutMeDTO aboutMe;
+//    private AboutMeDTO aboutMe;
 
     public Long getId() {
         return id;
@@ -55,13 +55,11 @@ public class AboutMeMediaDTO implements Serializable {
         this.caption = caption;
     }
 
-    public AboutMeDTO getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(AboutMeDTO aboutMe) {
-        this.aboutMe = aboutMe;
-    }
+//    public AboutMeDTO getAboutMe() { return aboutMe; }
+//
+//    public void setAboutMe(AboutMeDTO aboutMe) {
+//        this.aboutMe = aboutMe;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -92,7 +90,7 @@ public class AboutMeMediaDTO implements Serializable {
             ", mediaUrl='" + getMediaUrl() + "'" +
             ", aboutMeMediaType='" + getAboutMeMediaType() + "'" +
             ", caption='" + getCaption() + "'" +
-            ", aboutMe=" + getAboutMe() +
+//            ", aboutMe=" + getAboutMe() +
             "}";
     }
 }

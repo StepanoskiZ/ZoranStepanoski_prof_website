@@ -62,9 +62,15 @@ import { BaseMediaModalComponent, MediaItem } from '../../shared/component/base-
 //import { TranslateService } from '@ngx-translate/core';
 import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
 
+export interface AboutMeMediaItem {
+  id?: number;
+  mediaUrl: string; // Or fileName
+  caption?: string;
+}
+
 export interface AboutMeDetail {
   contentHtml: string;
-  mediaFiles: MediaItem[];
+  mediaFiles: AboutMeMediaItem[]; // Use the specific interface here
 }
 
 @Component({

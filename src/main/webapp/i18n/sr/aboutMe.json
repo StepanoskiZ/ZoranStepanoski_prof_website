@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "aboutMe": {
       "home": {
-        "title": "About Mes",
+        "title": "O meni",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Kreiraj novi About Me",
-        "createOrEditLabel": "Kreirajte ili izmenite About Me",
-        "notFound": "No About Mes found"
+        "createLabel": "Kreiraj novi O meni",
+        "createOrEditLabel": "Kreirajte ili izmenite O meni",
+        "notFound": "No About Me found"
       },
       "created": "Kreiran je novi About Me pod nazivom {{ param }}",
       "updated": "About Me pod nazivom {{ param }} je ažuriran",

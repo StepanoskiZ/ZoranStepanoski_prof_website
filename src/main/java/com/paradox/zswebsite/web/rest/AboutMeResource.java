@@ -193,17 +193,4 @@ public class AboutMeResource {
         // The findFirst() method in your service already does the heavy lifting
         return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
     }
-
-//    public ResponseEntity<AboutMeDTO> getAboutMe() {
-//        log.debug("REST request to get AboutMe");
-//
-//        // Find all records, get the first one from the stream, and map it to a DTO
-//        Optional<AboutMeDTO> aboutMeDTO = aboutMeRepository
-//            .findAll()
-//            .stream()
-//            .findFirst()
-//            .map(aboutMeMapper::toDto);
-//
-//        return ResponseUtil.wrapOrNotFound(aboutMeDTO);
-//    }
 }

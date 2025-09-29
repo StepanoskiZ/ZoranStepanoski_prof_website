@@ -99,29 +99,78 @@ $text-color-muted: #555; // Muted gray for default links
   }
 }
 
-.about-preview {
-  p {
-    margin-bottom: 1rem;
-  }
+.about-preview-wrapper {
+  max-height: 120px; // Set a fixed pixel height (e.g., ~5-6 lines of text). Adjust as needed.
+  overflow: hidden;
+  position: relative; // This is the new positioning context for the fade effect.
+}
 
-  // This creates the visual truncation effect
-  position: relative;
-  max-height: 7.5em; // Roughly 5 lines of text (adjust as needed)
+// .about-preview {
+//   // This property is the key. It tells the browser to limit the content
+//   // to a specific number of lines.
+//   -webkit-line-clamp: 5; // Adjust this number to show more or fewer lines
+//
+//   // These three properties are required to make line-clamp work
+//   display: -webkit-box;
+//   -webkit-box-orient: vertical;
+//   overflow: hidden;
+//
+//   // This ensures that paragraphs inside your rich text have proper spacing,
+//   // but the last one doesn't add extra space at the bottom.
+//   p {
+//     margin-bottom: 1rem;
+//     &:last-child {
+//       margin-bottom: 0;
+//     }
+//   }
+// }
+.about-preview {
+  // Set a maximum height. This is the most reliable way to constrain the block.
+  // Adjust this pixel value to control how much text is shown.
+  max-height: 120px;
+
+  // This is the crucial property. It tells the browser to simply hide
+  // any content that overflows the max-height.
   overflow: hidden;
 
-  // This adds the "..." and fade-out effect at the bottom
-  &::after {
-    content: '...';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 2.5em;
-    text-align: right;
-    padding-right: 1rem;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 80%);
+  // Optional: Add a small amount of padding at the bottom to prevent
+  // the text from touching the very edge of the cutoff.
+  padding-bottom: 0.5rem;
+
+  // This ensures paragraphs inside your rich text have proper spacing.
+  p {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
+//   // This creates the visual truncation effect
+//   position: relative;
+//   // Let's use line-clamp for a more reliable truncation that works with flexbox
+//   display: -webkit-box;
+//   -webkit-line-clamp: 5; // Show approximately 5 lines of text
+//   -webkit-box-orient: vertical;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//
+
+//   // This adds the "..." and fade-out effect at the bottom
+//   &::after {
+//     content: '...';
+//     position: absolute;
+//     bottom: 0;
+//     right: 0;
+//     width: 100%;
+//     height: 2.5em;
+//     text-align: right;
+//     padding-right: 1rem;
+//     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 80%);
+//   }
+//   &::after {
+//     content: none;
+//   }
+// }
 
 /* =================== Services Section =================== */
 .card {

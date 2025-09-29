@@ -7,6 +7,7 @@ import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,10 @@ public class AboutMeService {
      */
     public AboutMeDTO save(AboutMeDTO aboutMeDTO) {
         log.debug("Request to save AboutMe : {}", aboutMeDTO);
+        if (aboutMeDTO.getContentHtml() != null) {
+            String decodedHtml = StringEscapeUtils.unescapeHtml4(aboutMeDTO.getContentHtml());
+            aboutMeDTO.setContentHtml(decodedHtml);
+        }
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
         aboutMe = aboutMeRepository.save(aboutMe);
         return aboutMeMapper.toDto(aboutMe);
@@ -57,6 +62,10 @@ public class AboutMeService {
      */
     public AboutMeDTO update(AboutMeDTO aboutMeDTO) {
         log.debug("Request to update AboutMe : {}", aboutMeDTO);
+        if (aboutMeDTO.getContentHtml() != null) {
+            String decodedHtml = StringEscapeUtils.unescapeHtml4(aboutMeDTO.getContentHtml());
+            aboutMeDTO.setContentHtml(decodedHtml);
+        }
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
         aboutMe = aboutMeRepository.save(aboutMe);
         return aboutMeMapper.toDto(aboutMe);

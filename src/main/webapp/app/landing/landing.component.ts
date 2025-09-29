@@ -33,6 +33,17 @@ export interface CvCard {
   firstMediaUrl?: string;
 }
 
+export interface AboutMeMedia {
+  id?: number;
+  fileName: string; // Ensure this matches your backend DTO property name
+  description?: string;
+}
+
+export interface AboutMeApiResponse {
+  contentHtml: string;
+  mediaFiles: AboutMeMedia[];
+}
+
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -53,15 +64,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
   projects: ProjectCard[] = [];
   isLoadingProjects = true;
+  fullAboutContent: string = '';
+  aboutContentPreview: SafeHtml = '';
+  aboutMedia: AboutMeMedia[] = [];
   aboutMediaUrls: string[] = [];
   isLoadingAbout = false;
   cvEntries: CvCard[] = [];
   isLoadingCv = true;
   isAdminEnv = environment.isAdminEnv;
-
-  // --- SINGLE SOURCE OF TRUTH FOR "ABOUT ME" DATA ---
-  fullAboutContent: string = '';
-  aboutContentPreview: SafeHtml = '';
 
   private readonly http = inject(HttpClient);
   private readonly modalService = inject(NgbModal);
@@ -96,16 +106,24 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadCvEntries();
   }
 
+  // --- HELPER FUNCTIONS ---
+  private decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
-    this.http.get<any>('/api/about-me').subscribe({
+    this.http.get<AboutMeApiResponse>('/api/about-me').subscribe({
       next: data => {
         console.log('✅ Received "About Me" data from API:', data);
         const decodedHtml = this.decodeHtml(data.contentHtml || '');
 
         this.fullAboutContent = decodedHtml;
         this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
-        this.aboutMediaUrls = data.mediaUrls ?? [];
+        this.aboutMedia = data.mediaFiles ?? [];
+        this.aboutMediaUrls = this.aboutMedia.map(media => media.fileName);
         this.isLoadingAbout = false;
       },
       error: err => {
@@ -132,15 +150,16 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     modalRef.componentInstance.content = this.fullAboutContent;
 
-    modalRef.componentInstance.mediaUrls = (this.aboutMediaUrls?.length > 0 ? this.aboutMediaUrls : ['profile-picture.jpg']);
-  }
+    let mediaForModal = this.aboutMedia.map(m => ({
+        url: m.fileName,
+        caption: m.description,
+    }));
 
-  // --- HELPER FUNCTIONS ---
+    if (mediaForModal.length === 0) {
+        mediaForModal = [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
+    }
 
-  private decodeHtml(html: string): string {
-    const txt = document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
+    modalRef.componentInstance.mediaUrls = mediaForModal;
   }
 
   private loadProjects(): void {

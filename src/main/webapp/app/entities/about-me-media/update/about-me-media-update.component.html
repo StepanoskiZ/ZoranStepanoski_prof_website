@@ -4,8 +4,7 @@
       <h2
         id="jhi-about-me-media-heading"
         data-cy="AboutMeMediaCreateUpdateHeading"
-        jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createOrEditLabel"
-      >
+        jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createOrEditLabel">
         Create or edit a About Me Media
       </h2>
 
@@ -69,8 +68,7 @@
             data-cy="aboutMe"
             name="aboutMe"
             formControlName="aboutMe"
-            [compareWith]="compareAboutMe"
-          >
+            [compareWith]="compareAboutMe">
             <option [ngValue]="null"></option>
             @for (aboutMeOption of aboutMesSharedCollection; track $index) {
               <option [ngValue]="aboutMeOption">{{ aboutMeOption.id }}</option>
@@ -89,8 +87,7 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+          class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>

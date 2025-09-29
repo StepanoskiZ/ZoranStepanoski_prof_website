@@ -121,39 +121,26 @@ public class AboutMeService {
      *
      * @return the entity if found.
      */
-//     @Transactional(readOnly = true)
-//     public Optional<AboutMeDTO> findFirst() {
-//        log.debug("Request to get first AboutMe");
-//        return aboutMeRepository
-//            .findAll()
-//            .stream()
-//            .findFirst()
-//            .map(aboutMeMapper::toDto);
-//     }
-
-    /**
-     * Get the first AboutMe entry found, including its media files.
-     *
-     * @return the entity if found.
-     */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // This annotation is CRITICAL for lazy loading to work.
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
-        return aboutMeRepository
-            .findAll()
-            .stream()
-            .findFirst()
-            .map(aboutMe -> {
-                // First, map the AboutMe entity to its DTO
-                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
 
-                // Then, get its media, map each media entity to a DTO, and set it on our main DTO
-                dto.setMediaFiles(
-                    aboutMe.getMedia()
-                        .stream()
-                        .map(aboutMeMediaMapper::toDto)
-                        .collect(Collectors.toSet())
-                );
-                return dto;
-            });
-    }}
+        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findAll().stream().findFirst();
+
+        return aboutMeOptional.map(aboutMe -> {
+            AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+
+            dto.setMediaFiles(
+                aboutMe.getMedia()
+                    .stream()
+                    .map(aboutMeMediaMapper::toDto)
+                    .collect(Collectors.toSet())
+            );
+
+            log.debug("Returning AboutMeDTO with {} media files.", dto.getMediaFiles().size());
+
+            return dto;
+        });
+    }
+}
+

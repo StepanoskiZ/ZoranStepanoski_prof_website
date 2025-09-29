@@ -64,6 +64,8 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoadingCv = true;
 
   isAdminEnv = environment.isAdminEnv;
+  fullAboutContent: string = '';
+  aboutContentPreview: SafeHtml = '';
 
   private _aboutContent = '';
   private readonly http = inject(HttpClient);
@@ -168,13 +170,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
     this.http.get<any>('/api/about-me').subscribe({
-//    this.http.get<any>('/api/about-mes').subscribe({
       next: data => {
-        this.setAboutContent(data.contentHtml);
-        console.log('Received data:', data);
-        // If API returns media files, normalize them
-        this.aboutMediaUrls = data.mediaUrls ?? [];
+        // Store the full, raw HTML
+        this.fullAboutContent = data.contentHtml || '';
 
+        // Create and set the sanitized preview
+        this.aboutContentPreview = this.createSanitizedPreview(this.fullAboutContent, 300);
+
+        this.aboutMediaUrls = data.mediaUrls ?? [];
         this.isLoadingAbout = false;
       },
       error: err => {
@@ -182,6 +185,35 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingAbout = false;
       },
     });
+  }
+
+  private createSanitizedPreview(html: string, maxLength: number): SafeHtml {
+      if (!html) {
+        return '';
+      }
+
+      // 1. Create a temporary div to parse the HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+
+      // 2. Get the plain text content
+      const plainText = tempDiv.textContent || tempDiv.innerText || '';
+
+      // 3. If plain text is already short enough, return the full sanitized HTML
+      if (plainText.length <= maxLength) {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+      }
+
+      // 4. Truncate the plain text
+      let truncatedText = plainText.substring(0, maxLength);
+
+      // 5. Go back to the last space to avoid cutting words in half
+      truncatedText = truncatedText.substring(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' ')));
+
+      // 6. At this point, for simplicity, we are just returning the truncated plain text.
+      // A more complex solution would be needed to preserve HTML tags in the preview.
+      // For now, this is safer than showing broken HTML.
+      return this.sanitizer.bypassSecurityTrustHtml(`<p>${truncatedText}...</p>`);
   }
 
   openAboutModal(): void {

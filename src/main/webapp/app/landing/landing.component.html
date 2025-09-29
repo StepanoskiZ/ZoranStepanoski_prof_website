@@ -17,7 +17,9 @@
       <div class="col-lg-7">
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
-        <div class="about-preview" [innerHTML]="aboutContentPreview"></div>
+        <div class="about-preview-wrapper">
+          <div class="about-preview" [innerHTML]="aboutContentPreview"></div>
+        </div>
         <div class="mt-2">
           <a href="#" class="read-more-link ms-4" (click)="openAboutModal(); $event.preventDefault()">
             {{ 'global.readMore' | translate }}

@@ -122,6 +122,9 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.fullAboutContent = decodedHtml;
         this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
+
+        console.log('✅ Sanitized SafeHtml object:', this.aboutContentPreview);
+
         this.aboutMedia = data.mediaFiles ?? [];
         this.aboutMediaUrls = this.aboutMedia.map(media => media.fileName);
         this.isLoadingAbout = false;
@@ -147,19 +150,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
-//    modalRef.componentInstance.item = cvEntry;
-//    modalRef.componentInstance.content = this.fullAboutContent;
-//
-//    let mediaForModal = this.aboutMedia.map(m => ({
-//        url: m.fileName,
-//        caption: m.description,
-//    }));
-//
-//    if (mediaForModal.length === 0) {
-//        mediaForModal = [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
-//    }
-//
-//    modalRef.componentInstance.mediaUrls = mediaForModal;
   }
 
   private loadProjects(): void {

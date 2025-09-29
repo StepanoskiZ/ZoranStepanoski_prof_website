@@ -166,9 +166,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
-    this.http.get<any>('/api/page-contents/by-key/about-me').subscribe({
+    this.http.get<any>('/api/about-me').subscribe({
+//    this.http.get<any>('/api/about-mes').subscribe({
       next: data => {
         this.setAboutContent(data.contentHtml);
+        console.log('Received data:', data);
         // If API returns media files, normalize them
         this.aboutMediaUrls = data.mediaUrls ?? [];
 

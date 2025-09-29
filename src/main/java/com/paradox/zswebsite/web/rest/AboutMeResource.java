@@ -3,6 +3,7 @@ package com.paradox.zswebsite.web.rest;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.AboutMeService;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
+import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.AboutMe}.
  */
 @RestController
-@RequestMapping("/api/about-mes")
+@RequestMapping("/api/about-me")
 public class AboutMeResource {
 
     private final Logger log = LoggerFactory.getLogger(AboutMeResource.class);
@@ -39,12 +40,17 @@ public class AboutMeResource {
     private String applicationName;
 
     private final AboutMeService aboutMeService;
-
     private final AboutMeRepository aboutMeRepository;
+    private final AboutMeMapper aboutMeMapper;
 
-    public AboutMeResource(AboutMeService aboutMeService, AboutMeRepository aboutMeRepository) {
+    public AboutMeResource(
+        AboutMeService aboutMeService,
+        AboutMeRepository aboutMeRepository,
+        AboutMeMapper aboutMeMapper
+    ) {
         this.aboutMeService = aboutMeService;
         this.aboutMeRepository = aboutMeRepository;
+        this.aboutMeMapper = aboutMeMapper;
     }
 
     /**
@@ -135,19 +141,19 @@ public class AboutMeResource {
         );
     }
 
-    /**
-     * {@code GET  /about-mes} : get all the aboutMes.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aboutMes in body.
-     */
-    @GetMapping("")
-    public ResponseEntity<List<AboutMeDTO>> getAllAboutMes(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        log.debug("REST request to get a page of AboutMes");
-        Page<AboutMeDTO> page = aboutMeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
+//    /**
+//     * {@code GET  /about-mes} : get all the aboutMes.
+//     *
+//     * @param pageable the pagination information.
+//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aboutMes in body.
+//     */
+//    @GetMapping("")
+//    public ResponseEntity<List<AboutMeDTO>> getAllAboutMes(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+//        log.debug("REST request to get a page of AboutMes");
+//        Page<AboutMeDTO> page = aboutMeService.findAll(pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//    }
 
     /**
      * {@code GET  /about-mes/:id} : get the "id" aboutMe.
@@ -175,5 +181,24 @@ public class AboutMeResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+    /**
+     * {@code GET  /api/about-me} : get the first AboutMe entity.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeDTO,
+     * or with status {@code 404 (Not Found)} if no AboutMe entity exists.
+     */
+    @GetMapping("")
+    public ResponseEntity<AboutMeDTO> getAboutMe() {
+        log.debug("REST request to get AboutMe");
+
+        // Find all records, get the first one from the stream, and map it to a DTO
+        Optional<AboutMeDTO> aboutMeDTO = aboutMeRepository
+            .findAll()
+            .stream()
+            .findFirst()
+            .map(aboutMeMapper::toDto);
+
+        return ResponseUtil.wrapOrNotFound(aboutMeDTO);
     }
 }

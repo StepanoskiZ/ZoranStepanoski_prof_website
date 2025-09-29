@@ -16,14 +16,22 @@
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMe.contentHtml" for="field_contentHtml">Content Html</label>
-          <textarea
-            class="form-control"
-            name="contentHtml"
-            id="field_contentHtml"
+          <label class="form-label d-block" jhiTranslate="zsWebsiteApp.aboutMe.contentHtml"></label>
+<!--          <textarea-->
+<!--            class="form-control"-->
+<!--            name="contentHtml"-->
+<!--            id="field_contentHtml"-->
+<!--            data-cy="contentHtml"-->
+<!--            formControlName="contentHtml">-->
+<!--          </textarea>-->
+          <quill-editor
+            id="field_content"
             data-cy="contentHtml"
             formControlName="contentHtml"
-          ></textarea>
+            name="contentHtml"
+            [modules]="editorModules"
+            [styles]="{ height: '300px' }">
+          </quill-editor>
           @if (editForm.get('contentHtml')!.invalid && (editForm.get('contentHtml')!.dirty || editForm.get('contentHtml')!.touched)) {
             <div>
               @if (editForm.get('contentHtml')?.errors?.required) {
@@ -53,17 +61,15 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel"></span>
         </button>
-
         <button
           type="submit"
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+          class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save"></span>
         </button>
       </div>
     </form>

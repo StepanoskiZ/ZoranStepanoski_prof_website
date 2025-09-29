@@ -109,4 +109,19 @@ public class AboutMeService {
         log.debug("Request to delete AboutMe : {}", id);
         aboutMeRepository.deleteById(id);
     }
+
+    /**
+     * Get the first AboutMe entry found.
+     *
+     * @return the entity if found.
+     */
+     @Transactional(readOnly = true)
+     public Optional<AboutMeDTO> findFirst() {
+        log.debug("Request to get first AboutMe");
+        return aboutMeRepository
+            .findAll()
+            .stream()
+            .findFirst()
+            .map(aboutMeMapper::toDto);
+     }
 }

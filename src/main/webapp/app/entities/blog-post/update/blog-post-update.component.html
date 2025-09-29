@@ -36,8 +36,7 @@
             formControlName="content"
             name="content"
             [modules]="editorModules"
-            [styles]="{ height: '300px' }"
-          >
+            [styles]="{ height: '300px' }">
           </quill-editor>
           @if (editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)) {
             <div>

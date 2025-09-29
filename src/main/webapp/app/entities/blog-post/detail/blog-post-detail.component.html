@@ -11,34 +11,34 @@
         <jhi-alert></jhi-alert>
 
         <dl class="row-md jh-entity-details">
-          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dt><span jhiTranslate="global.field.id"></span></dt>
           <dd>
             <span>{{ blogPost.id }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.blogPost.title">Title</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.blogPost.title"></span></dt>
           <dd>
             <span>{{ blogPost.title }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.blogPost.contentHTML">Content HTML</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.blogPost.contentHTML"></span></dt>
           <dd>
             <span>{{ blogPost.contentHTML }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.blogPost.imageUrl">Image Url</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.blogPost.imageUrl"></span></dt>
           <dd>
             <span>{{ blogPost.imageUrl }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.blogPost.publishedDate">Published Date</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.blogPost.publishedDate"></span></dt>
           <dd>
             <span>{{ blogPost.publishedDate | formatMediumDatetime }}</span>
           </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"></span>
         </button>
 
         <button type="button" [routerLink]="['/blog-post', blogPost.id, 'edit']" class="btn btn-primary">
-          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"></span>
         </button>
       </div>
     }

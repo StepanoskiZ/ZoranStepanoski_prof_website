@@ -28,15 +28,22 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.project.descriptionHTML" for="field_descriptionHTML">Description HTML</label>
-          <textarea
-            class="form-control"
-            name="descriptionHTML"
-            id="field_descriptionHTML"
+          <label class="form-label d-block" jhiTranslate="zsWebsiteApp.project.descriptionHTML"></label>
+<!--          <textarea-->
+<!--            class="form-control"-->
+<!--            name="descriptionHTML"-->
+<!--            id="field_descriptionHTML"-->
+<!--            data-cy="descriptionHTML"-->
+<!--            formControlName="descriptionHTML">-->
+<!--          </textarea>-->
+          <quill-editor
+            id="field_content"
             data-cy="descriptionHTML"
             formControlName="descriptionHTML"
-          >
-          </textarea>
+            name="descriptionHTML"
+            [modules]="editorModules"
+            [styles]="{ height: '300px' }">
+          </quill-editor>
           @if (
             editForm.get('descriptionHTML')!.invalid && (editForm.get('descriptionHTML')!.dirty || editForm.get('descriptionHTML')!.touched)
           ) {

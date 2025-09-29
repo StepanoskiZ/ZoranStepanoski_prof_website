@@ -18,8 +18,6 @@
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
         <div class="about-preview" [innerHTML]="aboutContentPreview"></div>
-
-        <!-- Links Section -->
         <div class="mt-2">
           <a href="#" class="read-more-link ms-4" (click)="openAboutModal(); $event.preventDefault()">
             {{ 'global.readMore' | translate }}
@@ -32,7 +30,6 @@
           </a>
           <a *ngIf="isAdminEnv" routerLink="/ai-generator" class="underscore-link ms-4">
             <i class="fas fa-magic me-1"></i>
-            <!-- Or "fas fa-robot", "fas fa-pen-nib" "fas fa-wand-magic-sparkles" "fas fa-file-signature"-->
             <span>
               {{ 'landing.createLetters' | translate }}
             </span>
@@ -41,18 +38,27 @@
       </div>
       <!-- Your Picture (Right Column) -->
       <div class="col-lg-5">
-        <img src="content/images/profile-picture.jpg" alt="Zoran Stepanoski" class="profile-picture img-fluid rounded shadow-lg" />
-<!--        <img-->
-<!--          *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"-->
-<!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
-<!--          [alt]="project.title"-->
-<!--          class="profile-picture img-fluid rounded shadow-lg"/>-->
-<!--        <video-->
-<!--          *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"-->
-<!--          [src]="getFullMediaPath(project.firstMediaUrl)"-->
-<!--          class="img-fluid rounded project-media-clickable"-->
-<!--          muted>-->
-<!--        </video>-->
+        <div class="profile-picture-container">
+          <ng-container *ngIf="aboutMediaUrls && aboutMediaUrls.length > 0">
+            <img
+              *ngIf="getMediaType(aboutMediaUrls[0]) === 'IMAGE'"
+              [src]="getFullMediaPath(aboutMediaUrls[0])"
+              alt="Profile Picture"
+              class="profile-picture img-fluid rounded shadow-lg" />
+            <video
+              *ngIf="getMediaType(aboutMediaUrls[0]) === 'VIDEO'"
+              [src]="getFullMediaPath(aboutMediaUrls[0])"
+              class="profile-picture img-fluid rounded shadow-lg"
+              autoplay loop muted playsinline>
+            </video>
+          </ng-container>
+          <ng-container *ngIf="!aboutMediaUrls || aboutMediaUrls.length === 0">
+            <img
+              src="content/images/profile-picture.jpg"
+              alt="Zoran Stepanoski"
+              class="profile-picture img-fluid rounded shadow-lg" />
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

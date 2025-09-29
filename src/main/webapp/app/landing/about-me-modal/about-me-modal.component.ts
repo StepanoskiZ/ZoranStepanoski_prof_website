@@ -1,34 +1,4 @@
 /*
-import { Component, Input, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { BaseMediaModalComponent } from '../../shared/component/base-media-modal/base-media-modal.component';
-import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
-import { TranslateService } from '@ngx-translate/core';
-
-@Component({
-  selector: 'jhi-about-me-modal',
-  standalone: true,
-  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent],
-  templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
-  styleUrls: ['./about-me-modal.component.scss'],
-})
-export class AboutMeModalComponent extends BaseMediaModalComponent {
-  defaultMedia = '/content/images/default-profile.jpg';
-
-  protected translateService = inject(TranslateService);
-
-  constructor() {
-    super();
-    this.title = this.translateService.instant('landing.navAbout');
-  }
-
-  @Input()
-  override set content(html: string) {
-    super.content = html;
-  }
-}
-*/
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -61,13 +31,11 @@ export class AboutMeModalComponent extends BaseMediaModalComponent implements On
   }
 
   ngOnInit(): void {
-    // Fetch the "About Me" details from the backend
     this.http.get<AboutMeDetail>('/api/about-me').subscribe({
       next: data => {
-        // Use the parent's 'content' setter to sanitize the HTML
-        this.content = data.contentHtml ?? '';
+        const decodedHtml = this.decodeHtml(data.contentHtml ?? '');
+        this.content = decodedHtml;
 
-        // Use the parent's 'mediaUrls' setter to normalize the media
         this.mediaUrls = data.mediaFiles?.length ? data.mediaFiles : [{ url: 'profile-picture.jpg' }];
       },
       error: err => {
@@ -76,4 +44,64 @@ export class AboutMeModalComponent extends BaseMediaModalComponent implements On
       },
     });
   }
+
+  // Helper function to decode HTML entities like &lt; into <
+  private decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+}
+*/
+
+import { Component, Input, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { BaseMediaModalComponent, MediaItem } from '../../shared/component/base-media-modal/base-media-modal.component';
+//import { TranslateService } from '@ngx-translate/core';
+import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
+
+export interface AboutMeDetail {
+  id: number;
+  title: string;
+  caption: string;
+  description: string;
+  mediaFiles: MediaItem[];
+}
+
+@Component({
+  selector: 'jhi-about-me-modal',
+  standalone: true,
+  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent],
+  templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
+  styleUrls: ['about-me-modal.component.scss'],
+})
+export class AboutMeModalComponent extends BaseMediaModalComponent {
+  @Input() item!: { id: number; title: string; description?: string };
+  defaultMedia = '/content/images/default-profile.jpg';
+  private http = inject(HttpClient);
+  aboutMe: AboutMeDetail | null = null;
+//  private translateService = inject(TranslateService);
+
+  ngOnInit(): void {
+    if (!this.item?.id) {
+      this.close();
+      return;
+    }
+
+    this.http.get<AboutMeDetail>(`/api/about-me`).subscribe({
+      next: data => {
+        this.aboutMe = data;
+        this.content = data.description ?? '';
+        this.mediaUrls = data.mediaFiles?.length ? data.mediaFiles : [{ url: 'default-profile.jpg', caption: 'Zoran Stepanoski' }];
+        this.title = data.title;
+      },
+      error: () => this.close(),
+    });
+  }
+//  constructor() {
+//    super();
+//    this.title = this.translateService.instant('landing.navAbout');
+//  }
 }

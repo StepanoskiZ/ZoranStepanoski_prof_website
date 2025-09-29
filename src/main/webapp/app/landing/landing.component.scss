@@ -100,20 +100,6 @@ $text-color-muted: #555; // Muted gray for default links
 }
 
 .about-preview {
-//   display: -webkit-box;
-//   -webkit-line-clamp: 3; // 5
-//   -webkit-box-orient: vertical;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   max-height: 120px; /* Optional: Fallback and helps contain the element. Adjust as needed. */
-//
-//   p {
-//     margin-bottom: 1rem; // Standard spacing for paragraphs
-//   }
-//
-//   &::after {
-//     content: none;
-//   }
   p {
     margin-bottom: 1rem;
   }

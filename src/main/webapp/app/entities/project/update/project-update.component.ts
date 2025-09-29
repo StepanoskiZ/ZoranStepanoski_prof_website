@@ -15,12 +15,13 @@ import { Language } from 'app/entities/enumerations/language.model';
 import { ProjectService } from '../service/project.service';
 import { IProject } from '../project.model';
 import { ProjectFormService, ProjectFormGroup } from './project-form.service';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'jhi-project-update',
   standalone: true,
   templateUrl: './project-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [QuillModule, SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ProjectUpdateComponent implements OnInit {
   isSaving = false;
@@ -37,6 +38,10 @@ export class ProjectUpdateComponent implements OnInit {
     protected projectFormService: ProjectFormService,
     protected activatedRoute: ActivatedRoute,
   ) {}
+
+  editorModules = {
+    toolbar: [[{ header: [1, 2, 3, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video', 'image', 'code-block']],
+  };
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ project }) => {

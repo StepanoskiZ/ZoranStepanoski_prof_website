@@ -1,11 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="AboutMeMediaHeading">
-    <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.title">About Me Medias</span>
+    <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.title"></span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.refreshListLabel"></span>
       </button>
 
       <button
@@ -15,7 +15,7 @@
         [routerLink]="['/about-me-media/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createLabel">Create a new About Me Media</span>
+        <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createLabel"></span>
       </button>
     </div>
   </h2>
@@ -26,7 +26,7 @@
 
   @if (aboutMeMedias?.length === 0) {
     <div class="alert alert-warning" id="no-result">
-      <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.notFound">No About Me Medias found</span>
+      <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.notFound"></span>
     </div>
   }
 
@@ -51,21 +51,21 @@
             </th>
             <th scope="col" jhiSortBy="aboutMeMediaType">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType">About Me Media Type</span>
+                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType"></span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="caption">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.caption">Caption</span>
+                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.caption"></span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="aboutMe.id">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe">About Me</span>
+                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -94,17 +94,17 @@
                 <div class="btn-group">
                   <a [routerLink]="['/about-me-media', aboutMeMedia.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view"></span>
                   </a>
 
                   <a [routerLink]="['/about-me-media', aboutMeMedia.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
                   </a>
 
                   <button type="submit" (click)="delete(aboutMeMedia)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete"></span>
                   </button>
                 </div>
               </td>

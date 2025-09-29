@@ -6,7 +6,7 @@ import { FullscreenMediaModalComponent } from '../fullscreen-media-modal/fullscr
 export interface MediaItem {
   id?: number;
   url: string;
-  type?: 'IMAGE' | 'VIDEO';
+  type?: 'IMAGE' | 'VIDEO' | 'UNKNOWN';
   caption?: string;
 }
 

@@ -63,10 +63,7 @@ import { BaseMediaModalComponent, MediaItem } from '../../shared/component/base-
 import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
 
 export interface AboutMeDetail {
-  id: number;
-  title: string;
-  caption: string;
-  description: string;
+  contentHtml: string;
   mediaFiles: MediaItem[];
 }
 
@@ -78,11 +75,17 @@ export interface AboutMeDetail {
   styleUrls: ['about-me-modal.component.scss'],
 })
 export class AboutMeModalComponent extends BaseMediaModalComponent {
-  @Input() item!: { id: number; title: string; description?: string };
-  defaultMedia = '/content/images/default-profile.jpg';
+//  @Input() item!: { id: number; title: string; description?: string };
+//  defaultMedia = '/content/images/default-profile.jpg';
   private http = inject(HttpClient);
-  aboutMe: AboutMeDetail | null = null;
-//  private translateService = inject(TranslateService);
+//  aboutMe: AboutMeDetail | null = null;
+  private translateService = inject(TranslateService);
+
+  constructor() {
+    super();
+    // Set a default title while loading
+    this.title = this.translateService.instant('landing.navAbout');
+  }
 
   ngOnInit(): void {
     if (!this.item?.id) {
@@ -90,18 +93,20 @@ export class AboutMeModalComponent extends BaseMediaModalComponent {
       return;
     }
 
-    this.http.get<AboutMeDetail>(`/api/about-me`).subscribe({
+    this.http.get<AboutMeDetail>(`/api/about-me/details`).subscribe({
       next: data => {
-        this.aboutMe = data;
-        this.content = data.description ?? '';
-        this.mediaUrls = data.mediaFiles?.length ? data.mediaFiles : [{ url: 'default-profile.jpg', caption: 'Zoran Stepanoski' }];
-        this.title = data.title;
+        this.content = this.content = this.decodeHtml(data.contentHtml ?? '');
+        this.mediaUrls = data.mediaFiles?.length ? data.mediaFiles : [{ url: 'profile-picture.jpg', caption: 'Zoran Stepanoski' }];
+//        this.title = data.title;
       },
       error: () => this.close(),
     });
   }
-//  constructor() {
-//    super();
-//    this.title = this.translateService.instant('landing.navAbout');
-//  }
+
+  // Helper function to decode HTML entities
+  private decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
 }

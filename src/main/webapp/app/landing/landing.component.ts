@@ -147,19 +147,19 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
-
-    modalRef.componentInstance.content = this.fullAboutContent;
-
-    let mediaForModal = this.aboutMedia.map(m => ({
-        url: m.fileName,
-        caption: m.description,
-    }));
-
-    if (mediaForModal.length === 0) {
-        mediaForModal = [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
-    }
-
-    modalRef.componentInstance.mediaUrls = mediaForModal;
+//    modalRef.componentInstance.item = cvEntry;
+//    modalRef.componentInstance.content = this.fullAboutContent;
+//
+//    let mediaForModal = this.aboutMedia.map(m => ({
+//        url: m.fileName,
+//        caption: m.description,
+//    }));
+//
+//    if (mediaForModal.length === 0) {
+//        mediaForModal = [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
+//    }
+//
+//    modalRef.componentInstance.mediaUrls = mediaForModal;
   }
 
   private loadProjects(): void {

@@ -141,20 +141,6 @@ public class AboutMeResource {
         );
     }
 
-//    /**
-//     * {@code GET  /about-mes} : get all the aboutMes.
-//     *
-//     * @param pageable the pagination information.
-//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aboutMes in body.
-//     */
-//    @GetMapping("")
-//    public ResponseEntity<List<AboutMeDTO>> getAllAboutMes(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-//        log.debug("REST request to get a page of AboutMes");
-//        Page<AboutMeDTO> page = aboutMeService.findAll(pageable);
-//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-//        return ResponseEntity.ok().headers(headers).body(page.getContent());
-//    }
-
     /**
      * {@code GET  /about-mes/:id} : get the "id" aboutMe.
      *
@@ -190,16 +176,34 @@ public class AboutMeResource {
      * or with status {@code 404 (Not Found)} if no AboutMe entity exists.
      */
     @GetMapping("")
-    public ResponseEntity<AboutMeDTO> getAboutMe() {
-        log.debug("REST request to get AboutMe");
-
-        // Find all records, get the first one from the stream, and map it to a DTO
-        Optional<AboutMeDTO> aboutMeDTO = aboutMeRepository
-            .findAll()
-            .stream()
-            .findFirst()
-            .map(aboutMeMapper::toDto);
-
-        return ResponseUtil.wrapOrNotFound(aboutMeDTO);
+    public ResponseEntity<AboutMeDTO> getFirstAboutMe() {
+        log.debug("REST request to get first AboutMe");
+        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
     }
+
+    /**
+     * GET /details : get the first aboutMe entry with all details.
+     * This endpoint is specifically for the modal and guarantees media files are included.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the aboutMeDTO in body.
+     */
+    @GetMapping("/details")
+    public ResponseEntity<AboutMeDTO> getFirstAboutMeWithDetails() {
+        log.debug("REST request to get first AboutMe with all details for modal");
+        // The findFirst() method in your service already does the heavy lifting
+        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
+    }
+
+//    public ResponseEntity<AboutMeDTO> getAboutMe() {
+//        log.debug("REST request to get AboutMe");
+//
+//        // Find all records, get the first one from the stream, and map it to a DTO
+//        Optional<AboutMeDTO> aboutMeDTO = aboutMeRepository
+//            .findAll()
+//            .stream()
+//            .findFirst()
+//            .map(aboutMeMapper::toDto);
+//
+//        return ResponseUtil.wrapOrNotFound(aboutMeDTO);
+//    }
 }

@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "aboutMeMedia": {
       "home": {
-        "title": "About Me Medias",
+        "title": "About Me Media",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new About Me Media",
         "createOrEditLabel": "Create or edit a About Me Media",
-        "notFound": "No About Me Medias found"
+        "notFound": "No About Me Media found"
       },
       "created": "A new About Me Media is created with identifier {{ param }}",
       "updated": "A About Me Media is updated with identifier {{ param }}",

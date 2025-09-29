@@ -11,7 +11,6 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface AboutMeMediaMapper extends EntityMapper<AboutMeMediaDTO, AboutMeMedia> {
-    @Mapping(target = "aboutMe", source = "aboutMe", qualifiedByName = "aboutMeId")
     AboutMeMediaDTO toDto(AboutMeMedia s);
 
     @Named("aboutMeId")

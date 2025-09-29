@@ -125,17 +125,14 @@ $text-color-muted: #555; // Muted gray for default links
 //   }
 // }
 .about-preview {
-  // Set a maximum height. This is the most reliable way to constrain the block.
-  // Adjust this pixel value to control how much text is shown.
+  // Set a fixed maximum height for the text block.
+  // Adjust this value (e.g., 100px, 140px) to show more or fewer lines.
   max-height: 120px;
 
-  // This is the crucial property. It tells the browser to simply hide
-  // any content that overflows the max-height.
+  // This is the most important rule. It tells the browser to simply
+  // cut off and hide any content that goes beyond the max-height.
+  // This will guarantee the text never flows under the image.
   overflow: hidden;
-
-  // Optional: Add a small amount of padding at the bottom to prevent
-  // the text from touching the very edge of the cutoff.
-  padding-bottom: 0.5rem;
 
   // This ensures paragraphs inside your rich text have proper spacing.
   p {

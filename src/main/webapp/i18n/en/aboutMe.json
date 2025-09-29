@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "aboutMe": {
       "home": {
-        "title": "About Mes",
+        "title": "About Me",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new About Me",
         "createOrEditLabel": "Create or edit a About Me",
-        "notFound": "No About Mes found"
+        "notFound": "No About Me found"
       },
       "created": "A new About Me is created with identifier {{ param }}",
       "updated": "A About Me is updated with identifier {{ param }}",

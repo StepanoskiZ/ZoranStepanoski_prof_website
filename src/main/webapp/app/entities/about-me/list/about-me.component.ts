@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Data, ParamMap, Router, RouterModule, NavigationEnd } from '@angular/router';
+import { combineLatest, filter, Observable, switchMap, tap, Subject, takeUntil } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
@@ -33,9 +33,11 @@ import { AboutMeDeleteDialogComponent } from '../delete/about-me-delete-dialog.c
     ItemCountComponent,
   ],
 })
-export class AboutMeComponent implements OnInit {
+export class AboutMeComponent implements OnInit, OnDestroy {
   aboutMes?: IAboutMe[];
   isLoading = false;
+
+  protected readonly destroy$ = new Subject<void>();
 
   predicate = 'id';
   ascending = true;
@@ -56,6 +58,21 @@ export class AboutMeComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+
+    this.router.events.pipe(
+        // We only care about the NavigationEnd event.
+        filter(event => event instanceof NavigationEnd),
+        // This is important for preventing memory leaks.
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+        // When navigation ends, force the component to reload its data.
+        this.load();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   byteSize(base64String: string): string {
@@ -120,6 +137,9 @@ export class AboutMeComponent implements OnInit {
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
+    console.log('✅ Backend Response Body:', response.body);
+    console.log('✅ Backend Response Headers:', response.headers);
+
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.aboutMes = dataFromBody;

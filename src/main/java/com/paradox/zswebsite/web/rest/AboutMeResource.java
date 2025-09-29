@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
-
 /**
  * REST controller for managing {@link com.paradox.zswebsite.domain.AboutMe}.
  */
@@ -170,12 +170,33 @@ public class AboutMeResource {
     }
 
     /**
-     * {@code GET  /api/about-me} : get the first AboutMe entity.
+     * {@code GET  /about-me} : get all the aboutMes.
+     * This is the endpoint that the JHipster admin page calls.
+     * It MUST return a paginated list.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aboutMes in body.
+     */
+    @GetMapping("")
+    public ResponseEntity<List<AboutMeDTO>> getAllAboutMe(Pageable pageable) {
+        log.debug("REST request to get a page of AboutMe");
+        // This service call correctly fetches a "page" of results, even if it's just one.
+        Page<AboutMeDTO> page = aboutMeService.findAll(pageable);
+
+        // This utility creates the necessary headers (like X-Total-Count) that the frontend needs.
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+
+        // This returns the response with the headers and the body, which is a List<AboutMeDTO>.
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /api/about-me/first} : get the first AboutMe entity.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeDTO,
      * or with status {@code 404 (Not Found)} if no AboutMe entity exists.
      */
-    @GetMapping("")
+    @GetMapping("/first")
     public ResponseEntity<AboutMeDTO> getFirstAboutMe() {
         log.debug("REST request to get first AboutMe");
         return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());

@@ -160,8 +160,9 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setAboutContent(html: string) {
     this._aboutContent = html;
-    const preview = html.length > 300 ? html.substring(0, 300) : html;
-    this.aboutContent = this.sanitizer.bypassSecurityTrustHtml(preview);
+//    const preview = html.length > 300 ? html.substring(0, 300) : html;
+//    this.aboutContent = this.sanitizer.bypassSecurityTrustHtml(preview);
+    this.aboutContent = this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   private loadAboutContent(): void {

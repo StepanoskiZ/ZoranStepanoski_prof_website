@@ -14,12 +14,13 @@ import { Language } from 'app/entities/enumerations/language.model';
 import { AboutMeService } from '../service/about-me.service';
 import { IAboutMe } from '../about-me.model';
 import { AboutMeFormService, AboutMeFormGroup } from './about-me-form.service';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   standalone: true,
   selector: 'jhi-about-me-update',
   templateUrl: './about-me-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [QuillModule, SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class AboutMeUpdateComponent implements OnInit {
   isSaving = false;
@@ -35,6 +36,10 @@ export class AboutMeUpdateComponent implements OnInit {
     protected aboutMeFormService: AboutMeFormService,
     protected activatedRoute: ActivatedRoute,
   ) {}
+
+  editorModules = {
+    toolbar: [[{ header: [1, 2, 3, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video', 'image', 'code-block']],
+  };
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ aboutMe }) => {

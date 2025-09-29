@@ -34,10 +34,10 @@ export class AboutMeFormService {
     return new FormGroup<AboutMeFormGroupContent>({
       id: new FormControl(
         { value: aboutMeRawValue.id, disabled: true },
-        {
-          nonNullable: true,
-          validators: [Validators.required],
-        },
+//         {
+//           nonNullable: true,
+//           validators: [Validators.required],
+//         },
       ),
       contentHtml: new FormControl(aboutMeRawValue.contentHtml, {
         validators: [Validators.required],

@@ -14,7 +14,7 @@ export interface AboutMeMedia {
 
 export interface AboutMeDetail {
   contentHtml: string;
-  mediaFiles: AboutMeMedia[]; // Use the specific interface here
+  mediaFiles: AboutMeMedia[];
 }
 
 @Component({
@@ -25,18 +25,16 @@ export interface AboutMeDetail {
   styleUrls: ['about-me-modal.component.scss'],
 })
 export class AboutMeModalComponent extends BaseMediaModalComponent {
-//  @Input() item!: { id: number; title: string; description?: string };
   defaultMedia = '/content/images/default-profile.jpg';
   private http = inject(HttpClient);
-//  aboutMe: AboutMeDetail | null = null;
   private translateService = inject(TranslateService);
 
   constructor() {
     super();
-    // Set a default title while loading
     this.title = this.translateService.instant('landing.navAbout');
   }
 
+/*
   ngOnInit(): void {
     this.http.get<AboutMeDetail>(`/api/about-me/details`).subscribe({
       next: data => {
@@ -62,4 +60,5 @@ export class AboutMeModalComponent extends BaseMediaModalComponent {
     txt.innerHTML = html;
     return txt.value;
   }
+*/
 }

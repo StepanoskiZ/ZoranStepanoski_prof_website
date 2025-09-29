@@ -115,7 +115,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
-    this.http.get<AboutMeApiResponse>('/api/about-me').subscribe({
+    this.http.get<AboutMeApiResponse>('/api/about-me/details').subscribe({
       next: data => {
         console.log('✅ Received "About Me" data from API:', data);
         const decodedHtml = this.decodeHtml(data.contentHtml || '');
@@ -150,6 +150,17 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
+
+    modalRef.componentInstance.content = this.fullAboutContent;
+
+    const mediaForModal = this.aboutMedia.map(m => ({
+        url: m.fileName,
+        caption: m.description,
+    }));
+
+    modalRef.componentInstance.mediaUrls = mediaForModal.length > 0
+        ? mediaForModal
+        : [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
   }
 
   private loadProjects(): void {

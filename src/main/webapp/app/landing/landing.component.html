@@ -10,7 +10,7 @@
 </section>
 
 <!-- =================== About Section =================== -->
-<section #section id="about" class="about-section py-5">
+<section #section id="about" class="about-section py-5" *ngIf="!isLoadingAbout && fullAboutContent">
   <div class="container">
     <div class="row align-items-center">
       <!-- Text Content (Left Column) -->

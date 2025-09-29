@@ -32,16 +32,13 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType" for="field_aboutMeMediaType"
-            >About Me Media Type</label
-          >
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType" for="field_aboutMeMediaType"></label>
           <select
             class="form-control"
             name="aboutMeMediaType"
             formControlName="aboutMeMediaType"
             id="field_aboutMeMediaType"
-            data-cy="aboutMeMediaType"
-          >
+            data-cy="aboutMeMediaType">
             <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
             @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
               <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>

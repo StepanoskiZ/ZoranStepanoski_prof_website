@@ -8,6 +8,7 @@ import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.List;
+import java.util.Collections;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.hibernate.Hibernate;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.AboutMe}.
@@ -153,25 +155,24 @@ public class AboutMeService {
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
-        Pageable firstResult = PageRequest.of(0, 1, Sort.by("id").ascending());
+//        Pageable firstResult = PageRequest.of(0, 1, Sort.by("id").ascending());
+        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst();
 
-        List<AboutMe> results = aboutMeRepository.findWithMediaEagerly(firstResult);
-
-        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findFirstWithMediaEagerly();
+        // 2. If the entity exists, manually initialize its lazy collection.
+        if (aboutMeOptional.isPresent()) {
+            AboutMe aboutMe = aboutMeOptional.get();
+            Hibernate.initialize(aboutMe.getMedia());
+        }
 
         return aboutMeOptional.map(aboutMe -> {
             AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
-
             dto.setMediaFiles(
-                aboutMe
-                    .getMedia()
+                aboutMe.getMedia()
                     .stream()
                     .map(aboutMeMediaMapper::toDto)
                     .collect(Collectors.toSet())
             );
-
             log.debug("Returning AboutMeDTO with {} media files.", dto.getMediaFiles().size());
-
             return dto;
         });
     }

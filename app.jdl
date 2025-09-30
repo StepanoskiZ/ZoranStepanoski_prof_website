@@ -18,7 +18,6 @@ enum UnifiedMediaType {
   IMAGE, VIDEO
 }
 
-
 entity AboutMe {
   contentHtml TextBlob required,
   language Language required
@@ -75,6 +74,12 @@ entity BusinessService {
   icon String
 }
 
+entity BusinessServiceMedia {
+  mediaUrl String required,
+  businessServiceMediaType UnifiedMediaType required,
+  caption String
+}
+
 entity BlogPost {
   title String required,
   contentHTML TextBlob required,
@@ -100,9 +105,10 @@ relationship OneToMany {
   AboutMe{media(mediaUrl)} to AboutMeMedia{aboutMe(id)},
   CurriculumVitae{media(mediaUrl)} to CurriculumVitaeMedia{curriculumVitae(companyName)},
   Project{media(mediaUrl)} to ProjectMedia{project(title)}
+  BusinessServiceMedia{media(mediaUrl)} to BusinessServiceMedia{businessService(title)}
 }
 
-paginate AboutMe, AboutMeMedia, CurriculumVitae, CurriculumVitaeMedia, Project, ProjectMedia, Skill, BusinessService, BlogPost, ContactMessage, VisitorLog with pagination
+paginate AboutMe, AboutMeMedia, CurriculumVitae, CurriculumVitaeMedia, Project, ProjectMedia, Skill, BusinessService, BusinessServiceMedia, BlogPost, ContactMessage, VisitorLog with pagination
 
 dto * with mapstruct
 service all with serviceClass

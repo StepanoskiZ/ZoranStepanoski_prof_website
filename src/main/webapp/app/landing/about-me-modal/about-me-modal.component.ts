@@ -5,6 +5,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { BaseMediaModalComponent, MediaItem } from '../../shared/component/base-media-modal/base-media-modal.component';
 import { TranslateService } from '@ngx-translate/core';
 import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
+import { Lightbox, LightboxModule } from 'ngx-lightbox';
 
 export interface AboutMeDetail {
   id: number;
@@ -16,7 +17,7 @@ export interface AboutMeDetail {
 @Component({
   selector: 'jhi-about-me-modal',
   standalone: true,
-  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent],
+  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent, LightboxModule],
   templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
   styleUrls: ['about-me-modal.component.scss'],
 })

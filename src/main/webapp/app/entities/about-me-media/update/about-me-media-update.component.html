@@ -5,7 +5,6 @@
         id="jhi-about-me-media-heading"
         data-cy="AboutMeMediaCreateUpdateHeading"
         jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createOrEditLabel">
-        Create or edit a About Me Media
       </h2>
 
       <div>
@@ -24,7 +23,7 @@
           @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
             <div>
               @if (editForm.get('mediaUrl')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
@@ -49,7 +48,7 @@
           ) {
             <div>
               @if (editForm.get('aboutMeMediaType')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
@@ -61,7 +60,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe" for="field_aboutMe">About Me</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe" for="field_aboutMe"></label>
           <select
             class="form-control"
             id="field_aboutMe"
@@ -79,7 +78,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel"></span>
         </button>
 
         <button
@@ -88,7 +87,7 @@
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary">
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save"></span>
         </button>
       </div>
     </form>

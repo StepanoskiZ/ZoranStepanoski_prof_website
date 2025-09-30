@@ -4,8 +4,7 @@
       <h2
         id="jhi-project-media-heading"
         data-cy="ProjectMediaCreateUpdateHeading"
-        jhiTranslate="zsWebsiteApp.projectMedia.home.createOrEditLabel"
-      >
+        jhiTranslate="zsWebsiteApp.projectMedia.home.createOrEditLabel">
         Create or edit a Project Media
       </h2>
 
@@ -14,34 +13,31 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id"></label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.mediaUrl" for="field_mediaUrl">Media Url</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.mediaUrl" for="field_mediaUrl"></label>
           <input type="text" class="form-control" name="mediaUrl" id="field_mediaUrl" data-cy="mediaUrl" formControlName="mediaUrl" />
           @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
             <div>
               @if (editForm.get('mediaUrl')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.projectMediaType" for="field_projectMediaType"
-            >Project Media Type</label
-          >
+          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.projectMediaType" for="field_projectMediaType"></label>
           <select
             class="form-control"
             name="projectMediaType"
             formControlName="projectMediaType"
             id="field_projectMediaType"
-            data-cy="projectMediaType"
-          >
+            data-cy="projectMediaType">
             <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
             @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
               <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
@@ -53,7 +49,7 @@
           ) {
             <div>
               @if (editForm.get('projectMediaType')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
@@ -65,15 +61,14 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.project" for="field_project">Project</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.projectMedia.project" for="field_project"></label>
           <select
             class="form-control"
             id="field_project"
             data-cy="project"
             name="project"
             formControlName="project"
-            [compareWith]="compareProject"
-          >
+            [compareWith]="compareProject">
             <option [ngValue]="null"></option>
             @for (projectOption of projectsSharedCollection; track $index) {
               <option [ngValue]="projectOption">{{ projectOption.title }}</option>
@@ -84,7 +79,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel"></span>
         </button>
 
         <button
@@ -92,9 +87,8 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+          class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save"></span>
         </button>
       </div>
     </form>

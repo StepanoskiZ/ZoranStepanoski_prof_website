@@ -227,4 +227,15 @@ public class AboutMeResource {
         log.debug("REST request to get About Me card");
         return ResponseUtil.wrapOrNotFound(aboutMeService.findAboutMeCard());
     }
+
+    /**
+     * GET /{id}/details : get the "id" aboutMe with all details.
+     */
+    @GetMapping("/{id}/details")
+    public ResponseEntity<AboutMeDTO> getAboutMeWithDetails(@PathVariable Long id) {
+        log.debug("REST request to get AboutMe with details : {}", id);
+        // Use the existing findFirst() method, as it already gets all details.
+        // We ignore the ID because there's only one "About Me".
+        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
+    }
 }

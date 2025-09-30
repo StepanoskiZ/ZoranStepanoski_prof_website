@@ -179,20 +179,15 @@ public class AboutMeService {
      */
     @Transactional(readOnly = true)
     public Optional<AboutMeCardDTO> findAboutMeCard() {
-        log.debug("Request to get About Me card data");
-
-        // Use the existing efficient method to get the first record with its media
         return aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst()
             .map(aboutMe -> {
-                // Find the URL of the first media item, if one exists
                 String firstMediaUrl = aboutMe.getMedia().stream()
                     .findFirst()
                     .map(media -> media.getMediaUrl())
-                    .orElse(null); // Return null if no media exists
+                    .orElse(null);
 
-                // Create and return the lightweight Card DTO
-                return new AboutMeCardDTO(aboutMe.getContentHtml(), firstMediaUrl);
+                // Pass the ID to the DTO constructor
+                return new AboutMeCardDTO(aboutMe.getId(), aboutMe.getContentHtml(), firstMediaUrl);
             });
-    }
-}
+    }}
 

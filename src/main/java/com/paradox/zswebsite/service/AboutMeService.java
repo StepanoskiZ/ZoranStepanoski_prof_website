@@ -7,6 +7,7 @@ import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.AboutMe}.
@@ -150,13 +153,18 @@ public class AboutMeService {
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
+        Pageable firstResult = PageRequest.of(0, 1, Sort.by("id").ascending());
+
+        List<AboutMe> results = aboutMeRepository.findWithMediaEagerly(firstResult);
+
         Optional<AboutMe> aboutMeOptional = aboutMeRepository.findFirstWithMediaEagerly();
 
         return aboutMeOptional.map(aboutMe -> {
             AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
 
             dto.setMediaFiles(
-                aboutMe.getMedia()
+                aboutMe
+                    .getMedia()
                     .stream()
                     .map(aboutMeMediaMapper::toDto)
                     .collect(Collectors.toSet())
@@ -166,5 +174,6 @@ public class AboutMeService {
 
             return dto;
         });
-    }}
+    }
+}
 

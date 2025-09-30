@@ -52,12 +52,15 @@
               *ngIf="getMediaType(aboutMediaUrls[0]) === 'VIDEO'"
               [src]="getFullMediaPath(aboutMediaUrls[0])"
               class="profile-picture img-fluid rounded shadow-lg"
-              autoplay loop muted playsinline>
+              loop
+              muted
+              controls
+              playsinline>
             </video>
           </ng-container>
           <ng-container *ngIf="!aboutMediaUrls || aboutMediaUrls.length === 0">
             <img
-              src="content/images/profile-picture.jpg"
+              src="content/media/profile-picture.jpg"
               alt="Zoran Stepanoski"
               class="profile-picture img-fluid rounded shadow-lg" />
           </ng-container>
@@ -118,7 +121,9 @@
               [src]="getFullMediaPath(project.firstMediaUrl)"
               class="img-fluid rounded project-media-clickable"
               muted
-              loop>
+              loop
+              controls
+              playsinline>
             </video>
           </div>
 
@@ -162,7 +167,7 @@
           <!-- Media (Optional - Placeholder for now) -->
           <div class="card-img-top-container">
             <!-- You can add a default image for all CV entries -->
-            <img src="/content/images/default-work.jpg" [alt]="cv.companyName" class="img-fluid rounded" />
+            <img src="/content/media/default-work.jpg" [alt]="cv.companyName" class="img-fluid rounded" />
           </div>
 
           <!-- Card Body -->

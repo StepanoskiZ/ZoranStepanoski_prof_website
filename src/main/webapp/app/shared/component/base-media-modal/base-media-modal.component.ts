@@ -143,13 +143,14 @@ export abstract class BaseMediaModalComponent implements OnInit {
     return 'UNKNOWN';
   }
 
-  getFullMediaPath(url: string, fallback = '/content/images/default-profile.jpg'): string {
-    if (!url) return fallback;
-    if (url.startsWith('/') || url.startsWith('http')) return url;
-    const type = this.getMediaType(url);
-    if (type === 'IMAGE') return `/content/images/${url}`;
-    if (type === 'VIDEO') return `/content/videos/${url}`;
-    return fallback;
+  getFullMediaPath(url: string, fallback = '/content/media/default-profile.jpg'): string {
+    if (!url) {
+      return fallback; // Return a fallback if the URL is empty
+    }
+    if (url.startsWith('/') || url.startsWith('http')) {
+      return url;
+    }
+    return `/content/media/${url}`;
   }
 
   openFullscreenMedia() {

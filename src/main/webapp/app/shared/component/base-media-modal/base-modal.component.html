@@ -34,10 +34,10 @@
               *ngIf="getMediaType(media.url) === 'VIDEO'"
               [src]="getFullMediaPath(media.url)"
               class="img-fluid rounded project-media-clickable"
-              autoplay
               muted
               loop
               controls
+              playsinline
               (click)="openFullscreenMedia()"
             ></video>
           </div>

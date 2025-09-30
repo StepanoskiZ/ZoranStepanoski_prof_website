@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import 'bootstrap/scss/functions';
 @import 'bootstrap-variables';
 @import 'bootstrap/scss/variables';
@@ -6,6 +7,7 @@
 @import '@fortawesome/fontawesome-free/scss/brands';
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap');
 
+$primary-color: #198754;
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
@@ -94,6 +96,9 @@ Generic styles
 }
 
 .break {
+//   white-space: normal;   /* allow wrapping */
+//   word-break: keep-all;  /* don't break inside words */
+//   overflow-wrap: normal; /* only break at allowed opportunities */
   white-space: normal;
   word-break: break-all;
 }
@@ -297,6 +302,56 @@ html {
     display: flex;
     flex-direction: column;
     min-height: 0;
+  }
+}
+
+/* ==========================================================================
+   Global Rich Text Content Styles
+   ========================================================================== */
+
+/*
+ * These styles will apply to any dynamically injected HTML content
+ * from a rich text editor across the entire application.
+ */
+
+// Target the preview container on the landing page
+.about-preview {
+  strong, b {
+    font-weight: 700 !important;
+  }
+}
+
+// Target the description container in all shared modals
+.modal-description {
+  strong, b {
+    font-weight: 700 !important;
+  }
+}
+
+// You can also add other global styles for rich text here if needed
+.modal-description, .about-preview {
+  em, i {
+    font-style: italic;
+  }
+  u {
+    text-decoration: underline;
+  }
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+    &:hover {
+      color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+  p, ul, ol {
+    margin-bottom: 1rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  p:last-child,
+  ul:last-child,
+  ol:last-child {
+    margin-bottom: 0;
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */

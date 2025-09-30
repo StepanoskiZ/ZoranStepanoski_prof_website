@@ -33,32 +33,4 @@ export class AboutMeModalComponent extends BaseMediaModalComponent {
     super();
     this.title = this.translateService.instant('landing.navAbout');
   }
-
-/*
-  ngOnInit(): void {
-    this.http.get<AboutMeDetail>(`/api/about-me/details`).subscribe({
-      next: data => {
-        this.content = this.content = this.decodeHtml(data.contentHtml ?? '');
-        const formattedMedia: MediaItem[] = (data.mediaFiles || []).map(apiMediaItem => ({
-          url: apiMediaItem.mediaUrl,
-          caption: apiMediaItem.caption,
-          id: apiMediaItem.id,
-          type: this.getMediaType(apiMediaItem.mediaUrl)
-        }));
-
-        this.mediaUrls = formattedMedia.length > 0
-          ? formattedMedia
-          : [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
-      },
-      error: () => this.close(),
-    });
-  }
-
-  // Helper function to decode HTML entities
-  private decodeHtml(html: string): string {
-    const txt = document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
-  }
-*/
 }

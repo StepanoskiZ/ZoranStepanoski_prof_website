@@ -2,6 +2,7 @@ import { Directive, ElementRef, ViewChild, OnInit, inject, Input } from '@angula
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FullscreenMediaModalComponent } from '../fullscreen-media-modal/fullscreen-media-modal.component';
+import { Lightbox, LightboxModule } from 'ngx-lightbox';
 
 export interface MediaItem {
   id?: number;
@@ -18,6 +19,8 @@ export abstract class BaseMediaModalComponent implements OnInit {
   sanitizedContent: SafeHtml = '';
 
   private _mediaUrls: MediaItem[] = [];
+
+  protected lightbox = inject(Lightbox);
 
   @Input()
   set content(value: string) {
@@ -62,30 +65,6 @@ export abstract class BaseMediaModalComponent implements OnInit {
     }
   }
 
-/*
-  set mediaUrls(v: MediaItem[] | string[]) {
-    if (!v || v.length === 0) {
-      this._mediaUrls = [];
-      this.currentMediaIndex = 0;
-      return;
-    }
-    if (typeof v[0] === 'string') {
-      this._mediaUrls = (v as string[]).map((u, i) => ({ id: i, url: u, caption: '' }));
-    } else {
-      this._mediaUrls = (v as any[]).map((m, i) => ({
-        id: m.id ?? i,
-        url: m.mediaUrl ?? m.url,
-        type: m.type,
-        caption: m.caption,
-      }));
-    }
-    this._mediaUrls.forEach(item => {
-      if (!item.type) item.type = this.getMediaType(item.url) === 'VIDEO' ? 'VIDEO' : 'IMAGE';
-    });
-    this._mediaUrls.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
-    if (this.currentMediaIndex >= this._mediaUrls.length) this.currentMediaIndex = 0;
-  }
-*/
   get mediaUrls(): MediaItem[] {
     return this._mediaUrls;
   }
@@ -153,20 +132,39 @@ export abstract class BaseMediaModalComponent implements OnInit {
     return `/content/media/${url}`;
   }
 
-  openFullscreenMedia() {
-    if (!this._mediaUrls || this._mediaUrls.length === 0) return;
-    const url = this.getFullMediaPath(this.currentUrl);
-    const type = this.getMediaType(url);
+  openFullscreenMedia(): void {
+    if (!this.mediaUrls || this.mediaUrls.length === 0) return;
 
-    const modalRef = this.modalService.open(FullscreenMediaModalComponent, {
-      centered: true,
-      fullscreen: true,
-      windowClass: 'fullscreen-modal-window',
-    });
+    const currentItem = this.mediaUrls[this.currentMediaIndex];
 
-    modalRef.componentInstance.mediaUrl = url;
-    modalRef.componentInstance.mediaType = type;
-    modalRef.componentInstance.mediaAlt = '';
+    // Check the type of the CURRENT media item
+    if (currentItem.type === 'IMAGE') {
+      // --- For IMAGES: Use the new lightbox ---
+      const album = this.mediaUrls
+        .filter(item => item.type === 'IMAGE') // Create an album of just the images
+        .map(item => ({
+          src: this.getFullMediaPath(item.url),
+          caption: item.caption,
+          thumb: this.getFullMediaPath(item.url) // Thumbnail for the gallery view
+        }));
+
+      // Find the index of the current image within the new image-only album
+      const currentImageIndex = album.findIndex(img => img.src === this.getFullMediaPath(currentItem.url));
+
+      this.lightbox.open(album, currentImageIndex);
+
+    } else if (currentItem.type === 'VIDEO') {
+      // --- For VIDEOS: Use your existing custom modal ---
+      const modalRef = this.modalService.open(FullscreenMediaModalComponent, {
+        centered: true,
+        fullscreen: true,
+        windowClass: 'fullscreen-modal-window',
+      });
+
+      modalRef.componentInstance.mediaUrl = this.getFullMediaPath(currentItem.url);
+      modalRef.componentInstance.mediaType = 'VIDEO';
+      modalRef.componentInstance.mediaAlt = currentItem.caption || '';
+    }
   }
 
   close() {

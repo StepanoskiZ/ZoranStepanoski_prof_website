@@ -1,13 +1,13 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.AboutMe;
+import com.paradox.zswebsite.domain.AboutMeMedia;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
 import com.paradox.zswebsite.service.dto.AboutMeMediaDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.hibernate.Hibernate;
+
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.AboutMe}.
@@ -156,12 +156,10 @@ public class AboutMeService {
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
-        Optional<Long> firstId = aboutMeRepository.findAll(Sort.by("id").ascending())
-            .stream()
+        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream()
             .map(AboutMe::getId)
-            .findFirst();
-
-        return firstId.flatMap(this::findOneWithDetails);
+            .findFirst()
+            .flatMap(this::findOneWithDetails);
     }
 
     /**
@@ -172,17 +170,16 @@ public class AboutMeService {
     public Optional<AboutMeCardDTO> findAboutMeCard() {
         log.debug("Request to get About Me card data");
 
-        // Find the first ID
-        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst()
-            .flatMap(aboutMe -> {
-                return findOneWithDetails(aboutMe.getId()).map(dto -> {
-                    String firstMediaUrl = dto.getMediaFiles().stream()
-                        .findFirst()
-                        .map(AboutMeMediaDTO::getMediaUrl)
-                        .orElse(null);
+        return aboutMeRepository.findAllWithEagerRelationships()
+            .stream()
+            .findFirst()
+            .map(aboutMe -> {
+                String firstMediaUrl = aboutMe.getMedia().stream()
+                    .min(Comparator.comparing(AboutMeMedia::getId))
+                    .map(AboutMeMedia::getMediaUrl)
+                    .orElse(null);
 
-                    return new AboutMeCardDTO(dto.getId(), dto.getContentHtml(), firstMediaUrl);
-                });
+                return new AboutMeCardDTO(aboutMe.getId(), aboutMe.getContentHtml(), firstMediaUrl);
             });
     }
 
@@ -198,12 +195,10 @@ public class AboutMeService {
                     .getMedia()
                     .stream()
                     .map(aboutMeMediaMapper::toDto)
-                    .sorted(Comparator.comparing(AboutMeMediaDTO::getId)) // Sort by ID
+                    .sorted(Comparator.comparing(AboutMeMediaDTO::getId))
                     .collect(Collectors.toList());
 
-                // Use a setter that accepts a List, or convert to a Set
                 dto.setMediaFiles(new HashSet<>(mediaDTOs));
-
                 return dto;
             });
     }

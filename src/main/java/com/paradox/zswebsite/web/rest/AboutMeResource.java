@@ -234,8 +234,6 @@ public class AboutMeResource {
     @GetMapping("/{id}/details")
     public ResponseEntity<AboutMeDTO> getAboutMeWithDetails(@PathVariable Long id) {
         log.debug("REST request to get AboutMe with details : {}", id);
-        // Use the existing findFirst() method, as it already gets all details.
-        // We ignore the ID because there's only one "About Me".
-        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
+        return ResponseUtil.wrapOrNotFound(aboutMeService.findOneWithDetails(id));
     }
 }

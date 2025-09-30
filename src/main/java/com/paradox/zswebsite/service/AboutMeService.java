@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -170,30 +171,28 @@ public class AboutMeService {
     public Optional<AboutMeCardDTO> findAboutMeCard() {
         log.debug("Request to get About Me card data");
 
-        return aboutMeRepository.findAllWithEagerRelationships()
-            .stream()
-            .findFirst()
-            .map(aboutMe -> {
-                String firstMediaUrl = aboutMe.getMedia().stream()
-                    .min(Comparator.comparing(AboutMeMedia::getId))
-                    .map(AboutMeMedia::getMediaUrl)
-                    .orElse(null);
+        // Use the robust findFirst() method to get the fully populated DTO
+        return this.findFirst().map(aboutMeDTO -> {
+            // Now that we have the DTO with the sorted media list, it's safe to get the first one.
+            String firstMediaUrl = aboutMeDTO.getMediaFiles().stream()
+                .findFirst()
+                .map(AboutMeMediaDTO::getMediaUrl)
+                .orElse(null);
 
-                return new AboutMeCardDTO(aboutMe.getId(), aboutMe.getContentHtml(), firstMediaUrl);
-            });
+            return new AboutMeCardDTO(aboutMeDTO.getId(), aboutMeDTO.getContentHtml(), firstMediaUrl);
+        });
     }
 
     @Transactional(readOnly = true)
     public Optional<AboutMeDTO> findOneWithDetails(Long id) {
         log.debug("Request to get detailed AboutMe with media : {}", id);
         return aboutMeRepository
-            .findOneWithEagerRelationships(id)
+            .findById(id)
             .map(aboutMe -> {
-                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+                Hibernate.initialize(aboutMe.getMedia());
 
-                List<AboutMeMediaDTO> mediaDTOs = aboutMe
-                    .getMedia()
-                    .stream()
+                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+                List<AboutMeMediaDTO> mediaDTOs = aboutMe.getMedia().stream()
                     .map(aboutMeMediaMapper::toDto)
                     .sorted(Comparator.comparing(AboutMeMediaDTO::getId))
                     .collect(Collectors.toList());

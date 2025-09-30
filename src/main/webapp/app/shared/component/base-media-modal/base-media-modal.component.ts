@@ -32,6 +32,37 @@ export abstract class BaseMediaModalComponent implements OnInit {
   }
 
   @Input()
+  set mediaUrls(incomingMedia: any[]) {
+    if (!incomingMedia || incomingMedia.length === 0) {
+      this._mediaUrls = [];
+      this.currentMediaIndex = 0;
+      return;
+    }
+
+    // Process the incoming array of objects from the API
+    this._mediaUrls = incomingMedia.map((apiItem, index) => {
+      // The API sends 'mediaUrl', but the template uses 'url'. We map it here.
+      const url = apiItem.mediaUrl ?? apiItem.url;
+
+      return {
+        id: apiItem.id ?? index,
+        url: url,
+        caption: apiItem.caption,
+        // Use the helper function to determine the type. This is now safe.
+        type: this.getMediaType(url),
+      };
+    });
+
+    // Sort the media by ID
+    this._mediaUrls.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+
+    // Reset the index if needed
+    if (this.currentMediaIndex >= this._mediaUrls.length) {
+      this.currentMediaIndex = 0;
+    }
+  }
+
+/*
   set mediaUrls(v: MediaItem[] | string[]) {
     if (!v || v.length === 0) {
       this._mediaUrls = [];
@@ -54,7 +85,7 @@ export abstract class BaseMediaModalComponent implements OnInit {
     this._mediaUrls.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     if (this.currentMediaIndex >= this._mediaUrls.length) this.currentMediaIndex = 0;
   }
-
+*/
   get mediaUrls(): MediaItem[] {
     return this._mediaUrls;
   }

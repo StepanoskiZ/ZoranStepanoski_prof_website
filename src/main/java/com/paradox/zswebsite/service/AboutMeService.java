@@ -3,11 +3,16 @@ package com.paradox.zswebsite.service;
 import com.paradox.zswebsite.domain.AboutMe;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
+import com.paradox.zswebsite.service.dto.AboutMeMediaDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
+
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,26 +156,12 @@ public class AboutMeService {
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
-//        Pageable firstResult = PageRequest.of(0, 1, Sort.by("id").ascending());
-        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst();
+        Optional<Long> firstId = aboutMeRepository.findAll(Sort.by("id").ascending())
+            .stream()
+            .map(AboutMe::getId)
+            .findFirst();
 
-        // 2. If the entity exists, manually initialize its lazy collection.
-        if (aboutMeOptional.isPresent()) {
-            AboutMe aboutMe = aboutMeOptional.get();
-            Hibernate.initialize(aboutMe.getMedia());
-        }
-
-        return aboutMeOptional.map(aboutMe -> {
-            AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
-            dto.setMediaFiles(
-                aboutMe.getMedia()
-                    .stream()
-                    .map(aboutMeMediaMapper::toDto)
-                    .collect(Collectors.toSet())
-            );
-            log.debug("Returning AboutMeDTO with {} media files.", dto.getMediaFiles().size());
-            return dto;
-        });
+        return firstId.flatMap(this::findOneWithDetails);
     }
 
     /**
@@ -179,15 +170,42 @@ public class AboutMeService {
      */
     @Transactional(readOnly = true)
     public Optional<AboutMeCardDTO> findAboutMeCard() {
-        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst()
-            .map(aboutMe -> {
-                String firstMediaUrl = aboutMe.getMedia().stream()
-                    .findFirst()
-                    .map(media -> media.getMediaUrl())
-                    .orElse(null);
+        log.debug("Request to get About Me card data");
 
-                // Pass the ID to the DTO constructor
-                return new AboutMeCardDTO(aboutMe.getId(), aboutMe.getContentHtml(), firstMediaUrl);
+        // Find the first ID
+        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst()
+            .flatMap(aboutMe -> {
+                return findOneWithDetails(aboutMe.getId()).map(dto -> {
+                    String firstMediaUrl = dto.getMediaFiles().stream()
+                        .findFirst()
+                        .map(AboutMeMediaDTO::getMediaUrl)
+                        .orElse(null);
+
+                    return new AboutMeCardDTO(dto.getId(), dto.getContentHtml(), firstMediaUrl);
+                });
             });
-    }}
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<AboutMeDTO> findOneWithDetails(Long id) {
+        log.debug("Request to get detailed AboutMe with media : {}", id);
+        return aboutMeRepository
+            .findOneWithEagerRelationships(id)
+            .map(aboutMe -> {
+                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+
+                List<AboutMeMediaDTO> mediaDTOs = aboutMe
+                    .getMedia()
+                    .stream()
+                    .map(aboutMeMediaMapper::toDto)
+                    .sorted(Comparator.comparing(AboutMeMediaDTO::getId)) // Sort by ID
+                    .collect(Collectors.toList());
+
+                // Use a setter that accepts a List, or convert to a Set
+                dto.setMediaFiles(new HashSet<>(mediaDTOs));
+
+                return dto;
+            });
+    }
+}
 

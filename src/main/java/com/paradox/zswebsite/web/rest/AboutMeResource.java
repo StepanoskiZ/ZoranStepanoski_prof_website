@@ -5,6 +5,7 @@ import com.paradox.zswebsite.service.AboutMeService;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
+import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
 /**
  * REST controller for managing {@link com.paradox.zswebsite.domain.AboutMe}.
  */
@@ -213,5 +215,16 @@ public class AboutMeResource {
         log.debug("REST request to get first AboutMe with all details for modal");
         // The findFirst() method in your service already does the heavy lifting
         return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
+    }
+
+    /**
+     * {@code GET /card} : get the lightweight card data for the About Me preview.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeCardDTO.
+     */
+    @GetMapping("/card")
+    public ResponseEntity<AboutMeCardDTO> getAboutMeCard() {
+        log.debug("REST request to get About Me card");
+        return ResponseUtil.wrapOrNotFound(aboutMeService.findAboutMeCard());
     }
 }

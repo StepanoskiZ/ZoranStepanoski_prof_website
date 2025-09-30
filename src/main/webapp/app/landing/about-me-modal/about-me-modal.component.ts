@@ -1,4 +1,4 @@
-import { Component, Input, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -32,5 +32,34 @@ export class AboutMeModalComponent extends BaseMediaModalComponent {
   constructor() {
     super();
     this.title = this.translateService.instant('landing.navAbout');
+  }
+
+  ngOnInit(): void {
+    // This is the component's responsibility now.
+    this.http.get<AboutMeDetail>('/api/about-me/details').subscribe({
+      next: data => {
+        this.content = this.decodeHtml(data.contentHtml ?? '');
+
+        const formattedMedia = (data.mediaFiles || []).map((apiItem: AboutMeMedia) => ({
+          url: apiItem.mediaUrl,
+          caption: apiItem.caption,
+          id: apiItem.id,
+        }));
+
+        this.mediaUrls = formattedMedia.length > 0
+          ? formattedMedia
+          : [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
+      },
+      error: (err) => {
+        console.error('❌ Failed to load About Me details in modal:', err);
+        this.close();
+      },
+    });
+  }
+
+  private decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
   }
 }

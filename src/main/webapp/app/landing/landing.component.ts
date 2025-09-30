@@ -33,15 +33,9 @@ export interface CvCard {
   firstMediaUrl?: string;
 }
 
-export interface AboutMeMedia {
-  id?: number;
-  fileName: string; // Ensure this matches your backend DTO property name
-  description?: string;
-}
-
-export interface AboutMeApiResponse {
+export interface AboutMeCardResponse {
   contentHtml: string;
-  mediaFiles: AboutMeMedia[];
+  firstMediaUrl: string | null;
 }
 
 @Component({
@@ -64,9 +58,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
   projects: ProjectCard[] = [];
   isLoadingProjects = true;
-  fullAboutContent: string = '';
   aboutContentPreview: SafeHtml = '';
-  aboutMedia: AboutMeMedia[] = [];
   aboutMediaUrls: string[] = [];
   isLoadingAbout = false;
   cvEntries: CvCard[] = [];
@@ -115,18 +107,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
-    this.http.get<AboutMeApiResponse>('/api/about-me/details').subscribe({
+    this.http.get<AboutMeCardResponse>('/api/about-me/card').subscribe({
       next: data => {
-        console.log('✅ Received "About Me" data from API:', data);
+        console.log('✅ Received "About Me" CARD data from API:', data);
         const decodedHtml = this.decodeHtml(data.contentHtml || '');
-
-        this.fullAboutContent = decodedHtml;
         this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
 
-        console.log('✅ Sanitized SafeHtml object:', this.aboutContentPreview);
+        this.aboutMediaUrls = data.firstMediaUrl ? [data.firstMediaUrl] : [];
 
-        this.aboutMedia = data.mediaFiles ?? [];
-        this.aboutMediaUrls = this.aboutMedia.map(media => media.fileName);
         this.isLoadingAbout = false;
       },
       error: err => {
@@ -137,30 +125,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openAboutModal(): void {
-    if (this.isLoadingAbout) {
-      console.warn('About Me content is still loading.');
-      return;
-    }
-
-    console.log('🟢 Opening About Me modal with content:', this.fullAboutContent);
-    console.log('🟢 Opening About Me modal with mediaUrls:', this.aboutMediaUrls);
-
     const modalRef = this.modalService.open(AboutMeModalComponent, {
       size: 'xl',
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
-
-    modalRef.componentInstance.content = this.fullAboutContent;
-
-    const mediaForModal = this.aboutMedia.map(m => ({
-        url: m.fileName,
-        caption: m.description,
-    }));
-
-    modalRef.componentInstance.mediaUrls = mediaForModal.length > 0
-        ? mediaForModal
-        : [{ url: 'profile-picture.jpg', caption: 'About Zoran Stepanoski' }];
   }
 
   private loadProjects(): void {

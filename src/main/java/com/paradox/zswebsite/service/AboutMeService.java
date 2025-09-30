@@ -45,10 +45,9 @@ public class AboutMeService {
      */
     public AboutMeDTO save(AboutMeDTO aboutMeDTO) {
         log.debug("Request to save AboutMe : {}", aboutMeDTO);
-        if (aboutMeDTO.getContentHtml() != null) {
-            String decodedHtml = StringEscapeUtils.unescapeHtml4(aboutMeDTO.getContentHtml());
-            aboutMeDTO.setContentHtml(decodedHtml);
-        }
+        // --- FIX: Use the helper method to clean the HTML ---
+        aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
+
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
         aboutMe = aboutMeRepository.save(aboutMe);
         return aboutMeMapper.toDto(aboutMe);
@@ -62,10 +61,9 @@ public class AboutMeService {
      */
     public AboutMeDTO update(AboutMeDTO aboutMeDTO) {
         log.debug("Request to update AboutMe : {}", aboutMeDTO);
-        if (aboutMeDTO.getContentHtml() != null) {
-            String decodedHtml = StringEscapeUtils.unescapeHtml4(aboutMeDTO.getContentHtml());
-            aboutMeDTO.setContentHtml(decodedHtml);
-        }
+        // --- FIX: Use the helper method to clean the HTML ---
+        aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
+
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
         aboutMe = aboutMeRepository.save(aboutMe);
         return aboutMeMapper.toDto(aboutMe);
@@ -80,15 +78,33 @@ public class AboutMeService {
     public Optional<AboutMeDTO> partialUpdate(AboutMeDTO aboutMeDTO) {
         log.debug("Request to partially update AboutMe : {}", aboutMeDTO);
 
+        // --- FIX: Clean the HTML on the incoming DTO before mapping ---
+        aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
+
         return aboutMeRepository
             .findById(aboutMeDTO.getId())
             .map(existingAboutMe -> {
                 aboutMeMapper.partialUpdate(existingAboutMe, aboutMeDTO);
-
                 return existingAboutMe;
             })
             .map(aboutMeRepository::save)
             .map(aboutMeMapper::toDto);
+    }
+
+    // --- NEW HELPER METHOD ---
+    /**
+     * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
+     * @param rawHtml the raw HTML string from the frontend.
+     * @return a cleaned HTML string ready for database storage.
+     */
+    private String cleanContentHtml(String rawHtml) {
+        if (rawHtml == null) {
+            return null;
+        }
+        // First, unescape entities like &lt; to <
+        String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
+        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
+        return decodedHtml.replace("&nbsp;", " ");
     }
 
     /**
@@ -134,7 +150,7 @@ public class AboutMeService {
     public Optional<AboutMeDTO> findFirst() {
         log.debug("Request to get first AboutMe with details");
 
-        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findAll().stream().findFirst();
+        Optional<AboutMe> aboutMeOptional = aboutMeRepository.findFirstWithMediaEagerly();
 
         return aboutMeOptional.map(aboutMe -> {
             AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);

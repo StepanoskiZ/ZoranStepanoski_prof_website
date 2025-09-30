@@ -106,22 +106,24 @@ $text-color-muted: #555; // Muted gray for default links
 }
 
 .about-preview {
-  // Set a fixed maximum height for the text block.
-  // Adjust this value (e.g., 100px, 140px) to show more or fewer lines.
   max-height: 120px;
 
-  // This is the most important rule. It tells the browser to simply
-  // cut off and hide any content that goes beyond the max-height.
-  // This will guarantee the text never flows under the image.
   overflow: hidden;
 
-  // This ensures paragraphs inside your rich text have proper spacing.
   p {
     margin-bottom: 1rem;
     &:last-child {
       margin-bottom: 0;
     }
   }
+//   overflow-wrap: break-word;
+
+//   white-space: normal;   /* allow wrapping */
+//   word-break: keep-all;  /* don't break inside words */
+//   overflow-wrap: normal; /* only break at allowed opportunities */
+
+  white-space: normal;
+  word-break: break-all;
 }
 
 /* =================== Services Section =================== */

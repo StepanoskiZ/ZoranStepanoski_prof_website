@@ -18,10 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.CurriculumVitae}.
@@ -53,6 +52,9 @@ public class CurriculumVitaeService {
      */
     public CurriculumVitaeDTO save(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to save CurriculumVitae : {}", curriculumVitaeDTO);
+        // --- FIX: Clean the HTML content before saving ---
+        curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
+
         CurriculumVitae curriculumVitae = curriculumVitaeMapper.toEntity(curriculumVitaeDTO);
         curriculumVitae = curriculumVitaeRepository.save(curriculumVitae);
         return curriculumVitaeMapper.toDto(curriculumVitae);
@@ -66,6 +68,9 @@ public class CurriculumVitaeService {
      */
     public CurriculumVitaeDTO update(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to update CurriculumVitae : {}", curriculumVitaeDTO);
+        // --- FIX: Clean the HTML content before updating ---
+        curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
+
         CurriculumVitae curriculumVitae = curriculumVitaeMapper.toEntity(curriculumVitaeDTO);
         curriculumVitae = curriculumVitaeRepository.save(curriculumVitae);
         return curriculumVitaeMapper.toDto(curriculumVitae);
@@ -79,16 +84,32 @@ public class CurriculumVitaeService {
      */
     public Optional<CurriculumVitaeDTO> partialUpdate(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to partially update CurriculumVitae : {}", curriculumVitaeDTO);
+        // --- FIX: Clean the HTML content before partial update ---
+        curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
 
         return curriculumVitaeRepository
             .findById(curriculumVitaeDTO.getId())
             .map(existingCurriculumVitae -> {
                 curriculumVitaeMapper.partialUpdate(existingCurriculumVitae, curriculumVitaeDTO);
-
                 return existingCurriculumVitae;
             })
             .map(curriculumVitaeRepository::save)
             .map(curriculumVitaeMapper::toDto);
+    }
+
+    /**
+     * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
+     * @param rawHtml the raw HTML string from the frontend.
+     * @return a cleaned HTML string ready for database storage.
+     */
+    private String cleanContentHtml(String rawHtml) {
+        if (rawHtml == null) {
+            return null;
+        }
+        // First, unescape entities like &lt; to <
+        String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
+        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
+        return decodedHtml.replace("&nbsp;", " ");
     }
 
     /**

@@ -142,38 +142,15 @@ $primary-color: #198754;
   color: #4a5568;
   line-height: 1.7;
   font-size: 1rem;
-  white-space: pre-line;
-  overflow-wrap: break-word;
+//   white-space: pre-line;
+//   overflow-wrap: break-word;
 
-  // --- Rich Text (Quill) Styling ---
-  strong,
-  b {
-    font-weight: bold;
-  }
-  em,
-  i {
-    font-style: italic;
-  }
-  u {
-    text-decoration: underline;
-  }
-  a {
-    color: $primary-color;
-    text-decoration: underline;
-    &:hover {
-      color: color.adjust($primary-color, $lightness: -10%);
-    }
-  }
-  p,
-  ul,
-  ol {
-    margin-bottom: 1rem;
-  }
-  p:last-child,
-  ul:last-child,
-  ol:last-child {
-    margin-bottom: 0;
-  }
+//   white-space: normal;   /* allow wrapping */
+//   word-break: keep-all;  /* don't break inside words */
+//   overflow-wrap: normal; /* only break at allowed opportunities */
+
+  white-space: normal;
+  word-break: break-all;
 }
 
 /* -----------------------------------------------

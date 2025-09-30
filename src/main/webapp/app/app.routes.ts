@@ -6,7 +6,7 @@ import MainComponent from './layouts/main/main.component';
 import { LandingComponent } from './landing/landing.component';
 // import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 // import { IntakeFormComponent } from './intake-form/intake-form.component';
-import BLOG_ROUTES from './public-blog/blog.routes';
+// import BLOG_ROUTES from './public-blog/blog.routes';
 
 const routes: Routes = [
   // --- Main Application Layout Route ---
@@ -38,7 +38,7 @@ const routes: Routes = [
         title: 'aiGenerator.title', // Use a translation key for the page title
       },
       // All blog routes are also children of the main layout
-      ...BLOG_ROUTES,
+//       ...BLOG_ROUTES,
 
       // JHipster-generated entity routes for admins should ALSO be children
       // so they appear within the main layout.

@@ -56,16 +56,22 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML" for="field_jobDescriptionHTML"
-            >Job Description HTML</label
-          >
-          <textarea
-            class="form-control"
-            name="jobDescriptionHTML"
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML"></label>
+<!--          <textarea-->
+<!--            class="form-control"-->
+<!--            name="jobDescriptionHTML"-->
+<!--            id="field_jobDescriptionHTML"-->
+<!--            data-cy="jobDescriptionHTML"-->
+<!--            formControlName="jobDescriptionHTML">-->
+<!--          </textarea>-->
+          <quill-editor
             id="field_jobDescriptionHTML"
             data-cy="jobDescriptionHTML"
             formControlName="jobDescriptionHTML"
-          ></textarea>
+            name="jobDescriptionHTML"
+            [modules]="editorModules"
+            [styles]="{ height: '300px' }">
+          </quill-editor>
           @if (
             editForm.get('jobDescriptionHTML')!.invalid &&
             (editForm.get('jobDescriptionHTML')!.dirty || editForm.get('jobDescriptionHTML')!.touched)

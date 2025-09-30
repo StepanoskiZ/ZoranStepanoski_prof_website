@@ -15,6 +15,8 @@ import { AboutMeService } from '../service/about-me.service';
 import { IAboutMe } from '../about-me.model';
 import { AboutMeFormService, AboutMeFormGroup } from './about-me-form.service';
 import { QuillModule } from 'ngx-quill';
+import Delta from 'quill-delta';
+type DeltaStatic = Delta;
 
 @Component({
   standalone: true,
@@ -38,7 +40,11 @@ export class AboutMeUpdateComponent implements OnInit {
   ) {}
 
   editorModules = {
-    toolbar: [[{ header: [1, 2, 3, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video', 'image', 'code-block']],
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline'],
+      ['link', 'image', 'video', 'code-block'],
+    ],
   };
 
   ngOnInit(): void {

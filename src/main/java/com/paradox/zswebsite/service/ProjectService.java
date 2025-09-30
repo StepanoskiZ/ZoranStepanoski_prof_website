@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.Project}.
@@ -54,6 +55,9 @@ public class ProjectService {
      */
     public ProjectDTO save(ProjectDTO projectDTO) {
         log.debug("Request to save Project : {}", projectDTO);
+        // --- FIX: Clean the HTML content before saving ---
+        projectDTO.setDescriptionHTML(cleanContentHtml(projectDTO.getDescriptionHTML()));
+
         Project project = projectMapper.toEntity(projectDTO);
         project = projectRepository.save(project);
         return projectMapper.toDto(project);
@@ -67,6 +71,9 @@ public class ProjectService {
      */
     public ProjectDTO update(ProjectDTO projectDTO) {
         log.debug("Request to update Project : {}", projectDTO);
+        // --- FIX: Clean the HTML content before updating ---
+        projectDTO.setDescriptionHTML(cleanContentHtml(projectDTO.getDescriptionHTML()));
+
         Project project = projectMapper.toEntity(projectDTO);
         project = projectRepository.save(project);
         return projectMapper.toDto(project);
@@ -80,16 +87,32 @@ public class ProjectService {
      */
     public Optional<ProjectDTO> partialUpdate(ProjectDTO projectDTO) {
         log.debug("Request to partially update Project : {}", projectDTO);
+        // --- FIX: Clean the HTML content before partial update ---
+        projectDTO.setDescriptionHTML(cleanContentHtml(projectDTO.getDescriptionHTML()));
 
         return projectRepository
             .findById(projectDTO.getId())
             .map(existingProject -> {
                 projectMapper.partialUpdate(existingProject, projectDTO);
-
                 return existingProject;
             })
             .map(projectRepository::save)
             .map(projectMapper::toDto);
+    }
+
+    /**
+     * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
+     * @param rawHtml the raw HTML string from the frontend.
+     * @return a cleaned HTML string ready for database storage.
+     */
+    private String cleanContentHtml(String rawHtml) {
+        if (rawHtml == null) {
+            return null;
+        }
+        // First, unescape entities like &lt; to <
+        String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
+        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
+        return decodedHtml.replace("&nbsp;", " ");
     }
 
     /**

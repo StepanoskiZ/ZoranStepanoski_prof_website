@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Service Implementation for managing {@link com.paradox.zswebsite.domain.BlogPost}.
@@ -38,6 +39,9 @@ public class BlogPostService {
      */
     public BlogPostDTO save(BlogPostDTO blogPostDTO) {
         log.debug("Request to save BlogPost : {}", blogPostDTO);
+        // --- FIX: Clean the HTML content before saving ---
+        blogPostDTO.setContentHTML(cleanContentHtml(blogPostDTO.getContentHTML()));
+
         BlogPost blogPost = blogPostMapper.toEntity(blogPostDTO);
         blogPost = blogPostRepository.save(blogPost);
         return blogPostMapper.toDto(blogPost);
@@ -51,6 +55,9 @@ public class BlogPostService {
      */
     public BlogPostDTO update(BlogPostDTO blogPostDTO) {
         log.debug("Request to update BlogPost : {}", blogPostDTO);
+        // --- FIX: Clean the HTML content before updating ---
+        blogPostDTO.setContentHTML(cleanContentHtml(blogPostDTO.getContentHTML()));
+
         BlogPost blogPost = blogPostMapper.toEntity(blogPostDTO);
         blogPost = blogPostRepository.save(blogPost);
         return blogPostMapper.toDto(blogPost);
@@ -64,16 +71,32 @@ public class BlogPostService {
      */
     public Optional<BlogPostDTO> partialUpdate(BlogPostDTO blogPostDTO) {
         log.debug("Request to partially update BlogPost : {}", blogPostDTO);
+        // --- FIX: Clean the HTML content before partial update ---
+        blogPostDTO.setContentHTML(cleanContentHtml(blogPostDTO.getContentHTML()));
 
         return blogPostRepository
             .findById(blogPostDTO.getId())
             .map(existingBlogPost -> {
                 blogPostMapper.partialUpdate(existingBlogPost, blogPostDTO);
-
                 return existingBlogPost;
             })
             .map(blogPostRepository::save)
             .map(blogPostMapper::toDto);
+    }
+
+    /**
+     * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
+     * @param rawHtml the raw HTML string from the frontend.
+     * @return a cleaned HTML string ready for database storage.
+     */
+    private String cleanContentHtml(String rawHtml) {
+        if (rawHtml == null) {
+            return null;
+        }
+        // First, unescape entities like &lt; to <
+        String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
+        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
+        return decodedHtml.replace("&nbsp;", " ");
     }
 
     /**

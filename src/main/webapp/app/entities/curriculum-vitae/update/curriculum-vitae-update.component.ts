@@ -16,12 +16,15 @@ import { WorkingType } from 'app/entities/enumerations/working-type.model';
 import { CurriculumVitaeService } from '../service/curriculum-vitae.service';
 import { ICurriculumVitae } from '../curriculum-vitae.model';
 import { CurriculumVitaeFormService, CurriculumVitaeFormGroup } from './curriculum-vitae-form.service';
+import { QuillModule } from 'ngx-quill';
+import Delta from 'quill-delta';
+type DeltaStatic = Delta;
 
 @Component({
   standalone: true,
   selector: 'jhi-curriculum-vitae-update',
   templateUrl: './curriculum-vitae-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [QuillModule, SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class CurriculumVitaeUpdateComponent implements OnInit {
   isSaving = false;
@@ -39,6 +42,14 @@ export class CurriculumVitaeUpdateComponent implements OnInit {
     protected curriculumVitaeFormService: CurriculumVitaeFormService,
     protected activatedRoute: ActivatedRoute,
   ) {}
+
+  editorModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline'],
+      ['link', 'image', 'video', 'code-block'],
+    ],
+  };
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ curriculumVitae }) => {

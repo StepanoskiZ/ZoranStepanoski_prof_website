@@ -33,7 +33,8 @@ export interface CvCard {
   firstMediaUrl?: string;
 }
 
-export interface AboutMeCardResponse {
+export interface AboutMeCard {
+  id: number;
   contentHtml: string;
   firstMediaUrl: string | null;
 }
@@ -60,9 +61,10 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoadingProjects = true;
   aboutContentPreview: SafeHtml = '';
   aboutMediaUrls: string[] = [];
-  isLoadingAbout = false;
+  aboutMeId: number | null = null;
   cvEntries: CvCard[] = [];
   isLoadingCv = true;
+  isLoadingAbout = false;
   isAdminEnv = environment.isAdminEnv;
 
   private readonly http = inject(HttpClient);
@@ -107,13 +109,13 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
-    this.http.get<AboutMeCardResponse>('/api/about-me/card').subscribe({
+    this.http.get<AboutMeCard>('/api/about-me/card').subscribe({
       next: data => {
         console.log('✅ Received "About Me" CARD data from API:', data);
         const decodedHtml = this.decodeHtml(data.contentHtml || '');
         this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
-
         this.aboutMediaUrls = data.firstMediaUrl ? [data.firstMediaUrl] : [];
+        this.aboutMeId = data.id;
 
         this.isLoadingAbout = false;
       },
@@ -125,11 +127,16 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openAboutModal(): void {
+    if (this.isLoadingAbout || this.aboutMeId === null) {
+      console.warn('About Me data is not ready yet.');
+      return;
+    }
     const modalRef = this.modalService.open(AboutMeModalComponent, {
       size: 'xl',
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
+    modalRef.componentInstance.item = { id: this.aboutMeId };
   }
 
   private loadProjects(): void {

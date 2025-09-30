@@ -116,8 +116,10 @@ spring:
       repositories:
         bootstrap-mode: deferred
   jpa:
+    show-sql: true
     open-in-view: false
     properties:
+      hibernate.format_sql: true
       hibernate.jdbc.time_zone: UTC
       hibernate.timezone.default_storage: NORMALIZE
       hibernate.type.preferred_instant_jdbc_type: TIMESTAMP
@@ -166,6 +168,9 @@ spring:
   output:
     ansi:
       console-available: true
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
 
 server:
   servlet:

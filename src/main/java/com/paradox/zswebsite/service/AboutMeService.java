@@ -5,10 +5,9 @@ import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
+import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.List;
-import java.util.Collections;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.hibernate.Hibernate;
 
@@ -29,9 +27,7 @@ import org.hibernate.Hibernate;
 public class AboutMeService {
 
     private final Logger log = LoggerFactory.getLogger(AboutMeService.class);
-
     private final AboutMeRepository aboutMeRepository;
-
     private final AboutMeMapper aboutMeMapper;
 
     @Autowired
@@ -175,6 +171,28 @@ public class AboutMeService {
             log.debug("Returning AboutMeDTO with {} media files.", dto.getMediaFiles().size());
             return dto;
         });
+    }
+
+    /**
+     * Gets the lightweight "card" data for the About Me preview on the landing page.
+     * @return an Optional containing the AboutMeCardDTO.
+     */
+    @Transactional(readOnly = true)
+    public Optional<AboutMeCardDTO> findAboutMeCard() {
+        log.debug("Request to get About Me card data");
+
+        // Use the existing efficient method to get the first record with its media
+        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream().findFirst()
+            .map(aboutMe -> {
+                // Find the URL of the first media item, if one exists
+                String firstMediaUrl = aboutMe.getMedia().stream()
+                    .findFirst()
+                    .map(media -> media.getMediaUrl())
+                    .orElse(null); // Return null if no media exists
+
+                // Create and return the lightweight Card DTO
+                return new AboutMeCardDTO(aboutMe.getContentHtml(), firstMediaUrl);
+            });
     }
 }
 

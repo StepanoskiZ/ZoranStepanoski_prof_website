@@ -28,7 +28,7 @@ $text-color-muted: #555; // Muted gray for default links
   padding: 0 1rem;
 
   // These properties create the fixed background effect
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/media/hero-background.jpg');
   background-size: cover;
   background-position: center center;
 
@@ -76,7 +76,7 @@ $text-color-muted: #555; // Muted gray for default links
   z-index: 1;
 
   // Move the background properties here from the parent
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/images/hero-background.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/media/hero-background.jpg');
   background-size: cover;
   background-position: center center;
   // DO NOT use background-attachment: fixed here. The TypeScript will handle the movement.

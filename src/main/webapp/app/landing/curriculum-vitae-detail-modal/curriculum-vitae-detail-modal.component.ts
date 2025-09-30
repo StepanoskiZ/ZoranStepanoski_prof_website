@@ -23,7 +23,7 @@ export interface CurriculumVitaeDetail {
 export class CurriculumVitaeDetailModalComponent extends BaseMediaModalComponent implements OnInit {
   @Input() item!: { id: number; companyName: string; jobDescriptionHTML?: string };
 
-  defaultMedia = '/content/images/default-work.jpg';
+  defaultMedia = '/content/media/default-work.jpg';
   private http = inject(HttpClient);
   cvDetail: CurriculumVitaeDetail | null = null;
 

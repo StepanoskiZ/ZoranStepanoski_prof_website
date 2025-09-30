@@ -22,7 +22,7 @@ export interface AboutMeDetail {
 })
 export class AboutMeModalComponent extends BaseMediaModalComponent {
   @Input() item!: { id: number; title?: string };
-  defaultMedia = '/content/images/default-profile.jpg';
+  defaultMedia = '/content/media/default-profile.jpg';
   private http = inject(HttpClient);
   private translateService = inject(TranslateService);
 

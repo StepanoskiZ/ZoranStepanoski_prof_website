@@ -22,7 +22,7 @@ export interface ProjectDetail {
 })
 export class ProjectDetailModalComponent extends BaseMediaModalComponent implements OnInit {
   @Input() item!: { id: number; title: string; description?: string };
-  defaultMedia = '/content/images/default-project.jpg';
+  defaultMedia = '/content/media/default-project.jpg';
   private http = inject(HttpClient);
   project: ProjectDetail | null = null;
 

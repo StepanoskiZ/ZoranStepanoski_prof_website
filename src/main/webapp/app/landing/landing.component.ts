@@ -74,9 +74,9 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly activeSectionService = inject(ActiveSectionService);
 
   services = [
-    { icon: '../../../content/images/service1.jpg', title: 'landing.service1Title', description: 'landing.service1Desc', delay: 100 },
-    { icon: '../../../content/images/service2.jpg', title: 'landing.service2Title', description: 'landing.service2Desc', delay: 200 },
-    { icon: '../../../content/images/service3.jpg', title: 'landing.service3Title', description: 'landing.service3Desc', delay: 300 },
+    { icon: '../../../content/media/service1.jpg', title: 'landing.service1Title', description: 'landing.service1Desc', delay: 100 },
+    { icon: '../../../content/media/service2.jpg', title: 'landing.service2Title', description: 'landing.service2Desc', delay: 200 },
+    { icon: '../../../content/media/service3.jpg', title: 'landing.service3Title', description: 'landing.service3Desc', delay: 300 },
   ];
 
   constructor(
@@ -245,12 +245,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cvDownloadLink = lang === 'sr' ? 'content/cv/CV_SR.pdf' : 'content/cv/CV_EN.pdf';
   }
 
-  getFullMediaPath(url?: string): string {
-    return this.getMediaType(url) === 'IMAGE'
-      ? `/content/images/${url}`
-      : this.getMediaType(url) === 'VIDEO'
-      ? `/content/videos/${url}`
-      : `/content/images/default-project.jpg`;
+  getFullMediaPath(url: string | null | undefined, fallback = '/content/media/default-project.jpg'): string {
+    if (!url) {
+      return fallback;
+    }
+    if (url.startsWith('/') || url.startsWith('http')) {
+      return url;
+    }
+    return `/content/media/${url}`;
   }
 
   getMediaType(url?: string): 'IMAGE' | 'VIDEO' | 'UNKNOWN' {

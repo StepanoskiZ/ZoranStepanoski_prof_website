@@ -168,7 +168,10 @@ public class CurriculumVitaeService {
         cv.getMedia()
             .stream()
             .min(Comparator.comparing(CurriculumVitaeMedia::getId)) // Sorts media by ID
-            .ifPresent(firstMedia -> dto.setFirstMediaUrl(firstMedia.getMediaUrl()));
+            .ifPresent(firstMedia -> {
+                dto.setFirstMediaUrl(firstMedia.getMediaUrl());
+                dto.setFirstMediaType(firstMedia.getCurriculumVitaeMediaType());
+            });
 
         return dto;
     }

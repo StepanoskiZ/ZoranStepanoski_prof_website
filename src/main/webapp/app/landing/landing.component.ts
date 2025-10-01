@@ -32,12 +32,14 @@ export interface CvCard {
   startDate?: string;
   endDate?: string;
   firstMediaUrl?: string;
+  firstMediaType?: 'IMAGE' | 'VIDEO';
 }
 
 export interface AboutMeCard {
   id: number;
   contentHtml: string;
   firstMediaUrl: string | null;
+  firstMediaType?: 'IMAGE' | 'VIDEO';
 }
 
 export interface BusinessServiceCard {
@@ -66,10 +68,8 @@ export interface BusinessServiceCard {
 })
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
-  aboutContentPreview: SafeHtml = '';
-  aboutMediaUrls: string[] = [];
-  aboutMeId: number | null = null;
 
+  aboutCard: AboutMeCard | null = null;
   projects: ProjectCard[] = [];
   cvEntries: CvCard[] = [];
   businessServices: BusinessServiceCard[] = [];
@@ -127,10 +127,12 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.get<AboutMeCard>('/api/about-me/card').subscribe({
       next: data => {
         console.log('✅ Received "About Me" CARD data from API:', data);
-        const decodedHtml = this.decodeHtml(data.contentHtml || '');
-        this.aboutContentPreview = this.sanitizer.bypassSecurityTrustHtml(decodedHtml);
-        this.aboutMediaUrls = data.firstMediaUrl ? [data.firstMediaUrl] : [];
-        this.aboutMeId = data.id;
+        const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(this.decodeHtml(data.contentHtml || ''));
+
+        this.aboutCard = {
+          ...data, // Copy id, firstMediaUrl, firstMediaType from the response
+          contentHtml: sanitizedHtml as string, // Store the sanitized SafeHtml
+        };
 
         this.isLoadingAbout = false;
       },
@@ -142,7 +144,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openAboutModal(): void {
-    if (this.isLoadingAbout || this.aboutMeId === null) {
+    if (this.isLoadingAbout || !this.aboutCard) {
       console.warn('About Me data is not ready yet.');
       return;
     }
@@ -151,7 +153,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'project-detail-custom-modal',
     });
-    modalRef.componentInstance.item = { id: this.aboutMeId };
+    modalRef.componentInstance.item = { id: this.aboutCard.id };
   }
 
   private loadBusinessServices(): void {
@@ -160,13 +162,13 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       next: (data: any[]) => {
         this.businessServices = data
           .map((s, index) => ({
-            id: s.id ?? s.serviceId ?? index, // Use a reliable ID
+            id: s.id ?? s.serviceId ?? index,
             title: s.title ?? '(Untitled Service)',
-            description: s.description ?? '', // Optional: you might not need this for the card
+            description: s.description ?? '',
             firstMediaUrl: s.firstMediaUrl ?? null,
             firstMediaType: s.firstMediaType ?? null,
           }))
-          .sort((a, b) => a.id - b.id); // Sort by ID to ensure consistent order
+          .sort((a, b) => a.id - b.id);
         this.isLoadingServices = false;
       },
       error: err => {
@@ -185,9 +187,9 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const modalRef = this.modalService.open(BusinessServiceDetailModalComponent, {
       size: 'xl',
       centered: true,
-      windowClass: 'project-detail-custom-modal', // You can create a new class if needed
+      windowClass: 'project-detail-custom-modal',
     });
-    modalRef.componentInstance.item = service; // Pass the whole service object
+    modalRef.componentInstance.item = service;
   }
 
   private loadProjects(): void {

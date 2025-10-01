@@ -1,5 +1,7 @@
 package com.paradox.zswebsite.service.dto;
 
+import com.paradox.zswebsite.domain.enumeration.UnifiedMediaType;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,13 +16,13 @@ public class CurriculumVitaeCardDTO implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
     private String firstMediaUrl; // Placeholder for a potential future image
+    private UnifiedMediaType firstMediaType;
 
     // --- Getters and Setters ---
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -28,15 +30,12 @@ public class CurriculumVitaeCardDTO implements Serializable {
     public String getCompanyName() {
         return companyName;
     }
-
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
-
     public String getJobDescriptionHTML() {
         return jobDescriptionHTML;
     }
-
     public void setJobDescriptionHTML(String jobDescriptionHTML) {
         this.jobDescriptionHTML = jobDescriptionHTML;
     }
@@ -44,7 +43,6 @@ public class CurriculumVitaeCardDTO implements Serializable {
     public LocalDate getStartDate() {
         return startDate;
     }
-
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
@@ -52,7 +50,6 @@ public class CurriculumVitaeCardDTO implements Serializable {
     public LocalDate getEndDate() {
         return endDate;
     }
-
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
@@ -60,8 +57,14 @@ public class CurriculumVitaeCardDTO implements Serializable {
     public String getFirstMediaUrl() {
         return firstMediaUrl;
     }
-
     public void setFirstMediaUrl(String firstMediaUrl) {
         this.firstMediaUrl = firstMediaUrl;
+    }
+
+    public UnifiedMediaType getFirstMediaType() {
+        return firstMediaType;
+    }
+    public void setFirstMediaType(UnifiedMediaType firstMediaType) {
+        this.firstMediaType = firstMediaType;
     }
 }

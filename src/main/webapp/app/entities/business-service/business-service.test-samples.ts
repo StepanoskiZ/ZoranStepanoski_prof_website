@@ -1,25 +1,27 @@
 import { IBusinessService, NewBusinessService } from './business-service.model';
 
 export const sampleWithRequiredData: IBusinessService = {
-  id: 25911,
-  title: 'whoa afore orange',
+  id: 19023,
+  title: 'talent verifiable',
+  descriptionHTML: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithPartialData: IBusinessService = {
-  id: 27941,
-  title: 'teleport midst',
-  icon: 'freely',
+  id: 28096,
+  title: 'whereas substitute',
+  descriptionHTML: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithFullData: IBusinessService = {
-  id: 12914,
-  title: 'duh over quickly',
-  descriptionHTML: 'although which',
-  icon: 'how',
+  id: 5907,
+  title: 'lazily',
+  descriptionHTML: '../fake-data/blob/hipster.txt',
+  icon: 'dreamily badly zowie',
 };
 
 export const sampleWithNewData: NewBusinessService = {
-  title: 'yowza',
+  title: 'careless until frantically',
+  descriptionHTML: '../fake-data/blob/hipster.txt',
   id: null,
 };
 

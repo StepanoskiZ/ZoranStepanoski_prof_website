@@ -10,12 +10,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IBusinessService } from '../business-service.model';
 import { BusinessServiceService } from '../service/business-service.service';
 import { BusinessServiceFormService, BusinessServiceFormGroup } from './business-service-form.service';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'jhi-business-service-update',
   standalone: true,
   templateUrl: './business-service-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [QuillModule, SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class BusinessServiceUpdateComponent implements OnInit {
   isSaving = false;
@@ -28,6 +29,14 @@ export class BusinessServiceUpdateComponent implements OnInit {
     protected businessServiceFormService: BusinessServiceFormService,
     protected activatedRoute: ActivatedRoute,
   ) {}
+
+  editorModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline'],
+      ['link', 'image', 'video', 'code-block'],
+    ],
+  };
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ businessService }) => {

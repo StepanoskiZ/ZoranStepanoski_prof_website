@@ -6,7 +6,7 @@ function setupProxy({ tls }) {
     {
       context: serverResources,
 //      target: `http${tls ? 's' : ''}://localhost:4200`,
-//      secure: false, // Use true for 'https' URLs
+//      secure: false,
       target: 'https://zoranstepanoski-prof-api.fly.dev',
       secure: true,
       changeOrigin: true,

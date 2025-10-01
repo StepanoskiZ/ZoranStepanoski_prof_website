@@ -30,7 +30,8 @@ public class BusinessService implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description_html")
+    @Lob
+    @Column(name = "description_html", nullable = false)
     private String descriptionHTML;
 
     @Column(name = "icon")

@@ -12,8 +12,7 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-curriculum-vitae"
-        [routerLink]="['/curriculum-vitae/new']"
-      >
+        [routerLink]="['/curriculum-vitae/new']">
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="zsWebsiteApp.curriculumVitae.home.createLabel">Create a new Curriculum Vitae</span>
       </button>
@@ -38,63 +37,54 @@
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="companyName">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.companyName">Company Name</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="language">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.language">Language</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="jobDescriptionHTML">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML">Job Description HTML</span>
-
+                <span jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="startDate">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.startDate">Start Date</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="endDate">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.endDate">End Date</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="status">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.status">Status</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="type">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.type">Type</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="category">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitae.category">Category</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -120,8 +110,7 @@
                   <a
                     [routerLink]="['/curriculum-vitae', curriculumVitae.id, 'view']"
                     class="btn btn-info btn-sm"
-                    data-cy="entityDetailsButton"
-                  >
+                    data-cy="entityDetailsButton">
                     <fa-icon icon="eye"></fa-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
@@ -129,8 +118,7 @@
                   <a
                     [routerLink]="['/curriculum-vitae', curriculumVitae.id, 'edit']"
                     class="btn btn-primary btn-sm"
-                    data-cy="entityEditButton"
-                  >
+                    data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
@@ -161,8 +149,8 @@
           [maxSize]="5"
           [rotate]="true"
           [boundaryLinks]="true"
-          (pageChange)="navigateToPage($event)"
-        ></ngb-pagination>
+          (pageChange)="navigateToPage($event)">
+        </ngb-pagination>
       </div>
     </div>
   }

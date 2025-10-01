@@ -13,7 +13,9 @@
     },
     {
       "fieldName": "descriptionHTML",
-      "fieldType": "String"
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "icon",

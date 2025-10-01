@@ -4,7 +4,9 @@
       <h2
         id="jhi-business-service-heading"
         data-cy="BusinessServiceCreateUpdateHeading"
-        jhiTranslate="zsWebsiteApp.businessService.home.createOrEditLabel">
+        jhiTranslate="zsWebsiteApp.businessService.home.createOrEditLabel"
+      >
+        Create or edit a Business Service
       </h2>
 
       <div>
@@ -30,17 +32,31 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.businessService.descriptionHTML" for="field_descriptionHTML"
-            >Description HTML</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="descriptionHTML"
-            id="field_descriptionHTML"
+          <label class="form-label" jhiTranslate="zsWebsiteApp.businessService.descriptionHTML"></label>
+<!--          <textarea-->
+<!--            class="form-control"-->
+<!--            name="descriptionHTML"-->
+<!--            id="field_descriptionHTML"-->
+<!--            data-cy="descriptionHTML"-->
+<!--            formControlName="descriptionHTML">-->
+<!--          </textarea>-->
+          <quill-editor
+            id="field_contentHtml"
             data-cy="descriptionHTML"
             formControlName="descriptionHTML"
-          />
+            name="descriptionHTML"
+            [modules]="editorModules"
+            [styles]="{ height: '300px' }">
+          </quill-editor>
+          @if (
+            editForm.get('descriptionHTML')!.invalid && (editForm.get('descriptionHTML')!.dirty || editForm.get('descriptionHTML')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('descriptionHTML')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
         <div class="mb-3">
@@ -59,7 +75,8 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary">
+          class="btn btn-primary"
+        >
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>

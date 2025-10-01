@@ -17,7 +17,7 @@
             <column name="title" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="description_html" type="varchar(255)">
+            <column name="description_html" type="${clobType}">
                 <constraints nullable="true" />
             </column>
             <column name="icon" type="varchar(255)">
@@ -45,7 +45,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="title" type="string"/>
-            <column name="description_html" type="string"/>
+            <column name="description_html" type="clob"/>
             <column name="icon" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

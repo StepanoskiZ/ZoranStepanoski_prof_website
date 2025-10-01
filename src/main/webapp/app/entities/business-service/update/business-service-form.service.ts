@@ -43,7 +43,9 @@ export class BusinessServiceFormService {
       title: new FormControl(businessServiceRawValue.title, {
         validators: [Validators.required],
       }),
-      descriptionHTML: new FormControl(businessServiceRawValue.descriptionHTML),
+      descriptionHTML: new FormControl(businessServiceRawValue.descriptionHTML, {
+        validators: [Validators.required],
+      }),
       icon: new FormControl(businessServiceRawValue.icon),
     });
   }

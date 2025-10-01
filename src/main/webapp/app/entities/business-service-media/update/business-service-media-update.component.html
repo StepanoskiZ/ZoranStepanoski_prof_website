@@ -33,16 +33,14 @@
           <label
             class="form-label"
             jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType"
-            for="field_businessServiceMediaType"
-            >Business Service Media Type</label
-          >
+            for="field_businessServiceMediaType">
+          </label>
           <select
             class="form-control"
             name="businessServiceMediaType"
             formControlName="businessServiceMediaType"
             id="field_businessServiceMediaType"
-            data-cy="businessServiceMediaType"
-          >
+            data-cy="businessServiceMediaType">
             <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
             @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
               <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
@@ -66,16 +64,14 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService" for="field_businessService"></label
-          >
+          <label class="form-label" jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService" for="field_businessService"></label>
           <select
             class="form-control"
             id="field_businessService"
             data-cy="businessService"
             name="businessService"
             formControlName="businessService"
-            [compareWith]="compareBusinessService"
-          >
+            [compareWith]="compareBusinessService">
             <option [ngValue]="null"></option>
             @for (businessServiceOption of businessServicesSharedCollection; track $index) {
               <option [ngValue]="businessServiceOption">{{ businessServiceOption.id }}</option>
@@ -94,8 +90,7 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+          class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>

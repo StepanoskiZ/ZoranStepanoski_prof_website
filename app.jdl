@@ -70,7 +70,7 @@ entity Skill {
 
 entity BusinessService {
   title String required,
-  descriptionHTML String,
+  descriptionHTML TextBlob required,
   icon String
 }
 

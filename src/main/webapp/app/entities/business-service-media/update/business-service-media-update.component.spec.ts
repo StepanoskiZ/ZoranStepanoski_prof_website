@@ -50,10 +50,10 @@ describe('BusinessServiceMedia Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call BusinessService query and add missing value', () => {
       const businessServiceMedia: IBusinessServiceMedia = { id: 456 };
-      const businessService: IBusinessService = { id: 21834 };
+      const businessService: IBusinessService = { id: 11643 };
       businessServiceMedia.businessService = businessService;
 
-      const businessServiceCollection: IBusinessService[] = [{ id: 4231 }];
+      const businessServiceCollection: IBusinessService[] = [{ id: 23935 }];
       jest.spyOn(businessServiceService, 'query').mockReturnValue(of(new HttpResponse({ body: businessServiceCollection })));
       const additionalBusinessServices = [businessService];
       const expectedCollection: IBusinessService[] = [...additionalBusinessServices, ...businessServiceCollection];
@@ -72,7 +72,7 @@ describe('BusinessServiceMedia Management Update Component', () => {
 
     it('Should update editForm', () => {
       const businessServiceMedia: IBusinessServiceMedia = { id: 456 };
-      const businessService: IBusinessService = { id: 72 };
+      const businessService: IBusinessService = { id: 20904 };
       businessServiceMedia.businessService = businessService;
 
       activatedRoute.data = of({ businessServiceMedia });

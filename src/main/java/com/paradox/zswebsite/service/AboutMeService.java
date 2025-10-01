@@ -1,7 +1,6 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.AboutMe;
-import com.paradox.zswebsite.domain.AboutMeMedia;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
 import com.paradox.zswebsite.service.dto.AboutMeMediaDTO;
@@ -52,7 +51,6 @@ public class AboutMeService {
      */
     public AboutMeDTO save(AboutMeDTO aboutMeDTO) {
         log.debug("Request to save AboutMe : {}", aboutMeDTO);
-        // --- FIX: Use the helper method to clean the HTML ---
         aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
 
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
@@ -68,7 +66,6 @@ public class AboutMeService {
      */
     public AboutMeDTO update(AboutMeDTO aboutMeDTO) {
         log.debug("Request to update AboutMe : {}", aboutMeDTO);
-        // --- FIX: Use the helper method to clean the HTML ---
         aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
 
         AboutMe aboutMe = aboutMeMapper.toEntity(aboutMeDTO);
@@ -85,7 +82,6 @@ public class AboutMeService {
     public Optional<AboutMeDTO> partialUpdate(AboutMeDTO aboutMeDTO) {
         log.debug("Request to partially update AboutMe : {}", aboutMeDTO);
 
-        // --- FIX: Clean the HTML on the incoming DTO before mapping ---
         aboutMeDTO.setContentHtml(cleanContentHtml(aboutMeDTO.getContentHtml()));
 
         return aboutMeRepository
@@ -98,7 +94,6 @@ public class AboutMeService {
             .map(aboutMeMapper::toDto);
     }
 
-    // --- NEW HELPER METHOD ---
     /**
      * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
      * @param rawHtml the raw HTML string from the frontend.
@@ -108,9 +103,7 @@ public class AboutMeService {
         if (rawHtml == null) {
             return null;
         }
-        // First, unescape entities like &lt; to <
         String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
-        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
         return decodedHtml.replace("&nbsp;", " ");
     }
 
@@ -171,9 +164,7 @@ public class AboutMeService {
     public Optional<AboutMeCardDTO> findAboutMeCard() {
         log.debug("Request to get About Me card data");
 
-        // Use the robust findFirst() method to get the fully populated DTO
         return this.findFirst().map(aboutMeDTO -> {
-            // Now that we have the DTO with the sorted media list, it's safe to get the first one.
             String firstMediaUrl = aboutMeDTO.getMediaFiles().stream()
                 .findFirst()
                 .map(AboutMeMediaDTO::getMediaUrl)

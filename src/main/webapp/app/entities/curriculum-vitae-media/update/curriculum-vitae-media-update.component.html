@@ -81,7 +81,7 @@
           >
             <option [ngValue]="null"></option>
             @for (curriculumVitaeOption of curriculumVitaesSharedCollection; track $index) {
-              <option [ngValue]="curriculumVitaeOption">{{ curriculumVitaeOption.companyName }}</option>
+              <option [ngValue]="curriculumVitaeOption">{{ curriculumVitaeOption.id }}</option>
             }
           </select>
         </div>

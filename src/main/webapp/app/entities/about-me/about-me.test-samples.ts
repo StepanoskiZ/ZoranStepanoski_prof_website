@@ -1,19 +1,19 @@
 import { IAboutMe, NewAboutMe } from './about-me.model';
 
 export const sampleWithRequiredData: IAboutMe = {
-  id: 29293,
+  id: 1863,
   contentHtml: '../fake-data/blob/hipster.txt',
   language: 'SR',
 };
 
 export const sampleWithPartialData: IAboutMe = {
-  id: 2561,
+  id: 23466,
   contentHtml: '../fake-data/blob/hipster.txt',
   language: 'EN',
 };
 
 export const sampleWithFullData: IAboutMe = {
-  id: 5023,
+  id: 18080,
   contentHtml: '../fake-data/blob/hipster.txt',
   language: 'SR',
 };

@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (businessServiceMedia) {
+      <div>
+        <h2 data-cy="businessServiceMediaDetailsHeading">
+          <span jhiTranslate="zsWebsiteApp.businessServiceMedia.detail.title">Business Service Media</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ businessServiceMedia.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.mediaUrl">Media Url</span></dt>
+          <dd>
+            <span>{{ businessServiceMedia.mediaUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType">Business Service Media Type</span></dt>
+          <dd>
+            <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + businessServiceMedia.businessServiceMediaType }}">{{
+              businessServiceMedia.businessServiceMediaType
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.caption">Caption</span></dt>
+          <dd>
+            <span>{{ businessServiceMedia.caption }}</span>
+          </dd>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService">Business Service</span></dt>
+          <dd>
+            @if (businessServiceMedia.businessService) {
+              <div>
+                <a [routerLink]="['/business-service', businessServiceMedia.businessService.id, 'view']">{{
+                  businessServiceMedia.businessService.id
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/business-service-media', businessServiceMedia.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

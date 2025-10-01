@@ -1,8 +1,11 @@
 package com.paradox.zswebsite.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,6 +35,11 @@ public class BusinessService implements Serializable {
 
     @Column(name = "icon")
     private String icon;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessService")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "businessService" }, allowSetters = true)
+    private Set<BusinessServiceMedia> media = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -85,6 +93,37 @@ public class BusinessService implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Set<BusinessServiceMedia> getMedia() {
+        return this.media;
+    }
+
+    public void setMedia(Set<BusinessServiceMedia> businessServiceMedias) {
+        if (this.media != null) {
+            this.media.forEach(i -> i.setBusinessService(null));
+        }
+        if (businessServiceMedias != null) {
+            businessServiceMedias.forEach(i -> i.setBusinessService(this));
+        }
+        this.media = businessServiceMedias;
+    }
+
+    public BusinessService media(Set<BusinessServiceMedia> businessServiceMedias) {
+        this.setMedia(businessServiceMedias);
+        return this;
+    }
+
+    public BusinessService addMedia(BusinessServiceMedia businessServiceMedia) {
+        this.media.add(businessServiceMedia);
+        businessServiceMedia.setBusinessService(this);
+        return this;
+    }
+
+    public BusinessService removeMedia(BusinessServiceMedia businessServiceMedia) {
+        this.media.remove(businessServiceMedia);
+        businessServiceMedia.setBusinessService(null);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

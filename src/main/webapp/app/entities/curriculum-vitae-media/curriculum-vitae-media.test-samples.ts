@@ -1,28 +1,28 @@
 import { ICurriculumVitaeMedia, NewCurriculumVitaeMedia } from './curriculum-vitae-media.model';
 
 export const sampleWithRequiredData: ICurriculumVitaeMedia = {
-  id: 20683,
-  mediaUrl: 'cashier',
+  id: 9556,
+  mediaUrl: 'charm kiddingly',
   curriculumVitaeMediaType: 'IMAGE',
 };
 
 export const sampleWithPartialData: ICurriculumVitaeMedia = {
-  id: 17072,
-  mediaUrl: 'lest',
+  id: 10780,
+  mediaUrl: 'gleefully amongst',
   curriculumVitaeMediaType: 'VIDEO',
-  caption: 'improbable',
+  caption: 'beneath meh forenenst',
 };
 
 export const sampleWithFullData: ICurriculumVitaeMedia = {
-  id: 4616,
-  mediaUrl: 'primary revolution towards',
-  curriculumVitaeMediaType: 'IMAGE',
-  caption: 'unlike corridor tram',
+  id: 4898,
+  mediaUrl: 'immediately',
+  curriculumVitaeMediaType: 'VIDEO',
+  caption: 'past wish',
 };
 
 export const sampleWithNewData: NewCurriculumVitaeMedia = {
-  mediaUrl: 'concuss impartial',
-  curriculumVitaeMediaType: 'IMAGE',
+  mediaUrl: 'bowlful suspicious',
+  curriculumVitaeMediaType: 'VIDEO',
   id: null,
 };
 

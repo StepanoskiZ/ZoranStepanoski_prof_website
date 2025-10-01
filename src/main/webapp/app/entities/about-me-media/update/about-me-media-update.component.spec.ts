@@ -50,10 +50,10 @@ describe('AboutMeMedia Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call AboutMe query and add missing value', () => {
       const aboutMeMedia: IAboutMeMedia = { id: 456 };
-      const aboutMe: IAboutMe = { id: 11620 };
+      const aboutMe: IAboutMe = { id: 3434 };
       aboutMeMedia.aboutMe = aboutMe;
 
-      const aboutMeCollection: IAboutMe[] = [{ id: 12295 }];
+      const aboutMeCollection: IAboutMe[] = [{ id: 21709 }];
       jest.spyOn(aboutMeService, 'query').mockReturnValue(of(new HttpResponse({ body: aboutMeCollection })));
       const additionalAboutMes = [aboutMe];
       const expectedCollection: IAboutMe[] = [...additionalAboutMes, ...aboutMeCollection];
@@ -72,7 +72,7 @@ describe('AboutMeMedia Management Update Component', () => {
 
     it('Should update editForm', () => {
       const aboutMeMedia: IAboutMeMedia = { id: 456 };
-      const aboutMe: IAboutMe = { id: 12496 };
+      const aboutMe: IAboutMe = { id: 20743 };
       aboutMeMedia.aboutMe = aboutMe;
 
       activatedRoute.data = of({ aboutMeMedia });

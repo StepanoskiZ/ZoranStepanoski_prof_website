@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "businessServiceMedia": {
+      "home": {
+        "title": "Business Service Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Kreiraj novi Business Service Media",
+        "createOrEditLabel": "Kreirajte ili izmenite Business Service Media",
+        "notFound": "No Business Service Medias found"
+      },
+      "created": "Kreiran je novi Business Service Media pod nazivom {{ param }}",
+      "updated": "Business Service Media pod nazivom {{ param }} je ažuriran",
+      "deleted": "Business Service Media pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Business Service Media pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Business Service Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "businessServiceMediaType": "Business Service Media Type",
+      "caption": "Caption",
+      "businessService": "Business Service"
+    }
+  }
+}

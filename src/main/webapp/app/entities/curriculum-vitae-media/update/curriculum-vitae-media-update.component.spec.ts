@@ -50,10 +50,10 @@ describe('CurriculumVitaeMedia Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call CurriculumVitae query and add missing value', () => {
       const curriculumVitaeMedia: ICurriculumVitaeMedia = { id: 456 };
-      const curriculumVitae: ICurriculumVitae = { id: 28384 };
+      const curriculumVitae: ICurriculumVitae = { id: 15449 };
       curriculumVitaeMedia.curriculumVitae = curriculumVitae;
 
-      const curriculumVitaeCollection: ICurriculumVitae[] = [{ id: 10975 }];
+      const curriculumVitaeCollection: ICurriculumVitae[] = [{ id: 10986 }];
       jest.spyOn(curriculumVitaeService, 'query').mockReturnValue(of(new HttpResponse({ body: curriculumVitaeCollection })));
       const additionalCurriculumVitaes = [curriculumVitae];
       const expectedCollection: ICurriculumVitae[] = [...additionalCurriculumVitaes, ...curriculumVitaeCollection];
@@ -72,7 +72,7 @@ describe('CurriculumVitaeMedia Management Update Component', () => {
 
     it('Should update editForm', () => {
       const curriculumVitaeMedia: ICurriculumVitaeMedia = { id: 456 };
-      const curriculumVitae: ICurriculumVitae = { id: 22900 };
+      const curriculumVitae: ICurriculumVitae = { id: 23928 };
       curriculumVitaeMedia.curriculumVitae = curriculumVitae;
 
       activatedRoute.data = of({ curriculumVitaeMedia });

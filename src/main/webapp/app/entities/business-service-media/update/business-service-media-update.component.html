@@ -1,0 +1,107 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-business-service-media-heading"
+        data-cy="BusinessServiceMediaCreateUpdateHeading"
+        jhiTranslate="zsWebsiteApp.businessServiceMedia.home.createOrEditLabel"
+      >
+        Create or edit a Business Service Media
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.businessServiceMedia.mediaUrl" for="field_mediaUrl">Media Url</label>
+          <input type="text" class="form-control" name="mediaUrl" id="field_mediaUrl" data-cy="mediaUrl" formControlName="mediaUrl" />
+          @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
+            <div>
+              @if (editForm.get('mediaUrl')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType"
+            for="field_businessServiceMediaType"
+            >Business Service Media Type</label
+          >
+          <select
+            class="form-control"
+            name="businessServiceMediaType"
+            formControlName="businessServiceMediaType"
+            id="field_businessServiceMediaType"
+            data-cy="businessServiceMediaType"
+          >
+            <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
+            @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
+              <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
+            }
+          </select>
+          @if (
+            editForm.get('businessServiceMediaType')!.invalid &&
+            (editForm.get('businessServiceMediaType')!.dirty || editForm.get('businessServiceMediaType')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('businessServiceMediaType')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.businessServiceMedia.caption" for="field_caption">Caption</label>
+          <input type="text" class="form-control" name="caption" id="field_caption" data-cy="caption" formControlName="caption" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService" for="field_businessService"
+            >Business Service</label
+          >
+          <select
+            class="form-control"
+            id="field_businessService"
+            data-cy="businessService"
+            name="businessService"
+            formControlName="businessService"
+            [compareWith]="compareBusinessService"
+          >
+            <option [ngValue]="null"></option>
+            @for (businessServiceOption of businessServicesSharedCollection; track $index) {
+              <option [ngValue]="businessServiceOption">{{ businessServiceOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

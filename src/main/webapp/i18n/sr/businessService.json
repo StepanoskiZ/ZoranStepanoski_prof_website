@@ -20,7 +20,8 @@
       "id": "ID",
       "title": "Title",
       "descriptionHTML": "Description HTML",
-      "icon": "Icon"
+      "icon": "Icon",
+      "media": "Media"
     }
   }
 }

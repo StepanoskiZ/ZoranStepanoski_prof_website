@@ -25,6 +25,7 @@
       "Project",
       "Skill",
       "BusinessService",
+      "BusinessServiceMedia",
       "BlogPost",
       "ContactMessage",
       "ProjectMedia",

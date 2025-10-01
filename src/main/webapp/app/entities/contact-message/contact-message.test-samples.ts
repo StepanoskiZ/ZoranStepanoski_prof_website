@@ -3,34 +3,34 @@ import dayjs from 'dayjs/esm';
 import { IContactMessage, NewContactMessage } from './contact-message.model';
 
 export const sampleWithRequiredData: IContactMessage = {
-  id: 31379,
-  visitorName: 'likewise similar cool',
-  visitorEmail: 'huzzah fan',
+  id: 12916,
+  visitorName: 'ah after yet',
+  visitorEmail: 'copywriter',
   message: '../fake-data/blob/hipster.txt',
-  submittedDate: dayjs('2025-08-29T19:32'),
+  submittedDate: dayjs('2025-08-30T17:12'),
 };
 
 export const sampleWithPartialData: IContactMessage = {
-  id: 19251,
-  visitorName: 'scarcely',
-  visitorEmail: 'toward yuck',
+  id: 27660,
+  visitorName: 'dependent',
+  visitorEmail: 'atop barring ack',
   message: '../fake-data/blob/hipster.txt',
-  submittedDate: dayjs('2025-08-29T22:07'),
+  submittedDate: dayjs('2025-08-30T01:41'),
 };
 
 export const sampleWithFullData: IContactMessage = {
-  id: 2987,
-  visitorName: 'well beside',
-  visitorEmail: 'plateau brr brr',
+  id: 14551,
+  visitorName: 'musty particularise',
+  visitorEmail: 'metro shakedown',
   message: '../fake-data/blob/hipster.txt',
-  submittedDate: dayjs('2025-08-30T14:28'),
+  submittedDate: dayjs('2025-08-30T11:16'),
 };
 
 export const sampleWithNewData: NewContactMessage = {
-  visitorName: 'compass till once',
-  visitorEmail: 'blah',
+  visitorName: 'justify listing',
+  visitorEmail: 'lubricate stable finally',
   message: '../fake-data/blob/hipster.txt',
-  submittedDate: dayjs('2025-08-30T17:31'),
+  submittedDate: dayjs('2025-08-30T09:36'),
   id: null,
 };
 

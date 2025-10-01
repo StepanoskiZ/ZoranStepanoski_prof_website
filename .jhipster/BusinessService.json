@@ -22,7 +22,16 @@
   ],
   "name": "BusinessService",
   "pagination": "pagination",
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "mediaUrl",
+      "otherEntityName": "businessServiceMedia",
+      "otherEntityRelationshipName": "businessService",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceClass"
 }

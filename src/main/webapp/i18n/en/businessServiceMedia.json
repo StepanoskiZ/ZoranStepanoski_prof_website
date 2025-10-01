@@ -1,0 +1,27 @@
+{
+  "zsWebsiteApp": {
+    "businessServiceMedia": {
+      "home": {
+        "title": "Business Service Medias",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Business Service Media",
+        "createOrEditLabel": "Create or edit a Business Service Media",
+        "notFound": "No Business Service Medias found"
+      },
+      "created": "A new Business Service Media is created with identifier {{ param }}",
+      "updated": "A Business Service Media is updated with identifier {{ param }}",
+      "deleted": "A Business Service Media is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Business Service Media {{ id }}?"
+      },
+      "detail": {
+        "title": "Business Service Media"
+      },
+      "id": "ID",
+      "mediaUrl": "Media Url",
+      "businessServiceMediaType": "Business Service Media Type",
+      "caption": "Caption",
+      "businessService": "Business Service"
+    }
+  }
+}

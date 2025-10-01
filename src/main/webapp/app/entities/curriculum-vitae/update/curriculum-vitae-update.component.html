@@ -4,9 +4,7 @@
       <h2
         id="jhi-curriculum-vitae-heading"
         data-cy="CurriculumVitaeCreateUpdateHeading"
-        jhiTranslate="zsWebsiteApp.curriculumVitae.home.createOrEditLabel"
-      >
-        Create or edit a Curriculum Vitae
+        jhiTranslate="zsWebsiteApp.curriculumVitae.home.createOrEditLabel">
       </h2>
 
       <div>
@@ -14,13 +12,13 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id"></label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.companyName" for="field_companyName">Company Name</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.companyName" for="field_companyName"></label>
           <input
             type="text"
             class="form-control"
@@ -32,14 +30,14 @@
           @if (editForm.get('companyName')!.invalid && (editForm.get('companyName')!.dirty || editForm.get('companyName')!.touched)) {
             <div>
               @if (editForm.get('companyName')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.language" for="field_language">Language</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.language" for="field_language"></label>
           <select class="form-control" name="language" formControlName="language" id="field_language" data-cy="language">
             <option [ngValue]="null">{{ 'zsWebsiteApp.Language.null' | translate }}</option>
             @for (language of languageValues; track $index) {
@@ -49,14 +47,14 @@
           @if (editForm.get('language')!.invalid && (editForm.get('language')!.dirty || editForm.get('language')!.touched)) {
             <div>
               @if (editForm.get('language')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML"></label>
+          <label class="form-label d-block" jhiTranslate="zsWebsiteApp.curriculumVitae.jobDescriptionHTML"></label>
 <!--          <textarea-->
 <!--            class="form-control"-->
 <!--            name="jobDescriptionHTML"-->

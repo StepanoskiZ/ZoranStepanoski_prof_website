@@ -51,7 +51,7 @@ export default class MainComponent implements OnInit {
       userAgent: navigator.userAgent,
     };
 
-    this.http.post('/api/visitor-logs', visitorLog).subscribe({
+    this.http.post('/api/visitor-log', visitorLog).subscribe({
       next: () => console.log('Visitor event logged successfully.'),
       error: err => console.error('Failed to log visitor event:', err),
     });

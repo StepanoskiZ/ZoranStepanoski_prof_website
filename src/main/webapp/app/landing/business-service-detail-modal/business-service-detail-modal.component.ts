@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { BaseMediaModalComponent, MediaItem } from '../../shared/component/base-media-modal/base-media-modal.component';
 import { FullscreenMediaModalComponent } from '../../shared/component/fullscreen-media-modal/fullscreen-media-modal.component';
+import { Lightbox, LightboxModule } from 'ngx-lightbox';
 
 export interface BusinessServiceDetail {
   id: number;
@@ -15,7 +16,7 @@ export interface BusinessServiceDetail {
 @Component({
   selector: 'jhi-business-service-detail-modal',
   standalone: true,
-  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent], // Add other necessary imports like FaIconComponent if needed
+  imports: [CommonModule, FaIconComponent, FullscreenMediaModalComponent, LightboxModule], // Add other necessary imports like FaIconComponent if needed
   templateUrl: '../../shared/component/base-media-modal/base-modal.component.html',
   styleUrls: ['./business-service-detail-modal.component.scss'], // Create this empty scss file
 })

@@ -3,7 +3,7 @@
     @if (businessServiceMedia) {
       <div>
         <h2 data-cy="businessServiceMediaDetailsHeading">
-          <span jhiTranslate="zsWebsiteApp.businessServiceMedia.detail.title">Business Service Media</span>
+          <span jhiTranslate="zsWebsiteApp.businessServiceMedia.detail.title"></span>
         </h2>
 
         <hr />
@@ -21,7 +21,7 @@
           <dd>
             <span>{{ businessServiceMedia.mediaUrl }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType">Business Service Media Type</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType"></span></dt>
           <dd>
             <span jhiTranslate="{{ 'zsWebsiteApp.UnifiedMediaType.' + businessServiceMedia.businessServiceMediaType }}">{{
               businessServiceMedia.businessServiceMediaType
@@ -31,7 +31,7 @@
           <dd>
             <span>{{ businessServiceMedia.caption }}</span>
           </dd>
-          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService">Business Service</span></dt>
+          <dt><span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService"></span></dt>
           <dd>
             @if (businessServiceMedia.businessService) {
               <div>

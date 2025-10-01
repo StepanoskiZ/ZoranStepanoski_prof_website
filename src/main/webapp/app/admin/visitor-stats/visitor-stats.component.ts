@@ -21,7 +21,7 @@ export class VisitorStatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.http.get<VisitorStats>('/api/visitor-logs/stats').subscribe({
+    this.http.get<VisitorStats>('/api/visitor-log/stats').subscribe({
       next: data => {
         this.stats = data;
         this.isLoading = false;

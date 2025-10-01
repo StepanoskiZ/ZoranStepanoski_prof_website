@@ -109,12 +109,11 @@ public class SecurityConfiguration {
                         "/api/curriculum-vitae-media/**",
                         "/api/about-me",
                         "/api/about-me/card",
-                        "/about-me/details",
                         "/about-me/*/details",
                         "/api/about-me-media/**",
                         "/api/skills",
                         "/api/skills/**",
-                        "/api/visitor-logs",
+                        "/api/visitor-log",
                         "/management/health",
                         "/management/health/**",
                         "/management/info"
@@ -130,7 +129,7 @@ public class SecurityConfiguration {
                     )
                     .permitAll()
                     .requestMatchers(HttpMethod.POST,
-                        "/api/visitor-logs",
+                        "/api/visitor-log",
                         "/api/contact-messages"
                     )
                     .permitAll()

@@ -1,11 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="BusinessServiceHeading">
-    <span jhiTranslate="zsWebsiteApp.businessService.home.title">Business Services</span>
+    <span jhiTranslate="zsWebsiteApp.businessService.home.title"></span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.businessService.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="zsWebsiteApp.businessService.home.refreshListLabel"></span>
       </button>
 
       <button
@@ -25,7 +25,7 @@
 
   @if (businessServices?.length === 0) {
     <div class="alert alert-warning" id="no-result">
-      <span jhiTranslate="zsWebsiteApp.businessService.home.notFound">No Business Services found</span>
+      <span jhiTranslate="zsWebsiteApp.businessService.home.notFound"></span>
     </div>
   }
 

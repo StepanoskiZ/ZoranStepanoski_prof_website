@@ -99,11 +99,11 @@ $text-color-muted: #555; // Muted gray for default links
   }
 }
 
-.about-preview-wrapper {
-  max-height: 120px; // Set a fixed pixel height (e.g., ~5-6 lines of text). Adjust as needed.
-  overflow: hidden;
-  position: relative; // This is the new positioning context for the fade effect.
-}
+// .about-preview-wrapper {
+//   max-height: 120px; // Set a fixed pixel height (e.g., ~5-6 lines of text). Adjust as needed.
+//   overflow: hidden;
+//   position: relative; // This is the new positioning context for the fade effect.
+// }
 
 .about-preview {
   max-height: 120px;
@@ -215,6 +215,19 @@ $text-color-muted: #555; // Muted gray for default links
   &:hover {
     border-color: $primary-color;
   }
+}
+
+/* =================== Card Content Styles =================== */
+.card-text-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; // Set the number of lines you want (e.g., 4)
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-height: 96px;
+
+  word-break: break-word;
 }
 
 /* =================== General Styles =================== */

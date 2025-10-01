@@ -1,12 +1,15 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.BusinessService;
+import com.paradox.zswebsite.domain.BusinessServiceMedia;
 import com.paradox.zswebsite.repository.BusinessServiceRepository;
 import com.paradox.zswebsite.service.dto.BusinessServiceCardDTO;
 import com.paradox.zswebsite.service.dto.BusinessServiceDTO;
 import com.paradox.zswebsite.service.dto.BusinessServiceDetailDTO;
+import com.paradox.zswebsite.service.dto.BusinessServiceMediaDTO;
 import com.paradox.zswebsite.service.mapper.BusinessServiceMapper;
 import com.paradox.zswebsite.service.mapper.BusinessServiceMediaMapper;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,36 +125,56 @@ public class BusinessServiceService {
 
     @Transactional(readOnly = true)
     public List<BusinessServiceCardDTO> findAllCards() {
-        return businessServiceRepository.findAllWithFirstMedia().stream() // You'll need to create this repository method
-            .map(service -> {
-                String firstMediaUrl = service.getMedia().stream().findFirst().map(media -> media.getMediaUrl()).orElse(null);
-                String firstMediaType = service.getMedia().stream().findFirst().map(media -> media.getBusinessServiceMediaType().toString()).orElse(null);
-                return new BusinessServiceCardDTO(
-                    service.getId(),
-                    service.getTitle(),
-                    service.getDescriptionHTML(),
-                    firstMediaUrl,
-                    firstMediaType
-                );
-            })
+        log.debug("Request to get all BusinessService cards");
+        // Use the repository method with the EntityGraph to prevent N+1 query problems
+        List<BusinessService> services = businessServiceRepository.findAllWithFirstMediaOrderByMediaId();
+
+        return services.stream()
+            .map(this::mapToCardDTO) // Use a helper method for clarity
             .collect(Collectors.toList());
     }
 
+    // Helper method for the mapping logic
+    private BusinessServiceCardDTO mapToCardDTO(BusinessService service) {
+        BusinessServiceCardDTO dto = new BusinessServiceCardDTO();
+        dto.setId(service.getId());
+        dto.setTitle(service.getTitle());
+        dto.setDescription(service.getDescriptionHTML());
+
+        // Find the first media item by sorting the collection by ID
+        Optional<BusinessServiceMedia> firstMedia = service.getMedia().stream()
+            .min(Comparator.comparing(BusinessServiceMedia::getId));
+
+        // Set the DTO properties if a media item was found
+        firstMedia.ifPresent(media -> {
+            dto.setFirstMediaUrl(media.getMediaUrl());
+            if (media.getBusinessServiceMediaType() != null) {
+                dto.setFirstMediaType(media.getBusinessServiceMediaType().name());
+            }
+        });
+
+        return dto;
+    }
+
     @Transactional(readOnly = true)
-    public BusinessServiceDetailDTO findOneWithDetails(Long id) {
+    public Optional<BusinessServiceDetailDTO> findOneWithDetails(Long id) {
+        log.debug("Request to get details for BusinessService : {}", id);
+        // Use the EntityGraph method here as well to fetch media in one go
         return businessServiceRepository.findById(id)
             .map(service -> {
                 BusinessServiceDetailDTO dto = new BusinessServiceDetailDTO();
                 dto.setId(service.getId());
                 dto.setTitle(service.getTitle());
                 dto.setDescription(service.getDescriptionHTML());
-                dto.setMediaFiles(
-                    service.getMedia().stream()
-                        .map(businessServiceMediaMapper::toDto)
-                        .collect(Collectors.toList())
-                );
+
+                // Map the media files, ensuring they are sorted by ID
+                List<BusinessServiceMediaDTO> mediaDTOs = service.getMedia().stream()
+                    .sorted(Comparator.comparing(BusinessServiceMedia::getId)) // Sort media by ID
+                    .map(businessServiceMediaMapper::toDto)
+                    .collect(Collectors.toList());
+
+                dto.setMediaFiles(mediaDTOs);
                 return dto;
-            })
-            .orElse(null);
+            });
     }
 }

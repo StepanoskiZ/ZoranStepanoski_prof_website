@@ -195,7 +195,6 @@ public class BusinessServiceResource {
     @GetMapping("/business-services/{id}/details")
     public ResponseEntity<BusinessServiceDetailDTO> getServiceDetails(@PathVariable Long id) {
         log.debug("REST request to get BusinessService details : {}", id);
-        BusinessServiceDetailDTO detailDTO = businessServiceService.findOneWithDetails(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(detailDTO));
-    }
-}
+        Optional<BusinessServiceDetailDTO> detailDTO = businessServiceService.findOneWithDetails(id);
+        return ResponseUtil.wrapOrNotFound(detailDTO);
+    }}

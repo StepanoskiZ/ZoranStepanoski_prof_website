@@ -18,9 +18,10 @@
       <div class="col-lg-7">
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
-        <div class="about-preview-wrapper">
-          <div class="about-preview" [innerHTML]="aboutContentPreview"></div>
-        </div>
+        <div class="about-preview card-text-truncate" [innerHTML]="aboutContentPreview"></div>
+<!--        <div class="about-preview-wrapper">-->
+<!--          <div class="about-preview" [innerHTML]="aboutContentPreview"></div>-->
+<!--        </div>-->
         <div class="mt-2">
           <a href="#" class="read-more-link ms-4" (click)="openAboutModal(); $event.preventDefault()">
             {{ 'global.readMore' | translate }}
@@ -105,7 +106,7 @@
           <!-- Card Body -->
           <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ service.title }}</h3>
-            <p class="card-text flex-grow-1" [innerHTML]="service.description"></p>
+            <p class="card-text flex-grow-1 card-text-truncate" [innerHTML]="service.description"></p>
 
             <!-- Read more link -->
             <a href="#" class="read-more-link ms-4" (click)="openBusinessServiceModal(service.id); $event.preventDefault()">
@@ -159,7 +160,7 @@
           <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ project?.title }}</h3>
             <!--            <p class="card-text flex-grow-1" >{{ project.description }}</p>-->
-            <p class="card-text flex-grow-1" [innerHTML]="project.description"></p>
+            <p class="card-text flex-grow-1 card-text-truncate" [innerHTML]="project.description"></p>
 
             <!-- Read more link -->
             <a href="#" class="read-more-link ms-4" (click)="openProjectMediaModal(project.id); $event.preventDefault()">
@@ -205,7 +206,7 @@
             <p class="card-subtitle mb-2 text-muted">
               {{ cv.startDate | date: 'MMM yyyy' }} - {{ cv.endDate ? (cv.endDate | date: 'MMM yyyy') : ('global.present' | translate) }}
             </p>
-            <p class="card-text flex-grow-1" [innerHTML]="cv.jobDescriptionHTML"></p>
+            <p class="card-text flex-grow-1 card-text-truncate" [innerHTML]="cv.jobDescriptionHTML"></p>
 
             <!-- Read more link (You'll need to create a CV detail modal similar to the project one) -->
             <a href="#" class="read-more-link ms-4" (click)="openCvDetailModal(cv.id); $event.preventDefault()">

@@ -1,0 +1,25 @@
+// File: update_business_service.jdl
+
+enum UnifiedMediaType {
+  IMAGE, VIDEO
+}
+
+entity BusinessService {
+  title String required,
+  descriptionHTML TextBlob required,
+  icon String
+}
+
+entity BusinessServiceMedia {
+  mediaUrl String required,
+  businessServiceMediaType UnifiedMediaType required,
+  caption String
+}
+
+relationship OneToMany {
+  BusinessService{media(mediaUrl)} to BusinessServiceMedia{businessService(id)}
+}
+
+dto BusinessService, BusinessServiceMedia with mapstruct
+service BusinessService, BusinessServiceMedia with serviceClass
+paginate BusinessService, BusinessServiceMedia with pagination

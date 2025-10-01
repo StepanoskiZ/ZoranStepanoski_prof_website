@@ -14,8 +14,6 @@ import { BlogPostService } from '../service/blog-post.service';
 import { IBlogPost } from '../blog-post.model';
 import { BlogPostFormGroup, BlogPostFormService } from './blog-post-form.service';
 import { QuillModule } from 'ngx-quill';
-import Delta from 'quill-delta';
-type DeltaStatic = Delta;
 
 @Component({
   selector: 'jhi-blog-post-update',

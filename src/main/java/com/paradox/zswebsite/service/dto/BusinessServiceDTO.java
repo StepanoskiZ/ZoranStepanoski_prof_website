@@ -1,5 +1,6 @@
 package com.paradox.zswebsite.service.dto;
 
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +16,7 @@ public class BusinessServiceDTO implements Serializable {
     @NotNull
     private String title;
 
+    @Lob
     private String descriptionHTML;
 
     private String icon;

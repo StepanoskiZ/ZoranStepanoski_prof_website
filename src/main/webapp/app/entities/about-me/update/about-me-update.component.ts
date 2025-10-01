@@ -15,8 +15,6 @@ import { AboutMeService } from '../service/about-me.service';
 import { IAboutMe } from '../about-me.model';
 import { AboutMeFormService, AboutMeFormGroup } from './about-me-form.service';
 import { QuillModule } from 'ngx-quill';
-import Delta from 'quill-delta';
-type DeltaStatic = Delta;
 
 @Component({
   standalone: true,

@@ -16,8 +16,6 @@ import { ProjectService } from '../service/project.service';
 import { IProject } from '../project.model';
 import { ProjectFormGroup, ProjectFormService } from './project-form.service';
 import { QuillModule } from 'ngx-quill';
-import Delta from 'quill-delta';
-type DeltaStatic = Delta;
 
 @Component({
   selector: 'jhi-project-update',

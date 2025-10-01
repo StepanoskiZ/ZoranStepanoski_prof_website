@@ -17,8 +17,6 @@ import { CurriculumVitaeService } from '../service/curriculum-vitae.service';
 import { ICurriculumVitae } from '../curriculum-vitae.model';
 import { CurriculumVitaeFormService, CurriculumVitaeFormGroup } from './curriculum-vitae-form.service';
 import { QuillModule } from 'ngx-quill';
-import Delta from 'quill-delta';
-type DeltaStatic = Delta;
 
 @Component({
   standalone: true,

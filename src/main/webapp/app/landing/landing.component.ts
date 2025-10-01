@@ -156,9 +156,17 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadBusinessServices(): void {
     this.isLoadingServices = true;
-    this.http.get<BusinessServiceCard[]>('/api/business-services/cards').subscribe({
-      next: data => {
-        this.businessServices = data;
+    this.http.get<any[]>('/api/business-services/cards').subscribe({ // Expect 'any[]' to be safe
+      next: (data: any[]) => {
+        this.businessServices = data
+          .map((s, index) => ({
+            id: s.id ?? s.serviceId ?? index, // Use a reliable ID
+            title: s.title ?? '(Untitled Service)',
+            description: s.description ?? '', // Optional: you might not need this for the card
+            firstMediaUrl: s.firstMediaUrl ?? null,
+            firstMediaType: s.firstMediaType ?? null,
+          }))
+          .sort((a, b) => a.id - b.id); // Sort by ID to ensure consistent order
         this.isLoadingServices = false;
       },
       error: err => {
@@ -168,14 +176,18 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // ADD this new method to open the service detail modal
   openBusinessServiceModal(serviceId: number): void {
+    const service = this.businessServices.find(s => s.id === serviceId);
+    if (!service) {
+      console.error(`❌ No business service found for id ${serviceId}.`);
+      return;
+    }
     const modalRef = this.modalService.open(BusinessServiceDetailModalComponent, {
       size: 'xl',
       centered: true,
-      windowClass: 'project-detail-custom-modal',
+      windowClass: 'project-detail-custom-modal', // You can create a new class if needed
     });
-    modalRef.componentInstance.item = { id: serviceId };
+    modalRef.componentInstance.item = service; // Pass the whole service object
   }
 
   private loadProjects(): void {

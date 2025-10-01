@@ -1,28 +1,28 @@
 import { IBusinessServiceMedia, NewBusinessServiceMedia } from './business-service-media.model';
 
 export const sampleWithRequiredData: IBusinessServiceMedia = {
-  id: 17287,
-  mediaUrl: 'jovially finally after',
+  id: 10816,
+  mediaUrl: 'similarity kindheartedly',
   businessServiceMediaType: 'VIDEO',
 };
 
 export const sampleWithPartialData: IBusinessServiceMedia = {
-  id: 13703,
-  mediaUrl: 'slum tote',
-  businessServiceMediaType: 'VIDEO',
-  caption: 'mmm instead',
+  id: 1455,
+  mediaUrl: 'excluding until apropos',
+  businessServiceMediaType: 'IMAGE',
+  caption: 'bitter inasmuch',
 };
 
 export const sampleWithFullData: IBusinessServiceMedia = {
-  id: 14610,
-  mediaUrl: 'arctic woodshed readily',
+  id: 14490,
+  mediaUrl: 'sadly',
   businessServiceMediaType: 'IMAGE',
-  caption: 'wallet ouch whoever',
+  caption: 'poor',
 };
 
 export const sampleWithNewData: NewBusinessServiceMedia = {
-  mediaUrl: 'elderly kind apud',
-  businessServiceMediaType: 'IMAGE',
+  mediaUrl: 'ah safely',
+  businessServiceMediaType: 'VIDEO',
   id: null,
 };
 

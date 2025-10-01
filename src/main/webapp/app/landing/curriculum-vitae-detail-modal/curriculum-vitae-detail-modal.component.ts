@@ -13,6 +13,7 @@ export interface CurriculumVitaeDetail {
   endDate: string;
   mediaFiles: MediaItem[];
 }
+
 @Component({
   selector: 'jhi-curriculum-vitae-detail-modal',
   standalone: true,

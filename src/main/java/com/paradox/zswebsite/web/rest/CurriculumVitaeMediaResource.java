@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.CurriculumVitaeMedia}.
  */
 @RestController
-@RequestMapping("/api/curriculum-vitae-medias")
+@RequestMapping("/api/curriculum-vitae-media")
 public class CurriculumVitaeMediaResource {
 
     private final Logger log = LoggerFactory.getLogger(CurriculumVitaeMediaResource.class);
@@ -66,7 +66,7 @@ public class CurriculumVitaeMediaResource {
             throw new BadRequestAlertException("A new curriculumVitaeMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CurriculumVitaeMediaDTO result = curriculumVitaeMediaService.save(curriculumVitaeMediaDTO);
-        return ResponseEntity.created(new URI("/api/curriculum-vitae-medias/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/curriculum-vitae-media/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

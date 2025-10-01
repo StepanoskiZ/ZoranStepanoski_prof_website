@@ -30,7 +30,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.Project}.
  */
 @RestController
-@RequestMapping("/api/projects")
+@RequestMapping("/api")
 public class ProjectResource {
 
     private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
@@ -54,7 +54,7 @@ public class ProjectResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new projectDTO, or with status {@code 400 (Bad Request)} if the project has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/projects")
     public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
         log.debug("REST request to save Project : {}", projectDTO);
         if (projectDTO.getId() != null) {
@@ -76,7 +76,7 @@ public class ProjectResource {
      * or with status {@code 500 (Internal Server Error)} if the projectDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/projects/{id}")
     public ResponseEntity<ProjectDTO> updateProject(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ProjectDTO projectDTO
@@ -110,7 +110,7 @@ public class ProjectResource {
      * or with status {@code 500 (Internal Server Error)} if the projectDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/projects/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ProjectDTO> partialUpdateProject(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ProjectDTO projectDTO
@@ -141,7 +141,7 @@ public class ProjectResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projects in body.
      */
-    @GetMapping("")
+    @GetMapping("/projects")
     public ResponseEntity<List<ProjectDTO>> getAllProjects(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Projects");
         Page<ProjectDTO> page = projectService.findAll(pageable);
@@ -155,7 +155,7 @@ public class ProjectResource {
      * @param id the id of the projectDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/projects/{id}")
     public ResponseEntity<ProjectDTO> getProject(@PathVariable("id") Long id) {
         log.debug("REST request to get Project : {}", id);
         Optional<ProjectDTO> projectDTO = projectService.findOne(id);
@@ -168,7 +168,7 @@ public class ProjectResource {
      * @param id the id of the projectDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/projects/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id) {
         log.debug("REST request to delete Project : {}", id);
         projectService.delete(id);
@@ -182,7 +182,7 @@ public class ProjectResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of project cards in body.
      */
-    @GetMapping("/cards")
+    @GetMapping("/projects/cards")
     public ResponseEntity<List<ProjectCardDTO>> getAllProjectCards() {
         log.debug("REST request to get all Project cards for landing page");
         List<ProjectCardDTO> cards = projectService.findAllForLandingPage();
@@ -195,7 +195,7 @@ public class ProjectResource {
      * @param id the id of the project to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectDetailDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}/details")
+    @GetMapping("/projects/{id}/details")
     public ResponseEntity<ProjectDetailDTO> getProjectDetails(@PathVariable("id") Long id) {
         log.debug("REST request to get detailed Project : {}", id);
         Optional<ProjectDetailDTO> projectDetailDTO = projectService.findOneWithDetails(id);

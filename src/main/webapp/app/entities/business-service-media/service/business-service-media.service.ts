@@ -14,7 +14,7 @@ export type EntityArrayResponseType = HttpResponse<IBusinessServiceMedia[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BusinessServiceMediaService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/business-service-medias');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/business-service-media');
 
   constructor(
     protected http: HttpClient,

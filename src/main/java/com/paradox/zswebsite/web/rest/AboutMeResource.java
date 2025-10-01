@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.AboutMe}.
  */
 @RestController
-@RequestMapping("/api/about-me")
+@RequestMapping("/api")
 public class AboutMeResource {
 
     private final Logger log = LoggerFactory.getLogger(AboutMeResource.class);
@@ -62,7 +62,7 @@ public class AboutMeResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new aboutMeDTO, or with status {@code 400 (Bad Request)} if the aboutMe has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/about-me")
     public ResponseEntity<AboutMeDTO> createAboutMe(@Valid @RequestBody AboutMeDTO aboutMeDTO) throws URISyntaxException {
         log.debug("REST request to save AboutMe : {}", aboutMeDTO);
         if (aboutMeDTO.getId() != null) {
@@ -84,7 +84,7 @@ public class AboutMeResource {
      * or with status {@code 500 (Internal Server Error)} if the aboutMeDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/about-me/{id}")
     public ResponseEntity<AboutMeDTO> updateAboutMe(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody AboutMeDTO aboutMeDTO
@@ -118,7 +118,7 @@ public class AboutMeResource {
      * or with status {@code 500 (Internal Server Error)} if the aboutMeDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/about-me/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<AboutMeDTO> partialUpdateAboutMe(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody AboutMeDTO aboutMeDTO
@@ -149,7 +149,7 @@ public class AboutMeResource {
      * @param id the id of the aboutMeDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/about-me/{id}")
     public ResponseEntity<AboutMeDTO> getAboutMe(@PathVariable("id") Long id) {
         log.debug("REST request to get AboutMe : {}", id);
         Optional<AboutMeDTO> aboutMeDTO = aboutMeService.findOne(id);
@@ -162,7 +162,7 @@ public class AboutMeResource {
      * @param id the id of the aboutMeDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/about-me/{id}")
     public ResponseEntity<Void> deleteAboutMe(@PathVariable("id") Long id) {
         log.debug("REST request to delete AboutMe : {}", id);
         aboutMeService.delete(id);
@@ -179,7 +179,7 @@ public class AboutMeResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aboutMes in body.
      */
-    @GetMapping("")
+    @GetMapping("/about-me")
     public ResponseEntity<List<AboutMeDTO>> getAllAboutMe(Pageable pageable) {
         log.debug("REST request to get a page of AboutMe");
         // This service call correctly fetches a "page" of results, even if it's just one.
@@ -198,7 +198,7 @@ public class AboutMeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeDTO,
      * or with status {@code 404 (Not Found)} if no AboutMe entity exists.
      */
-    @GetMapping("/first")
+    @GetMapping("/about-me/first")
     public ResponseEntity<AboutMeDTO> getFirstAboutMe() {
         log.debug("REST request to get first AboutMe");
         return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
@@ -210,7 +210,7 @@ public class AboutMeResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the aboutMeDTO in body.
      */
-    @GetMapping("/details")
+    @GetMapping("/about-me/details")
     public ResponseEntity<AboutMeDTO> getFirstAboutMeWithDetails() {
         log.debug("REST request to get first AboutMe with all details for modal");
         // The findFirst() method in your service already does the heavy lifting
@@ -222,7 +222,7 @@ public class AboutMeResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeCardDTO.
      */
-    @GetMapping("/card")
+    @GetMapping("/about-me/card")
     public ResponseEntity<AboutMeCardDTO> getAboutMeCard() {
         log.debug("REST request to get About Me card");
         return ResponseUtil.wrapOrNotFound(aboutMeService.findAboutMeCard());
@@ -231,7 +231,7 @@ public class AboutMeResource {
     /**
      * GET /{id}/details : get the "id" aboutMe with all details.
      */
-    @GetMapping("/{id}/details")
+    @GetMapping("/about-me/{id}/details")
     public ResponseEntity<AboutMeDTO> getAboutMeWithDetails(@PathVariable Long id) {
         log.debug("REST request to get AboutMe with details : {}", id);
         return ResponseUtil.wrapOrNotFound(aboutMeService.findOneWithDetails(id));

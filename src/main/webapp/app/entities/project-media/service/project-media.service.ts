@@ -14,7 +14,7 @@ export type EntityArrayResponseType = HttpResponse<IProjectMedia[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ProjectMediaService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/project-medias');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/project-media');
 
   constructor(
     protected http: HttpClient,

@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.BusinessServiceMedia}.
  */
 @RestController
-@RequestMapping("/api/business-service-medias")
+@RequestMapping("/api/business-service-media")
 public class BusinessServiceMediaResource {
 
     private final Logger log = LoggerFactory.getLogger(BusinessServiceMediaResource.class);
@@ -67,7 +67,7 @@ public class BusinessServiceMediaResource {
         }
         BusinessServiceMediaDTO result = businessServiceMediaService.save(businessServiceMediaDTO);
         return ResponseEntity
-            .created(new URI("/api/business-service-medias/" + result.getId()))
+            .created(new URI("/api/business-service-media/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

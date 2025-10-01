@@ -5,10 +5,10 @@ function setupProxy({ tls }) {
     // The Angular dev server will handle everything else correctly by itself.
     {
       context: serverResources,
-      target: `http${tls ? 's' : ''}://localhost:4200`,
-      secure: false, // Use true for 'https' URLs
-//      target: 'https://zoranstepanoski-prof-api.fly.dev',
-//      secure: true,
+//      target: `http${tls ? 's' : ''}://localhost:4200`,
+//      secure: false, // Use true for 'https' URLs
+      target: 'https://zoranstepanoski-prof-api.fly.dev',
+      secure: true,
       changeOrigin: true,
     },
   ];

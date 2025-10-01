@@ -84,27 +84,39 @@ public class SecurityConfiguration {
                         "/*.ico",
                         "/*.mp4",
                         "/*.png",
+                        "/*.jpg",
                         "/*.webapp",
                         "/content/**",
                         "/i18n/**",
                         "/swagger-ui/**"
                     )
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/contact-messages", "/api/visitor-logs")
-                    .permitAll()
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/blog-posts",
                         "/api/blog-posts/**",
+                        "/api/projects",
+                        "/api/projects/cards",
+                        "/api/project-media/**",
+                        "/api/business-services",
+                        "/api/business-services/cards",
+                        "/api/business-service-media/**",
+                        "/api/curriculum-vitae",
+                        "/api/curriculum-vitae/cards",
+                        "/api/curriculum-vitae-media/**",
+                        "/api/about-me",
+                        "/api/about-me/card",
+                        "/api/about-me-media/**",
                         "/api/skills",
-                        "/api/projects/**",
-                        "/api/project-media",
-                        "/api/services"
+                        "/api/skills/**",
+                        "/api/visitor-logs",
+                        "/management/health",
+                        "/management/health/**",
+                        "/management/info"
                     )
                     .permitAll()
                     .requestMatchers(
                         "/api/authenticate",
-                        "/api/register",
                         "/api/register",
                         "/api/activate",
                         "/api/account/reset-password/init",
@@ -112,9 +124,10 @@ public class SecurityConfiguration {
                         "/api/page-contents/by-key/**"
                     )
                     .permitAll()
-                    //                    .requestMatchers("/api/page-contents/by-key/**")
-                    //                    .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/management/health", "/management/health/**", "/management/info")
+                    .requestMatchers(HttpMethod.POST,
+                        "/api/visitor-logs",
+                        "/api/contact-messages"
+                    )
                     .permitAll()
                     .requestMatchers("/api/admin/**", "/management/**")
                     .hasAuthority(AuthoritiesConstants.ADMIN)

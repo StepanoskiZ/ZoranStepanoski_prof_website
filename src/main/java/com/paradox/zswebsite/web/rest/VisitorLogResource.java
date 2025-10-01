@@ -30,7 +30,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.VisitorLog}.
  */
 @RestController
-@RequestMapping("/api/visitor-logs")
+@RequestMapping("/api")
 public class VisitorLogResource {
 
     private final Logger log = LoggerFactory.getLogger(VisitorLogResource.class);
@@ -56,7 +56,7 @@ public class VisitorLogResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new visitorLogDTO, or with status {@code 400 (Bad Request)} if the visitorLog has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/visitor-logs")
     public ResponseEntity<VisitorLogDTO> createVisitorLog(@Valid @RequestBody VisitorLogDTO visitorLogDTO) throws URISyntaxException {
         log.debug("REST request to save VisitorLog : {}", visitorLogDTO);
         if (visitorLogDTO.getId() != null) {
@@ -78,7 +78,7 @@ public class VisitorLogResource {
      * or with status {@code 500 (Internal Server Error)} if the visitorLogDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/visitor-logs/{id}")
     public ResponseEntity<VisitorLogDTO> updateVisitorLog(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody VisitorLogDTO visitorLogDTO
@@ -112,7 +112,7 @@ public class VisitorLogResource {
      * or with status {@code 500 (Internal Server Error)} if the visitorLogDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/visitor-logs/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<VisitorLogDTO> partialUpdateVisitorLog(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody VisitorLogDTO visitorLogDTO
@@ -143,7 +143,7 @@ public class VisitorLogResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of visitorLogs in body.
      */
-    @GetMapping("")
+    @GetMapping("/visitor-logs")
     public ResponseEntity<List<VisitorLogDTO>> getAllVisitorLogs(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of VisitorLogs");
         Page<VisitorLogDTO> page = visitorLogService.findAll(pageable);
@@ -157,7 +157,7 @@ public class VisitorLogResource {
      * @param id the id of the visitorLogDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the visitorLogDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/visitor-logs/{id}")
     public ResponseEntity<VisitorLogDTO> getVisitorLog(@PathVariable("id") Long id) {
         log.debug("REST request to get VisitorLog : {}", id);
         Optional<VisitorLogDTO> visitorLogDTO = visitorLogService.findOne(id);
@@ -170,7 +170,7 @@ public class VisitorLogResource {
      * @param id the id of the visitorLogDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/visitor-logs/{id}")
     public ResponseEntity<Void> deleteVisitorLog(@PathVariable("id") Long id) {
         log.debug("REST request to delete VisitorLog : {}", id);
         visitorLogService.delete(id);
@@ -185,7 +185,7 @@ public class VisitorLogResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and a map of stats in the body.
      */
-    @GetMapping("/stats")
+    @GetMapping("/visitor-logs/stats")
     public ResponseEntity<Map<String, Object>> getVisitorStats() {
         log.debug("REST request to get Visitor stats");
 

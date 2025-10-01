@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.ProjectMedia}.
  */
 @RestController
-@RequestMapping("/api/project-medias")
+@RequestMapping("/api/project-media")
 public class ProjectMediaResource {
 
     private final Logger log = LoggerFactory.getLogger(ProjectMediaResource.class);
@@ -62,7 +62,7 @@ public class ProjectMediaResource {
             throw new BadRequestAlertException("A new projectMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ProjectMediaDTO result = projectMediaService.save(projectMediaDTO);
-        return ResponseEntity.created(new URI("/api/project-medias/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/project-media/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

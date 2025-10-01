@@ -14,7 +14,7 @@ export type EntityArrayResponseType = HttpResponse<ICurriculumVitaeMedia[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CurriculumVitaeMediaService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/curriculum-vitae-medias');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/curriculum-vitae-media');
 
   constructor(
     protected http: HttpClient,

@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.AboutMeMedia}.
  */
 @RestController
-@RequestMapping("/api/about-me-medias")
+@RequestMapping("/api/about-me-media")
 public class AboutMeMediaResource {
 
     private final Logger log = LoggerFactory.getLogger(AboutMeMediaResource.class);
@@ -63,7 +63,7 @@ public class AboutMeMediaResource {
         }
         AboutMeMediaDTO result = aboutMeMediaService.save(aboutMeMediaDTO);
         return ResponseEntity
-            .created(new URI("/api/about-me-medias/" + result.getId()))
+            .created(new URI("/api/about-me-media/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

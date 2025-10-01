@@ -31,7 +31,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.CurriculumVitae}.
  */
 @RestController
-@RequestMapping("/api/curriculum-vitae")
+@RequestMapping("/api")
 public class CurriculumVitaeResource {
 
     private final Logger log = LoggerFactory.getLogger(CurriculumVitaeResource.class);
@@ -57,7 +57,7 @@ public class CurriculumVitaeResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new curriculumVitaeDTO, or with status {@code 400 (Bad Request)} if the curriculumVitae has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/curriculum-vitae")
     public ResponseEntity<CurriculumVitaeDTO> createCurriculumVitae(@Valid @RequestBody CurriculumVitaeDTO curriculumVitaeDTO)
         throws URISyntaxException {
         log.debug("REST request to save CurriculumVitae : {}", curriculumVitaeDTO);
@@ -80,7 +80,7 @@ public class CurriculumVitaeResource {
      * or with status {@code 500 (Internal Server Error)} if the curriculumVitaeDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/curriculum-vitae/{id}")
     public ResponseEntity<CurriculumVitaeDTO> updateCurriculumVitae(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody CurriculumVitaeDTO curriculumVitaeDTO
@@ -114,7 +114,7 @@ public class CurriculumVitaeResource {
      * or with status {@code 500 (Internal Server Error)} if the curriculumVitaeDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/curriculum-vitae/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CurriculumVitaeDTO> partialUpdateCurriculumVitae(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody CurriculumVitaeDTO curriculumVitaeDTO
@@ -145,7 +145,7 @@ public class CurriculumVitaeResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of curriculumVitaes in body.
      */
-    @GetMapping("")
+    @GetMapping("/curriculum-vitae")
     public ResponseEntity<List<CurriculumVitaeDTO>> getAllCurriculumVitaes(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
@@ -161,7 +161,7 @@ public class CurriculumVitaeResource {
      * @param id the id of the curriculumVitaeDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the curriculumVitaeDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/curriculum-vitae/{id}")
     public ResponseEntity<CurriculumVitaeDTO> getCurriculumVitae(@PathVariable("id") Long id) {
         log.debug("REST request to get CurriculumVitae : {}", id);
         Optional<CurriculumVitaeDTO> curriculumVitaeDTO = curriculumVitaeService.findOne(id);
@@ -174,7 +174,7 @@ public class CurriculumVitaeResource {
      * @param id the id of the curriculumVitaeDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/curriculum-vitae/{id}")
     public ResponseEntity<Void> deleteCurriculumVitae(@PathVariable("id") Long id) {
         log.debug("REST request to delete CurriculumVitae : {}", id);
         curriculumVitaeService.delete(id);
@@ -188,14 +188,14 @@ public class CurriculumVitaeResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of curriculumVitae cards in body.
      */
-    @GetMapping("/cards")
+    @GetMapping("/curriculum-vitae/cards")
     public ResponseEntity<List<CurriculumVitaeCardDTO>> getCvCards() {
         log.debug("REST request to get all CurriculumVitae for cards");
         List<CurriculumVitaeCardDTO> cards = curriculumVitaeService.findAllForLandingPage();
         return ResponseEntity.ok(cards);
     }
 
-    @GetMapping("/{id}/details")
+    @GetMapping("/curriculum-vitae/{id}/details")
     public ResponseEntity<CurriculumVitaeDetailDTO> getCurriculumVitaeDetails(@PathVariable Long id) {
         log.debug("REST request to get detailed CurriculumVitae : {}", id);
         Optional<CurriculumVitaeDetailDTO> details = curriculumVitaeService.findOneWithDetails(id);

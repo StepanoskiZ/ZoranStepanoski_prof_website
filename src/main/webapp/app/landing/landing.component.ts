@@ -12,6 +12,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProjectDetailModalComponent } from './project-detail-modal/project-detail-modal.component';
 import { AboutMeModalComponent } from './about-me-modal/about-me-modal.component';
 import { CurriculumVitaeDetailModalComponent } from './curriculum-vitae-detail-modal/curriculum-vitae-detail-modal.component';
+import { BusinessServiceDetailModalComponent } from './business-service-detail-modal/business-service-detail-modal.component';
 import { environment } from 'environments/environment';
 
 declare var AOS: any;
@@ -39,6 +40,14 @@ export interface AboutMeCard {
   firstMediaUrl: string | null;
 }
 
+export interface BusinessServiceCard {
+  id: number;
+  title: string;
+  description: string;
+  firstMediaUrl?: string;
+  firstMediaType?: 'IMAGE' | 'VIDEO';
+}
+
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -57,14 +66,19 @@ export interface AboutMeCard {
 })
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   cvDownloadLink = 'content/cv/CV_EN.pdf';
-  projects: ProjectCard[] = [];
-  isLoadingProjects = true;
   aboutContentPreview: SafeHtml = '';
   aboutMediaUrls: string[] = [];
   aboutMeId: number | null = null;
+
+  projects: ProjectCard[] = [];
   cvEntries: CvCard[] = [];
+  businessServices: BusinessServiceCard[] = [];
+
+  isLoadingProjects = true;
+  isLoadingServices = true;
   isLoadingCv = true;
   isLoadingAbout = false;
+
   isAdminEnv = environment.isAdminEnv;
 
   private readonly http = inject(HttpClient);
@@ -91,13 +105,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.updateCvLink(this.translateService.currentLang);
     this.loadProjects();
+    this.loadAboutContent();
+    this.loadCvEntries();
+    this.loadBusinessServices();
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
       once: true,
     });
-    this.loadAboutContent();
-    this.loadCvEntries();
   }
 
   // --- HELPER FUNCTIONS ---
@@ -137,6 +152,30 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       windowClass: 'project-detail-custom-modal',
     });
     modalRef.componentInstance.item = { id: this.aboutMeId };
+  }
+
+  private loadBusinessServices(): void {
+    this.isLoadingServices = true;
+    this.http.get<BusinessServiceCard[]>('/api/business-services/cards').subscribe({
+      next: data => {
+        this.businessServices = data;
+        this.isLoadingServices = false;
+      },
+      error: err => {
+        console.error('❌ Failed to load services:', err);
+        this.isLoadingServices = false;
+      },
+    });
+  }
+
+  // ADD this new method to open the service detail modal
+  openBusinessServiceModal(serviceId: number): void {
+    const modalRef = this.modalService.open(BusinessServiceDetailModalComponent, {
+      size: 'xl',
+      centered: true,
+      windowClass: 'project-detail-custom-modal',
+    });
+    modalRef.componentInstance.item = { id: serviceId };
   }
 
   private loadProjects(): void {

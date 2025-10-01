@@ -2,9 +2,14 @@ package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.BusinessService;
 import com.paradox.zswebsite.repository.BusinessServiceRepository;
+import com.paradox.zswebsite.service.dto.BusinessServiceCardDTO;
 import com.paradox.zswebsite.service.dto.BusinessServiceDTO;
+import com.paradox.zswebsite.service.dto.BusinessServiceDetailDTO;
 import com.paradox.zswebsite.service.mapper.BusinessServiceMapper;
+import com.paradox.zswebsite.service.mapper.BusinessServiceMediaMapper;
 import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,12 +27,17 @@ public class BusinessServiceService {
     private final Logger log = LoggerFactory.getLogger(BusinessServiceService.class);
 
     private final BusinessServiceRepository businessServiceRepository;
-
     private final BusinessServiceMapper businessServiceMapper;
+    private final BusinessServiceMediaMapper businessServiceMediaMapper;
 
-    public BusinessServiceService(BusinessServiceRepository businessServiceRepository, BusinessServiceMapper businessServiceMapper) {
+    public BusinessServiceService(
+        BusinessServiceRepository businessServiceRepository,
+        BusinessServiceMapper businessServiceMapper,
+        BusinessServiceMediaMapper businessServiceMediaMapper
+    ) {
         this.businessServiceRepository = businessServiceRepository;
         this.businessServiceMapper = businessServiceMapper;
+        this.businessServiceMediaMapper = businessServiceMediaMapper;
     }
 
     /**
@@ -108,5 +118,40 @@ public class BusinessServiceService {
     public void delete(Long id) {
         log.debug("Request to delete BusinessService : {}", id);
         businessServiceRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BusinessServiceCardDTO> findAllCards() {
+        return businessServiceRepository.findAllWithFirstMedia().stream() // You'll need to create this repository method
+            .map(service -> {
+                String firstMediaUrl = service.getMedia().stream().findFirst().map(media -> media.getMediaUrl()).orElse(null);
+                String firstMediaType = service.getMedia().stream().findFirst().map(media -> media.getBusinessServiceMediaType().toString()).orElse(null);
+                return new BusinessServiceCardDTO(
+                    service.getId(),
+                    service.getTitle(),
+                    service.getDescriptionHTML(),
+                    firstMediaUrl,
+                    firstMediaType
+                );
+            })
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public BusinessServiceDetailDTO findOneWithDetails(Long id) {
+        return businessServiceRepository.findById(id)
+            .map(service -> {
+                BusinessServiceDetailDTO dto = new BusinessServiceDetailDTO();
+                dto.setId(service.getId());
+                dto.setTitle(service.getTitle());
+                dto.setDescription(service.getDescriptionHTML());
+                dto.setMediaFiles(
+                    service.getMedia().stream()
+                        .map(businessServiceMediaMapper::toDto)
+                        .collect(Collectors.toList())
+                );
+                return dto;
+            })
+            .orElse(null);
     }
 }

@@ -2,7 +2,9 @@ package com.paradox.zswebsite.web.rest;
 
 import com.paradox.zswebsite.repository.BusinessServiceRepository;
 import com.paradox.zswebsite.service.BusinessServiceService;
+import com.paradox.zswebsite.service.dto.BusinessServiceCardDTO;
 import com.paradox.zswebsite.service.dto.BusinessServiceDTO;
+import com.paradox.zswebsite.service.dto.BusinessServiceDetailDTO;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +30,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.BusinessService}.
  */
 @RestController
-@RequestMapping("/api/business-services")
+@RequestMapping("/api")
 public class BusinessServiceResource {
 
     private final Logger log = LoggerFactory.getLogger(BusinessServiceResource.class);
@@ -54,7 +56,7 @@ public class BusinessServiceResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new businessServiceDTO, or with status {@code 400 (Bad Request)} if the businessService has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/business-services")
     public ResponseEntity<BusinessServiceDTO> createBusinessService(@Valid @RequestBody BusinessServiceDTO businessServiceDTO)
         throws URISyntaxException {
         log.debug("REST request to save BusinessService : {}", businessServiceDTO);
@@ -78,7 +80,7 @@ public class BusinessServiceResource {
      * or with status {@code 500 (Internal Server Error)} if the businessServiceDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/business-services/{id}")
     public ResponseEntity<BusinessServiceDTO> updateBusinessService(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody BusinessServiceDTO businessServiceDTO
@@ -113,7 +115,7 @@ public class BusinessServiceResource {
      * or with status {@code 500 (Internal Server Error)} if the businessServiceDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/business-services/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<BusinessServiceDTO> partialUpdateBusinessService(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BusinessServiceDTO businessServiceDTO
@@ -144,7 +146,7 @@ public class BusinessServiceResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of businessServices in body.
      */
-    @GetMapping("")
+    @GetMapping("/business-services")
     public ResponseEntity<List<BusinessServiceDTO>> getAllBusinessServices(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
@@ -160,7 +162,7 @@ public class BusinessServiceResource {
      * @param id the id of the businessServiceDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the businessServiceDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/business-services/{id}")
     public ResponseEntity<BusinessServiceDTO> getBusinessService(@PathVariable("id") Long id) {
         log.debug("REST request to get BusinessService : {}", id);
         Optional<BusinessServiceDTO> businessServiceDTO = businessServiceService.findOne(id);
@@ -173,7 +175,7 @@ public class BusinessServiceResource {
      * @param id the id of the businessServiceDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/business-services/{id}")
     public ResponseEntity<Void> deleteBusinessService(@PathVariable("id") Long id) {
         log.debug("REST request to delete BusinessService : {}", id);
         businessServiceService.delete(id);
@@ -181,5 +183,19 @@ public class BusinessServiceResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/business-services/cards")
+    public ResponseEntity<List<BusinessServiceCardDTO>> getAllServiceCards() {
+        log.debug("REST request to get all BusinessService cards");
+        List<BusinessServiceCardDTO> cards = businessServiceService.findAllCards();
+        return ResponseEntity.ok(cards);
+    }
+
+    @GetMapping("/business-services/{id}/details")
+    public ResponseEntity<BusinessServiceDetailDTO> getServiceDetails(@PathVariable Long id) {
+        log.debug("REST request to get BusinessService details : {}", id);
+        BusinessServiceDetailDTO detailDTO = businessServiceService.findOneWithDetails(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(detailDTO));
     }
 }

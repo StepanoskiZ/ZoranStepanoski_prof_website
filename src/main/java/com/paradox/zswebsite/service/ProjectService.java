@@ -150,7 +150,7 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProjectCardDTO> findAllForLandingPage() {
+    public List<ProjectCardDTO> findAllCards() {
         log.debug("Request to get all Projects for landing page");
         return projectRepository
             .findAllWithEagerRelationships()

@@ -191,7 +191,7 @@ public class CurriculumVitaeResource {
     @GetMapping("/curriculum-vitae/cards")
     public ResponseEntity<List<CurriculumVitaeCardDTO>> getCvCards() {
         log.debug("REST request to get all CurriculumVitae for cards");
-        List<CurriculumVitaeCardDTO> cards = curriculumVitaeService.findAllForLandingPage();
+        List<CurriculumVitaeCardDTO> cards = curriculumVitaeService.findAllCards();
         return ResponseEntity.ok(cards);
     }
 

@@ -185,7 +185,7 @@ public class ProjectResource {
     @GetMapping("/projects/cards")
     public ResponseEntity<List<ProjectCardDTO>> getAllProjectCards() {
         log.debug("REST request to get all Project cards for landing page");
-        List<ProjectCardDTO> cards = projectService.findAllForLandingPage();
+        List<ProjectCardDTO> cards = projectService.findAllCards();
         return ResponseEntity.ok().body(cards);
     }
 

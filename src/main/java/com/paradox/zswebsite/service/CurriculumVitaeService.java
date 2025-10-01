@@ -144,44 +144,40 @@ public class CurriculumVitaeService {
     }
 
     @Transactional(readOnly = true)
-    public List<CurriculumVitaeCardDTO> findAllForLandingPage() {
+    public List<CurriculumVitaeCardDTO> findAllCards() {
         log.debug("Request to get all CurriculumVitae for landing page cards");
         return curriculumVitaeRepository
-            .findAllWithEagerRelationships() // <-- Use the new optimized method
+            .findAllWithEagerRelationships() // This method already sorts by endDate DESC
             .stream()
-            .map(cv -> {
-                CurriculumVitaeCardDTO dto = new CurriculumVitaeCardDTO();
-                dto.setId(cv.getId());
-                dto.setCompanyName(cv.getCompanyName());
-
-                String description = cv.getJobDescriptionHTML();
-                if (description != null && description.length() > 150) {
-                    description = description.substring(0, 150) + "...";
-                }
-                dto.setJobDescriptionHTML(description);
-                dto.setStartDate(cv.getStartDate());
-                dto.setEndDate(cv.getEndDate());
-
-                // --- ADD THIS MEDIA LOGIC (copied and adapted from ProjectService) ---
-                cv
-                    .getMedia()
-                    .stream()
-                    .sorted(Comparator.comparing(CurriculumVitaeMedia::getId)) // Sort for consistency
-                    .findFirst()
-                    .ifPresent(firstMedia -> {
-                        dto.setFirstMediaUrl(firstMedia.getMediaUrl());
-                    });
-
-                return dto;
-            })
+            .map(this::mapToCardDTO) // Use a clean helper method
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Helper method to map a CurriculumVitae entity to a CurriculumVitaeCardDTO.
+     */
+    private CurriculumVitaeCardDTO mapToCardDTO(CurriculumVitae cv) {
+        CurriculumVitaeCardDTO dto = new CurriculumVitaeCardDTO();
+        dto.setId(cv.getId());
+        dto.setCompanyName(cv.getCompanyName());
+        dto.setJobDescriptionHTML(cv.getJobDescriptionHTML()); // Let frontend handle truncation
+        dto.setStartDate(cv.getStartDate());
+        dto.setEndDate(cv.getEndDate());
+
+        // Find the first media item by sorting the media collection by its own ID for consistency
+        cv.getMedia()
+            .stream()
+            .min(Comparator.comparing(CurriculumVitaeMedia::getId)) // Sorts media by ID
+            .ifPresent(firstMedia -> dto.setFirstMediaUrl(firstMedia.getMediaUrl()));
+
+        return dto;
     }
 
     @Transactional(readOnly = true)
     public Optional<CurriculumVitaeDetailDTO> findOneWithDetails(Long id) {
         log.debug("Request to get detailed CurriculumVitae with media : {}", id);
         return curriculumVitaeRepository
-            .findOneWithEagerRelationships(id) // <-- USE THE EAGER METHOD
+            .findOneWithEagerRelationships(id) // Use the eager method
             .map(cv -> {
                 CurriculumVitaeDetailDTO dto = new CurriculumVitaeDetailDTO();
                 dto.setId(cv.getId());
@@ -190,11 +186,12 @@ public class CurriculumVitaeService {
                 dto.setStartDate(cv.getStartDate());
                 dto.setEndDate(cv.getEndDate());
 
+                // Map and sort the media files by their ID
                 List<CurriculumVitaeMediaDTO> mediaDTOs = cv
                     .getMedia()
                     .stream()
+                    .sorted(Comparator.comparing(CurriculumVitaeMedia::getId)) // Sort media by ID
                     .map(curriculumVitaeMediaMapper::toDto)
-                    .sorted(Comparator.comparing(CurriculumVitaeMediaDTO::getId))
                     .collect(Collectors.toList());
                 dto.setMediaFiles(mediaDTOs);
 

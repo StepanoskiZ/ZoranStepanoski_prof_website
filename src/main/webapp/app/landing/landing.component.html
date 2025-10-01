@@ -10,18 +10,13 @@
 </section>
 
 <!-- =================== About Section =================== -->
-<section #section id="about" class="about-section py-5" *ngIf="!isLoadingAbout && aboutContentPreview">
-<!--<section #section id="about" class="about-section py-5">-->
+<section #section id="about" class="about-section py-5" *ngIf="!isLoadingAbout && aboutCard">
   <div class="container">
     <div class="row align-items-center">
-      <!-- Text Content (Left Column) -->
       <div class="col-lg-7">
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
-        <div class="about-preview card-text-truncate" [innerHTML]="aboutContentPreview"></div>
-<!--        <div class="about-preview-wrapper">-->
-<!--          <div class="about-preview" [innerHTML]="aboutContentPreview"></div>-->
-<!--        </div>-->
+        <div class="about-preview card-text-truncate" [innerHTML]="aboutCard.contentHtml"></div>
         <div class="mt-2">
           <a href="#" class="read-more-link ms-4" (click)="openAboutModal(); $event.preventDefault()">
             {{ 'global.readMore' | translate }}
@@ -43,15 +38,15 @@
       <!-- Your Picture (Right Column) -->
       <div class="col-lg-5">
         <div class="profile-picture-container">
-          <ng-container *ngIf="aboutMediaUrls && aboutMediaUrls.length > 0">
+          <ng-container *ngIf="aboutCard.firstMediaUrl">
             <img
-              *ngIf="getMediaType(aboutMediaUrls[0]) === 'IMAGE'"
-              [src]="getFullMediaPath(aboutMediaUrls[0])"
+              *ngIf="aboutCard.firstMediaType === 'IMAGE'"
+              [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
               alt="Profile Picture"
               class="profile-picture img-fluid rounded shadow-lg" />
             <video
-              *ngIf="getMediaType(aboutMediaUrls[0]) === 'VIDEO'"
-              [src]="getFullMediaPath(aboutMediaUrls[0])"
+              *ngIf="aboutCard.firstMediaType === 'VIDEO'"
+              [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
               class="profile-picture img-fluid rounded shadow-lg"
               loop
               muted
@@ -59,7 +54,7 @@
               playsinline>
             </video>
           </ng-container>
-          <ng-container *ngIf="!aboutMediaUrls || aboutMediaUrls.length === 0">
+          <ng-container *ngIf="!aboutCard.firstMediaUrl">
             <img
               src="content/media/profile-picture.jpg"
               alt="Zoran Stepanoski"

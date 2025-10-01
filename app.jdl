@@ -103,12 +103,12 @@ entity VisitorLog {
 
 relationship OneToMany {
   AboutMe{media(mediaUrl)} to AboutMeMedia{aboutMe(id)},
-  CurriculumVitae{media(mediaUrl)} to CurriculumVitaeMedia{curriculumVitae(companyName)},
-  Project{media(mediaUrl)} to ProjectMedia{project(title)}
-  BusinessServiceMedia{media(mediaUrl)} to BusinessServiceMedia{businessService(title)}
+  CurriculumVitae{media(mediaUrl)} to CurriculumVitaeMedia{curriculumVitae(id)},
+  Project{media(mediaUrl)} to ProjectMedia{project(id)}
+  BusinessService{media(mediaUrl)} to BusinessServiceMedia{businessService(id)}
 }
 
-paginate AboutMe, AboutMeMedia, CurriculumVitae, CurriculumVitaeMedia, Project, ProjectMedia, Skill, BusinessService, BusinessServiceMedia, BlogPost, ContactMessage, VisitorLog with pagination
+paginate * with pagination
 
 dto * with mapstruct
 service all with serviceClass

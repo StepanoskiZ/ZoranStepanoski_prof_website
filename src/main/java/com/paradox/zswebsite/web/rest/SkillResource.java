@@ -94,7 +94,8 @@ public class SkillResource {
         }
 
         SkillDTO result = skillService.update(skillDTO);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, skillDTO.getId().toString()))
             .body(result);
     }
@@ -172,7 +173,8 @@ public class SkillResource {
     public ResponseEntity<Void> deleteSkill(@PathVariable("id") Long id) {
         log.debug("REST request to delete Skill : {}", id);
         skillService.delete(id);
-        return ResponseEntity.noContent()
+        return ResponseEntity
+            .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

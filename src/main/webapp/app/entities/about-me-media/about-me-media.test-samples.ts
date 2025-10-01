@@ -1,28 +1,28 @@
 import { IAboutMeMedia, NewAboutMeMedia } from './about-me-media.model';
 
 export const sampleWithRequiredData: IAboutMeMedia = {
-  id: 27663,
-  mediaUrl: 'sharply',
-  aboutMeMediaType: 'IMAGE',
+  id: 6164,
+  mediaUrl: 'energetically until aw',
+  aboutMeMediaType: 'VIDEO',
 };
 
 export const sampleWithPartialData: IAboutMeMedia = {
-  id: 17205,
-  mediaUrl: 'supposing unbearably vicious',
+  id: 10702,
+  mediaUrl: 'ew yahoo',
   aboutMeMediaType: 'IMAGE',
-  caption: 'accidentally until',
+  caption: 'distant',
 };
 
 export const sampleWithFullData: IAboutMeMedia = {
-  id: 12457,
-  mediaUrl: 'past till',
-  aboutMeMediaType: 'IMAGE',
-  caption: 'dwelling gee moonlight',
+  id: 3822,
+  mediaUrl: 'underneath',
+  aboutMeMediaType: 'VIDEO',
+  caption: 'whose',
 };
 
 export const sampleWithNewData: NewAboutMeMedia = {
-  mediaUrl: 'who ugh',
-  aboutMeMediaType: 'IMAGE',
+  mediaUrl: 'quarrelsome infuriate apropos',
+  aboutMeMediaType: 'VIDEO',
   id: null,
 };
 

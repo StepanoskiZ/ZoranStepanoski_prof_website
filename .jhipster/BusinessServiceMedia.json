@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20240830064100"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "business_service_media",
+  "fields": [
+    {
+      "fieldName": "mediaUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "businessServiceMediaType",
+      "fieldType": "UnifiedMediaType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IMAGE,VIDEO"
+    },
+    {
+      "fieldName": "caption",
+      "fieldType": "String"
+    }
+  ],
+  "name": "BusinessServiceMedia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "businessService",
+      "otherEntityRelationshipName": "media",
+      "relationshipName": "businessService",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

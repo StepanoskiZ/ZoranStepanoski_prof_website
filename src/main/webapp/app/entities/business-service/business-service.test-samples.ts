@@ -1,25 +1,25 @@
 import { IBusinessService, NewBusinessService } from './business-service.model';
 
 export const sampleWithRequiredData: IBusinessService = {
-  id: 4463,
-  title: 'aboard admired',
+  id: 25911,
+  title: 'whoa afore orange',
 };
 
 export const sampleWithPartialData: IBusinessService = {
-  id: 6807,
-  title: 'than',
-  icon: 'expostulate drafty wholly',
+  id: 27941,
+  title: 'teleport midst',
+  icon: 'freely',
 };
 
 export const sampleWithFullData: IBusinessService = {
-  id: 9752,
-  title: 'incidentally normalisation',
-  descriptionHTML: 'for unlawful',
-  icon: 'languish which',
+  id: 12914,
+  title: 'duh over quickly',
+  descriptionHTML: 'although which',
+  icon: 'how',
 };
 
 export const sampleWithNewData: NewBusinessService = {
-  title: 'certainly intensely',
+  title: 'yowza',
   id: null,
 };
 

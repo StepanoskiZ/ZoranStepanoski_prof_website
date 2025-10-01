@@ -26,7 +26,7 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "title",
+      "otherEntityField": "id",
       "otherEntityName": "project",
       "otherEntityRelationshipName": "media",
       "relationshipName": "project",

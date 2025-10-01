@@ -1,26 +1,26 @@
 import { ISkill, NewSkill } from './skill.model';
 
 export const sampleWithRequiredData: ISkill = {
-  id: 175,
-  name: 'providence',
-  percentage: 97,
+  id: 27843,
+  name: 'the apud',
+  percentage: 67,
 };
 
 export const sampleWithPartialData: ISkill = {
-  id: 5786,
-  name: 'after evenly apropos',
-  percentage: 47,
+  id: 21242,
+  name: 'direct what per',
+  percentage: 26,
 };
 
 export const sampleWithFullData: ISkill = {
-  id: 13186,
-  name: 'bow for',
-  percentage: 15,
+  id: 12676,
+  name: 'issue boo officially',
+  percentage: 37,
 };
 
 export const sampleWithNewData: NewSkill = {
-  name: 'since why watch',
-  percentage: 93,
+  name: 'inwardly whoever grant',
+  percentage: 9,
   id: null,
 };
 

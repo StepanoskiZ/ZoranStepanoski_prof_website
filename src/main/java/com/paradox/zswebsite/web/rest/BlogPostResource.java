@@ -61,7 +61,8 @@ public class BlogPostResource {
             throw new BadRequestAlertException("A new blogPost cannot already have an ID", ENTITY_NAME, "idexists");
         }
         BlogPostDTO result = blogPostService.save(blogPostDTO);
-        return ResponseEntity.created(new URI("/api/blog-posts/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/blog-posts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -94,7 +95,8 @@ public class BlogPostResource {
         }
 
         BlogPostDTO result = blogPostService.update(blogPostDTO);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blogPostDTO.getId().toString()))
             .body(result);
     }
@@ -172,7 +174,8 @@ public class BlogPostResource {
     public ResponseEntity<Void> deleteBlogPost(@PathVariable("id") Long id) {
         log.debug("REST request to delete BlogPost : {}", id);
         blogPostService.delete(id);
-        return ResponseEntity.noContent()
+        return ResponseEntity
+            .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

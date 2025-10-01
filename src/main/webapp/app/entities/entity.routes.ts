@@ -61,6 +61,11 @@ const routes: Routes = [
     data: { pageTitle: 'zsWebsiteApp.curriculumVitaeMedia.home.title' },
     loadChildren: () => import('./curriculum-vitae-media/curriculum-vitae-media.routes'),
   },
+  {
+    path: 'business-service-media',
+    data: { pageTitle: 'zsWebsiteApp.businessServiceMedia.home.title' },
+    loadChildren: () => import('./business-service-media/business-service-media.routes'),
+  },
   /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
 ];
 

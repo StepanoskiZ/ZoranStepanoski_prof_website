@@ -62,7 +62,8 @@ public class AboutMeMediaResource {
             throw new BadRequestAlertException("A new aboutMeMedia cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AboutMeMediaDTO result = aboutMeMediaService.save(aboutMeMediaDTO);
-        return ResponseEntity.created(new URI("/api/about-me-medias/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/about-me-medias/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -95,7 +96,8 @@ public class AboutMeMediaResource {
         }
 
         AboutMeMediaDTO result = aboutMeMediaService.update(aboutMeMediaDTO);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, aboutMeMediaDTO.getId().toString()))
             .body(result);
     }
@@ -173,7 +175,8 @@ public class AboutMeMediaResource {
     public ResponseEntity<Void> deleteAboutMeMedia(@PathVariable("id") Long id) {
         log.debug("REST request to delete AboutMeMedia : {}", id);
         aboutMeMediaService.delete(id);
-        return ResponseEntity.noContent()
+        return ResponseEntity
+            .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

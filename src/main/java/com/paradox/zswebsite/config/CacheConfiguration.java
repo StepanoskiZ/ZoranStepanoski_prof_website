@@ -26,15 +26,13 @@ public class CacheConfiguration {
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
         JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties.getCache().getEhcache();
 
-        jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
-            CacheConfigurationBuilder.newCacheConfigurationBuilder(
-                Object.class,
-                Object.class,
-                ResourcePoolsBuilder.heap(ehcache.getMaxEntries())
-            )
-                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
-                .build()
-        );
+        jcacheConfiguration =
+            Eh107Configuration.fromEhcacheCacheConfiguration(
+                CacheConfigurationBuilder
+                    .newCacheConfigurationBuilder(Object.class, Object.class, ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                    .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
+                    .build()
+            );
     }
 
     @Bean
@@ -74,6 +72,8 @@ public class CacheConfiguration {
             createCache(cm, com.paradox.zswebsite.domain.CurriculumVitae.class.getName());
             createCache(cm, com.paradox.zswebsite.domain.CurriculumVitae.class.getName() + ".media");
             createCache(cm, com.paradox.zswebsite.domain.CurriculumVitaeMedia.class.getName());
+            createCache(cm, com.paradox.zswebsite.domain.BusinessServiceMedia.class.getName());
+            createCache(cm, com.paradox.zswebsite.domain.BusinessService.class.getName() + ".media");
             // jhipster-needle-ehcache-add-entry
         };
     }

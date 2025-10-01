@@ -3,36 +3,36 @@ import dayjs from 'dayjs/esm';
 import { IProject, NewProject } from './project.model';
 
 export const sampleWithRequiredData: IProject = {
-  id: 11838,
-  title: 'sealift',
+  id: 9505,
+  title: 'because justice',
   descriptionHTML: '../fake-data/blob/hipster.txt',
   language: 'EN',
 };
 
 export const sampleWithPartialData: IProject = {
-  id: 7739,
-  title: 'instantly pace apropos',
+  id: 21392,
+  title: 'promptly',
   descriptionHTML: '../fake-data/blob/hipster.txt',
+  startDate: dayjs('2025-08-30'),
   endDate: dayjs('2025-08-30'),
-  projectUrl: 'meh ouch',
-  category: 'mollycoddle',
+  projectUrl: 'um blissfully which',
   language: 'SR',
 };
 
 export const sampleWithFullData: IProject = {
-  id: 5372,
-  title: 'about quirkily questioningly',
+  id: 30742,
+  title: 'gently reskill',
   descriptionHTML: '../fake-data/blob/hipster.txt',
   startDate: dayjs('2025-08-30'),
-  endDate: dayjs('2025-08-30'),
+  endDate: dayjs('2025-08-29'),
   status: 'COMPLETED',
-  projectUrl: 'acquaint an',
-  category: 'left if briefly',
+  projectUrl: 'pleasing online',
+  category: 'handicap brr judgementally',
   language: 'SR',
 };
 
 export const sampleWithNewData: NewProject = {
-  title: 'aha if',
+  title: 'er caring',
   descriptionHTML: '../fake-data/blob/hipster.txt',
   language: 'SR',
   id: null,

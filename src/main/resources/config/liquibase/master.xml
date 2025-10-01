@@ -24,10 +24,12 @@
     <include file="config/liquibase/changelog/20240830064300_added_entity_CurriculumVitae.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240830064400_added_entity_CurriculumVitaeMedia.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250928070354_added_entity_Authority.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240830064100_added_entity_BusinessServiceMedia.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20250919003537_added_entity_constraints_ProjectMedia.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240830064200_added_entity_constraints_AboutMeMedia.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240830064400_added_entity_constraints_CurriculumVitaeMedia.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240830064100_added_entity_constraints_BusinessServiceMedia.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

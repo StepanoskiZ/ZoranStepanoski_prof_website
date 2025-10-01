@@ -14,8 +14,7 @@
             class="nav-link"
             (click)="scrollToSection('home')"
             [class.active]="isLandingPage() && activeSection() === 'home'"
-            jhiTranslate="landing.navHome"
-          >
+            jhiTranslate="landing.navHome">
           </a>
         </li>
         <li class="nav-item">
@@ -23,8 +22,7 @@
             class="nav-link"
             (click)="scrollToSection('about')"
             [class.active]="isLandingPage() && activeSection() === 'about'"
-            jhiTranslate="landing.navAbout"
-          >
+            jhiTranslate="landing.navAbout">
           </a>
         </li>
         <li class="nav-item">
@@ -32,8 +30,7 @@
             class="nav-link"
             (click)="scrollToSection('services')"
             [class.active]="isLandingPage() && activeSection() === 'services'"
-            jhiTranslate="landing.navServices"
-          >
+            jhiTranslate="landing.navServices">
           </a>
         </li>
         <li class="nav-item">
@@ -41,8 +38,7 @@
             class="nav-link"
             (click)="scrollToSection('projects')"
             [class.active]="isLandingPage() && activeSection() === 'projects'"
-            jhiTranslate="landing.navProject"
-          >
+            jhiTranslate="landing.navProject">
           </a>
         </li>
         <li class="nav-item">
@@ -50,8 +46,7 @@
             class="nav-link"
             (click)="scrollToSection('cv')"
             [class.active]="isLandingPage() && activeSection() === 'cv'"
-            jhiTranslate="landing.navCV"
-          >
+            jhiTranslate="landing.navCV">
           </a>
         </li>
         <li class="nav-item">
@@ -118,8 +113,7 @@
                   routerLink="/visitor-logs"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()"
-                >
+                  (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.visitorLog"></span>
                 </a>
@@ -130,8 +124,7 @@
                   routerLink="/about-me"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()"
-                >
+                  (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.aboutMe">About Me</span>
                 </a>
@@ -142,8 +135,7 @@
                   routerLink="/about-me-media"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()"
-                >
+                  (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.aboutMeMedia">About Me Media</span>
                 </a>
@@ -154,8 +146,7 @@
                   routerLink="/curriculum-vitae"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()"
-                >
+                  (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.curriculumVitae">Curriculum Vitae</span>
                 </a>
@@ -166,10 +157,31 @@
                   routerLink="/curriculum-vitae-media"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()"
-                >
+                  (click)="collapseNavbar()">
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.curriculumVitaeMedia">Curriculum Vitae Media</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/business-service-media"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.businessServiceMedia">Business Service Media</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/visitor-log"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()">
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.visitorLog">Visitor Log</span>
                 </a>
               </li>
               <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

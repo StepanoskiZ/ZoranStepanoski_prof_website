@@ -3,36 +3,36 @@ import dayjs from 'dayjs/esm';
 import { ICurriculumVitae, NewCurriculumVitae } from './curriculum-vitae.model';
 
 export const sampleWithRequiredData: ICurriculumVitae = {
-  id: 22000,
-  companyName: 'before',
-  language: 'SR',
+  id: 773,
+  companyName: 'suddenly',
+  language: 'EN',
   jobDescriptionHTML: '../fake-data/blob/hipster.txt',
 };
 
 export const sampleWithPartialData: ICurriculumVitae = {
-  id: 3942,
-  companyName: 'vice',
+  id: 4128,
+  companyName: 'astronomy',
   language: 'SR',
   jobDescriptionHTML: '../fake-data/blob/hipster.txt',
   startDate: dayjs('2024-08-29'),
-  status: 'STILLACTIVE',
-  category: 'blissfully',
+  endDate: dayjs('2024-08-29'),
+  category: 'accentuate eek',
 };
 
 export const sampleWithFullData: ICurriculumVitae = {
-  id: 12680,
-  companyName: 'beyond',
+  id: 13902,
+  companyName: 'separately fooey',
   language: 'EN',
   jobDescriptionHTML: '../fake-data/blob/hipster.txt',
   startDate: dayjs('2024-08-30'),
   endDate: dayjs('2024-08-29'),
-  status: 'FINISHED',
-  type: 'FREELANCING',
-  category: 'margarine',
+  status: 'STILLACTIVE',
+  type: 'CONTRACT',
+  category: 'pall',
 };
 
 export const sampleWithNewData: NewCurriculumVitae = {
-  companyName: 'whoever trip frizzy',
+  companyName: 'wrongly wig',
   language: 'EN',
   jobDescriptionHTML: '../fake-data/blob/hipster.txt',
   id: null,

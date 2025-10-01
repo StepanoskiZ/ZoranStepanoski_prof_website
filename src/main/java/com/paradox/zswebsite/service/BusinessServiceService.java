@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -51,6 +53,7 @@ public class BusinessServiceService {
      */
     public BusinessServiceDTO save(BusinessServiceDTO businessServiceDTO) {
         log.debug("Request to save BusinessService : {}", businessServiceDTO);
+        businessServiceDTO.setDescriptionHTML(cleanContentHtml(businessServiceDTO.getDescriptionHTML()));
         BusinessService businessService = businessServiceMapper.toEntity(businessServiceDTO);
         businessService = businessServiceRepository.save(businessService);
         return businessServiceMapper.toDto(businessService);
@@ -64,6 +67,7 @@ public class BusinessServiceService {
      */
     public BusinessServiceDTO update(BusinessServiceDTO businessServiceDTO) {
         log.debug("Request to update BusinessService : {}", businessServiceDTO);
+        businessServiceDTO.setDescriptionHTML(cleanContentHtml(businessServiceDTO.getDescriptionHTML()));
         BusinessService businessService = businessServiceMapper.toEntity(businessServiceDTO);
         businessService = businessServiceRepository.save(businessService);
         return businessServiceMapper.toDto(businessService);
@@ -77,6 +81,7 @@ public class BusinessServiceService {
      */
     public Optional<BusinessServiceDTO> partialUpdate(BusinessServiceDTO businessServiceDTO) {
         log.debug("Request to partially update BusinessService : {}", businessServiceDTO);
+        businessServiceDTO.setDescriptionHTML(cleanContentHtml(businessServiceDTO.getDescriptionHTML()));
 
         return businessServiceRepository
             .findById(businessServiceDTO.getId())
@@ -87,6 +92,21 @@ public class BusinessServiceService {
             })
             .map(businessServiceRepository::save)
             .map(businessServiceMapper::toDto);
+    }
+
+    /**
+     * Cleans the HTML content by unescaping entities and replacing non-breaking spaces.
+     * @param rawHtml the raw HTML string from the frontend.
+     * @return a cleaned HTML string ready for database storage.
+     */
+    private String cleanContentHtml(String rawHtml) {
+        if (rawHtml == null) {
+            return null;
+        }
+        // First, unescape entities like &lt; to <
+        String decodedHtml = StringEscapeUtils.unescapeHtml4(rawHtml);
+        // Then, replace all non-breaking spaces with regular spaces to allow word wrapping.
+        return decodedHtml.replace("&nbsp;", " ");
     }
 
     /**

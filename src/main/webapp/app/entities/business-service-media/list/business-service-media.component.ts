@@ -5,7 +5,7 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortDirective, SortByDirective } from 'app/shared/sort';
+import { SortDirective, SortByDirective, SortState } from 'app/shared/sort';
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
@@ -55,6 +55,12 @@ export class BusinessServiceMediaComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  onSortChange($event: SortState): void {
+    this.predicate = $event.predicate ?? 'id';
+    this.ascending = $event.order === 'asc';
+    this.navigateToWithComponentValues();
   }
 
   delete(businessServiceMedia: IBusinessServiceMedia): void {

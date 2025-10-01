@@ -12,8 +12,7 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-business-service"
-        [routerLink]="['/business-service/new']"
-      >
+        [routerLink]="['/business-service/new']">
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="zsWebsiteApp.businessService.home.createLabel">Create a new Business Service</span>
       </button>
@@ -38,28 +37,24 @@
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="title">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.businessService.title">Title</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="descriptionHTML">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.businessService.descriptionHTML">Description HTML</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="icon">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.businessService.icon">Icon</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -80,8 +75,7 @@
                   <a
                     [routerLink]="['/business-service', businessService.id, 'view']"
                     class="btn btn-info btn-sm"
-                    data-cy="entityDetailsButton"
-                  >
+                    data-cy="entityDetailsButton">
                     <fa-icon icon="eye"></fa-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
@@ -89,8 +83,7 @@
                   <a
                     [routerLink]="['/business-service', businessService.id, 'edit']"
                     class="btn btn-primary btn-sm"
-                    data-cy="entityEditButton"
-                  >
+                    data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
                     <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                   </a>
@@ -121,8 +114,8 @@
           [maxSize]="5"
           [rotate]="true"
           [boundaryLinks]="true"
-          (pageChange)="navigateToPage($event)"
-        ></ngb-pagination>
+          (pageChange)="navigateToPage($event)">
+        </ngb-pagination>
       </div>
     </div>
   }

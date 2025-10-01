@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "businessServiceMedia": {
       "home": {
-        "title": "Business Service Medias",
+        "title": "Business Service Media",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Business Service Media",
         "createOrEditLabel": "Create or edit a Business Service Media",
-        "notFound": "No Business Service Medias found"
+        "notFound": "No Business Service Media found"
       },
       "created": "A new Business Service Media is created with identifier {{ param }}",
       "updated": "A Business Service Media is updated with identifier {{ param }}",

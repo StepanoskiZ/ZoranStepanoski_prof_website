@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="BusinessServiceMediaHeading">
-    <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.title">Business Service Medias</span>
+    <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.title"></span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -14,7 +14,7 @@
         class="btn btn-primary jh-create-entity create-business-service-media"
         [routerLink]="['/business-service-media/new']">
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.createLabel">Create a new Business Service Media</span>
+        <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.createLabel"></span>
       </button>
     </div>
   </h2>
@@ -25,7 +25,7 @@
 
   @if (businessServiceMedias?.length === 0) {
     <div class="alert alert-warning" id="no-result">
-      <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.notFound">No Business Service Medias found</span>
+      <span jhiTranslate="zsWebsiteApp.businessServiceMedia.home.notFound"></span>
     </div>
   }
 
@@ -48,7 +48,7 @@
             </th>
             <th scope="col" jhiSortBy="businessServiceMediaType">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType">Business Service Media Type</span>
+                <span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessServiceMediaType"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -60,7 +60,7 @@
             </th>
             <th scope="col" jhiSortBy="businessService.id">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService">Business Service</span>
+                <span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>

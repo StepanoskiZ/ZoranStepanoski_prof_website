@@ -28,7 +28,7 @@ export type EntityArrayResponseType = HttpResponse<IVisitorLog[]>;
 
 @Injectable({ providedIn: 'root' })
 export class VisitorLogService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/visitor-logs');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/visitor-log');
 
   constructor(
     protected http: HttpClient,

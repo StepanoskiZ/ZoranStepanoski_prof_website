@@ -205,19 +205,6 @@ public class AboutMeResource {
     }
 
     /**
-     * GET /details : get the first aboutMe entry with all details.
-     * This endpoint is specifically for the modal and guarantees media files are included.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the aboutMeDTO in body.
-     */
-    @GetMapping("/about-me/details")
-    public ResponseEntity<AboutMeDTO> getFirstAboutMeWithDetails() {
-        log.debug("REST request to get first AboutMe with all details for modal");
-        // The findFirst() method in your service already does the heavy lifting
-        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
-    }
-
-    /**
      * {@code GET /card} : get the lightweight card data for the About Me preview.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeCardDTO.

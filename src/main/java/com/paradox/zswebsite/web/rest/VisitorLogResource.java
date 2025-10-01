@@ -50,26 +50,26 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code POST  /visitor-logs} : Create a new visitorLog.
+     * {@code POST  /visitor-log} : Create a new visitorLog.
      *
      * @param visitorLogDTO the visitorLogDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new visitorLogDTO, or with status {@code 400 (Bad Request)} if the visitorLog has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/visitor-logs")
+    @PostMapping("/visitor-log")
     public ResponseEntity<VisitorLogDTO> createVisitorLog(@Valid @RequestBody VisitorLogDTO visitorLogDTO) throws URISyntaxException {
         log.debug("REST request to save VisitorLog : {}", visitorLogDTO);
         if (visitorLogDTO.getId() != null) {
             throw new BadRequestAlertException("A new visitorLog cannot already have an ID", ENTITY_NAME, "idexists");
         }
         VisitorLogDTO result = visitorLogService.save(visitorLogDTO);
-        return ResponseEntity.created(new URI("/api/visitor-logs/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/visitor-log/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /visitor-logs/:id} : Updates an existing visitorLog.
+     * {@code PUT  /visitor-log/:id} : Updates an existing visitorLog.
      *
      * @param id the id of the visitorLogDTO to save.
      * @param visitorLogDTO the visitorLogDTO to update.
@@ -78,7 +78,7 @@ public class VisitorLogResource {
      * or with status {@code 500 (Internal Server Error)} if the visitorLogDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/visitor-logs/{id}")
+    @PutMapping("/visitor-log/{id}")
     public ResponseEntity<VisitorLogDTO> updateVisitorLog(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody VisitorLogDTO visitorLogDTO
@@ -102,7 +102,7 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code PATCH  /visitor-logs/:id} : Partial updates given fields of an existing visitorLog, field will ignore if it is null
+     * {@code PATCH  /visitor-log/:id} : Partial updates given fields of an existing visitorLog, field will ignore if it is null
      *
      * @param id the id of the visitorLogDTO to save.
      * @param visitorLogDTO the visitorLogDTO to update.
@@ -112,7 +112,7 @@ public class VisitorLogResource {
      * or with status {@code 500 (Internal Server Error)} if the visitorLogDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/visitor-logs/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/visitor-log/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<VisitorLogDTO> partialUpdateVisitorLog(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody VisitorLogDTO visitorLogDTO
@@ -138,12 +138,12 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code GET  /visitor-logs} : get all the visitorLogs.
+     * {@code GET  /visitor-log} : get all the visitorLogs.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of visitorLogs in body.
      */
-    @GetMapping("/visitor-logs")
+    @GetMapping("/visitor-log")
     public ResponseEntity<List<VisitorLogDTO>> getAllVisitorLogs(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of VisitorLogs");
         Page<VisitorLogDTO> page = visitorLogService.findAll(pageable);
@@ -152,12 +152,12 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code GET  /visitor-logs/:id} : get the "id" visitorLog.
+     * {@code GET  /visitor-log/:id} : get the "id" visitorLog.
      *
      * @param id the id of the visitorLogDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the visitorLogDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/visitor-logs/{id}")
+    @GetMapping("/visitor-log/{id}")
     public ResponseEntity<VisitorLogDTO> getVisitorLog(@PathVariable("id") Long id) {
         log.debug("REST request to get VisitorLog : {}", id);
         Optional<VisitorLogDTO> visitorLogDTO = visitorLogService.findOne(id);
@@ -165,12 +165,12 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code DELETE  /visitor-logs/:id} : delete the "id" visitorLog.
+     * {@code DELETE  /visitor-log/:id} : delete the "id" visitorLog.
      *
      * @param id the id of the visitorLogDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/visitor-logs/{id}")
+    @DeleteMapping("/visitor-log/{id}")
     public ResponseEntity<Void> deleteVisitorLog(@PathVariable("id") Long id) {
         log.debug("REST request to delete VisitorLog : {}", id);
         visitorLogService.delete(id);
@@ -180,12 +180,12 @@ public class VisitorLogResource {
     }
 
     /**
-     * {@code GET  /admin/visitor-logs/stats} : get visitor statistics.
+     * {@code GET  /admin/visitor-log/stats} : get visitor statistics.
      * This is an example endpoint.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and a map of stats in the body.
      */
-    @GetMapping("/visitor-logs/stats")
+    @GetMapping("/visitor-log/stats")
     public ResponseEntity<Map<String, Object>> getVisitorStats() {
         log.debug("REST request to get Visitor stats");
 

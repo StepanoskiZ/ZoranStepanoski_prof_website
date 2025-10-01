@@ -52,7 +52,6 @@ public class CurriculumVitaeService {
      */
     public CurriculumVitaeDTO save(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to save CurriculumVitae : {}", curriculumVitaeDTO);
-        // --- FIX: Clean the HTML content before saving ---
         curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
 
         CurriculumVitae curriculumVitae = curriculumVitaeMapper.toEntity(curriculumVitaeDTO);
@@ -68,7 +67,6 @@ public class CurriculumVitaeService {
      */
     public CurriculumVitaeDTO update(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to update CurriculumVitae : {}", curriculumVitaeDTO);
-        // --- FIX: Clean the HTML content before updating ---
         curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
 
         CurriculumVitae curriculumVitae = curriculumVitaeMapper.toEntity(curriculumVitaeDTO);
@@ -84,7 +82,6 @@ public class CurriculumVitaeService {
      */
     public Optional<CurriculumVitaeDTO> partialUpdate(CurriculumVitaeDTO curriculumVitaeDTO) {
         log.debug("Request to partially update CurriculumVitae : {}", curriculumVitaeDTO);
-        // --- FIX: Clean the HTML content before partial update ---
         curriculumVitaeDTO.setJobDescriptionHTML(cleanContentHtml(curriculumVitaeDTO.getJobDescriptionHTML()));
 
         return curriculumVitaeRepository

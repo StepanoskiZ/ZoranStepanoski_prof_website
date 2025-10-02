@@ -50,6 +50,12 @@ export interface BusinessServiceCard {
   firstMediaType?: 'IMAGE' | 'VIDEO';
 }
 
+export interface SkillCard {
+  id: number;
+  name: string;
+  percentage: number;
+}
+
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -73,11 +79,13 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   projects: ProjectCard[] = [];
   cvEntries: CvCard[] = [];
   businessServices: BusinessServiceCard[] = [];
+  skills: SkillCard[] = [];
 
   isLoadingProjects = true;
   isLoadingServices = true;
   isLoadingCv = true;
   isLoadingAbout = false;
+  isLoadingSkills = true;
 
   isAdminEnv = environment.isAdminEnv;
 
@@ -108,6 +116,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadAboutContent();
     this.loadCvEntries();
     this.loadBusinessServices();
+    this.loadSkills();
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -120,6 +129,23 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const txt = document.createElement('textarea');
     txt.innerHTML = html;
     return txt.value;
+  }
+
+  private loadSkills(): void {
+    this.isLoadingSkills = true;
+    // The default endpoint returns a paginated result, but for skills, it's usually a small list.
+    // We are fetching the first page, which should contain all skills in most cases.
+    this.http.get<SkillCard[]>('/api/skills').subscribe({
+      next: (data: SkillCard[]) => {
+        // Sort skills by percentage, descending
+        this.skills = data.sort((a, b) => b.percentage - a.percentage);
+        this.isLoadingSkills = false;
+      },
+      error: err => {
+        console.error('❌ Failed to load skills:', err);
+        this.isLoadingSkills = false;
+      },
+    });
   }
 
   private loadAboutContent(): void {

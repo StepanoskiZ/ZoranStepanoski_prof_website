@@ -43,6 +43,8 @@
     "projectsHeading": "Recent Work",
     "cvSubheading": "My Professional Journey",
     "cvHeading": "Work Experience",
-    "noProjects": "More projects are coming soon. Please check back later!"
+    "noProjects": "More projects are coming soon. Please check back later!",
+    "skillsSubheading": "My Expertise",
+    "skillsHeading": "Professional Skills"
   }
 }

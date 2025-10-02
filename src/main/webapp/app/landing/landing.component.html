@@ -94,8 +94,8 @@
               muted
               loop
               controls
-              playsinline
-            ></video>
+              playsinline>
+            </video>
           </div>
 
           <!-- Card Body -->
@@ -216,8 +216,49 @@
         </div>
       </div>
     </div>
+
     <!-- Loading Spinner -->
     <div *ngIf="isLoadingCv" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== Skills Section =================== -->
+<section #section id="skills" class="skills-section py-5">
+  <div class="container">
+    <!-- Main Headings -->
+    <div class="mb-5 text-center">
+      <p class="sub-heading" jhiTranslate="landing.skillsSubheading"></p>
+      <h2 class="fw-bold" jhiTranslate="landing.skillsHeading"></h2>
+    </div>
+
+    <!-- Skills Content -->
+    <div *ngIf="!isLoadingSkills && skills.length > 0" class="row">
+      <div *ngFor="let skill of skills; let i = index" class="col-md-6 mb-4" data-aos="fade-up" [attr.data-aos-delay]="i * 50">
+        <div class="skill-item">
+          <div class="d-flex justify-content-between">
+            <span class="skill-name">{{ skill.name }}</span>
+            <span class="skill-percentage">{{ skill.percentage }}%</span>
+          </div>
+          <div class="progress" style="height: 10px">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [style.width]="skill.percentage + '%'"
+              [attr.aria-valuenow]="skill.percentage"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoadingSkills" class="text-center">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

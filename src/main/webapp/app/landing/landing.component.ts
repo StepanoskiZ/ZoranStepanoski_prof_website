@@ -53,7 +53,7 @@ export interface BusinessServiceCard {
 export interface SkillCard {
   id: number;
   name: string;
-  percentage: number;
+  yearsOfExperience: number;
 }
 
 @Component({

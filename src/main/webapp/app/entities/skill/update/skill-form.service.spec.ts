@@ -21,7 +21,7 @@ describe('Skill Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             name: expect.any(Object),
-            percentage: expect.any(Object),
+            yearsOfExperience: expect.any(Object),
           }),
         );
       });
@@ -33,7 +33,7 @@ describe('Skill Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             name: expect.any(Object),
-            percentage: expect.any(Object),
+            yearsOfExperience: expect.any(Object),
           }),
         );
       });

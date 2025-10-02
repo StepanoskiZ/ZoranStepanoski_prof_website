@@ -17,8 +17,7 @@ public class SkillDTO implements Serializable {
 
     @NotNull
     @Min(value = 0)
-    @Max(value = 100)
-    private Integer percentage;
+    private Integer yearsOfExperience;
 
     public Long getId() {
         return id;
@@ -36,12 +35,12 @@ public class SkillDTO implements Serializable {
         this.name = name;
     }
 
-    public Integer getPercentage() {
-        return percentage;
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class SkillDTO implements Serializable {
         return "SkillDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", percentage=" + getPercentage() +
+            ", yearsOfExperience=" + getYearsOfExperience() +
             "}";
     }
 }

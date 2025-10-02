@@ -6,8 +6,8 @@ import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'ap
 import { ISkill } from '../skill.model';
 
 @Component({
-  selector: 'jhi-skill-detail',
   standalone: true,
+  selector: 'jhi-skill-detail',
   templateUrl: './skill-detail.component.html',
   imports: [SharedModule, RouterModule, DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe],
 })

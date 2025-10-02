@@ -65,7 +65,7 @@ entity CurriculumVitaeMedia {
 
 entity Skill {
   name String required,
-  percentage Integer required min(0) max(100)
+  yearsOfExperience Integer required min(0)
 }
 
 entity BusinessService {

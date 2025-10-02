@@ -58,6 +58,26 @@ Browser Upgrade Prompt
 }
 
 /* ==========================================================================
+   Targeted Hyphenation and Word Wrap Fix
+   ========================================================================== */
+
+// This rule targets the specific classes used in your landing page and modals
+// to provide a definitive fix for word wrapping and hyphenation.
+.about-preview,
+.card-text-truncate {
+  // 1. This is the key fix: It disables automatic hyphenation.
+  -webkit-hyphens: manual !important;
+  -ms-hyphens: manual !important;
+  hyphens: manual !important;
+
+  // 2. This ensures long, unbreakable words (like URLs) will wrap correctly.
+  overflow-wrap: break-word;
+
+  // 3. This resets any aggressive word-breaking from other styles.
+  word-break: normal;
+}
+
+/* ==========================================================================
 Generic styles
 ========================================================================== */
 
@@ -96,13 +116,11 @@ Generic styles
   width: 60% !important;
 }
 
-.break {
-//   white-space: normal;   /* allow wrapping */
-//   word-break: keep-all;  /* don't break inside words */
-//   overflow-wrap: normal; /* only break at allowed opportunities */
-  white-space: normal;
-  word-break: break-all;
-}
+// .break {
+//   white-space: normal;
+//   word-break: normal;
+//   overflow-wrap: break-word;
+// }
 
 .form-control {
   background-color: #fff;

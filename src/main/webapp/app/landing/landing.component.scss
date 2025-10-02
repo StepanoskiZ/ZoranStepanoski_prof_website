@@ -117,13 +117,6 @@ $text-color-muted: #555; // Muted gray for default links
     }
   }
 //   overflow-wrap: break-word;
-
-//   white-space: normal;   /* allow wrapping */
-//   word-break: keep-all;  /* don't break inside words */
-//   overflow-wrap: normal; /* only break at allowed opportunities */
-
-  white-space: normal;
-  word-break: break-all;
 }
 
 /* =================== Services Section =================== */
@@ -226,8 +219,7 @@ $text-color-muted: #555; // Muted gray for default links
   text-overflow: ellipsis;
 
   max-height: 96px;
-
-  word-break: break-word;
+//   overflow-wrap: break-word;
 }
 
 /* =================== CV Section Specific Styles =================== */

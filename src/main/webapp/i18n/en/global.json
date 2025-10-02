@@ -6,6 +6,9 @@
     "readMore": "Read more",
     "goBack": "Go back",
     "present": "Present",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",

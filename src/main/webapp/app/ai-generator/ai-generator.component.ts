@@ -25,25 +25,29 @@ export interface IAiAnalysisResponse {
   motivationLetter: string;
 }
 
+type SelectionType = 'cv' | 'project' | 'skill' | 'aboutMe';
+
 @Component({
   selector: 'jhi-cv-ai-generator',
   standalone: true,
   imports: [CommonModule, FormsModule, SharedModule],
   templateUrl: './ai-generator.component.html',
+  styleUrls: ['./ai-generator.component.scss'],
 })
 export class CvAiGeneratorComponent implements OnInit {
-  // Data holders for all items
+  // Data holders for all items from the database
   allMyCvEntries: ICurriculumVitae[] = [];
   allMyProjects: IProject[] = [];
   allMySkills: ISkill[] = [];
   allAboutMe: IAboutMe[] = [];
 
-  // Data holders for selected items
+  // Data holders for items selected by the user via checkboxes
   selectedCvEntries: ICurriculumVitae[] = [];
   selectedProjects: IProject[] = [];
   selectedSkills: ISkill[] = [];
   selectedAboutMe: IAboutMe[] = [];
 
+  // AI Model selection
   availableModels: string[] = [];
   selectedModel = '';
 
@@ -56,16 +60,17 @@ export class CvAiGeneratorComponent implements OnInit {
     private projectService: ProjectService,
     private skillService: SkillService,
     private aboutMeService: AboutMeService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    // Load data from all four services
+    // Load all data from the database to populate the selection lists
     this.cvService.query().subscribe(res => (this.allMyCvEntries = res.body ?? []));
     this.projectService.query().subscribe(res => (this.allMyProjects = res.body ?? []));
-    this.skillService.query().subscribe(res => (this.allMySkills = res.body ?? []));
+    // Fetch all skills to avoid pagination issues in the selection list
+//    this.skillService.query({ size: 100 }).subscribe(res => (this.allMySkills = res.body ?? []));
+    this.http.get<ISkill[]>('/api/skills/all').subscribe(skills => (this.allMySkills = skills ?? []));
     this.aboutMeService.query().subscribe(res => (this.allAboutMe = res.body ?? []));
-
     this.fetchAiModels();
   }
 
@@ -73,7 +78,6 @@ export class CvAiGeneratorComponent implements OnInit {
     this.http.get<string[]>('/api/ai/models').subscribe({
       next: models => {
         this.availableModels = models;
-        // Automatically select the first model in the list if available
         if (models && models.length > 0) {
           this.selectedModel = models[0];
         }
@@ -85,13 +89,59 @@ export class CvAiGeneratorComponent implements OnInit {
     });
   }
 
+  // --- Logic to handle checkbox selections ---
+
+  onSelectionChange(item: any, event: any, type: SelectionType): void {
+    const isChecked = event.target.checked;
+    const targetArray = this.getSelectionArray(type);
+
+    if (isChecked) {
+      targetArray.push(item);
+    } else {
+      const index = targetArray.findIndex(i => i.id === item.id);
+      if (index > -1) {
+        targetArray.splice(index, 1);
+      }
+    }
+  }
+
+  isSelected(item: any, type: SelectionType): boolean {
+    return this.getSelectionArray(type).some(i => i.id === item.id);
+  }
+
+  toggleSelectAll(type: SelectionType, select: boolean): void {
+    const sourceArray = this.getSourceArray(type);
+    const targetArray = this.getSelectionArray(type);
+
+    targetArray.length = 0; // Clear the array first
+    if (select) {
+      targetArray.push(...sourceArray); // Add all items
+    }
+  }
+
+  private getSelectionArray(type: SelectionType): any[] {
+    if (type === 'cv') return this.selectedCvEntries;
+    if (type === 'project') return this.selectedProjects;
+    if (type === 'skill') return this.selectedSkills;
+    return this.selectedAboutMe;
+  }
+
+  private getSourceArray(type: SelectionType): any[] {
+    if (type === 'cv') return this.allMyCvEntries;
+    if (type === 'project') return this.allMyProjects;
+    if (type === 'skill') return this.allMySkills;
+    return this.allAboutMe;
+  }
+
+  // --- This function sends the SELECTED data to the backend ---
+
   generateAnalysis(): void {
     this.isLoading = true;
     this.analysisResult = null;
 
     const payload = {
-      modelName: this.selectedModel,
       jobPost: this.jobPost,
+      modelName: this.selectedModel,
       cvEntries: this.selectedCvEntries,
       projects: this.selectedProjects,
       skills: this.selectedSkills,

@@ -151,6 +151,18 @@ public class SkillResource {
     }
 
     /**
+     * {@code GET  /skills/all} : get all the skills without pagination.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all skills in body.
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<SkillDTO>> getAllSkillsUnpaginated() {
+        log.debug("REST request to get all Skills without pagination");
+        List<SkillDTO> allSkills = skillService.findAllUnpaginated();
+        return ResponseEntity.ok().body(allSkills);
+    }
+
+    /**
      * {@code GET  /skills/:id} : get the "id" skill.
      *
      * @param id the id of the skillDTO to retrieve.

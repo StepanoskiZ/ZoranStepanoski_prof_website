@@ -123,9 +123,3 @@ jhipster:
 # ===================================================================
 
 # application:
-google:
-  ai:
-    api:
-      key: ${GOOGLE_AI_API_KEY}
-    project-id: '560271796737' # The ID of the project created in Google AI Studio
-    location: 'us-central1' # This is a common default

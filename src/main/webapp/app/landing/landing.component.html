@@ -229,13 +229,11 @@
 <!-- =================== Skills Section =================== -->
 <section #section id="skills" class="skills-section py-5">
   <div class="container">
-    <!-- Main Headings -->
     <div class="mb-5 text-center">
       <p class="sub-heading" jhiTranslate="landing.skillsSubheading"></p>
       <h2 class="fw-bold" jhiTranslate="landing.skillsHeading"></h2>
     </div>
 
-    <!-- Skills Content -->
     <div *ngIf="!isLoadingSkills && skills.length > 0" class="row">
       <div *ngFor="let skill of skills; let i = index" class="col-md-6 mb-4" data-aos="fade-up" [attr.data-aos-delay]="i * 50">
         <div class="skill-item">
@@ -262,6 +260,19 @@
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
+    </div>
+    <div *ngIf="!isLoadingSkills && totalItems > skillsPerPage" class="d-flex justify-content-center align-items-center mt-4">
+      <button class="btn btn-outline-primary" (click)="previousPage()" [disabled]="currentPage === 0">
+        &laquo; {{ 'global.previous' | translate }}
+      </button>
+
+      <span class="mx-3">
+        {{ 'global.page' | translate }} {{ currentPage + 1 }} / {{ totalPages }}
+      </span>
+
+      <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">
+        {{ 'global.next' | translate }} &raquo;
+      </button>
     </div>
   </div>
 </section>

@@ -89,6 +89,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAdminEnv = environment.isAdminEnv;
 
+  skillsPerPage = 20; // Show 20 skills per page (10 per column)
+  currentPage = 0; // The current page index (0-based for the API)
+  totalItems = 0;
+  totalPages = 0;
+
   private readonly http = inject(HttpClient);
   private readonly modalService = inject(NgbModal);
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
@@ -116,7 +121,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadAboutContent();
     this.loadCvEntries();
     this.loadBusinessServices();
-    this.loadSkills();
+    this.loadSkills(this.currentPage);
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -131,14 +136,20 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     return txt.value;
   }
 
-  private loadSkills(): void {
+  private loadSkills(page: number): void {
     this.isLoadingSkills = true;
-    // The default endpoint returns a paginated result, but for skills, it's usually a small list.
-    // We are fetching the first page, which should contain all skills in most cases.
-    this.http.get<SkillCard[]>('/api/skills').subscribe({
-      next: (data: SkillCard[]) => {
-        // Sort skills by percentage, descending
-        this.skills = data.sort((a, b) => b.percentage - a.percentage);
+
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', this.skillsPerPage.toString())
+      .set('sort', 'percentage,desc'); // Also sort by percentage on the backend
+
+    this.http.get<SkillCard[]>('/api/skills', { params, observe: 'response' }).subscribe({
+      next: (res: HttpResponse<SkillCard[]>) => {
+        this.totalItems = Number(res.headers.get('X-Total-Count'));
+        this.totalPages = Math.ceil(this.totalItems / this.skillsPerPage);
+
+        this.skills = res.body ?? [];
         this.isLoadingSkills = false;
       },
       error: err => {
@@ -146,6 +157,23 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingSkills = false;
       },
     });
+  }
+
+  loadPage(page: number): void {
+    // Prevent going to a page that doesn't exist
+    if (page < 0 || page >= this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
+    this.loadSkills(this.currentPage);
+  }
+
+  previousPage(): void {
+    this.loadPage(this.currentPage - 1);
+  }
+
+  nextPage(): void {
+    this.loadPage(this.currentPage + 1);
   }
 
   private loadAboutContent(): void {

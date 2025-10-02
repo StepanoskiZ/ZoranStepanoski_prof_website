@@ -230,6 +230,13 @@ $text-color-muted: #555; // Muted gray for default links
   word-break: break-word;
 }
 
+/* =================== CV Section Specific Styles =================== */
+#cv .card-img-top-container img {
+  object-fit: contain;
+
+  padding: 1rem;
+}
+
 /* =================== General Styles =================== */
 .bg-light {
   background-color: #f8f9fa !important;

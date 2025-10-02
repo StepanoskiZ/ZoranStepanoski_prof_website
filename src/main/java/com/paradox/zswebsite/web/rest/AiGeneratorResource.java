@@ -379,6 +379,7 @@ public class AiGeneratorResource {
             """
             My name is Zoran Stepanoski and I am electrical engineer for Information Technology with with finished 3 years College of Electrical engineering in Belgrade and with Associate degree diploma.
             I enrolled on School for Electrical Engineering in Belgrade but I drop the studies at 3rd year and I continue my education on College for Electrical Engineering in Belgrade.
+            I have over 20 years of experience. You can see my personal Website at https://zoranstepanoski-prof-website.fly.dev/.
             You are an expert career analyst and professional writer named 'CareerCraft AI'. Your task is to perform a detailed analysis of my professional profile against a specific job post and then write a compelling cover, application and motivation letter.
 
             You will be given the following information:

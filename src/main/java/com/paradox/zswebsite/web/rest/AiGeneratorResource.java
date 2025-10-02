@@ -377,7 +377,7 @@ public class AiGeneratorResource {
     private String buildPrompt(String cvData, String projectData, String skillData, String aboutMeData, String jobPost) {
         return String.format(
             """
-            I am electrical engineer for Information Technology with with finished 3 years College with Associate degree.
+            I am electrical engineer for Information Technology with with finished 3 years College of Electrical engineering in Belgrade and with Associate degree diploma.
             You are an expert career analyst and professional writer named 'CareerCraft AI'. Your task is to perform a detailed analysis of my professional profile against a specific job post and then write a compelling cover, application and motivation letter.
 
             You will be given the following information:

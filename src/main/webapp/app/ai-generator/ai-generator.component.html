@@ -2,14 +2,26 @@
   <h2>AI Application Assistant</h2>
 
   <!-- Selection Sections -->
-  <h3>1. Select Your Relevant Experience, Projects, and Skills</h3>
+  <h3>1. I'll check CV, Projects, Skills and About Me</h3>
   <!-- Add sections with checkboxes for CVs, Projects, and Skills using *ngFor -->
 
   <h3>2. Paste the Job Description</h3>
   <textarea [(ngModel)]="jobPost" rows="10" style="width: 100%"></textarea>
 
-  <button (click)="generateAnalysis()" [disabled]="isLoading">
-    {{ isLoading ? 'Analyzing...' : 'Analyze and Generate Letter' }}
+  <h3>3. Select AI Model</h3>
+  <select [(ngModel)]="selectedModel" class="form-select mb-3" [disabled]="availableModels.length === 0">
+    <option *ngIf="availableModels.length === 0" value="">Loading models...</option>
+    <option *ngFor="let model of availableModels" [value]="model">
+      {{ model }}
+    </option>
+  </select>
+
+  <button
+    (click)="generateAnalysis()"
+    [disabled]="isLoading || !jobPost || !selectedModel"
+    class="btn btn-primary">
+    <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    {{ isLoading ? ' Analyzing...' : 'Analyze and Generate Letters' }}
   </button>
 
   <!-- Results Section -->

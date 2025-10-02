@@ -12,8 +12,8 @@ import { SkillService } from '../service/skill.service';
 import { SkillFormService, SkillFormGroup } from './skill-form.service';
 
 @Component({
-  selector: 'jhi-skill-update',
   standalone: true,
+  selector: 'jhi-skill-update',
   templateUrl: './skill-update.component.html',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })

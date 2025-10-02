@@ -13,7 +13,7 @@
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250830185436_added_entity_Project.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20250830185438_added_entity_Skill.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251003_updated_entity_Skill.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250830185439_added_entity_BusinessService.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250830185440_added_entity_BlogPost.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20250830185441_added_entity_ContactMessage.xml" relativeToChangelogFile="false"/>

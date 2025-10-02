@@ -61,7 +61,8 @@ public class SkillResource {
             throw new BadRequestAlertException("A new skill cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SkillDTO result = skillService.save(skillDTO);
-        return ResponseEntity.created(new URI("/api/skills/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/skills/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -148,18 +149,6 @@ public class SkillResource {
         Page<SkillDTO> page = skillService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /skills/all} : get all the skills without pagination.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all skills in body.
-     */
-    @GetMapping("/all")
-    public ResponseEntity<List<SkillDTO>> getAllSkillsUnpaginated() {
-        log.debug("REST request to get all Skills without pagination");
-        List<SkillDTO> allSkills = skillService.findAllUnpaginated();
-        return ResponseEntity.ok().body(allSkills);
     }
 
     /**

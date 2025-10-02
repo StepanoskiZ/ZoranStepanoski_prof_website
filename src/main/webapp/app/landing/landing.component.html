@@ -236,21 +236,9 @@
 
     <div *ngIf="!isLoadingSkills && skills.length > 0" class="row">
       <div *ngFor="let skill of skills; let i = index" class="col-md-6 mb-4" data-aos="fade-up" [attr.data-aos-delay]="i * 50">
-        <div class="skill-item">
-          <div class="d-flex justify-content-between">
-            <span class="skill-name">{{ skill.name }}</span>
-            <span class="skill-percentage">{{ skill.percentage }}%</span>
-          </div>
-          <div class="progress" style="height: 10px">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              [style.width]="skill.percentage + '%'"
-              [attr.aria-valuenow]="skill.percentage"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            ></div>
-          </div>
+        <div class="skill-item d-flex justify-content-between align-items-center">
+          <span class="skill-name">{{ skill.name }}</span>
+          <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
         </div>
       </div>
     </div>

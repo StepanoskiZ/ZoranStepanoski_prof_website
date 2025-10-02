@@ -29,9 +29,8 @@ public class Skill implements Serializable {
 
     @NotNull
     @Min(value = 0)
-    @Max(value = 100)
-    @Column(name = "percentage", nullable = false)
-    private Integer percentage;
+    @Column(name = "years_of_experience", nullable = false)
+    private Integer yearsOfExperience;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -61,17 +60,17 @@ public class Skill implements Serializable {
         this.name = name;
     }
 
-    public Integer getPercentage() {
-        return this.percentage;
+    public Integer getYearsOfExperience() {
+        return this.yearsOfExperience;
     }
 
-    public Skill percentage(Integer percentage) {
-        this.setPercentage(percentage);
+    public Skill yearsOfExperience(Integer yearsOfExperience) {
+        this.setYearsOfExperience(yearsOfExperience);
         return this;
     }
 
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -99,7 +98,7 @@ public class Skill implements Serializable {
         return "Skill{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", percentage=" + getPercentage() +
+            ", yearsOfExperience=" + getYearsOfExperience() +
             "}";
     }
 }

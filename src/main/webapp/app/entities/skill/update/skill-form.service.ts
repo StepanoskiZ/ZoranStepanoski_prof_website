@@ -19,7 +19,7 @@ type SkillFormDefaults = Pick<NewSkill, 'id'>;
 type SkillFormGroupContent = {
   id: FormControl<ISkill['id'] | NewSkill['id']>;
   name: FormControl<ISkill['name']>;
-  percentage: FormControl<ISkill['percentage']>;
+  yearsOfExperience: FormControl<ISkill['yearsOfExperience']>;
 };
 
 export type SkillFormGroup = FormGroup<SkillFormGroupContent>;
@@ -42,8 +42,8 @@ export class SkillFormService {
       name: new FormControl(skillRawValue.name, {
         validators: [Validators.required],
       }),
-      percentage: new FormControl(skillRawValue.percentage, {
-        validators: [Validators.required, Validators.min(0), Validators.max(100)],
+      yearsOfExperience: new FormControl(skillRawValue.yearsOfExperience, {
+        validators: [Validators.required, Validators.min(0)],
       }),
     });
   }

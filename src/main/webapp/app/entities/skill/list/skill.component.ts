@@ -5,11 +5,10 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortDirective, SortByDirective, SortState } from 'app/shared/sort'; // Import SortState
+import { SortDirective, SortByDirective, SortState } from 'app/shared/sort';
 import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
-
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { ISkill } from '../skill.model';
@@ -17,8 +16,8 @@ import { EntityArrayResponseType, SkillService } from '../service/skill.service'
 import { SkillDeleteDialogComponent } from '../delete/skill-delete-dialog.component';
 
 @Component({
-  selector: 'jhi-skill',
   standalone: true,
+  selector: 'jhi-skill',
   templateUrl: './skill.component.html',
   imports: [
     RouterModule,

@@ -28,36 +28,30 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.skill.percentage" for="field_percentage">Percentage</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.skill.yearsOfExperience" for="field_yearsOfExperience"></label>
           <input
             type="number"
             class="form-control"
-            name="percentage"
-            id="field_percentage"
-            data-cy="percentage"
-            formControlName="percentage"
-          />
-          @if (editForm.get('percentage')!.invalid && (editForm.get('percentage')!.dirty || editForm.get('percentage')!.touched)) {
+            name="yearsOfExperience"
+            id="field_yearsOfExperience"
+            data-cy="yearsOfExperience"
+            formControlName="yearsOfExperience"/>
+          @if (
+            editForm.get('yearsOfExperience')!.invalid &&
+            (editForm.get('yearsOfExperience')!.dirty || editForm.get('yearsOfExperience')!.touched)
+          ) {
             <div>
-              @if (editForm.get('percentage')?.errors?.required) {
+              @if (editForm.get('yearsOfExperience')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
               }
-              @if (editForm.get('percentage')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }"
-                  >This field should be at least 0.</small
-                >
-              }
-              @if (editForm.get('percentage')?.errors?.max) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: 100 }"
-                  >This field cannot be more than 100.</small
-                >
+              @if (editForm.get('yearsOfExperience')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }"></small>
               }
               <small
                 class="form-text text-danger"
-                [hidden]="!editForm.get('percentage')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
+                [hidden]="!editForm.get('yearsOfExperience')?.errors?.number"
+                jhiTranslate="entity.validation.number">
+              </small>
             </div>
           }
         </div>
@@ -73,8 +67,7 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+          class="btn btn-primary">
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>

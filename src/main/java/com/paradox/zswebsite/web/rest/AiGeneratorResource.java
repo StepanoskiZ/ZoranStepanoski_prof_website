@@ -291,7 +291,6 @@ public class AiGeneratorResource {
             request.getJobPost()
         );
 
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=" + this.googleApiKey;
         String apiUrl = String.format(
             "https://generativelanguage.googleapis.com/v1/models/%s:generateContent?key=%s",
             request.getModelName(),

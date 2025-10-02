@@ -112,6 +112,7 @@ public class SecurityConfiguration {
                         "/about-me/*/details",
                         "/api/about-me-media/**",
                         "/api/skills",
+                        "/api/skills/all",
                         "/api/skills/**",
                         "/api/visitor-log",
                         "/management/health",

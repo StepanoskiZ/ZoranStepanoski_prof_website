@@ -57,14 +57,12 @@ export class CvAiGeneratorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Load data from all three services
+    // Load data from all four services
     this.cvService.query().subscribe(res => (this.allMyCvEntries = res.body ?? []));
     this.projectService.query().subscribe(res => (this.allMyProjects = res.body ?? []));
     this.skillService.query().subscribe(res => (this.allMySkills = res.body ?? []));
     this.aboutMeService.query().subscribe(res => (this.allAboutMe = res.body ?? []));
   }
-
-  // You will need toggle methods for each type (projects, skills) similar to the CV one.
 
   generateAnalysis(): void {
     this.isLoading = true;

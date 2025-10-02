@@ -247,7 +247,8 @@ public class AiGeneratorResource {
 
 //        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + this.googleApiKey;
 //        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=" + this.googleApiKey;
-        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent?key=" + this.googleApiKey;
+//        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent?key=" + this.googleApiKey;
+        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=" + this.googleApiKey;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

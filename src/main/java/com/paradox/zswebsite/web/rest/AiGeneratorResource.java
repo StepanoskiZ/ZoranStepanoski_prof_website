@@ -190,6 +190,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paradox.zswebsite.service.dto.*;
 import com.paradox.zswebsite.web.rest.vm.AiAnalysisRequestDTO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -227,16 +228,61 @@ public class AiGeneratorResource {
         this.objectMapper = objectMapper;
     }
 
-    @PostMapping("/analyze-and-generate")
+    @GetMapping("/models")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<AiAnalysisResponseDTO> analyzeAndGenerate(@RequestBody AiAnalysisRequestDTO request) {
-        log.debug("REST request to analyze profile and generate letters");
+    public ResponseEntity<List<String>> getAvailableModels() {
+        log.debug("REST request to get available AI models");
 
         if (googleApiKey == null || googleApiKey.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "AI service is not configured: API key is missing.");
         }
 
-        // --- YOUR DATA FORMATTING LOGIC IS CALLED HERE ---
+        String modelsApiUrl = "https://generativelanguage.googleapis.com/v1/models?key=" + this.googleApiKey;
+
+        try {
+            ResponseEntity<JsonNode> response = aiRestTemplate.getForEntity(modelsApiUrl, JsonNode.class);
+            JsonNode responseBody = response.getBody();
+
+            List<String> modelNames = new ArrayList<>();
+            if (responseBody != null && responseBody.has("models")) {
+                for (JsonNode modelNode : responseBody.get("models")) {
+                    // Filter to include only models that support 'generateContent'
+                    boolean supportsGenerateContent = false;
+                    if (modelNode.has("supportedGenerationMethods")) {
+                        for (JsonNode method : modelNode.get("supportedGenerationMethods")) {
+                            if ("generateContent".equals(method.asText())) {
+                                supportsGenerateContent = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (supportsGenerateContent && modelNode.has("name")) {
+                        // Extract the clean model name (e.g., "gemini-2.5-flash")
+                        String fullName = modelNode.get("name").asText();
+                        modelNames.add(fullName.replace("models/", ""));
+                    }
+                }
+            }
+            return ResponseEntity.ok(modelNames);
+        } catch (Exception e) {
+            log.error("Failed to fetch AI models from Google", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not retrieve AI models.", e);
+        }
+    }
+
+    @PostMapping("/analyze-and-generate")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<AiAnalysisResponseDTO> analyzeAndGenerate(@RequestBody AiAnalysisRequestDTO request) {
+        log.debug("REST request to analyze profile and generate letters using model: {}", request.getModelName());
+
+        if (googleApiKey == null || googleApiKey.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "AI service is not configured: API key is missing.");
+        }
+        if (request.getModelName() == null || request.getModelName().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AI model name must be provided.");
+        }
+
         String prompt = buildPrompt(
             formatCvData(request.getCvEntries()),
             formatProjectData(request.getProjects()),
@@ -245,10 +291,12 @@ public class AiGeneratorResource {
             request.getJobPost()
         );
 
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + this.googleApiKey;
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=" + this.googleApiKey;
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent?key=" + this.googleApiKey;
-        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=" + this.googleApiKey;
+//        String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=" + this.googleApiKey;
+        String apiUrl = String.format(
+            "https://generativelanguage.googleapis.com/v1/models/%s:generateContent?key=%s",
+            request.getModelName(),
+            this.googleApiKey
+        );
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -288,7 +336,6 @@ public class AiGeneratorResource {
     }
 
     // --- ALL OF YOUR HELPER METHODS ARE INCLUDED BELOW ---
-
     private String formatCvData(List<CurriculumVitaeDTO> cvEntries) {
         if (cvEntries == null || cvEntries.isEmpty()) return "No work experience provided.";
         return cvEntries

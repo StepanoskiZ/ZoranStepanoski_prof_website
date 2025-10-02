@@ -44,6 +44,9 @@ export class CvAiGeneratorComponent implements OnInit {
   selectedSkills: ISkill[] = [];
   selectedAboutMe: IAboutMe[] = [];
 
+  availableModels: string[] = [];
+  selectedModel = '';
+
   jobPost = '';
   analysisResult: IAiAnalysisResponse | null = null;
   isLoading = false;
@@ -62,6 +65,24 @@ export class CvAiGeneratorComponent implements OnInit {
     this.projectService.query().subscribe(res => (this.allMyProjects = res.body ?? []));
     this.skillService.query().subscribe(res => (this.allMySkills = res.body ?? []));
     this.aboutMeService.query().subscribe(res => (this.allAboutMe = res.body ?? []));
+
+    this.fetchAiModels();
+  }
+
+  fetchAiModels(): void {
+    this.http.get<string[]>('/api/ai/models').subscribe({
+      next: models => {
+        this.availableModels = models;
+        // Automatically select the first model in the list if available
+        if (models && models.length > 0) {
+          this.selectedModel = models[0];
+        }
+      },
+      error: err => {
+        console.error('Error fetching AI models:', err);
+        alert('Could not load the list of available AI models.');
+      },
+    });
   }
 
   generateAnalysis(): void {
@@ -69,6 +90,7 @@ export class CvAiGeneratorComponent implements OnInit {
     this.analysisResult = null;
 
     const payload = {
+      modelName: this.selectedModel,
       jobPost: this.jobPost,
       cvEntries: this.selectedCvEntries,
       projects: this.selectedProjects,

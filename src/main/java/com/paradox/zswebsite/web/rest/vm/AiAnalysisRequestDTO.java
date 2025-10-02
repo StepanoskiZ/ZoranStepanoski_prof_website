@@ -12,13 +12,12 @@ public class AiAnalysisRequestDTO {
     private List<CurriculumVitaeDTO> cvEntries;
     private List<ProjectDTO> projects;
     private List<SkillDTO> skills;
-    private List<AboutMeDTO> aboutMe; // Corrected name from abourMe
+    private List<AboutMeDTO> aboutMe;
+    private String modelName;
 
-    // --- Getters and Setters ---
     public String getJobPost() {
         return jobPost;
     }
-
     public void setJobPost(String jobPost) {
         this.jobPost = jobPost;
     }
@@ -26,7 +25,6 @@ public class AiAnalysisRequestDTO {
     public List<CurriculumVitaeDTO> getCvEntries() {
         return cvEntries;
     }
-
     public void setCvEntries(List<CurriculumVitaeDTO> cvEntries) {
         this.cvEntries = cvEntries;
     }
@@ -34,7 +32,6 @@ public class AiAnalysisRequestDTO {
     public List<ProjectDTO> getProjects() {
         return projects;
     }
-
     public void setProjects(List<ProjectDTO> projects) {
         this.projects = projects;
     }
@@ -42,7 +39,6 @@ public class AiAnalysisRequestDTO {
     public List<SkillDTO> getSkills() {
         return skills;
     }
-
     public void setSkills(List<SkillDTO> skills) {
         this.skills = skills;
     }
@@ -50,8 +46,10 @@ public class AiAnalysisRequestDTO {
     public List<AboutMeDTO> getAboutMe() {
         return aboutMe;
     }
-
     public void setAboutMe(List<AboutMeDTO> aboutMe) {
         this.aboutMe = aboutMe;
     }
+
+    public String getModelName() { return modelName; }
+    public void setModelName(String modelName) { this.modelName = modelName; }
 }

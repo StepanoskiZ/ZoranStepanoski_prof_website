@@ -1,5 +1,7 @@
 package com.paradox.zswebsite.service.dto;
 
+import com.paradox.zswebsite.domain.enumeration.UnifiedMediaType;
+
 import java.io.Serializable;
 
 public class AboutMeCardDTO implements Serializable {
@@ -7,12 +9,21 @@ public class AboutMeCardDTO implements Serializable {
     private Long id;
     private String contentHtml;
     private String firstMediaUrl;
+    private UnifiedMediaType firstMediaType;
 
     // Constructors
-    public AboutMeCardDTO(Long id, String contentHtml, String firstMediaUrl) {
+    public AboutMeCardDTO() {}
+
+    public AboutMeCardDTO(
+        Long id,
+        String contentHtml,
+        String firstMediaUrl,
+        UnifiedMediaType firstMediaType
+    ) {
         this.id = id;
         this.contentHtml = contentHtml;
         this.firstMediaUrl = firstMediaUrl;
+        this.firstMediaType = firstMediaType;
     }
 
     // Getters and Setters
@@ -35,5 +46,12 @@ public class AboutMeCardDTO implements Serializable {
     }
     public void setFirstMediaUrl(String firstMediaUrl) {
         this.firstMediaUrl = firstMediaUrl;
+    }
+
+    public UnifiedMediaType getFirstMediaType() {
+        return firstMediaType;
+    }
+    public void setFirstMediaType(UnifiedMediaType firstMediaType) {
+        this.firstMediaType = firstMediaType;
     }
 }

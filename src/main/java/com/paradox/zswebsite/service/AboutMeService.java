@@ -1,27 +1,26 @@
 package com.paradox.zswebsite.service;
 
 import com.paradox.zswebsite.domain.AboutMe;
+import com.paradox.zswebsite.domain.AboutMeMedia;
 import com.paradox.zswebsite.repository.AboutMeRepository;
+import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
+import com.paradox.zswebsite.service.dto.AboutMeDetailDTO;
 import com.paradox.zswebsite.service.dto.AboutMeMediaDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
-import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.apache.commons.text.StringEscapeUtils;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 
 
 /**
@@ -32,15 +31,19 @@ import org.springframework.data.domain.Sort;
 public class AboutMeService {
 
     private final Logger log = LoggerFactory.getLogger(AboutMeService.class);
+
     private final AboutMeRepository aboutMeRepository;
     private final AboutMeMapper aboutMeMapper;
+    private final AboutMeMediaMapper aboutMeMediaMapper; // Assuming you have this mapper
 
-    @Autowired
-    private AboutMeMediaMapper aboutMeMediaMapper;
-
-    public AboutMeService(AboutMeRepository aboutMeRepository, AboutMeMapper aboutMeMapper) {
+    public AboutMeService(
+        AboutMeRepository aboutMeRepository,
+        AboutMeMapper aboutMeMapper,
+        AboutMeMediaMapper aboutMeMediaMapper
+    ) {
         this.aboutMeRepository = aboutMeRepository;
         this.aboutMeMapper = aboutMeMapper;
+        this.aboutMeMediaMapper = aboutMeMediaMapper;
     }
 
     /**
@@ -115,7 +118,7 @@ public class AboutMeService {
      */
     @Transactional(readOnly = true)
     public Page<AboutMeDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all AboutMes");
+        log.debug("Request to get all AboutMe entries");
         return aboutMeRepository.findAll(pageable).map(aboutMeMapper::toDto);
     }
 
@@ -147,50 +150,55 @@ public class AboutMeService {
      * @return the entity if found.
      */
     @Transactional(readOnly = true)
-    public Optional<AboutMeDTO> findFirst() {
+    public Optional<AboutMeCardDTO> findOneCard() {
         log.debug("Request to get first AboutMe with details");
 
-        return aboutMeRepository.findAll(Sort.by("id").ascending()).stream()
-            .map(AboutMe::getId)
+        return aboutMeRepository.findAllWithEagerRelationships()
+            .stream()
             .findFirst()
-            .flatMap(this::findOneWithDetails);
+            .map(this::mapToCardDTO);
     }
 
     /**
      * Gets the lightweight "card" data for the About Me preview on the landing page.
      * @return an Optional containing the AboutMeCardDTO.
      */
-    @Transactional(readOnly = true)
-    public Optional<AboutMeCardDTO> findAboutMeCard() {
-        log.debug("Request to get About Me card data");
+    private AboutMeCardDTO mapToCardDTO(AboutMe aboutMe) {
+        AboutMeCardDTO dto = new AboutMeCardDTO();
+        dto.setId(aboutMe.getId());
+        dto.setContentHtml(aboutMe.getContentHtml());
 
-        return this.findFirst().map(aboutMeDTO -> {
-            String firstMediaUrl = aboutMeDTO.getMediaFiles().stream()
-                .findFirst()
-                .map(AboutMeMediaDTO::getMediaUrl)
-                .orElse(null);
+        // Find the first media item by sorting the media collection by its ID
+        aboutMe.getMedia().stream()
+            .min(Comparator.comparing(AboutMeMedia::getId))
+            .ifPresent(firstMedia -> {
+                dto.setFirstMediaUrl(firstMedia.getMediaUrl());
+                dto.setFirstMediaType(firstMedia.getAboutMeMediaType());
+            });
 
-            return new AboutMeCardDTO(aboutMeDTO.getId(), aboutMeDTO.getContentHtml(), firstMediaUrl);
-        });
+        return dto;
     }
 
+    /**
+     * Finds one "About Me" by ID with all details for the modal view.
+     */
     @Transactional(readOnly = true)
-    public Optional<AboutMeDTO> findOneWithDetails(Long id) {
-        log.debug("Request to get detailed AboutMe with media : {}", id);
-        return aboutMeRepository
-            .findById(id)
+    public Optional<AboutMeDetailDTO> findOneWithDetails(Long id) {
+        return aboutMeRepository.findOneWithEagerRelationships(id)
             .map(aboutMe -> {
-                Hibernate.initialize(aboutMe.getMedia());
+                AboutMeDetailDTO dto = new AboutMeDetailDTO();
+                dto.setId(aboutMe.getId());
+                // The Detail DTO might not have a title, we'll construct one if needed or get it from a field
+                dto.setContentHtml(aboutMe.getContentHtml());
 
-                AboutMeDTO dto = aboutMeMapper.toDto(aboutMe);
+                // Map and sort the media files by their ID for consistent order
                 List<AboutMeMediaDTO> mediaDTOs = aboutMe.getMedia().stream()
+                    .sorted(Comparator.comparing(AboutMeMedia::getId))
                     .map(aboutMeMediaMapper::toDto)
-                    .sorted(Comparator.comparing(AboutMeMediaDTO::getId))
                     .collect(Collectors.toList());
+                dto.setMediaFiles(mediaDTOs);
 
-                dto.setMediaFiles(new HashSet<>(mediaDTOs));
                 return dto;
             });
     }
 }
-

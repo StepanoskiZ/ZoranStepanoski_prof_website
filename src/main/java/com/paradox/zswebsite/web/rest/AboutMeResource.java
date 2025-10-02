@@ -3,6 +3,7 @@ package com.paradox.zswebsite.web.rest;
 import com.paradox.zswebsite.repository.AboutMeRepository;
 import com.paradox.zswebsite.service.AboutMeService;
 import com.paradox.zswebsite.service.dto.AboutMeDTO;
+import com.paradox.zswebsite.service.dto.AboutMeDetailDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMapper;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import com.paradox.zswebsite.service.dto.AboutMeCardDTO;
@@ -193,33 +194,22 @@ public class AboutMeResource {
     }
 
     /**
-     * {@code GET  /api/about-me/first} : get the first AboutMe entity.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeDTO,
-     * or with status {@code 404 (Not Found)} if no AboutMe entity exists.
-     */
-    @GetMapping("/about-me/first")
-    public ResponseEntity<AboutMeDTO> getFirstAboutMe() {
-        log.debug("REST request to get first AboutMe");
-        return ResponseUtil.wrapOrNotFound(aboutMeService.findFirst());
-    }
-
-    /**
      * {@code GET /card} : get the lightweight card data for the About Me preview.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the aboutMeCardDTO.
      */
     @GetMapping("/about-me/card")
     public ResponseEntity<AboutMeCardDTO> getAboutMeCard() {
-        log.debug("REST request to get About Me card");
-        return ResponseUtil.wrapOrNotFound(aboutMeService.findAboutMeCard());
+        log.debug("REST request to get AboutMe card");
+        Optional<AboutMeCardDTO> aboutMeCardDTO = aboutMeService.findOneCard();
+        return ResponseUtil.wrapOrNotFound(aboutMeCardDTO);
     }
 
     /**
      * GET /{id}/details : get the "id" aboutMe with all details.
      */
     @GetMapping("/about-me/{id}/details")
-    public ResponseEntity<AboutMeDTO> getAboutMeWithDetails(@PathVariable Long id) {
+    public ResponseEntity<AboutMeDetailDTO> getAboutMeWithDetails(@PathVariable Long id) {
         log.debug("REST request to get AboutMe with details : {}", id);
         return ResponseUtil.wrapOrNotFound(aboutMeService.findOneWithDetails(id));
     }

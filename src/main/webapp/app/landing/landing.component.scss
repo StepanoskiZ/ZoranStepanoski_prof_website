@@ -1,16 +1,14 @@
 @use 'sass:color';
+
+// Define theme colors
+$primary-color: #198754;
+
 /* ==========================================================================
-   Landing Page Styles
+   Landing Page General Styles
    ========================================================================== */
 
-// Define theme colors to make them easy to change later
-$primary-color: #198754; // The green for active/hover links and buttons
-$brand-color: #000; // Black for your name
-$text-color-muted: #555; // Muted gray for default links
-
-/* =================== Typography & General Styles =================== */
 .sub-heading {
-  color: $primary-color; // Green color
+  color: $primary-color;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -26,12 +24,9 @@ $text-color-muted: #555; // Muted gray for default links
   color: white;
   text-align: left;
   padding: 0 1rem;
-
-  // These properties create the fixed background effect
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/media/hero-background.jpg');
   background-size: cover;
   background-position: center center;
-
   background-attachment: fixed;
 
   .hero-content {
@@ -40,15 +35,13 @@ $text-color-muted: #555; // Muted gray for default links
     h1 {
       font-size: 3.5rem;
       font-weight: 700;
-      // No color needed here, it inherits 'white' from the parent
     }
     .lead {
       font-size: 1.25rem;
       margin-bottom: 2rem;
-      // No color needed here, it inherits 'white' from the parent
     }
     .btn-primary {
-      background-color: $primary-color; // Green button
+      background-color: $primary-color;
       border-color: $primary-color;
       padding: 0.75rem 2rem;
       font-weight: 600;
@@ -57,29 +50,11 @@ $text-color-muted: #555; // Muted gray for default links
         border-color 0.3s ease;
 
       &:hover {
-        background-color: color.adjust($primary-color, $lightness: -10%); // Darker green on hover
+        background-color: color.adjust($primary-color, $lightness: -10%);
         border-color: color.adjust($primary-color, $lightness: -12%);
       }
     }
   }
-}
-
-// This is the new style for our background image div
-.hero-background-image {
-  // Position it absolutely to fill the parent container
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; // Make it the same height as the section
-  // Place it behind the content
-  z-index: 1;
-
-  // Move the background properties here from the parent
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/content/media/hero-background.jpg');
-  background-size: cover;
-  background-position: center center;
-  // DO NOT use background-attachment: fixed here. The TypeScript will handle the movement.
 }
 
 /* =================== About Section =================== */
@@ -99,66 +74,22 @@ $text-color-muted: #555; // Muted gray for default links
   }
 }
 
-// .about-preview-wrapper {
-//   max-height: 120px; // Set a fixed pixel height (e.g., ~5-6 lines of text). Adjust as needed.
-//   overflow: hidden;
-//   position: relative; // This is the new positioning context for the fade effect.
-// }
-
 .about-preview {
   max-height: 120px;
-
   overflow: hidden;
-
-  p {
-    margin-bottom: 1rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-//   overflow-wrap: break-word;
+  // Word wrap for this element is handled by the global.scss rule
 }
 
-/* =================== Services Section =================== */
-.card {
-  //   cursor: pointer;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+/* =================== Unified Card Section Styles =================== */
+.card-section {
+  background-color: #f8f9fa !important;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
-  }
-}
-
-// This container enforces a fixed aspect ratio for all media
-.card-img-top-container {
-  width: 100%;
-  aspect-ratio: 16 / 9; // A standard 16:9 ratio
-  overflow: hidden;
-  background-color: #f0f2f5; // A light background for any letterboxing
-
-  img,
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // This makes the media fill the container
-  }
-}
-
-.services-section {
-  // The .bg-light class in the HTML gives it a light gray.
-  // To make it a bit darker as requested, we can override it.
-  background-color: #f0f2f5 !important;
-
-  .service-card {
-    background: #fff;
-    border: none; // Remove default border
+  .card {
+    border: none;
     border-radius: 0.5rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-    overflow: hidden; // Important for keeping the image corners rounded
-    height: 100%; // Make all cards in a row the same height
     transition:
       transform 0.3s ease,
       box-shadow 0.3s ease;
@@ -167,36 +98,63 @@ $text-color-muted: #555; // Muted gray for default links
       transform: translateY(-10px);
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
     }
+  }
 
-    .card-img-top {
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 0.75rem;
+    white-space: normal; // Ensures titles wrap correctly
+  }
+
+  .card-text {
+    color: #555;
+    font-size: 1rem;
+  }
+
+  // This container enforces a fixed aspect ratio for all card media
+  .card-img-top-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #f0f2f5;
+
+    img,
+    video {
       width: 100%;
-      height: 200px; // Set a fixed height for all images
-      object-fit: cover; // Ensures the image covers the area without distortion
+      height: 100%;
+      object-fit: cover;
     }
+  }
 
-    .card-body {
-      padding: 1.5rem;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #212529;
-      margin-bottom: 0.75rem;
-      white-space: pre-line;
-    }
-
-    .card-text {
-      color: #555;
-      font-size: 1rem;
-    }
+  // Section-Specific Override for CV logos
+  &#cv .card-img-top-container img {
+    object-fit: contain;
+    padding: 1rem;
   }
 }
 
-/* =================== Projects Section =================== */
+/* =================== Card Content Truncation & Word Wrap (The Fix) =================== */
+.card-text-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; // Set to 3 lines for a cleaner look
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // This is the critical fix for word wrapping inside a line-clamped box.
+  word-break: break-word;
+}
+
+/* =================== Read More Link Alignment =================== */
 .read-more-link {
   display: inline-block;
-  margin-top: 1.5rem;
+  margin-top: auto; // Pushes the link to the bottom of the flex container
   font-weight: 600;
   color: #212529;
   text-decoration: none;
@@ -210,54 +168,17 @@ $text-color-muted: #555; // Muted gray for default links
   }
 }
 
-/* =================== Card Content Styles =================== */
-.card-text-truncate {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4; // Set the number of lines you want (e.g., 4)
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  max-height: 96px;
-//   overflow-wrap: break-word;
+/* =================== Skills Section =================== */
+.skills-section {
+  .skill-item {
+    // Add any specific styles for skill items if needed
+  }
 }
 
-/* =================== CV Section Specific Styles =================== */
-#cv .card-img-top-container img {
-  object-fit: contain;
-
-  padding: 1rem;
-}
-
-/* =================== General Styles =================== */
-.bg-light {
-  background-color: #f8f9fa !important;
-}
-
-/* ==========================================================================
-   Section Height Correction for Scrollspy
-   ========================================================================== */
-
-// Target the sections that are too short to be detected by the scrollspy.
-// We give them significant vertical padding to ensure they can become the "most visible"
-// element as the user scrolls past them.
+/* =================== Scrollspy Padding Correction =================== */
+// Give shorter sections more padding to ensure they are detected by the scrollspy
 #projects,
 #cv {
   padding-top: 10rem;
   padding-bottom: 10rem;
-}
-
-// You might also want to give the 'About' and 'Services' sections
-// a bit more breathing room for consistency.
-#about,
-#services {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
-
-/* ==========================================================================
-   Mouse hover pointer
-   ========================================================================== */
-.card-img-top-container img {
-  cursor: default;
 }

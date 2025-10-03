@@ -14,6 +14,7 @@ import { AboutMeModalComponent } from './about-me-modal/about-me-modal.component
 import { CurriculumVitaeDetailModalComponent } from './curriculum-vitae-detail-modal/curriculum-vitae-detail-modal.component';
 import { BusinessServiceDetailModalComponent } from './business-service-detail-modal/business-service-detail-modal.component';
 import { environment } from 'environments/environment';
+import { StripHtmlPipe } from 'app/shared/pipes/strip-html.pipe';
 
 declare var AOS: any;
 
@@ -69,6 +70,7 @@ export interface SkillCard {
     AboutMeModalComponent,
     ProjectDetailModalComponent,
     CurriculumVitaeDetailModalComponent,
+    StripHtmlPipe,
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],

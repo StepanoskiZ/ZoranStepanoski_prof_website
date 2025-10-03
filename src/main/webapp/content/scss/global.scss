@@ -61,25 +61,34 @@ Browser Upgrade Prompt
    Targeted Hyphenation and Word Wrap Fix
    ========================================================================== */
 
-// This rule targets the specific classes used in your landing page and modals
-// to provide a definitive fix for word wrapping and hyphenation.
 .about-preview,
-.card-text-truncate,
-.modal-description,
-.about-preview.card-text-truncate{
-  // 1. This is the key: It allows long words to break and wrap onto the next line.
-  // It's better than `break-all` because it tries to break at natural points first.
+.card-title,
+.card-text,
+.modal-description {
+  // 1. The primary, modern property for word wrapping.
   overflow-wrap: break-word;
 
-  // 2. This tells the browser to break words only if they are too long to fit on a line.
-  // It's less aggressive than `break-all`.
+  // 2. A widely supported alias for maximum compatibility.
   word-wrap: break-word;
 
-  // 4. This disables automatic hyphenation, which can look messy.
+  // 3. Disable automatic browser hyphenation.
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+}
+
+.about-preview,
+.modal-description {
+  p, ul, ol {
+    margin-bottom: 1rem;
+  }
+  p:last-child,
+  ul:last-child,
+  ol:last-child {
+    margin-bottom: 0;
+  }
+  // We no longer need word-break or white-space rules here.
 }
 
 /* ==========================================================================
@@ -120,12 +129,6 @@ Generic styles
 .w-60 {
   width: 60% !important;
 }
-
-// .break {
-//   white-space: normal;
-//   word-break: normal;
-//   overflow-wrap: break-word;
-// }
 
 .form-control {
   background-color: #fff;

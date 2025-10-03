@@ -77,7 +77,23 @@ $primary-color: #198754;
 .about-preview {
   max-height: 120px;
   overflow: hidden;
-  // Word wrap for this element is handled by the global.scss rule
+  position: relative;
+  padding-bottom: 2.5rem;
+  box-sizing: content-box;
+}
+
+.about-preview::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #aaa;
+  background: #fff;
+  height: 2.0rem;
 }
 
 /* =================== Unified Card Section Styles =================== */
@@ -137,27 +153,6 @@ $primary-color: #198754;
     object-fit: contain;
     padding: 1rem;
   }
-}
-
-/* =================== Card Content Truncation & Word Wrap (The Fix) =================== */
-.card-text-truncate {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; // Or 4, your choice
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  // This will now be respected because the content is plain text
-  word-break: break-all;
-}
-
-.card-text-truncate::after {
-  content: '...';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-left: 1rem; // Creates space so the ellipsis doesn't overlap the last word.
-  background: #fff; // Matches the card background to hide the text behind the ellipsis.
 }
 
 /* =================== Read More Link Alignment =================== */

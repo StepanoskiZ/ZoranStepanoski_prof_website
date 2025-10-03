@@ -24,9 +24,11 @@ export abstract class BaseMediaModalComponent implements OnInit {
 
   @Input()
   set content(value: string) {
-    console.log('[AboutMeModalComponent] content Input received:', value);
-    this._content = value ?? '';
-    // sanitize immediately whenever content is assigned
+    console.log('[BaseMediaModalComponent] content Input received:', value);
+    const rawHtml = value ?? '';
+    const fixedHtml = rawHtml.replace(/&nbsp;|\u00A0/g, ' ');
+
+    this._content = fixedHtml;
     this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this._content);
   }
 

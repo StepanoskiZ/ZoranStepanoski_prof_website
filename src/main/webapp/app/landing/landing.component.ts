@@ -140,25 +140,25 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.skills.slice(midpoint);
   }
 
-  loadSkillsPage(page: number): void {
+  loadSkillsPage(page: number, shouldScroll: boolean = false): void {
     this.isLoadingSkills = true;
     this.skillsCurrentPage = page;
 
-    // The API is 0-indexed, so we subtract 1 from the UI page number
     let params = new HttpParams()
       .set('page', (page - 1).toString())
       .set('size', this.skillsPerPage.toString())
-      .set('sort', 'name,asc'); // Sorting alphabetically as you decided
+      .set('sort', 'name,asc');
 
     this.http.get<SkillCard[]>('/api/skills', { params, observe: 'response' }).subscribe({
       next: (response: HttpResponse<SkillCard[]>) => {
         this.skills = response.body ?? [];
-
         this.totalSkills = Number(response.headers.get('X-Total-Count') || 0);
-
         this.isLoadingSkills = false;
 
-        document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
+        // Only scroll if the flag is true
+        if (shouldScroll) {
+          document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
+        }
       },
       error: err => {
         console.error('❌ Failed to load skills:', err);

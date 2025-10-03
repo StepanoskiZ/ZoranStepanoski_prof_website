@@ -4,7 +4,11 @@ import com.paradox.zswebsite.domain.Skill;
 import com.paradox.zswebsite.repository.SkillRepository;
 import com.paradox.zswebsite.service.dto.SkillDTO;
 import com.paradox.zswebsite.service.mapper.SkillMapper;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -108,5 +112,12 @@ public class SkillService {
     public void delete(Long id) {
         log.debug("Request to delete Skill : {}", id);
         skillRepository.deleteById(id);
+    }
+
+    public List<SkillDTO> findAllUnpaginated() {
+        log.debug("Request to get all Skills without pagination, sorted by experience");
+        return skillRepository.findAllSortedByExperience().stream() // Calling the @Query method
+            .map(skillMapper::toDto)
+            .collect(Collectors.toList());
     }
 }

@@ -11,11 +11,12 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface BusinessServiceMediaMapper extends EntityMapper<BusinessServiceMediaDTO, BusinessServiceMedia> {
-    @Mapping(target = "businessService", source = "businessService", qualifiedByName = "businessServiceId")
+    @Mapping(target = "businessService", source = "businessService", qualifiedByName = "businessServiceTitle")
     BusinessServiceMediaDTO toDto(BusinessServiceMedia s);
 
-    @Named("businessServiceId")
+    @Named("businessServiceTitle")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    BusinessServiceDTO toDtoBusinessServiceId(BusinessService businessService);
+    @Mapping(target = "title", source = "title")
+    BusinessServiceDTO toDtoBusinessServiceTitle(BusinessService businessService);
 }

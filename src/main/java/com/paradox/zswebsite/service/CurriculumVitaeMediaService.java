@@ -88,9 +88,8 @@ public class CurriculumVitaeMediaService {
     @Transactional(readOnly = true)
     public Page<CurriculumVitaeMediaDTO> findAll(Pageable pageable) {
         log.debug("Request to get all CurriculumVitaeMedias");
-        return curriculumVitaeMediaRepository.findAll(pageable).map(curriculumVitaeMediaMapper::toDto);
+        return curriculumVitaeMediaRepository.findAllWithEagerRelationships(pageable).map(curriculumVitaeMediaMapper::toDto);
     }
-
     /**
      * Get all the curriculumVitaeMedias with eager load of many-to-many relationships.
      *

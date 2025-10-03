@@ -85,7 +85,7 @@ public class AboutMeMediaService {
     @Transactional(readOnly = true)
     public Page<AboutMeMediaDTO> findAll(Pageable pageable) {
         log.debug("Request to get all AboutMeMedias");
-        return aboutMeMediaRepository.findAll(pageable).map(aboutMeMediaMapper::toDto);
+        return aboutMeMediaRepository.findAllWithEagerRelationships(pageable).map(aboutMeMediaMapper::toDto);
     }
 
     /**

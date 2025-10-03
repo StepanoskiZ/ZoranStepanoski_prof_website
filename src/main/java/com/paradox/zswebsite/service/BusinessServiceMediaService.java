@@ -88,7 +88,7 @@ public class BusinessServiceMediaService {
     @Transactional(readOnly = true)
     public Page<BusinessServiceMediaDTO> findAll(Pageable pageable) {
         log.debug("Request to get all BusinessServiceMedias");
-        return businessServiceMediaRepository.findAll(pageable).map(businessServiceMediaMapper::toDto);
+        return businessServiceMediaRepository.findAllWithEagerRelationships(pageable).map(businessServiceMediaMapper::toDto);
     }
 
     /**

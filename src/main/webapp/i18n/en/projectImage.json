@@ -2,23 +2,23 @@
   "zsWebsiteApp": {
     "projectImage": {
       "home": {
-        "title": "Project Images",
+        "title": "Project Media",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Project Image",
-        "createOrEditLabel": "Create or edit a Project Image",
-        "notFound": "No Project Images found"
+        "createLabel": "Create a new Project Media",
+        "createOrEditLabel": "Create or edit a Project Media",
+        "notFound": "No Project Media found"
       },
-      "created": "A new Project Image is created with identifier {{ param }}",
-      "updated": "A Project Image is updated with identifier {{ param }}",
-      "deleted": "A Project Image is deleted with identifier {{ param }}",
+      "created": "A new Project Media is created with identifier {{ param }}",
+      "updated": "A Project Media is updated with identifier {{ param }}",
+      "deleted": "A Project Media is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Project Image {{ id }}?"
+        "question": "Are you sure you want to delete Project Media {{ id }}?"
       },
       "detail": {
-        "title": "Project Image"
+        "title": "Project Media"
       },
       "id": "ID",
-      "imageUrl": "Image Url",
+      "imageUrl": "Media Url",
       "caption": "Caption",
       "project": "Project"
     }

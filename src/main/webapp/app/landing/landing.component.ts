@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveSectionService } from '../layouts/active-section.service';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -63,6 +63,7 @@ export interface SkillCard {
     CommonModule,
     SharedModule,
     NgbDropdownModule,
+    NgbPaginationModule,
     ContactFormComponent,
     RouterModule,
     AboutMeModalComponent,
@@ -89,10 +90,9 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAdminEnv = environment.isAdminEnv;
 
-//  skillsPerPage = 20; // Show 20 skills per page (10 per column)
-//  currentPage = 0; // The current page index (0-based for the API)
-//  totalItems = 0;
-//  totalPages = 0;
+  skillsCurrentPage = 1;
+  skillsPerPage = 20; // 10 skills per column
+  totalSkills = 0;
 
   private readonly http = inject(HttpClient);
   private readonly modalService = inject(NgbModal);
@@ -115,7 +115,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadAboutContent();
     this.loadCvEntries();
     this.loadBusinessServices();
-    this.loadSkills();
+    this.loadSkillsPage(1);
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -130,14 +130,35 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     return txt.value;
   }
 
-  private loadSkills(): void {
-    this.isLoadingSkills = true;
+  get leftColumnSkills(): SkillCard[] {
+    const midpoint = Math.ceil(this.skills.length / 2);
+    return this.skills.slice(0, midpoint);
+  }
 
-    // This is the correct, simple call. No params, no observe, just a clean GET.
-    this.http.get<SkillCard[]>('/api/skills/all').subscribe({
-      next: (data: SkillCard[]) => {
-        this.skills = data ?? []; // The data is already sorted by the backend.
+  get rightColumnSkills(): SkillCard[] {
+    const midpoint = Math.ceil(this.skills.length / 2);
+    return this.skills.slice(midpoint);
+  }
+
+  loadSkillsPage(page: number): void {
+    this.isLoadingSkills = true;
+    this.skillsCurrentPage = page;
+
+    // The API is 0-indexed, so we subtract 1 from the UI page number
+    let params = new HttpParams()
+      .set('page', (page - 1).toString())
+      .set('size', this.skillsPerPage.toString())
+      .set('sort', 'name,asc'); // Sorting alphabetically as you decided
+
+    this.http.get<SkillCard[]>('/api/skills', { params, observe: 'response' }).subscribe({
+      next: (response: HttpResponse<SkillCard[]>) => {
+        this.skills = response.body ?? [];
+
+        this.totalSkills = Number(response.headers.get('X-Total-Count') || 0);
+
         this.isLoadingSkills = false;
+
+        document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
       },
       error: err => {
         console.error('❌ Failed to load skills:', err);

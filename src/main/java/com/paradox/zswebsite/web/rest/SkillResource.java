@@ -138,12 +138,12 @@ public class SkillResource {
     }
 
     /**
-     * {@code GET  /skills} : get all the skills.
+     * {@code GET  /skills/all} : get all the skills.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of skills in body.
      */
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<List<SkillDTO>> getAllSkills(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Skills");
         Page<SkillDTO> page = skillService.findAll(pageable);

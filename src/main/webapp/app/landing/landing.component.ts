@@ -89,22 +89,16 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAdminEnv = environment.isAdminEnv;
 
-  skillsPerPage = 20; // Show 20 skills per page (10 per column)
-  currentPage = 0; // The current page index (0-based for the API)
-  totalItems = 0;
-  totalPages = 0;
+//  skillsPerPage = 20; // Show 20 skills per page (10 per column)
+//  currentPage = 0; // The current page index (0-based for the API)
+//  totalItems = 0;
+//  totalPages = 0;
 
   private readonly http = inject(HttpClient);
   private readonly modalService = inject(NgbModal);
   @ViewChildren('section', { read: ElementRef }) sections!: QueryList<ElementRef>;
   private observer!: IntersectionObserver;
   private readonly activeSectionService = inject(ActiveSectionService);
-
-  services = [
-    { icon: '../../../content/media/service1.jpg', title: 'landing.service1Title', description: 'landing.service1Desc', delay: 100 },
-    { icon: '../../../content/media/service2.jpg', title: 'landing.service2Title', description: 'landing.service2Desc', delay: 200 },
-    { icon: '../../../content/media/service3.jpg', title: 'landing.service3Title', description: 'landing.service3Desc', delay: 300 },
-  ];
 
   constructor(
     private translateService: TranslateService,
@@ -121,7 +115,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadAboutContent();
     this.loadCvEntries();
     this.loadBusinessServices();
-    this.loadSkills(this.currentPage);
+    this.loadSkills();
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -136,20 +130,13 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     return txt.value;
   }
 
-  private loadSkills(page: number): void {
+  private loadSkills(): void {
     this.isLoadingSkills = true;
 
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', this.skillsPerPage.toString())
-      .set('sort', 'percentage,desc'); // Also sort by percentage on the backend
-
-    this.http.get<SkillCard[]>('/api/skills', { params, observe: 'response' }).subscribe({
-      next: (res: HttpResponse<SkillCard[]>) => {
-        this.totalItems = Number(res.headers.get('X-Total-Count'));
-        this.totalPages = Math.ceil(this.totalItems / this.skillsPerPage);
-
-        this.skills = res.body ?? [];
+    // This is the correct, simple call. No params, no observe, just a clean GET.
+    this.http.get<SkillCard[]>('/api/skills/all').subscribe({
+      next: (data: SkillCard[]) => {
+        this.skills = data ?? []; // The data is already sorted by the backend.
         this.isLoadingSkills = false;
       },
       error: err => {
@@ -157,23 +144,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingSkills = false;
       },
     });
-  }
-
-  loadPage(page: number): void {
-    // Prevent going to a page that doesn't exist
-    if (page < 0 || page >= this.totalPages) {
-      return;
-    }
-    this.currentPage = page;
-    this.loadSkills(this.currentPage);
-  }
-
-  previousPage(): void {
-    this.loadPage(this.currentPage - 1);
-  }
-
-  nextPage(): void {
-    this.loadPage(this.currentPage + 1);
   }
 
   private loadAboutContent(): void {

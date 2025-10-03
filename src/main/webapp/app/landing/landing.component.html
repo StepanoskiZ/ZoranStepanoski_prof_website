@@ -226,27 +226,57 @@
   </div>
 </section>
 
+<!-- src/main/webapp/app/landing/landing.component.html -->
+
 <!-- =================== Skills Section =================== -->
-<section #section id="skills" class="skills-section py-5">
+<section #section id="skills" class="skills section-bg section">
   <div class="container">
-    <div class="mb-5 text-center">
-      <p class="sub-heading" jhiTranslate="landing.skillsSubheading"></p>
-      <h2 class="fw-bold" jhiTranslate="landing.skillsHeading"></h2>
+    <div class="section-title">
+      <h2 data-aos="fade-up" jhiTranslate="landing.skills.title">Professional Skills</h2>
+      <p data-aos="fade-up" jhiTranslate="landing.skills.subtitle">My Expertise</p>
     </div>
 
-    <div *ngIf="!isLoadingSkills && skills.length > 0" class="row">
-      <div *ngFor="let skill of skills; let i = index" class="col-md-6 mb-4" data-aos="fade-up" [attr.data-aos-delay]="i * 50">
-        <div class="skill-item d-flex justify-content-between align-items-center">
-          <span class="skill-name">{{ skill.name }}</span>
-          <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
-        </div>
+    <!-- Loading Spinner: Show this while data is being fetched -->
+    <div *ngIf="isLoadingSkills" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
-    <!-- Loading Spinner -->
-    <div *ngIf="isLoadingSkills" class="text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <!-- Skills Content: Show this only when loading is complete -->
+    <div *ngIf="!isLoadingSkills">
+      <div class="row skills-content" data-aos="fade-up">
+        <!-- Left Column -->
+        <div class="col-lg-6">
+          <div class="progress" *ngFor="let skill of leftColumnSkills">
+            <span class="skill">{{ skill.name }} <i class="val">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</i></span>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-6">
+          <div class="progress" *ngFor="let skill of rightColumnSkills">
+            <span class="skill">{{ skill.name }} <i class="val">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Skills Found Message -->
+      <div *ngIf="skills.length === 0" class="text-center mt-4">
+        <p jhiTranslate="landing.skills.noSkillsFound"></p>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div *ngIf="totalSkills > skillsPerPage" class="d-flex justify-content-center mt-4">
+        <ngb-pagination
+          [collectionSize]="totalSkills"
+          [pageSize]="skillsPerPage"
+          [(page)]="skillsCurrentPage"
+          (pageChange)="loadSkillsPage($event)"
+          [maxSize]="5"
+          [boundaryLinks]="true"
+          [ellipses]="true">
+        </ngb-pagination>
       </div>
     </div>
   </div>

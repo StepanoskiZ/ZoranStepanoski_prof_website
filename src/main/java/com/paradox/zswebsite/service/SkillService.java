@@ -113,11 +113,4 @@ public class SkillService {
         log.debug("Request to delete Skill : {}", id);
         skillRepository.deleteById(id);
     }
-
-    public List<SkillDTO> findAllUnpaginated() {
-        log.debug("Request to get all Skills without pagination, sorted by experience");
-        return skillRepository.findAllSortedByExperience().stream() // Calling the @Query method
-            .map(skillMapper::toDto)
-            .collect(Collectors.toList());
-    }
 }

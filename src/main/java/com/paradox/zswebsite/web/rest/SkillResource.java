@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.paradox.zswebsite.domain.Skill}.
  */
 @RestController
-@RequestMapping("/api/skills")
+@RequestMapping("/api")
 public class SkillResource {
 
     private final Logger log = LoggerFactory.getLogger(SkillResource.class);
@@ -54,7 +54,7 @@ public class SkillResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new skillDTO, or with status {@code 400 (Bad Request)} if the skill has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/skills")
     public ResponseEntity<SkillDTO> createSkill(@Valid @RequestBody SkillDTO skillDTO) throws URISyntaxException {
         log.debug("REST request to save Skill : {}", skillDTO);
         if (skillDTO.getId() != null) {
@@ -77,7 +77,7 @@ public class SkillResource {
      * or with status {@code 500 (Internal Server Error)} if the skillDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/skills/{id}")
     public ResponseEntity<SkillDTO> updateSkill(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody SkillDTO skillDTO
@@ -112,7 +112,7 @@ public class SkillResource {
      * or with status {@code 500 (Internal Server Error)} if the skillDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/skills/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SkillDTO> partialUpdateSkill(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody SkillDTO skillDTO
@@ -138,15 +138,16 @@ public class SkillResource {
     }
 
     /**
-     * {@code GET  /skills/all} : get all the skills.
+     * {@code GET  /skills} : get all the skills.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of skills in body.
      */
-    @GetMapping("/all")
+    @GetMapping("/skills") // This maps to GET /api/skills
     public ResponseEntity<List<SkillDTO>> getAllSkills(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Skills");
         Page<SkillDTO> page = skillService.findAll(pageable);
+        // This utility adds the 'X-Total-Count' header, which is crucial for the frontend.
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -157,7 +158,7 @@ public class SkillResource {
      * @param id the id of the skillDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the skillDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/skills/{id}")
     public ResponseEntity<SkillDTO> getSkill(@PathVariable("id") Long id) {
         log.debug("REST request to get Skill : {}", id);
         Optional<SkillDTO> skillDTO = skillService.findOne(id);
@@ -170,7 +171,7 @@ public class SkillResource {
      * @param id the id of the skillDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/skills/{id}")
     public ResponseEntity<Void> deleteSkill(@PathVariable("id") Long id) {
         log.debug("REST request to delete Skill : {}", id);
         skillService.delete(id);

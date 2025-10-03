@@ -22,7 +22,8 @@
           "options": {
             "allowedCommonJsDependencies": [
               "quill-delta",
-              "buffer"
+              "buffer",
+              "file-saver"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/main/webapp/content/scss", "node_modules", "src/main/webapp/app/shared/styles"]

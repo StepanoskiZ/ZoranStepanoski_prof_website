@@ -249,19 +249,6 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <div *ngIf="!isLoadingSkills && totalItems > skillsPerPage" class="d-flex justify-content-center align-items-center mt-4">
-      <button class="btn btn-outline-primary" (click)="previousPage()" [disabled]="currentPage === 0">
-        &laquo; {{ 'global.previous' | translate }}
-      </button>
-
-      <span class="mx-3">
-        {{ 'global.page' | translate }} {{ currentPage + 1 }} / {{ totalPages }}
-      </span>
-
-      <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">
-        {{ 'global.next' | translate }} &raquo;
-      </button>
-    </div>
   </div>
 </section>
 

@@ -11,11 +11,12 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface CurriculumVitaeMediaMapper extends EntityMapper<CurriculumVitaeMediaDTO, CurriculumVitaeMedia> {
-    @Mapping(target = "curriculumVitae", source = "curriculumVitae", qualifiedByName = "curriculumVitaeId")
+    @Mapping(target = "curriculumVitae", source = "curriculumVitae", qualifiedByName = "curriculumVitaeCompanyName")
     CurriculumVitaeMediaDTO toDto(CurriculumVitaeMedia s);
 
-    @Named("curriculumVitaeId")
+    @Named("curriculumVitaeCompanyName")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    CurriculumVitaeDTO toDtoCurriculumVitaeId(CurriculumVitae curriculumVitae);
+    @Mapping(target = "companyName", source = "companyName") // <-- Map the companyName
+    CurriculumVitaeDTO toDtoCurriculumVitaeCompanyName(CurriculumVitae curriculumVitae);
 }

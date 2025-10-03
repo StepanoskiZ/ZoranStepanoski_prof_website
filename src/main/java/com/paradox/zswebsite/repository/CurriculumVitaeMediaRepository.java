@@ -14,31 +14,31 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CurriculumVitaeMediaRepository extends JpaRepository<CurriculumVitaeMedia, Long> {
-    default Optional<CurriculumVitaeMedia> findOneWithEagerRelationships(Long id) {
-        return this.findOneWithToOneRelationships(id);
-    }
-
-    default List<CurriculumVitaeMedia> findAllWithEagerRelationships() {
-        return this.findAllWithToOneRelationships();
-    }
-
-    default Page<CurriculumVitaeMedia> findAllWithEagerRelationships(Pageable pageable) {
-        return this.findAllWithToOneRelationships(pageable);
-    }
-
-    @Query(
-        value = "select curriculumVitaeMedia from CurriculumVitaeMedia curriculumVitaeMedia left join fetch curriculumVitaeMedia.curriculumVitae",
-        countQuery = "select count(curriculumVitaeMedia) from CurriculumVitaeMedia curriculumVitaeMedia"
-    )
-    Page<CurriculumVitaeMedia> findAllWithToOneRelationships(Pageable pageable);
-
-    @Query(
-        "select curriculumVitaeMedia from CurriculumVitaeMedia curriculumVitaeMedia left join fetch curriculumVitaeMedia.curriculumVitae"
-    )
-    List<CurriculumVitaeMedia> findAllWithToOneRelationships();
-
+//    default Optional<CurriculumVitaeMedia> findOneWithEagerRelationships(Long id) {
+//        return this.findOneWithToOneRelationships(id);
+//    }
+//
+//    default List<CurriculumVitaeMedia> findAllWithEagerRelationships() {
+//        return this.findAllWithToOneRelationships();
+//    }
+//
+//    @Query(
+//        value = "select curriculumVitaeMedia from CurriculumVitaeMedia curriculumVitaeMedia left join fetch curriculumVitaeMedia.curriculumVitae",
+//        countQuery = "select count(curriculumVitaeMedia) from CurriculumVitaeMedia curriculumVitaeMedia"
+//    )
+//    Page<CurriculumVitaeMedia> findAllWithToOneRelationships(Pageable pageable);
+//
+//    @Query(
+//        "select curriculumVitaeMedia from CurriculumVitaeMedia curriculumVitaeMedia left join fetch curriculumVitaeMedia.curriculumVitae"
+//    )
+//    List<CurriculumVitaeMedia> findAllWithToOneRelationships();
+//
     @Query(
         "select curriculumVitaeMedia from CurriculumVitaeMedia curriculumVitaeMedia left join fetch curriculumVitaeMedia.curriculumVitae where curriculumVitaeMedia.id =:id"
     )
-    Optional<CurriculumVitaeMedia> findOneWithToOneRelationships(@Param("id") Long id);
+    Optional<CurriculumVitaeMedia> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query(value = "select cvm from CurriculumVitaeMedia cvm left join fetch cvm.curriculumVitae",
+        countQuery = "select count(cvm) from CurriculumVitaeMedia cvm")
+    Page<CurriculumVitaeMedia> findAllWithEagerRelationships(Pageable pageable);
 }

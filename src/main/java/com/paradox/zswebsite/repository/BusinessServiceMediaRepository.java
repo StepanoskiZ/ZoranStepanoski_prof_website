@@ -1,6 +1,8 @@
 package com.paradox.zswebsite.repository;
 
 import com.paradox.zswebsite.domain.BusinessServiceMedia;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BusinessServiceMediaRepository extends JpaRepository<BusinessServiceMedia, Long> {}
+public interface BusinessServiceMediaRepository extends JpaRepository<BusinessServiceMedia, Long> {
+    @Query(value = "select bsm from BusinessServiceMedia bsm left join fetch bsm.businessService",
+        countQuery = "select count(bsm) from BusinessServiceMedia bsm")
+    Page<BusinessServiceMedia> findAllWithEagerRelationships(Pageable pageable);
+}

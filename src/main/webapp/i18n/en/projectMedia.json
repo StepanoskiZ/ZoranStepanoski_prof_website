@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "projectMedia": {
       "home": {
-        "title": "Project Medias",
+        "title": "Project Media",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Project Media",
         "createOrEditLabel": "Create or edit a Project Media",
-        "notFound": "No Project Medias found"
+        "notFound": "No Project Media found"
       },
       "created": "A new Project Media is created with identifier {{ param }}",
       "updated": "A Project Media is updated with identifier {{ param }}",

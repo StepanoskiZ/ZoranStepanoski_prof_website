@@ -2,11 +2,11 @@
   "zsWebsiteApp": {
     "projectMedia": {
       "home": {
-        "title": "Project Medias",
-        "refreshListLabel": "Refresh list",
+        "title": "Projekt Media",
+        "refreshListLabel": "Osveži listu",
         "createLabel": "Kreiraj novi Project Media",
         "createOrEditLabel": "Kreirajte ili izmenite Project Media",
-        "notFound": "No Project Medias found"
+        "notFound": "No Project Media found"
       },
       "created": "Kreiran je novi Project Media pod nazivom {{ param }}",
       "updated": "Project Media pod nazivom {{ param }} je ažuriran",

@@ -5,14 +5,28 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class StripHtmlPipe implements PipeTransform {
-  transform(value: string | null | undefined): string {
+  transform(value: string | null | undefined, maxLength: number = 150): string {
     if (!value) {
       return '';
     }
-    // Create a temporary DOM element to parse the HTML
-    const div = document.createElement('div');
-    div.innerHTML = value;
-    // Return the text content, which strips all HTML tags
-    return div.textContent || div.innerText || '';
+
+    const stringWithRegularSpaces = value.replace(/&nbsp;|\u00A0/g, ' ');
+
+    let text = stringWithRegularSpaces.replace(/<[^>]*>/g, ' ');
+
+    text = text.replace(/\s\s+/g, ' ').trim();
+
+    if (text.length <= maxLength) {
+      return text;
+    }
+
+    let truncatedText = text.substring(0, maxLength);
+    const lastSpaceIndex = truncatedText.lastIndexOf(' ');
+
+    if (lastSpaceIndex > 0) {
+      truncatedText = truncatedText.substring(0, lastSpaceIndex);
+    }
+
+    return truncatedText + '...';
   }
 }

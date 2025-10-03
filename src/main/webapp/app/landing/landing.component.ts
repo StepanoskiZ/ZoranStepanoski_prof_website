@@ -174,11 +174,16 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.get<AboutMeCard>('/api/about-me/card').subscribe({
       next: data => {
         console.log('✅ Received "About Me" CARD data from API:', data);
-        const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(this.decodeHtml(data.contentHtml || ''));
+
+        const decodedHtml = this.decodeHtml(data.contentHtml || '');
+
+        const fixedHtml = decodedHtml.replace(/&nbsp;|\u00A0/g, ' ');
+
+        const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(fixedHtml);
 
         this.aboutCard = {
-          ...data, // Copy id, firstMediaUrl, firstMediaType from the response
-          contentHtml: sanitizedHtml as string, // Store the sanitized SafeHtml
+          ...data,
+          contentHtml: sanitizedHtml as string,
         };
 
         this.isLoadingAbout = false;
@@ -188,19 +193,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingAbout = false;
       },
     });
-  }
-
-  openAboutModal(): void {
-    if (this.isLoadingAbout || !this.aboutCard) {
-      console.warn('About Me data is not ready yet.');
-      return;
-    }
-    const modalRef = this.modalService.open(AboutMeModalComponent, {
-      size: 'xl',
-      centered: true,
-      windowClass: 'project-detail-custom-modal',
-    });
-    modalRef.componentInstance.item = { id: this.aboutCard.id };
   }
 
   private loadBusinessServices(): void {
@@ -223,20 +215,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingServices = false;
       },
     });
-  }
-
-  openBusinessServiceModal(serviceId: number): void {
-    const service = this.businessServices.find(s => s.id === serviceId);
-    if (!service) {
-      console.error(`❌ No business service found for id ${serviceId}.`);
-      return;
-    }
-    const modalRef = this.modalService.open(BusinessServiceDetailModalComponent, {
-      size: 'xl',
-      centered: true,
-      windowClass: 'project-detail-custom-modal',
-    });
-    modalRef.componentInstance.item = service;
   }
 
   private loadProjects(): void {
@@ -263,6 +241,47 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  private loadCvEntries(): void {
+    this.isLoadingCv = true;
+    this.http.get<CvCard[]>('/api/curriculum-vitae/cards').subscribe({
+      next: (data: CvCard[]) => {
+        this.cvEntries = data;
+        this.isLoadingCv = false;
+      },
+      error: err => {
+        console.error('❌ Failed to load CV entries:', err);
+        this.isLoadingCv = false;
+      },
+    });
+  }
+
+  openAboutModal(): void {
+    if (this.isLoadingAbout || !this.aboutCard) {
+      console.warn('About Me data is not ready yet.');
+      return;
+    }
+    const modalRef = this.modalService.open(AboutMeModalComponent, {
+      size: 'xl',
+      centered: true,
+      windowClass: 'project-detail-custom-modal',
+    });
+    modalRef.componentInstance.item = { id: this.aboutCard.id };
+  }
+
+  openBusinessServiceModal(serviceId: number): void {
+    const service = this.businessServices.find(s => s.id === serviceId);
+    if (!service) {
+      console.error(`❌ No business service found for id ${serviceId}.`);
+      return;
+    }
+    const modalRef = this.modalService.open(BusinessServiceDetailModalComponent, {
+      size: 'xl',
+      centered: true,
+      windowClass: 'project-detail-custom-modal',
+    });
+    modalRef.componentInstance.item = service;
+  }
+
   openProjectMediaModal(projectId: number): void {
     console.log('🔎 openProjectMediaModal called with projectId:', projectId);
     const project = this.projects.find(p => p.id === projectId);
@@ -277,20 +296,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       windowClass: 'project-detail-custom-modal',
     });
     modalRef.componentInstance.item = project;
-  }
-
-  private loadCvEntries(): void {
-    this.isLoadingCv = true;
-    this.http.get<CvCard[]>('/api/curriculum-vitae/cards').subscribe({
-      next: (data: CvCard[]) => {
-        this.cvEntries = data;
-        this.isLoadingCv = false;
-      },
-      error: err => {
-        console.error('❌ Failed to load CV entries:', err);
-        this.isLoadingCv = false;
-      },
-    });
   }
 
   openCvDetailModal(cvId: number): void {

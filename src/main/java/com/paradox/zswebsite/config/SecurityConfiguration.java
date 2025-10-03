@@ -111,6 +111,7 @@ public class SecurityConfiguration {
                         "/api/about-me",
                         "/api/about-me/card",
                         "/about-me/*/details",
+                        "/api/about-me/**",
                         "/api/about-me-media/**",
                         "/api/skills",
                         "/api/skills/all",

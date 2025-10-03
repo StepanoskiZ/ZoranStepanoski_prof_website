@@ -100,6 +100,7 @@ public class SecurityConfiguration {
                         "/api/projects/*/details",
                         "/api/project-media/**",
                         "/api/business-services",
+                        "/api/business-services/**",
                         "/api/business-services/cards",
                         "/business-services/*/details",
                         "/api/business-service-media/**",

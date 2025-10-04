@@ -17,5 +17,6 @@ public interface AboutMeMediaMapper extends EntityMapper<AboutMeMediaDTO, AboutM
     @Named("aboutMeId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", constant = "About Me Section")
     AboutMeDTO toDtoAboutMeId(AboutMe aboutMe);
 }

@@ -150,14 +150,19 @@ public class BusinessServiceMediaResource {
      */
     @GetMapping("")
     public ResponseEntity<List<BusinessServiceMediaDTO>> getAllBusinessServiceMedias(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(name = "eagerload", required = false, defaultValue = "false") boolean eagerload
     ) {
         log.debug("REST request to get a page of BusinessServiceMedias");
-        Page<BusinessServiceMediaDTO> page = businessServiceMediaService.findAll(pageable);
+        Page<BusinessServiceMediaDTO> page;
+        if (eagerload) {
+            page = businessServiceMediaService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = businessServiceMediaService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
     /**
      * {@code GET  /business-service-medias/:id} : get the "id" businessServiceMedia.
      *

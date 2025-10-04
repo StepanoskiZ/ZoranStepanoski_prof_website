@@ -74,7 +74,7 @@
             [compareWith]="compareBusinessService">
             <option [ngValue]="null"></option>
             @for (businessServiceOption of businessServicesSharedCollection; track $index) {
-              <option [ngValue]="businessServiceOption">{{ businessServiceOption.id }}</option>
+              <option [ngValue]="businessServiceOption">{{ businessServiceOption.title }}</option>
             }
           </select>
         </div>

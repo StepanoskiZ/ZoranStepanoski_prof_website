@@ -69,7 +69,8 @@ export class CvAiGeneratorComponent implements OnInit {
     this.projectService.query().subscribe(res => (this.allMyProjects = res.body ?? []));
     // Fetch all skills to avoid pagination issues in the selection list
 //    this.skillService.query({ size: 100 }).subscribe(res => (this.allMySkills = res.body ?? []));
-    this.http.get<ISkill[]>('/api/skills').subscribe(skills => (this.allMySkills = skills ?? []));
+//    this.http.get<ISkill[]>('/api/skills').subscribe(skills => (this.allMySkills = skills ?? []));
+    this.skillService.query({ size: 500, sort: ['name,asc'] }).subscribe(res => (this.allMySkills = res.body ?? []));
     this.aboutMeService.query().subscribe(res => (this.allAboutMe = res.body ?? []));
     this.fetchAiModels();
   }

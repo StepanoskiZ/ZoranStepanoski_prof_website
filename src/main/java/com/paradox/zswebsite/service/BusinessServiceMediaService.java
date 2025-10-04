@@ -112,4 +112,9 @@ public class BusinessServiceMediaService {
         log.debug("Request to delete BusinessServiceMedia : {}", id);
         businessServiceMediaRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public Page<BusinessServiceMediaDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return businessServiceMediaRepository.findAllWithEagerRelationships(pageable).map(businessServiceMediaMapper::toDto);
+    }
 }

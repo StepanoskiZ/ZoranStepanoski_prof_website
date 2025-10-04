@@ -3,6 +3,7 @@ package com.paradox.zswebsite.service;
 import com.paradox.zswebsite.domain.AboutMeMedia;
 import com.paradox.zswebsite.repository.AboutMeMediaRepository;
 import com.paradox.zswebsite.service.dto.AboutMeMediaDTO;
+import com.paradox.zswebsite.service.dto.BusinessServiceMediaDTO;
 import com.paradox.zswebsite.service.mapper.AboutMeMediaMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -108,5 +109,10 @@ public class AboutMeMediaService {
     public void delete(Long id) {
         log.debug("Request to delete AboutMeMedia : {}", id);
         aboutMeMediaRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AboutMeMediaDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return aboutMeMediaRepository.findAllWithEagerRelationships(pageable).map(aboutMeMediaMapper::toDto);
     }
 }

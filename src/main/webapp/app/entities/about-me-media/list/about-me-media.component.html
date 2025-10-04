@@ -12,8 +12,7 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-about-me-media"
-        [routerLink]="['/about-me-media/new']"
-      >
+        [routerLink]="['/about-me-media/new']">
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="zsWebsiteApp.aboutMeMedia.home.createLabel"></span>
       </button>
@@ -37,33 +36,29 @@
           <tr jhiSort [sortState]="{ predicate, order: ascending ? 'asc' : 'desc' }" (sortChange)="onSortChange($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
+                <span jhiTranslate="global.field.id"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="mediaUrl">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.mediaUrl">Media Url</span>
-
+                <span jhiTranslate="zsWebsiteApp.aboutMeMedia.mediaUrl"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="aboutMeMediaType">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMeMediaType"></span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="caption">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.aboutMeMedia.caption"></span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="aboutMe.id">
+            <th scope="col" jhiSortBy="aboutMe.name">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.aboutMeMedia.aboutMe"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -86,7 +81,7 @@
               <td>
                 @if (aboutMeMedia.aboutMe) {
                   <div>
-                    <a [routerLink]="['/about-me', aboutMeMedia.aboutMe.id, 'view']">{{ aboutMeMedia.aboutMe.id }}</a>
+                    <a [routerLink]="['/about-me', aboutMeMedia.aboutMe.id, 'view']">{{ aboutMeMedia.aboutMe.name }}</a>
                   </div>
                 }
               </td>
@@ -128,8 +123,8 @@
           [maxSize]="5"
           [rotate]="true"
           [boundaryLinks]="true"
-          (pageChange)="navigateToPage($event)"
-        ></ngb-pagination>
+          (pageChange)="navigateToPage($event)">
+        </ngb-pagination>
       </div>
     </div>
   }

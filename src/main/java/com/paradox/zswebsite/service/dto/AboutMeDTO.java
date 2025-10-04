@@ -15,6 +15,7 @@ import java.util.Set;
 public class AboutMeDTO implements Serializable {
 
     private Long id;
+    private String name;
 
     @Lob
     private String contentHtml;
@@ -27,7 +28,6 @@ public class AboutMeDTO implements Serializable {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -35,7 +35,6 @@ public class AboutMeDTO implements Serializable {
     public String getContentHtml() {
         return contentHtml;
     }
-
     public void setContentHtml(String contentHtml) {
         this.contentHtml = contentHtml;
     }
@@ -43,14 +42,15 @@ public class AboutMeDTO implements Serializable {
     public Language getLanguage() {
         return language;
     }
-
     public void setLanguage(Language language) {
         this.language = language;
     }
 
     public Set<AboutMeMediaDTO> getMediaFiles() { return mediaFiles; }
-
     public void setMediaFiles(Set<AboutMeMediaDTO> mediaFiles) { this.mediaFiles = mediaFiles; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     @Override
     public boolean equals(Object o) {

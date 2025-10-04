@@ -12,8 +12,7 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-curriculum-vitae-media"
-        [routerLink]="['/curriculum-vitae-media/new']"
-      >
+        [routerLink]="['/curriculum-vitae-media/new']">
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.home.createLabel">Create a new Curriculum Vitae Media</span>
       </button>
@@ -37,35 +36,31 @@
           <tr jhiSort [sortState]="{ predicate, order: ascending ? 'asc' : 'desc' }" (sortChange)="onSortChange($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
+                <span jhiTranslate="global.field.id"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="mediaUrl">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.mediaUrl">Media Url</span>
-
+                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.mediaUrl"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="curriculumVitaeMediaType">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitaeMediaType">Curriculum Vitae Media Type</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="caption">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.caption">Caption</span>
-
+                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.caption"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="curriculumVitae.id">
+            <th scope="col" jhiSortBy="curriculumVitae.companyName">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitae">Curriculum Vitae</span>
+                <span jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitae"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -86,9 +81,9 @@
               <td>
                 @if (curriculumVitaeMedia.curriculumVitae) {
                   <div>
-                    <a [routerLink]="['/curriculum-vitae', curriculumVitaeMedia.curriculumVitae.id, 'view']">{{
-                      curriculumVitaeMedia.curriculumVitae.id
-                    }}</a>
+                    <a [routerLink]="['/curriculum-vitae', curriculumVitaeMedia.curriculumVitae.id, 'view']">
+                      {{ curriculumVitaeMedia.curriculumVitae.companyName }}
+                    </a>
                   </div>
                 }
               </td>
@@ -97,24 +92,21 @@
                   <a
                     [routerLink]="['/curriculum-vitae-media', curriculumVitaeMedia.id, 'view']"
                     class="btn btn-info btn-sm"
-                    data-cy="entityDetailsButton"
-                  >
+                    data-cy="entityDetailsButton">
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view"></span>
                   </a>
-
                   <a
                     [routerLink]="['/curriculum-vitae-media', curriculumVitaeMedia.id, 'edit']"
                     class="btn btn-primary btn-sm"
-                    data-cy="entityEditButton"
-                  >
+                    data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
                   </a>
 
                   <button type="submit" (click)="delete(curriculumVitaeMedia)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete"></span>
                   </button>
                 </div>
               </td>
@@ -138,8 +130,8 @@
           [maxSize]="5"
           [rotate]="true"
           [boundaryLinks]="true"
-          (pageChange)="navigateToPage($event)"
-        ></ngb-pagination>
+          (pageChange)="navigateToPage($event)">
+        </ngb-pagination>
       </div>
     </div>
   }

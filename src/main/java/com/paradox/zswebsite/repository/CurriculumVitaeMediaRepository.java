@@ -38,7 +38,9 @@ public interface CurriculumVitaeMediaRepository extends JpaRepository<Curriculum
     )
     Optional<CurriculumVitaeMedia> findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query(value = "select cvm from CurriculumVitaeMedia cvm left join fetch cvm.curriculumVitae",
-        countQuery = "select count(cvm) from CurriculumVitaeMedia cvm")
+    @Query(
+        value = "select cvm from CurriculumVitaeMedia cvm left join fetch cvm.curriculumVitae",
+        countQuery = "select count(cvm) from CurriculumVitaeMedia cvm"
+    )
     Page<CurriculumVitaeMedia> findAllWithEagerRelationships(Pageable pageable);
 }

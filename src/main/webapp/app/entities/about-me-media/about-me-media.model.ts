@@ -6,7 +6,7 @@ export interface IAboutMeMedia {
   mediaUrl?: string | null;
   aboutMeMediaType?: keyof typeof UnifiedMediaType | null;
   caption?: string | null;
-  aboutMe?: Pick<IAboutMe, 'id'> | null;
+  aboutMe?: Pick<IAboutMe, 'id' | 'name'> | null;
 }
 
 export type NewAboutMeMedia = Omit<IAboutMeMedia, 'id'> & { id: null };

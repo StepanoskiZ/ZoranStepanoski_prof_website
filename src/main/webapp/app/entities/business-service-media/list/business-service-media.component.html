@@ -58,7 +58,7 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="businessService.id">
+            <th scope="col" jhiSortBy="businessService.title">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.businessServiceMedia.businessService"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -81,9 +81,9 @@
               <td>
                 @if (businessServiceMedia.businessService) {
                   <div>
-                    <a [routerLink]="['/business-service', businessServiceMedia.businessService.id, 'view']">{{
-                      businessServiceMedia.businessService.id
-                    }}</a>
+                    <a [routerLink]="['/business-service', businessServiceMedia.businessService.id, 'view']">
+                      {{ businessServiceMedia.businessService.title }}
+                    </a>
                   </div>
                 }
               </td>

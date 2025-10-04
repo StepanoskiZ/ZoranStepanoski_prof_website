@@ -3,6 +3,7 @@ import { UnifiedMediaType } from 'app/entities/enumerations/unified-media-type.m
 
 export interface IAboutMeMedia {
   id: number;
+  name: string | null;
   mediaUrl?: string | null;
   aboutMeMediaType?: keyof typeof UnifiedMediaType | null;
   caption?: string | null;

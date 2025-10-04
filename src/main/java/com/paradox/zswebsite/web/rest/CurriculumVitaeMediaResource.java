@@ -150,11 +150,12 @@ public class CurriculumVitaeMediaResource {
     @GetMapping("")
     public ResponseEntity<List<CurriculumVitaeMediaDTO>> getAllCurriculumVitaeMedias(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+        @RequestParam(name = "eagerload", required = false, defaultValue = "false") boolean eagerload
     ) {
         log.debug("REST request to get a page of CurriculumVitaeMedias");
         Page<CurriculumVitaeMediaDTO> page;
         if (eagerload) {
+            log.debug("Eager loading CurriculumVitaeMedias with relationships");
             page = curriculumVitaeMediaService.findAllWithEagerRelationships(pageable);
         } else {
             page = curriculumVitaeMediaService.findAll(pageable);

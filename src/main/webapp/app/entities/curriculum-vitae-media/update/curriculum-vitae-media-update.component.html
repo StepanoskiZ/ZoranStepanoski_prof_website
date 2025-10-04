@@ -4,8 +4,7 @@
       <h2
         id="jhi-curriculum-vitae-media-heading"
         data-cy="CurriculumVitaeMediaCreateUpdateHeading"
-        jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.home.createOrEditLabel"
-      >
+        jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.home.createOrEditLabel">
         Create or edit a Curriculum Vitae Media
       </h2>
 
@@ -14,18 +13,18 @@
 
         @if (editForm.controls.id.value !== null) {
           <div class="mb-3">
-            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id"></label>
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.mediaUrl" for="field_mediaUrl">Media Url</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.mediaUrl" for="field_mediaUrl"></label>
           <input type="text" class="form-control" name="mediaUrl" id="field_mediaUrl" data-cy="mediaUrl" formControlName="mediaUrl" />
           @if (editForm.get('mediaUrl')!.invalid && (editForm.get('mediaUrl')!.dirty || editForm.get('mediaUrl')!.touched)) {
             <div>
               @if (editForm.get('mediaUrl')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
@@ -35,16 +34,14 @@
           <label
             class="form-label"
             jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitaeMediaType"
-            for="field_curriculumVitaeMediaType"
-            >Curriculum Vitae Media Type</label
-          >
+            for="field_curriculumVitaeMediaType">
+          </label>
           <select
             class="form-control"
             name="curriculumVitaeMediaType"
             formControlName="curriculumVitaeMediaType"
             id="field_curriculumVitaeMediaType"
-            data-cy="curriculumVitaeMediaType"
-          >
+            data-cy="curriculumVitaeMediaType">
             <option [ngValue]="null">{{ 'zsWebsiteApp.UnifiedMediaType.null' | translate }}</option>
             @for (unifiedMediaType of unifiedMediaTypeValues; track $index) {
               <option [value]="unifiedMediaType">{{ 'zsWebsiteApp.UnifiedMediaType.' + unifiedMediaType | translate }}</option>
@@ -56,32 +53,29 @@
           ) {
             <div>
               @if (editForm.get('curriculumVitaeMediaType')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>
           }
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.caption" for="field_caption">Caption</label>
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.caption" for="field_caption"></label>
           <input type="text" class="form-control" name="caption" id="field_caption" data-cy="caption" formControlName="caption" />
         </div>
 
         <div class="mb-3">
-          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitae" for="field_curriculumVitae"
-            >Curriculum Vitae</label
-          >
+          <label class="form-label" jhiTranslate="zsWebsiteApp.curriculumVitaeMedia.curriculumVitae" for="field_curriculumVitae"></label>
           <select
             class="form-control"
             id="field_curriculumVitae"
             data-cy="curriculumVitae"
             name="curriculumVitae"
             formControlName="curriculumVitae"
-            [compareWith]="compareCurriculumVitae"
-          >
+            [compareWith]="compareCurriculumVitae">
             <option [ngValue]="null"></option>
             @for (curriculumVitaeOption of curriculumVitaesSharedCollection; track $index) {
-              <option [ngValue]="curriculumVitaeOption">{{ curriculumVitaeOption.id }}</option>
+              <option [ngValue]="curriculumVitaeOption">{{ curriculumVitaeOption.companyName }}</option>
             }
           </select>
         </div>
@@ -89,7 +83,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel"></span>
         </button>
 
         <button
@@ -97,9 +91,8 @@
           id="save-entity"
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+          class="btn btn-primary">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save"></span>
         </button>
       </div>
     </form>

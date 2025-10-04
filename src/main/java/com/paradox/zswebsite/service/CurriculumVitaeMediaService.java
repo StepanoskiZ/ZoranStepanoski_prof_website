@@ -90,14 +90,6 @@ public class CurriculumVitaeMediaService {
         log.debug("Request to get all CurriculumVitaeMedias");
         return curriculumVitaeMediaRepository.findAllWithEagerRelationships(pageable).map(curriculumVitaeMediaMapper::toDto);
     }
-    /**
-     * Get all the curriculumVitaeMedias with eager load of many-to-many relationships.
-     *
-     * @return the list of entities.
-     */
-    public Page<CurriculumVitaeMediaDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return curriculumVitaeMediaRepository.findAllWithEagerRelationships(pageable).map(curriculumVitaeMediaMapper::toDto);
-    }
 
     /**
      * Get one curriculumVitaeMedia by id.
@@ -119,5 +111,17 @@ public class CurriculumVitaeMediaService {
     public void delete(Long id) {
         log.debug("Request to delete CurriculumVitaeMedia : {}", id);
         curriculumVitaeMediaRepository.deleteById(id);
+    }
+
+
+    /**
+     * Get all the curriculumVitaeMedias with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CurriculumVitaeMediaDTO> findAllWithEagerRelationships(Pageable pageable) {
+        log.debug("Request to get all CurriculumVitaeMedias with eager relationships");
+        return curriculumVitaeMediaRepository.findAllWithEagerRelationships(pageable).map(curriculumVitaeMediaMapper::toDto);
     }
 }

@@ -17,6 +17,6 @@ public interface CurriculumVitaeMediaMapper extends EntityMapper<CurriculumVitae
     @Named("curriculumVitaeCompanyName")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "companyName", source = "companyName") // <-- Map the companyName
+    @Mapping(target = "companyName", source = "companyName")
     CurriculumVitaeDTO toDtoCurriculumVitaeCompanyName(CurriculumVitae curriculumVitae);
 }

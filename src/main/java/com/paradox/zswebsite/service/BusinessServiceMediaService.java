@@ -115,6 +115,7 @@ public class BusinessServiceMediaService {
 
     @Transactional(readOnly = true)
     public Page<BusinessServiceMediaDTO> findAllWithEagerRelationships(Pageable pageable) {
+        log.debug("Request to get all BusinessServiceMedias with eager relationships");
         return businessServiceMediaRepository.findAllWithEagerRelationships(pageable).map(businessServiceMediaMapper::toDto);
     }
 }

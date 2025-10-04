@@ -95,7 +95,10 @@ export class CurriculumVitaeMediaUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.curriculumVitaeService
-      .query()
+      .query({
+        size: 100,
+        sort: ['endDate,desc'],
+      })
       .pipe(map((res: HttpResponse<ICurriculumVitae[]>) => res.body ?? []))
       .pipe(
         map((curriculumVitaes: ICurriculumVitae[]) =>

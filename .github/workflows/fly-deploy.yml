@@ -1,6 +1,4 @@
-# .github/workflows/fly-deploy.yml (Corrected for Two-App Architecture)
-
-name: Fly Deploy
+name: Fly Deploy Frontend
 
 on:
   push:
@@ -12,32 +10,9 @@ env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
 jobs:
-  # =================================================================
-  # JOB 1: DEPLOY THE BACKEND
-  # =================================================================
-  deploy-backend:
-    name: Deploy Backend App
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy Backend to Fly.io
-        # This command tells Fly to build the backend using its specific Dockerfile
-        # and deploy it to the 'zoranstepanoski-prof-api' app.
-        run: flyctl deploy --remote-only -a zoranstepanoski-prof-api -c fly/backend/fly.toml --no-cache
-
-  # =================================================================
-  # JOB 2: DEPLOY THE FRONTEND
-  # =================================================================
-  # This job will only start after the 'deploy-backend' job succeeds.
   deploy-frontend:
     name: Deploy Frontend App
     runs-on: ubuntu-latest
-    needs: deploy-backend # This ensures the backend is deployed first
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,6 +21,4 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy Frontend to Fly.io
-        # This command tells Fly to build the frontend using its specific Dockerfile
-        # and deploy it to the 'zoranstepanoski-prof-website' app.
         run: flyctl deploy --remote-only -a zoranstepanoski-prof-website -c fly/frontend/fly.toml --no-cache

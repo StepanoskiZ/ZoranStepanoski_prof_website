@@ -93,7 +93,7 @@ server:
 
 jhipster:
   cors:
-    allowed-origins: 'http://localhost:9000,http://*.fly.dev,https://*.fly.dev' # <-- ADD YOUR FLY.DEV URL PATTERN HERE
+    allowed-origins: 'http://localhost:9000,http://*.fly.dev,https://*.fly.dev,https://zoranstepanoski-prof-website.fly.dev' # <-- ADD YOUR FLY.DEV URL PATTERN HERE
     allowed-methods: 'GET,POST,PUT,DELETE,OPTIONS'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count,X-jhipsterApp-alert,X-jhipsterApp-error,X-jhipsterApp-params'

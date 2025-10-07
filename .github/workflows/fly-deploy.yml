@@ -1,24 +1,55 @@
+# .github/workflows/fly-deploy.yml
+
 name: Fly Deploy Frontend
 
+# This new 'on:' block changes the trigger.
+# Instead of running on every push, it waits for the "GCP Deploy Backend" workflow to complete successfully.
 on:
-  push:
+  workflow_run:
+    # 1. This is the NAME of the workflow that must complete first.
+    #    It must exactly match the 'name:' field in your gcp-deploy-backend.yml file.
+    workflows: ["GCP Deploy Backend"]
+
+    # 2. This specifies that we should only proceed when that workflow is fully 'completed'.
+    types:
+      - completed
+
+    # 3. This ensures the rule only applies to your main branches.
     branches:
       - main
       - master
 
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
 jobs:
+  # This is a "gatekeeper" job. It checks if the backend deployment was actually successful.
+  # If the backend failed, this job is skipped, and the deploy job will also be skipped.
+  on-success:
+    name: Check Backend Deployment Status
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "Backend deployment succeeded. Proceeding with frontend deployment."
+
+  # This is your original deployment job, now with a few key changes.
   deploy-frontend:
     name: Deploy Frontend App
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    # This makes the deploy job dependent on the successful completion of the 'on-success' gatekeeper job.
+    needs: on-success
 
+    steps:
+      # This step is CRITICAL. It checks out the *exact same code version*
+      # that the backend workflow used, preventing any version mismatch issues.
+      - name: Checkout correct commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      # This step sets up the Fly.io command-line tool.
       - name: Set up Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
 
+      # This step performs the actual deployment.
       - name: Deploy Frontend to Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: flyctl deploy --remote-only -a zoranstepanoski-prof-website -c fly/frontend/fly.toml --no-cache

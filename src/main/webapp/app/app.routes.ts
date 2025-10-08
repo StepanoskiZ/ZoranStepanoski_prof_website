@@ -22,6 +22,11 @@ const routes: Routes = [
         title: 'global.mainTitle',
       },
       {
+        path: 'blog',
+        loadComponent: () => import('./public-blog/public-blog.component').then(m => m.PublicBlogComponent),
+        title: 'blog.title',
+      },
+      {
         path: 'privacy-policy',
         loadComponent: () => import('./privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent), // Use lazy loading
         title: 'privacyPolicy.title',

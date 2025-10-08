@@ -23,19 +23,13 @@ const routes: Routes = [
       },
       {
         path: 'blog',
-        // Make sure this path points to your component that shows a LIST of posts
-        loadComponent: () => import('./public-blog/public-blog.component').then(m => m.PublicBlogComponent),
+        loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
         title: 'blog.title',
       },
       {
         path: 'blog/:id',
         loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
         title: 'blog.detail.title',
-      },
-      {
-        path: 'blog',
-        loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
-        title: 'blog.title',
       },
       {
         path: 'privacy-policy',

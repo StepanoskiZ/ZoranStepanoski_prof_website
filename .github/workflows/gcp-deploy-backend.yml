@@ -39,7 +39,7 @@ jobs:
           docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.SERVICE_NAME }}:latest -f fly/backend/Dockerfile.backend .
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.SERVICE_NAME }}:latest
 
-      - name: Deploy new revision to Cloud Run
+      - name: Deploy new revision to Google Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:

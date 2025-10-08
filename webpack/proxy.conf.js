@@ -24,7 +24,7 @@ function setupProxy({ tls }) {
       context: serverResources,
 //      target: `http${tls ? 's' : ''}://localhost:4200`,
 //      secure: false,
-      target: 'https://zoranstepanoski-prof-api-yqlyfjxyeq-lm.a.run.app',
+      target: 'https://zoranstepanoski-prof-api-633985040685.europe-central2.run.app',
       secure: true, // Use secure: true because the GCP URL is HTTPS
       changeOrigin: true, // Important for avoiding CORS issues
     },

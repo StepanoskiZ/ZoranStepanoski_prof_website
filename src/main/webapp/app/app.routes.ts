@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'blog',
-        loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.PublicBlogComponent),
+        loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
         title: 'blog.title',
       },
       {

@@ -13,7 +13,7 @@ import { ApplicationConfigService } from '../config/application-config.service';
 export class AccountService {
   private readonly userIdentity = signal<Account | null>(null);
   private readonly authenticationState = new ReplaySubject<Account | null>(1);
-  private accountCache$?: Observable<Account> | null;
+  private accountCache$?: Observable<Account | null> | null;
 
   private readonly translateService = inject(TranslateService);
   private readonly http = inject(HttpClient);
@@ -53,20 +53,11 @@ export class AccountService {
       this.accountCache$ = this.fetch().pipe(
         catchError(() => {
           console.log('User is not authenticated. Continuing as guest.');
-          return of(null); // On error, transform it into a successful stream of 'null'
+          return of(null);
         }),
-        tap((account: Account) => {
+        tap((account: Account | null) => {
           this.authenticate(account);
 
-//           // After retrieve the account info, the language will be changed to
-//           // the user's preferred language configured in the account setting
-//           // unless user have chosen another language in the current session
-//           if (!this.stateStorageService.getLocale()) {
-//             this.translateService.use(account.langKey);
-//           }
-//
-//           this.navigateToStoredUrl();
-//         }),
           if (account) {
             if (!this.stateStorageService.getLocale()) {
               this.translateService.use(account.langKey);
@@ -77,7 +68,6 @@ export class AccountService {
         shareReplay()
       );
     }
-//     return this.accountCache$.pipe(catchError(() => of(null)));
     return this.accountCache$;
   }
 
@@ -89,7 +79,7 @@ export class AccountService {
     return this.authenticationState.asObservable();
   }
 
-  private fetch(): Observable<Account | null> {
+  private fetch(): Observable<Account> {
     return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
   }
 

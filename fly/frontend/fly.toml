@@ -4,9 +4,6 @@
 app = 'zoranstepanoski-prof-website'
 primary_region = 'cdg'
 
-[depends_on]
-  app = "zoranstepanoski-prof-api"
-
 [build]
   # Point to the correct Dockerfile for the frontend
   dockerfile = "./Dockerfile.frontend"

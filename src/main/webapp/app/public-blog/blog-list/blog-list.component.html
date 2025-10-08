@@ -18,15 +18,15 @@
       <div class="row g-5 align-items-center">
         <!-- Left Column: Image -->
         <div class="col-md-6">
-          <!--          <a [href]="post.imageUrl ? 'content/images/' + post.imageUrl : 'content/images/default-blog.jpg'" target="_blank">-->
-          <!--            <img-->
-          <!--              [src]="post.imageUrl ? 'content/images/' + post.imageUrl : 'content/images/default-blog.jpg'"-->
-          <!--              class="img-fluid rounded shadow-sm"-->
-          <!--              [alt]="post.title"/>-->
-          <!--          </a>-->
+          <a [href]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'" target="_blank">
+            <img
+              [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
+              class="img-fluid rounded shadow-sm"
+              [alt]="post.title"/>
+          </a>
           <a [routerLink]="['/blog', post.id]">
             <img
-              [src]="post.imageUrl ? 'content/images/' + post.imageUrl : 'content/images/default-blog.jpg'"
+              [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
               class="img-fluid rounded shadow-sm"
               [alt]="post.title"
             />

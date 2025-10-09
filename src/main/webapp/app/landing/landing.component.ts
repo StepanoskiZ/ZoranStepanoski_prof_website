@@ -1,4 +1,6 @@
-import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren, inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, QueryList, ViewChildren, inject, OnDestroy
+//, signal, computed, Signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import SharedModule from 'app/shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
@@ -92,6 +94,21 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoadingCv = true;
   isLoadingAbout = false;
   isLoadingSkills = true;
+// --- Loading State Signals ---
+//  isLoadingProjects = signal(true);
+//  isLoadingServices = signal(true);
+//  isLoadingCv = signal(true);
+//  isLoadingAbout = signal(true); // Changed to true to match others
+//  isLoadingSkills = signal(true);
+
+  // This single signal will be true if ANY of the above are true.
+//  isLoading: Signal<boolean> = computed(() =>
+//    this.isLoadingProjects() ||
+//    this.isLoadingServices() ||
+//    this.isLoadingCv() ||
+//    this.isLoadingAbout() ||
+//    this.isLoadingSkills()
+//  );
 
   isAdminEnv = environment.isAdminEnv;
 
@@ -147,6 +164,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadSkillsPage(page: number, shouldScroll: boolean = false): void {
     this.isLoadingSkills = true;
+//    this.isLoadingSkills.set(true);
     this.skillsCurrentPage = page;
 
     let params = new HttpParams()
@@ -159,6 +177,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.skills = response.body ?? [];
         this.totalSkills = Number(response.headers.get('X-Total-Count') || 0);
         this.isLoadingSkills = false;
+//        this.isLoadingSkills.set(false);
 
         // Only scroll if the flag is true
         if (shouldScroll) {
@@ -168,64 +187,77 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       error: err => {
         console.error('❌ Failed to load skills:', err);
         this.isLoadingSkills = false;
+//        this.isLoadingSkills.set(false);
       },
     });
   }
 
   private loadAboutContent(): void {
     this.isLoadingAbout = true;
+//    this.isLoadingAbout.set(true);
     this.http.get<AboutMeCard>('/api/about-me/card').subscribe({
       next: data => {
         this.aboutCard = data;
         this.isLoadingAbout = false;
+//        this.isLoadingAbout.set(false);
       },
       error: err => {
         console.error('❌ Failed to load About Me content', err);
         this.isLoadingAbout = false;
+//        this.isLoadingAbout.set(false);
       },
     });
   }
 
   private loadBusinessServices(): void {
     this.isLoadingServices = true;
+//    this.isLoadingServices.set(true);
     // Now you can use the strong type and trust the data!
     this.http.get<BusinessServiceCard[]>('/api/business-services/cards').subscribe({
       next: (data) => {
         this.businessServices = data;
         this.isLoadingServices = false;
+//        this.isLoadingServices.set(false);
       },
       error: err => {
         console.error('❌ Failed to load services:', err);
         this.isLoadingServices = false;
+//        this.isLoadingServices.set(false);
       },
     });
   }
 
   private loadProjects(): void {
     this.isLoadingProjects = true;
+//    this.isLoadingProjects.set(true);
     // Use the strong type here as well.
     this.http.get<ProjectCard[]>('/api/projects/cards').subscribe({
       next: (data) => {
         this.projects = data;
         this.isLoadingProjects = false;
+//        this.isLoadingProjects.set(false);
       },
       error: err => {
         console.error('❌ Failed to load projects:', err);
         this.isLoadingProjects = false;
+//        this.isLoadingProjects.set(false);
       },
     });
   }
 
   private loadCvEntries(): void {
     this.isLoadingCv = true;
+//    this.isLoadingCv.set(true);
     this.http.get<CvCard[]>('/api/curriculum-vitae/cards').subscribe({
       next: (data: CvCard[]) => {
         this.cvEntries = data;
         this.isLoadingCv = false;
+//        this.isLoadingCv.set(false);
       },
       error: err => {
         console.error('❌ Failed to load CV entries:', err);
         this.isLoadingCv = false;
+//        this.isLoadingCv.set(false);
       },
     });
   }

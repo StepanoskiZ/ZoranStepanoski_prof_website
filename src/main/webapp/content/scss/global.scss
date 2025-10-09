@@ -61,36 +61,32 @@ Browser Upgrade Prompt
    Targeted Hyphenation and Word Wrap Fix
    ========================================================================== */
 
-// .about-preview,
-.card-title,
-.card-text,
-//.modal-description
-{
-  // 1. The primary, modern property for word wrapping.
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.75rem;
+  white-space: normal; // Ensures titles wrap correctly
+
   overflow-wrap: break-word;
-
-  // 2. A widely supported alias for maximum compatibility.
   word-wrap: break-word;
-
-  // 3. Disable automatic browser hyphenation.
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
 }
 
-// .about-preview,
-// .modal-description {
-//   p, ul, ol {
-//     margin-bottom: 1rem;
-//   }
-//   p:last-child,
-//   ul:last-child,
-//   ol:last-child {
-//     margin-bottom: 0;
-//   }
-//   // We no longer need word-break or white-space rules here.
-// }
+.card-text {
+  color: #555;
+  font-size: 1rem;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
 
 /* ==========================================================================
 Generic styles
@@ -332,58 +328,4 @@ html {
     min-height: 0;
   }
 }
-
-/* ==========================================================================
-   Global Rich Text Content Styles
-   ========================================================================== */
-
-/*
- * These styles will apply to any dynamically injected HTML content
- * from a rich text editor across the entire application.
- */
-
-// Target the preview container on the landing page
-// .about-preview {
-//   strong, b {
-//     font-weight: 700 !important;
-//   }
-// }
-
-// // Target the description container in all shared modals
-// .modal-description {
-//   strong, b {
-//     font-weight: 700 !important;
-//   }
-// }
-
-// You can also add other global styles for rich text here if needed
-// .modal-description, .about-preview {
-// .modal-description {
-//   strong, b {
-//     font-weight: 700 !important;
-//   }
-//   em, i {
-//     font-style: italic;
-//   }
-//   u {
-//     text-decoration: underline;
-//   }
-//   a {
-//     color: $primary-color;
-//     text-decoration: underline;
-//     &:hover {
-//       color: color.adjust($primary-color, $lightness: -10%);
-//     }
-//   }
-//   p, ul, ol {
-//     margin-bottom: 1rem;
-//     white-space: normal;
-//     word-break: break-word;
-//   }
-//   p:last-child,
-//   ul:last-child,
-//   ol:last-child {
-//     margin-bottom: 0;
-//   }
-// }
 /* jhipster-needle-scss-add-main JHipster will add new css style */

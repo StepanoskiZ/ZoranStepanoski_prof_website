@@ -71,31 +71,4 @@ $text-color-muted: #6c757d; // Muted gray for dates, etc.
     color: $text-color-muted;
     margin-bottom: 1.5rem;
   }
-
-  .read-more-link {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: $text-color;
-    text-decoration: none;
-    position: relative;
-
-    // Creates an underline that appears on hover
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      transform: scaleX(0);
-      height: 2px;
-      bottom: -4px;
-      left: 0;
-      background-color: $primary-color;
-      transform-origin: bottom right;
-      transition: transform 0.25s ease-out;
-    }
-
-    &:hover::after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
-    }
-  }
 }

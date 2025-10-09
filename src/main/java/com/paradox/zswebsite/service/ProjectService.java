@@ -153,22 +153,23 @@ public class ProjectService {
     public List<ProjectCardDTO> findAllCards() {
         log.debug("Request to get all Projects for landing page");
         return projectRepository
-            .findAllWithEagerRelationships() // This now returns sorted projects
+            .findAllWithEagerRelationships()
             .stream()
-            .map(this::mapProjectToCardDTO) // Use a clean, reusable helper method
+            .map(this::mapProjectToCardDTO)
             .collect(Collectors.toList());
     }
 
     private ProjectCardDTO mapProjectToCardDTO(Project project) {
         ProjectCardDTO dto = new ProjectCardDTO();
-        dto.setId(project.getId()); // Always use 'id'
-        dto.setTitle(project.getTitle() != null ? project.getTitle() : ""); // Handle potential null titles
-        dto.setDescription(project.getDescriptionHTML()); // --- FIX: Send the FULL HTML ---
+        dto.setId(project.getId());
+        dto.setTitle(project.getTitle() != null ? project.getTitle() : "");
+        dto.setDescription(project.getDescriptionHTML());
+        dto.setStatus(project.getStatus());
 
         project
             .getMedia()
             .stream()
-            .min(Comparator.comparing(ProjectMedia::getId)) // Find the first media item reliably
+            .min(Comparator.comparing(ProjectMedia::getId))
             .ifPresent(firstMedia -> {
                 dto.setFirstMediaUrl(firstMedia.getMediaUrl());
                 dto.setFirstMediaType(firstMedia.getProjectMediaType());

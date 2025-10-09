@@ -23,6 +23,7 @@ export interface ProjectCard {
   id: number;
   title: string;
   description: string;
+  status?: 'COMPLETED' | 'ONGOING';
   firstMediaUrl?: string;
   firstMediaType?: 'IMAGE' | 'VIDEO';
 }

@@ -174,6 +174,7 @@ public class ProjectService {
                 dto.setFirstMediaUrl(firstMedia.getMediaUrl());
                 dto.setFirstMediaType(firstMedia.getProjectMediaType());
             });
+
         return dto;
     }
 

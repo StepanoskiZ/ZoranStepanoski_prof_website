@@ -74,28 +74,6 @@ $primary-color: #198754;
   }
 }
 
-// .about-preview {
-//   max-height: 120px;
-//   overflow: hidden;
-//   position: relative;
-//   padding-bottom: 2.5rem;
-//   box-sizing: content-box;
-// }
-//
-// .about-preview::after {
-//   content: '...';
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   width: 100%;
-//   text-align: left;
-//   font-size: 1.5rem;
-//   font-weight: 600;
-//   color: #aaa;
-//   background: #fff;
-//   height: 2.0rem;
-// }
-
 /* =================== Unified Card Section Styles =================== */
 .card-section {
   background-color: #f8f9fa !important;
@@ -118,19 +96,6 @@ $primary-color: #198754;
 
   .card-body {
     padding: 1.5rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 0.75rem;
-    white-space: normal; // Ensures titles wrap correctly
-  }
-
-  .card-text {
-    color: #555;
-    font-size: 1rem;
   }
 
   // This container enforces a fixed aspect ratio for all card media

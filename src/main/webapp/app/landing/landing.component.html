@@ -1,328 +1,288 @@
-<!-- =================== Global Matrix Loader =================== -->
-<!--<div *ngIf="isLoading()" class="app-loading">-->
-<!--<div *ngIf="!isLoading()">-->
-  <!-- =================== Hero Section =================== -->
-  <section #section id="home" class="landing-hero">
-    <div class="container">
-      <div class="hero-content mt-5" data-aos="fade-up">
-        <h1 jhiTranslate="landing.heroTitle"></h1>
-        <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>
-        <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>
-      </div>
+<!-- =================== Hero Section =================== -->
+<section #section id="home" class="landing-hero">
+  <div class="container">
+    <div class="hero-content mt-5" data-aos="fade-up">
+      <h1 jhiTranslate="landing.heroTitle"></h1>
+      <h1 class="lead" jhiTranslate="landing.heroSubtitle"></h1>
+      <a href="#contact" class="btn btn-primary btn-lg" jhiTranslate="landing.ctaContact"></a>
     </div>
-<!--    &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--    <div *ngIf="isLoadingAbout() || isLoadingServices() || isLoadingProjects() || isLoadingCv() || isLoadingSkills()" class="text-center">-->
-<!--      <div class="spinner-border text-primary" role="status">-->
-<!--        <span class="visually-hidden"></span>-->
-<!--      </div>-->
-<!--    </div>-->
-    <div *ngIf="isLoadingAbout || isLoadingServices || isLoadingProjects || isLoadingCv || isLoadingSkills" class="app-loading">
-      <div class="matrix-container">
-        <div class="matrix-stream">01101100011011110110000101100100</div>
-        <div class="matrix-stream">01101001011011100110011100101110</div>
-        <div class="matrix-stream">01110011011110010111001101110100</div>
-        <div class="matrix-stream">01100101011011010010111001101001</div>
-        <div class="matrix-stream">01101110011010010111010001101001</div>
-        <div class="matrix-stream">01100001011011000110100101111010</div>
-        <div class="matrix-stream">01101001011011100110011100101110</div>
-        <div class="matrix-stream">01100011011011110110110101110000</div>
-        <div class="matrix-stream">01101111011011100110010101101110</div>
-        <div class="matrix-stream">01110100011100110010111001101110</div>
-      </div>
-      <div class="loading-text">LOADING...</div>
+  </div>
+  <div *ngIf="isLoadingAbout || isLoadingServices || isLoadingProjects || isLoadingCv || isLoadingSkills" class="app-loading">
+    <div class="matrix-container">
+      <div class="matrix-stream">01101100011011110110000101100100</div>
+      <div class="matrix-stream">01101001011011100110011100101110</div>
+      <div class="matrix-stream">01110011011110010111001101110100</div>
+      <div class="matrix-stream">01100101011011010010111001101001</div>
+      <div class="matrix-stream">01101110011010010111010001101001</div>
+      <div class="matrix-stream">01100001011011000110100101111010</div>
+      <div class="matrix-stream">01101001011011100110011100101110</div>
+      <div class="matrix-stream">01100011011011110110110101110000</div>
+      <div class="matrix-stream">01101111011011100110010101101110</div>
+      <div class="matrix-stream">01110100011100110010111001101110</div>
     </div>
-  </section>
+    <div class="loading-text">LOADING...</div>
+  </div>
+</section>
 
-  <!-- =================== About Section =================== -->
-  <section #section id="about" class="about-section py-5" *ngIf="!isLoadingAbout && aboutCard">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-7">
-          <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
-          <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
-          <p class="card-text" [innerHTML]="aboutCard.contentHtml | truncateHtml:500 | safeHtml"></p>
-          <div class="mt-2">
-            <a href="#" class="read-more-link" (click)="openAboutModal(); $event.preventDefault()">
+<!-- =================== About Section =================== -->
+<section #section id="about" class="about-section py-5" *ngIf="!isLoadingAbout && aboutCard">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
+        <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
+        <p class="card-text" [innerHTML]="aboutCard.contentHtml | truncateHtml:500 | safeHtml"></p>
+        <div class="mt-2">
+          <a href="#" class="read-more-link" (click)="openAboutModal(); $event.preventDefault()">
+            {{ 'global.readMore' | translate }}
+          </a>
+          <a [href]="cvDownloadLink" target="_blank" download class="read-more-link">
+            <i class="fas fa-download me-1"></i>
+            <span>
+              {{ 'landing.downloadCV' | translate }}
+            </span>
+          </a>
+          <a *ngIf="isAdminEnv" routerLink="/ai-generator" class="read-more-link">
+            <i class="fas fa-magic me-1"></i>
+            <span>
+              {{ 'landing.createLetters' | translate }}
+            </span>
+          </a>
+        </div>
+      </div>
+      <!-- Your Picture (Right Column) -->
+      <div class="col-lg-5">
+        <div class="profile-picture-container">
+          <ng-container *ngIf="aboutCard.firstMediaUrl">
+            <img
+              *ngIf="aboutCard.firstMediaType === 'IMAGE'"
+              [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
+              alt="Profile Picture"
+              class="profile-picture img-fluid rounded shadow-lg" />
+            <video
+              *ngIf="aboutCard.firstMediaType === 'VIDEO'"
+              [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
+              class="profile-picture img-fluid rounded shadow-lg"
+              loop
+              muted
+              controls
+              playsinline>
+            </video>
+          </ng-container>
+          <ng-container *ngIf="!aboutCard.firstMediaUrl">
+            <img
+              src="content/media/profile-picture.jpg"
+              alt="Zoran Stepanoski"
+              class="profile-picture img-fluid rounded shadow-lg" />
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== Services Section =================== -->
+<section #section id="services" class="card-section">
+  <div class="container">
+    <!-- Main Headings -->
+    <div class="mb-5">
+      <h2 class="fw-bold" jhiTranslate="landing.servicesHeading"></h2>
+      <p class="sub-heading" jhiTranslate="landing.servicesSubheading"></p>
+    </div>
+
+    <!-- Conditional rendering for loaded services -->
+    <div *ngIf="!isLoadingServices && businessServices.length > 0" class="row g-4">
+      <div *ngFor="let service of businessServices; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+        <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+          <!-- Media -->
+          <div class="card-img-top-container">
+            <img
+              *ngIf="getMediaType(service.firstMediaUrl) === 'IMAGE'"
+              [src]="getFullMediaPath(service.firstMediaUrl, '/content/media/default-service.jpg')"
+              [alt]="service.title"
+              class="img-fluid rounded"/>
+            <video
+              *ngIf="getMediaType(service.firstMediaUrl) === 'VIDEO'"
+              [src]="getFullMediaPath(service.firstMediaUrl)"
+              class="img-fluid rounded"
+              muted
+              loop
+              controls
+              playsinline>
+            </video>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title">{{ service.title }}</h3>
+            <p class="card-text" [innerHTML]="service.description | truncateHtml:120 | safeHtml"></p>
+            <a href="#" class="read-more-link" (click)="openBusinessServiceModal(service.id); $event.preventDefault()">
               {{ 'global.readMore' | translate }}
             </a>
-            <a [href]="cvDownloadLink" target="_blank" download class="read-more-link">
-              <i class="fas fa-download me-1"></i>
-              <span>
-                {{ 'landing.downloadCV' | translate }}
-              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== Projects Section =================== -->
+<section #section id="projects" class="card-section">
+  <div class="container">
+    <!-- Main Headings -->
+    <div class="mb-5">
+      <h2 class="fw-bold" jhiTranslate="landing.projectsHeading"></h2>
+      <p class="sub-heading" jhiTranslate="landing.projectsSubheading"></p>
+    </div>
+
+    <div *ngIf="!isLoadingProjects && projects.length > 0" class="row g-4">
+      <div *ngFor="let project of projects; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+        <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+          <!-- Media -->
+          <div class="card-img-top-container">
+            <img
+              *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"
+              [src]="getFullMediaPath(project.firstMediaUrl)"
+              [alt]="project.title"
+              class="img-fluid rounded"/>
+            <video
+              *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"
+              [src]="getFullMediaPath(project.firstMediaUrl)"
+              class="img-fluid rounded project-media-clickable"
+              muted
+              loop
+              controls
+              playsinline>
+            </video>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title">{{ project?.title }}</h3>
+            <p *ngIf="project.status" class="card-subtitle mb-2 text-muted text-capitalize">
+              <i *ngIf="project.status === 'COMPLETED'" class="fas fa-check-circle text-success me-2" title="Completed"></i>
+              <i *ngIf="project.status === 'ONGOING'" class="fas fa-clock text-primary me-2" title="Ongoing"></i>
+              {{ project.status | lowercase }}
+            </p>
+            <p class="card-text" [innerHTML]="project.description | truncateHtml:120 | safeHtml"></p>
+            <a href="#" class="read-more-link" (click)="openProjectMediaModal(project.id); $event.preventDefault()">
+              {{ 'global.readMore' | translate }}
             </a>
-            <a *ngIf="isAdminEnv" routerLink="/ai-generator" class="read-more-link">
-              <i class="fas fa-magic me-1"></i>
-              <span>
-                {{ 'landing.createLetters' | translate }}
-              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CV Section =================== -->
+<section #section id="cv" class="card-section">
+  <div class="container">
+    <!-- Main Headings -->
+    <div class="mb-5">
+      <h2 class="fw-bold" jhiTranslate="landing.cvHeading"></h2>
+      <p class="sub-heading" jhiTranslate="landing.cvSubheading"></p>
+    </div>
+
+    <div *ngIf="!isLoadingCv && cvEntries.length > 0" class="row g-4">
+      <div *ngFor="let cv of cvEntries; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+        <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+          <!-- Media -->
+          <div class="card-img-top-container">
+            <img
+              *ngIf="getMediaType(cv.firstMediaUrl) === 'IMAGE'"
+              [src]="getFullMediaPath(cv.firstMediaUrl, '/content/media/default-work.jpg')"
+              [alt]="cv.companyName"
+              class="img-fluid rounded"/>
+            <video
+              *ngIf="getMediaType(cv.firstMediaUrl) === 'VIDEO'"
+              [src]="getFullMediaPath(cv.firstMediaUrl)"
+              class="img-fluid rounded project-media-clickable"
+              muted
+              loop
+              controls
+              playsinline>
+            </video>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title">{{ cv.companyName }}</h3>
+            <p class="card-subtitle mb-2 text-muted">
+              {{ cv.startDate | date: 'MMM yyyy' }} - {{ cv.endDate ? (cv.endDate | date: 'MMM yyyy') : ('global.present' | translate) }}
+            </p>
+            <p class="card-text" [innerHTML]="cv.jobDescriptionHTML | truncateHtml:120 | safeHtml"></p>
+            <a href="#" class="read-more-link" (click)="openCvDetailModal(cv.id); $event.preventDefault()">
+              {{ 'global.readMore' | translate }}
             </a>
           </div>
         </div>
-        <!-- Your Picture (Right Column) -->
-        <div class="col-lg-5">
-          <div class="profile-picture-container">
-            <ng-container *ngIf="aboutCard.firstMediaUrl">
-              <img
-                *ngIf="aboutCard.firstMediaType === 'IMAGE'"
-                [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
-                alt="Profile Picture"
-                class="profile-picture img-fluid rounded shadow-lg" />
-              <video
-                *ngIf="aboutCard.firstMediaType === 'VIDEO'"
-                [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
-                class="profile-picture img-fluid rounded shadow-lg"
-                loop
-                muted
-                controls
-                playsinline>
-              </video>
-            </ng-container>
-            <ng-container *ngIf="!aboutCard.firstMediaUrl">
-              <img
-                src="content/media/profile-picture.jpg"
-                alt="Zoran Stepanoski"
-                class="profile-picture img-fluid rounded shadow-lg" />
-            </ng-container>
-          </div>
-        </div>
       </div>
     </div>
-<!--    &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--    <div *ngIf="isLoadingAbout()" class="text-center">-->
-<!--      <div class="spinner-border text-primary" role="status">-->
-<!--        <span class="visually-hidden"></span>-->
-<!--      </div>-->
-<!--    </div>-->
-  </section>
+  </div>
+</section>
 
-  <!-- =================== Services Section =================== -->
-  <section #section id="services" class="card-section">
-    <div class="container">
-      <!-- Main Headings -->
-      <div class="mb-5">
-        <h2 class="fw-bold" jhiTranslate="landing.servicesHeading"></h2>
-        <p class="sub-heading" jhiTranslate="landing.servicesSubheading"></p>
-      </div>
-
-      <!-- Conditional rendering for loaded services -->
-      <div *ngIf="!isLoadingServices && businessServices.length > 0" class="row g-4">
-        <div *ngFor="let service of businessServices; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
-          <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
-            <!-- Media -->
-            <div class="card-img-top-container">
-              <img
-                *ngIf="getMediaType(service.firstMediaUrl) === 'IMAGE'"
-                [src]="getFullMediaPath(service.firstMediaUrl, '/content/media/default-service.jpg')"
-                [alt]="service.title"
-                class="img-fluid rounded"/>
-              <video
-                *ngIf="getMediaType(service.firstMediaUrl) === 'VIDEO'"
-                [src]="getFullMediaPath(service.firstMediaUrl)"
-                class="img-fluid rounded"
-                muted
-                loop
-                controls
-                playsinline>
-              </video>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body d-flex flex-column">
-              <h3 class="card-title">{{ service.title }}</h3>
-              <p class="card-text" [innerHTML]="service.description | truncateHtml:120 | safeHtml"></p>
-              <a href="#" class="read-more-link" (click)="openBusinessServiceModal(service.id); $event.preventDefault()">
-                {{ 'global.readMore' | translate }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-<!--      &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--      <div *ngIf="isLoadingServices()" class="text-center">-->
-<!--        <div class="spinner-border text-primary" role="status">-->
-<!--          <span class="visually-hidden"></span>-->
-<!--        </div>-->
-<!--      </div>-->
+<!-- =================== Skills Section =================== -->
+<section #section id="skills" class="skills section-bg section">
+  <div class="container">
+    <div class="mb-5">
+      <h2 class="fw-bold" jhiTranslate="landing.skillsHeading"></h2>
+      <p class="sub-heading" jhiTranslate="landing.skillsSubheading"></p>
     </div>
-  </section>
 
-  <!-- =================== Projects Section =================== -->
-  <section #section id="projects" class="card-section">
-    <div class="container">
-      <!-- Main Headings -->
-      <div class="mb-5">
-        <h2 class="fw-bold" jhiTranslate="landing.projectsHeading"></h2>
-        <p class="sub-heading" jhiTranslate="landing.projectsSubheading"></p>
+    <div *ngIf="isLoadingSkills" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden"></span>
       </div>
-
-      <div *ngIf="!isLoadingProjects && projects.length > 0" class="row g-4">
-        <div *ngFor="let project of projects; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
-          <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
-            <!-- Media -->
-            <div class="card-img-top-container">
-              <img
-                *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"
-                [src]="getFullMediaPath(project.firstMediaUrl)"
-                [alt]="project.title"
-                class="img-fluid rounded"/>
-              <video
-                *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"
-                [src]="getFullMediaPath(project.firstMediaUrl)"
-                class="img-fluid rounded project-media-clickable"
-                muted
-                loop
-                controls
-                playsinline>
-              </video>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body d-flex flex-column">
-              <h3 class="card-title">{{ project?.title }}</h3>
-              <p *ngIf="project.status" class="card-subtitle mb-2 text-muted text-capitalize">
-                <i *ngIf="project.status === 'COMPLETED'" class="fas fa-check-circle text-success me-2" title="Completed"></i>
-                <i *ngIf="project.status === 'ONGOING'" class="fas fa-clock text-primary me-2" title="Ongoing"></i>
-                {{ project.status | lowercase }}
-              </p>
-              <p class="card-text" [innerHTML]="project.description | truncateHtml:120 | safeHtml"></p>
-              <a href="#" class="read-more-link" (click)="openProjectMediaModal(project.id); $event.preventDefault()">
-                {{ 'global.readMore' | translate }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-<!--      &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--      <div *ngIf="isLoadingProjects()" class="text-center">-->
-<!--        <div class="spinner-border text-primary" role="status">-->
-<!--          <span class="visually-hidden"></span>-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
-  </section>
 
-  <!-- =================== CV Section =================== -->
-  <section #section id="cv" class="card-section">
-    <div class="container">
-      <!-- Main Headings -->
-      <div class="mb-5">
-        <h2 class="fw-bold" jhiTranslate="landing.cvHeading"></h2>
-        <p class="sub-heading" jhiTranslate="landing.cvSubheading"></p>
-      </div>
-
-      <div *ngIf="!isLoadingCv && cvEntries.length > 0" class="row g-4">
-        <div *ngFor="let cv of cvEntries; let i = index" class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
-          <div class="card h-100 d-flex flex-column" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
-            <!-- Media -->
-            <div class="card-img-top-container">
-              <img
-                *ngIf="getMediaType(cv.firstMediaUrl) === 'IMAGE'"
-                [src]="getFullMediaPath(cv.firstMediaUrl, '/content/media/default-work.jpg')"
-                [alt]="cv.companyName"
-                class="img-fluid rounded"/>
-              <video
-                *ngIf="getMediaType(cv.firstMediaUrl) === 'VIDEO'"
-                [src]="getFullMediaPath(cv.firstMediaUrl)"
-                class="img-fluid rounded project-media-clickable"
-                muted
-                loop
-                controls
-                playsinline>
-              </video>
+    <div *ngIf="!isLoadingSkills">
+      <div class="row skills-content" data-aos="fade-up">
+        <!-- Left Column -->
+        <div class="col-lg-6">
+          <!-- Loop through the left half of skills with the preferred design -->
+          <div *ngFor="let skill of leftColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="i * 50">
+            <div class="skill-item d-flex justify-content-between align-items-center">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
             </div>
+          </div>
+        </div>
 
-            <!-- Card Body -->
-            <div class="card-body d-flex flex-column">
-              <h3 class="card-title">{{ cv.companyName }}</h3>
-              <p class="card-subtitle mb-2 text-muted">
-                {{ cv.startDate | date: 'MMM yyyy' }} - {{ cv.endDate ? (cv.endDate | date: 'MMM yyyy') : ('global.present' | translate) }}
-              </p>
-              <p class="card-text" [innerHTML]="cv.jobDescriptionHTML | truncateHtml:120 | safeHtml"></p>
-              <a href="#" class="read-more-link" (click)="openCvDetailModal(cv.id); $event.preventDefault()">
-                {{ 'global.readMore' | translate }}
-              </a>
+        <!-- Right Column -->
+        <div class="col-lg-6">
+          <!-- Loop through the right half of skills with the preferred design -->
+          <div *ngFor="let skill of rightColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="(leftColumnSkills.length + i) * 50">
+            <div class="skill-item d-flex justify-content-between align-items-center">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
             </div>
           </div>
         </div>
       </div>
-<!--      &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--      <div *ngIf="isLoadingCv()" class="text-center">-->
-<!--        <div class="spinner-border text-primary" role="status">-->
-<!--          <span class="visually-hidden"></span>-->
-<!--        </div>-->
-<!--      </div>-->
+
+      <!-- Message for when no skills are found -->
+      <div *ngIf="skills.length === 0" class="text-center mt-4">
+        <p jhiTranslate="landing.skills.noSkillsFound"></p>
+      </div>
+
+      <!-- Pagination Controls (only show if needed) -->
+      <div *ngIf="totalSkills > skillsPerPage" class="d-flex justify-content-center mt-4">
+        <ngb-pagination
+          [collectionSize]="totalSkills"
+          [pageSize]="skillsPerPage"
+          [(page)]="skillsCurrentPage"
+          (pageChange)="loadSkillsPage($event, true)"
+          [maxSize]="5"
+          [boundaryLinks]="true"
+          [ellipses]="true">
+        </ngb-pagination>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- =================== Skills Section =================== -->
-  <section #section id="skills" class="skills section-bg section">
-    <div class="container">
-      <div class="mb-5">
-        <h2 class="fw-bold" jhiTranslate="landing.skillsHeading"></h2>
-        <p class="sub-heading" jhiTranslate="landing.skillsSubheading"></p>
-      </div>
-
-      <div *ngIf="isLoadingSkills" class="text-center py-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden"></span>
-        </div>
-      </div>
-
-      <div *ngIf="!isLoadingSkills">
-        <div class="row skills-content" data-aos="fade-up">
-          <!-- Left Column -->
-          <div class="col-lg-6">
-            <!-- Loop through the left half of skills with the preferred design -->
-            <div *ngFor="let skill of leftColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="i * 50">
-              <div class="skill-item d-flex justify-content-between align-items-center">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column -->
-          <div class="col-lg-6">
-            <!-- Loop through the right half of skills with the preferred design -->
-            <div *ngFor="let skill of rightColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="(leftColumnSkills.length + i) * 50">
-              <div class="skill-item d-flex justify-content-between align-items-center">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Message for when no skills are found -->
-        <div *ngIf="skills.length === 0" class="text-center mt-4">
-          <p jhiTranslate="landing.skills.noSkillsFound"></p>
-        </div>
-
-        <!-- Pagination Controls (only show if needed) -->
-        <div *ngIf="totalSkills > skillsPerPage" class="d-flex justify-content-center mt-4">
-          <ngb-pagination
-            [collectionSize]="totalSkills"
-            [pageSize]="skillsPerPage"
-            [(page)]="skillsCurrentPage"
-            (pageChange)="loadSkillsPage($event, true)"
-            [maxSize]="5"
-            [boundaryLinks]="true"
-            [ellipses]="true">
-          </ngb-pagination>
-        </div>
-      </div>
-<!--      &lt;!&ndash; Loading Spinner &ndash;&gt;-->
-<!--      <div *ngIf="isLoadingSkills()" class="text-center">-->
-<!--        <div class="spinner-border text-primary" role="status">-->
-<!--          <span class="visually-hidden"></span>-->
-<!--        </div>-->
-<!--      </div>-->
-    </div>
-  </section>
-
-  <!-- =================== Contact Section =================== -->
-  <section #section id="contact" class="contact-section-wrapper" data-aos="fade-up">
-    <jhi-contact-form></jhi-contact-form>
-  </section>
-<!--</div>-->
+<!-- =================== Contact Section =================== -->
+<section #section id="contact" class="contact-section-wrapper" data-aos="fade-up">
+  <jhi-contact-form></jhi-contact-form>
+</section>

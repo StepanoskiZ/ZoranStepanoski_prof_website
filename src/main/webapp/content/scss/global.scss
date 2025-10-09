@@ -61,10 +61,11 @@ Browser Upgrade Prompt
    Targeted Hyphenation and Word Wrap Fix
    ========================================================================== */
 
-.about-preview,
+// .about-preview,
 .card-title,
 .card-text,
-.modal-description {
+//.modal-description
+{
   // 1. The primary, modern property for word wrapping.
   overflow-wrap: break-word;
 
@@ -78,18 +79,18 @@ Browser Upgrade Prompt
   hyphens: none;
 }
 
-.about-preview,
-.modal-description {
-  p, ul, ol {
-    margin-bottom: 1rem;
-  }
-  p:last-child,
-  ul:last-child,
-  ol:last-child {
-    margin-bottom: 0;
-  }
-  // We no longer need word-break or white-space rules here.
-}
+// .about-preview,
+// .modal-description {
+//   p, ul, ol {
+//     margin-bottom: 1rem;
+//   }
+//   p:last-child,
+//   ul:last-child,
+//   ol:last-child {
+//     margin-bottom: 0;
+//   }
+//   // We no longer need word-break or white-space rules here.
+// }
 
 /* ==========================================================================
 Generic styles
@@ -342,43 +343,47 @@ html {
  */
 
 // Target the preview container on the landing page
-.about-preview {
-  strong, b {
-    font-weight: 700 !important;
-  }
-}
+// .about-preview {
+//   strong, b {
+//     font-weight: 700 !important;
+//   }
+// }
 
-// Target the description container in all shared modals
-.modal-description {
-  strong, b {
-    font-weight: 700 !important;
-  }
-}
+// // Target the description container in all shared modals
+// .modal-description {
+//   strong, b {
+//     font-weight: 700 !important;
+//   }
+// }
 
 // You can also add other global styles for rich text here if needed
-.modal-description, .about-preview {
-  em, i {
-    font-style: italic;
-  }
-  u {
-    text-decoration: underline;
-  }
-  a {
-    color: $primary-color;
-    text-decoration: underline;
-    &:hover {
-      color: color.adjust($primary-color, $lightness: -10%);
-    }
-  }
-  p, ul, ol {
-    margin-bottom: 1rem;
-    white-space: normal;
-    word-break: break-word;
-  }
-  p:last-child,
-  ul:last-child,
-  ol:last-child {
-    margin-bottom: 0;
-  }
-}
+// .modal-description, .about-preview {
+// .modal-description {
+//   strong, b {
+//     font-weight: 700 !important;
+//   }
+//   em, i {
+//     font-style: italic;
+//   }
+//   u {
+//     text-decoration: underline;
+//   }
+//   a {
+//     color: $primary-color;
+//     text-decoration: underline;
+//     &:hover {
+//       color: color.adjust($primary-color, $lightness: -10%);
+//     }
+//   }
+//   p, ul, ol {
+//     margin-bottom: 1rem;
+//     white-space: normal;
+//     word-break: break-word;
+//   }
+//   p:last-child,
+//   ul:last-child,
+//   ol:last-child {
+//     margin-bottom: 0;
+//   }
+// }
 /* jhipster-needle-scss-add-main JHipster will add new css style */

@@ -1,25 +1,4 @@
-// article {
-//   // This ensures that content from your rich text editor (like paragraphs, lists, etc.)
-//   // is styled nicely.
-//   h1, h2, h3, h4, h5, h6 {
-//     font-weight: 700;
-//     margin-top: 1.5em;
-//     margin-bottom: 0.5em;
-//   }
-//
-//   p {
-//     line-height: 1.7;
-//     margin-bottom: 1em;
-//   }
-//
-//   // Style images that might be in your blog content
-//   img {
-//     max-width: 100%;
-//     height: auto;
-//     border-radius: 5px;
-//     margin: 1.5em 0;
-//   }
-// }
+// In public-blog/blog-detail/blog-detail.component.scss
 .blog-article {
   .article-title {
     font-size: 2.5rem; // Larger, more impactful title

@@ -28,19 +28,18 @@
         </div>
 
         <div class="mb-3">
-          <!--            for="field_content"-->
-          <label class="form-label" jhiTranslate="zsWebsiteApp.blogPost.content"> </label>
+          <label class="form-label d-block" jhiTranslate="zsWebsiteApp.blogPost.contentHTML"> </label>
           <quill-editor
             id="field_content"
-            data-cy="content"
-            formControlName="content"
-            name="content"
+            data-cy="contentHTML"
+            formControlName="contentHTML"
+            name="contentHTML"
             [modules]="editorModules"
             [styles]="{ height: '300px' }">
           </quill-editor>
-          @if (editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)) {
+          @if (editForm.get('contentHTML')!.invalid && (editForm.get('contentHTML')!.dirty || editForm.get('contentHTML')!.touched)) {
             <div>
-              @if (editForm.get('content')?.errors?.required) {
+              @if (editForm.get('contentHTML')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required"></small>
               }
             </div>

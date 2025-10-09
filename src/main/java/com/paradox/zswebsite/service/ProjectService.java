@@ -153,34 +153,28 @@ public class ProjectService {
     public List<ProjectCardDTO> findAllCards() {
         log.debug("Request to get all Projects for landing page");
         return projectRepository
-            .findAllWithEagerRelationships()
+            .findAllWithEagerRelationships() // This now returns sorted projects
             .stream()
-            .map(project -> {
-                ProjectCardDTO dto = new ProjectCardDTO();
-                // ... (setting id, title, description is the same) ...
-                dto.setId(project.getId());
-                dto.setTitle(project.getTitle());
-                if (project.getDescriptionHTML() != null && project.getDescriptionHTML().length() > 150) {
-                    dto.setDescription(project.getDescriptionHTML().substring(0, 150) + "...");
-                } else {
-                    dto.setDescription(project.getDescriptionHTML());
-                }
-
-                project
-                    .getMedia()
-                    .stream()
-                    // 1. Sort the media by ID to get a predictable order
-                    .sorted(Comparator.comparing(ProjectMedia::getId))
-                    // 2. Now, findFirst() will always get the one with the lowest ID
-                    .findFirst()
-                    .ifPresent(firstMedia -> {
-                        dto.setFirstMediaUrl(firstMedia.getMediaUrl());
-                        dto.setFirstMediaType(firstMedia.getProjectMediaType());
-                    });
-
-                return dto;
-            })
+            .map(this::mapProjectToCardDTO) // Use a clean, reusable helper method
             .collect(Collectors.toList());
+    }
+
+    private ProjectCardDTO mapProjectToCardDTO(Project project) {
+        ProjectCardDTO dto = new ProjectCardDTO();
+        dto.setId(project.getId()); // Always use 'id'
+        dto.setTitle(project.getTitle() != null ? project.getTitle() : ""); // Handle potential null titles
+        dto.setDescription(project.getDescriptionHTML()); // --- FIX: Send the FULL HTML ---
+
+        project
+            .getMedia()
+            .stream()
+            .min(Comparator.comparing(ProjectMedia::getId)) // Find the first media item reliably
+            .ifPresent(firstMedia -> {
+                dto.setFirstMediaUrl(firstMedia.getMediaUrl());
+                dto.setFirstMediaType(firstMedia.getProjectMediaType());
+            });
+
+        return dto;
     }
 
     @Transactional(readOnly = true)

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { TruncateHtmlPipe } from 'app/shared/pipes/truncate-html.pipe';
+import { SafeHtmlPipe } from 'app/shared/pipes/safe-html.pipe';
 
 // Define an interface for the BlogPost data we expect from the API
 export interface BlogPost {
   id: number;
   title: string;
-  content: string;
-  slug: string;
+  contentHTML: string;
   imageUrl?: string;
   publishedDate: string;
 }
@@ -17,7 +18,13 @@ export interface BlogPost {
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    SafeHtmlPipe,
+    TruncateHtmlPipe
+  ],
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.scss'],
 })

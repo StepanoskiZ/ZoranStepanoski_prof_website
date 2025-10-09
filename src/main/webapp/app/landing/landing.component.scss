@@ -74,27 +74,27 @@ $primary-color: #198754;
   }
 }
 
-.about-preview {
-  max-height: 120px;
-  overflow: hidden;
-  position: relative;
-  padding-bottom: 2.5rem;
-  box-sizing: content-box;
-}
-
-.about-preview::after {
-  content: '...';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: left;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #aaa;
-  background: #fff;
-  height: 2.0rem;
-}
+// .about-preview {
+//   max-height: 120px;
+//   overflow: hidden;
+//   position: relative;
+//   padding-bottom: 2.5rem;
+//   box-sizing: content-box;
+// }
+//
+// .about-preview::after {
+//   content: '...';
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   text-align: left;
+//   font-size: 1.5rem;
+//   font-weight: 600;
+//   color: #aaa;
+//   background: #fff;
+//   height: 2.0rem;
+// }
 
 /* =================== Unified Card Section Styles =================== */
 .card-section {

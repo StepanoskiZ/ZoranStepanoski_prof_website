@@ -1,21 +1,20 @@
 <div>
   <h2 id="page-heading" data-cy="BlogPostHeading">
-    <span jhiTranslate="zsWebsiteApp.blogPost.home.title">Blog Posts</span>
+    <span jhiTranslate="zsWebsiteApp.blogPost.home.title"></span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.blogPost.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="zsWebsiteApp.blogPost.home.refreshListLabel"></span>
       </button>
 
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-blog-post"
-        [routerLink]="['/blog-post/new']"
-      >
+        [routerLink]="['/blog-post/new']">
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.blogPost.home.createLabel">Create a new Blog Post</span>
+        <span jhiTranslate="zsWebsiteApp.blogPost.home.createLabel"></span>
       </button>
     </div>
   </h2>
@@ -26,7 +25,7 @@
 
   @if (blogPosts?.length === 0) {
     <div class="alert alert-warning" id="no-result">
-      <span jhiTranslate="zsWebsiteApp.blogPost.home.notFound">No Blog Posts found</span>
+      <span jhiTranslate="zsWebsiteApp.blogPost.home.notFound"></span>
     </div>
   }
 
@@ -38,34 +37,30 @@
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span jhiTranslate="global.field.id">ID</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="title">
               <div class="d-flex">
                 <span jhiTranslate="zsWebsiteApp.blogPost.title">Title</span>
-
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="contentHTML">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.blogPost.contentHTML">Content HTML</span>
+                <span jhiTranslate="zsWebsiteApp.blogPost.contentHTML"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="imageUrl">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.blogPost.imageUrl">Image Url</span>
-
+                <span jhiTranslate="zsWebsiteApp.blogPost.imageUrl"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="publishedDate">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.blogPost.publishedDate">Published Date</span>
-
+                <span jhiTranslate="zsWebsiteApp.blogPost.publishedDate"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -80,23 +75,22 @@
               </td>
               <td>{{ blogPost.title }}</td>
               <td>{{ blogPost.contentHTML }}</td>
+<!--              <td class="card-text" [innerHTML]="blogPost.contentHTML | truncateHtml:120 | safeHtml"></td>-->
               <td>{{ blogPost.imageUrl }}</td>
               <td>{{ blogPost.publishedDate | formatMediumDatetime }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/blog-post', blogPost.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view"></span>
                   </a>
-
                   <a [routerLink]="['/blog-post', blogPost.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
                   </a>
-
                   <button type="submit" (click)="delete(blogPost)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete"></span>
                   </button>
                 </div>
               </td>

@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BusinessServiceRepository extends JpaRepository<BusinessService, Long> {
-
     @Query("select distinct bs from BusinessService bs left join fetch bs.media m order by m.id asc")
     List<BusinessService> findAllWithFirstMedia();
 
-    @Query("select distinct bs from BusinessService bs left join fetch bs.media m order by m.id asc")
-    List<BusinessService> findAllWithFirstMediaOrderByMediaId();
-
+//    @Query("select distinct bs from BusinessService bs left join fetch bs.media m order by m.id asc")
+//    List<BusinessService> findAllWithFirstMediaOrderByMediaId();
 }

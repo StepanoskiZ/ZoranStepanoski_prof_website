@@ -18,12 +18,7 @@
       <div class="row g-5 align-items-center">
         <!-- Left Column: Image -->
         <div class="col-md-6">
-          <a [href]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'" target="_blank">
-            <img
-              [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
-              class="img-fluid rounded shadow-sm"
-              [alt]="post.title"/>
-          </a>
+          <!-- One link that navigates to the blog post detail page -->
           <a [routerLink]="['/blog', post.id]">
             <img
               [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
@@ -38,8 +33,8 @@
             <small>{{ post.publishedDate | date: 'longDate' }}</small>
           </p>
           <h2 class="post-title">{{ post.title }}</h2>
-          <p class="post-excerpt">{{ post.content.substring(0, 200) }}...</p>
-          <!--          <a [routerLink]="['/blog', post.id]" class="read-more-link" jhiTranslate="global.readMore"></a>-->
+          <p class="card-text" [innerHTML]="post.contentHTML | truncateHtml:200 | safeHtml"></p>
+<!--          <p class="modal-description">{{ post.contentHTML | stripHtml:200 }}</p>-->
           <a [routerLink]="['/blog', post.id]" class="read-more-link">{{ 'global.readMore' | translate }}</a>
         </div>
       </div>

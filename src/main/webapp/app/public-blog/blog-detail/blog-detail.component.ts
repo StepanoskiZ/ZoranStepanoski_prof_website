@@ -5,11 +5,19 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BlogPost } from '../blog-list/blog-list.component'; // Reuse the same interface
+import { tap } from 'rxjs/operators';
+import { TruncateHtmlPipe } from 'app/shared/pipes/truncate-html.pipe';
+import { SafeHtmlPipe } from 'app/shared/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SafeHtmlPipe,
+    TruncateHtmlPipe
+  ],
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.scss'],
 })
@@ -19,13 +27,14 @@ export class BlogDetailComponent implements OnInit {
   post$!: Observable<BlogPost>;
 
   ngOnInit(): void {
-    // This creates an observable that gets the 'slug' from the URL,
-    // then uses it to fetch the correct blog post from the API.
     this.post$ = this.route.params.pipe(
       switchMap(params => {
         const id = params['id'];
         return this.http.get<BlogPost>(`/api/blog-posts/${id}`);
       }),
+      tap(post => {
+        console.log('Blog post data received from API:', post);
+      })
     );
   }
 }

@@ -14,7 +14,8 @@ import { AboutMeModalComponent } from './about-me-modal/about-me-modal.component
 import { CurriculumVitaeDetailModalComponent } from './curriculum-vitae-detail-modal/curriculum-vitae-detail-modal.component';
 import { BusinessServiceDetailModalComponent } from './business-service-detail-modal/business-service-detail-modal.component';
 import { environment } from 'environments/environment';
-import { StripHtmlPipe } from 'app/shared/pipes/strip-html.pipe';
+import { TruncateHtmlPipe } from 'app/shared/pipes/truncate-html.pipe';
+import { SafeHtmlPipe } from 'app/shared/pipes/safe-html.pipe';
 
 declare var AOS: any;
 
@@ -70,7 +71,8 @@ export interface SkillCard {
     AboutMeModalComponent,
     ProjectDetailModalComponent,
     CurriculumVitaeDetailModalComponent,
-    StripHtmlPipe,
+    SafeHtmlPipe,
+    TruncateHtmlPipe
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
@@ -173,19 +175,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoadingAbout = true;
     this.http.get<AboutMeCard>('/api/about-me/card').subscribe({
       next: data => {
-        console.log('✅ Received "About Me" CARD data from API:', data);
-
-        const decodedHtml = this.decodeHtml(data.contentHtml || '');
-
-        const fixedHtml = decodedHtml.replace(/&nbsp;|\u00A0/g, ' ');
-
-        const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(fixedHtml);
-
-        this.aboutCard = {
-          ...data,
-          contentHtml: sanitizedHtml as string,
-        };
-
+        this.aboutCard = data;
         this.isLoadingAbout = false;
       },
       error: err => {
@@ -197,17 +187,10 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadBusinessServices(): void {
     this.isLoadingServices = true;
-    this.http.get<any[]>('/api/business-services/cards').subscribe({ // Expect 'any[]' to be safe
-      next: (data: any[]) => {
-        this.businessServices = data
-          .map((s, index) => ({
-            id: s.id ?? s.serviceId ?? index,
-            title: s.title ?? '(Untitled Service)',
-            description: s.description ?? '',
-            firstMediaUrl: s.firstMediaUrl ?? null,
-            firstMediaType: s.firstMediaType ?? null,
-          }))
-          .sort((a, b) => a.id - b.id);
+    // Now you can use the strong type and trust the data!
+    this.http.get<BusinessServiceCard[]>('/api/business-services/cards').subscribe({
+      next: (data) => {
+        this.businessServices = data;
         this.isLoadingServices = false;
       },
       error: err => {
@@ -219,19 +202,10 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private loadProjects(): void {
     this.isLoadingProjects = true;
-    this.http.get<any[]>('/api/projects/cards').subscribe({
-      next: (data: any[]) => {
-        console.log('✅ Raw projects from backend:', data);
-        this.projects = data
-          .map((p, index) => ({
-            id: p.id ?? p.projectId ?? index,
-            title: p.title ?? '(Untitled project)',
-            description: p.description ?? '',
-            firstMediaUrl: p.firstMediaUrl ?? null,
-            firstMediaType: p.firstMediaType ?? null,
-          }))
-          .sort((a, b) => a.id - b.id);
-        console.log('✅ Normalized projects stored in this.projects:', this.projects);
+    // Use the strong type here as well.
+    this.http.get<ProjectCard[]>('/api/projects/cards').subscribe({
+      next: (data) => {
+        this.projects = data;
         this.isLoadingProjects = false;
       },
       error: err => {

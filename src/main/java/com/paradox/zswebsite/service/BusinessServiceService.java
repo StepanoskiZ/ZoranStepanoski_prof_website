@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class BusinessServiceService {
 
     private final Logger log = LoggerFactory.getLogger(BusinessServiceService.class);
-
     private final BusinessServiceRepository businessServiceRepository;
     private final BusinessServiceMapper businessServiceMapper;
     private final BusinessServiceMediaMapper businessServiceMediaMapper;
@@ -147,9 +146,10 @@ public class BusinessServiceService {
     public List<BusinessServiceCardDTO> findAllCards() {
         log.debug("Request to get all BusinessService cards");
         // Use the repository method with the EntityGraph to prevent N+1 query problems
-        List<BusinessService> services = businessServiceRepository.findAllWithFirstMediaOrderByMediaId();
+        List<BusinessService> services = businessServiceRepository.findAllWithFirstMedia();
 
-        return services.stream()
+        return services
+            .stream()
             .map(this::mapToCardDTO) // Use a helper method for clarity
             .collect(Collectors.toList());
     }

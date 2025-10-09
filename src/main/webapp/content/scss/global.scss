@@ -9,6 +9,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap');
 
 $primary-color: #198754;
+$text-color: #2c3e50;
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
@@ -77,6 +78,9 @@ Browser Upgrade Prompt
 }
 
 .card-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
   color: #555;
   font-size: 1rem;
 
@@ -326,6 +330,36 @@ html {
     display: flex;
     flex-direction: column;
     min-height: 0;
+  }
+}
+
+/* =================== Read More Link Alignment =================== */
+.read-more-link {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: $text-color;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  margin-top: auto;
+  align-self: flex-start;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: $primary-color;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */

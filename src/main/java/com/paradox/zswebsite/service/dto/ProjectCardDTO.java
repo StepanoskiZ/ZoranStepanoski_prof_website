@@ -52,6 +52,7 @@
 package com.paradox.zswebsite.service.dto;
 
 import com.paradox.zswebsite.domain.enumeration.UnifiedMediaType;
+import com.paradox.zswebsite.domain.enumeration.ProjectStatus;
 import java.io.Serializable;
 
 /**
@@ -64,6 +65,7 @@ public class ProjectCardDTO implements Serializable {
     private String description;
     private String firstMediaUrl;
     private UnifiedMediaType firstMediaType;
+    private ProjectStatus status;
 
     public ProjectCardDTO() {
         // Empty constructor needed for Jackson.
@@ -73,7 +75,6 @@ public class ProjectCardDTO implements Serializable {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -81,7 +82,6 @@ public class ProjectCardDTO implements Serializable {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -89,7 +89,6 @@ public class ProjectCardDTO implements Serializable {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -97,7 +96,6 @@ public class ProjectCardDTO implements Serializable {
     public String getFirstMediaUrl() {
         return firstMediaUrl;
     }
-
     public void setFirstMediaUrl(String firstMediaUrl) {
         this.firstMediaUrl = firstMediaUrl;
     }
@@ -105,8 +103,10 @@ public class ProjectCardDTO implements Serializable {
     public UnifiedMediaType getFirstMediaType() {
         return firstMediaType;
     }
-
     public void setFirstMediaType(UnifiedMediaType firstMediaType) {
         this.firstMediaType = firstMediaType;
     }
+
+    public ProjectStatus getStatus() { return status; }
+    public void setStatus(ProjectStatus status) { this.status = status; }
 }

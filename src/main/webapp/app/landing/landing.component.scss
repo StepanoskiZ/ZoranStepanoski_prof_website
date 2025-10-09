@@ -57,23 +57,6 @@ $primary-color: #198754;
   }
 }
 
-/* =================== About Section =================== */
-.about-section {
-  .underscore-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-weight: 600;
-    color: #212529;
-    text-decoration: none;
-    border-bottom: 2px solid #ccc;
-    transition: border-color 0.3s ease;
-    cursor: pointer;
-    &:hover {
-      border-color: $primary-color;
-    }
-  }
-}
-
 /* =================== Unified Card Section Styles =================== */
 .card-section {
   background-color: #f8f9fa !important;
@@ -117,23 +100,6 @@ $primary-color: #198754;
   &#cv .card-img-top-container img {
     object-fit: contain;
     padding: 1rem;
-  }
-}
-
-/* =================== Read More Link Alignment =================== */
-.read-more-link {
-  display: inline-block;
-  margin-top: auto; // Pushes the link to the bottom of the flex container
-  font-weight: 600;
-  color: #212529;
-  text-decoration: none;
-  border-bottom: 2px solid #ccc;
-  transition: border-color 0.3s ease;
-  cursor: pointer;
-  align-self: flex-start;
-
-  &:hover {
-    border-color: $primary-color;
   }
 }
 

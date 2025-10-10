@@ -189,7 +189,6 @@ info:
 #
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
 jhipster:
   clientApp:
     name: 'zsWebsiteApp'

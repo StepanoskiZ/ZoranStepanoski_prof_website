@@ -49,7 +49,9 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
-      maximum-pool-size: 1
+      connection-test-query: "SELECT 1"
+      max-lifetime: 1800000
+      maximum-pool-size: 5
   liquibase:
     change-log: classpath:config/liquibase/master.xml
     contexts: prod

@@ -11,7 +11,7 @@ dockerfile = "./Dockerfile.frontend"
 # It handles HTTPS and forwards traffic to our Nginx container.
 [[services]]
 protocol = "tcp"
-internal_port = 80 # Nginx is listening on port 80 inside the container
+internal_port = 8080 # Nginx is listening on port 8080 inside the container
 processes = ["app"]
 auto_stop_machines = true
 auto_start_machines = true
@@ -33,8 +33,8 @@ handlers = ["tls", "http"]
 
 # The health check for Nginx is simpler. We just check if the root path is available.
 [[services.http_checks]]
-interval = "15s"
-timeout = "5s"
+interval = "35s"
+timeout = "15s"
 grace_period = "60s"
 method = "get"
 path = "/"

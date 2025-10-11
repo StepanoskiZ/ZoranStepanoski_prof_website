@@ -4,6 +4,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { errorRoute } from './layouts/error/error.route';
 import MainComponent from './layouts/main/main.component';
 import { LandingComponent } from './landing/landing.component';
+import { AdminKeyGuard } from './auth/admin-key.guard';
 // import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 // import { IntakeFormComponent } from './intake-form/intake-form.component';
 // import BLOG_ROUTES from './public-blog/blog.routes';
@@ -76,6 +77,7 @@ const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./login/login.component'),
     title: 'login.title',
+    canActivate: [AdminKeyGuard],
   },
 
   // Error routes are at the top level

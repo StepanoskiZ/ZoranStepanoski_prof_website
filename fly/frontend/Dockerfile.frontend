@@ -1,29 +1,9 @@
-# fly/frontend/Dockerfile.frontend
-
-# Stage 1: Build the Angular static files
-FROM node:20-slim as builder
-WORKDIR /app
-
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install
-
-# Copy the rest of the source code
-COPY . .
-
-# Build the static frontend files.
-# The output will be in the /app/target/classes/static/ directory.
-RUN npm run webapp:prod
-
-# Stage 2: Create the final Nginx server image
+# Use a minimal, official Nginx image. It's very small and fast.
 FROM nginx:1.25-alpine
 
-# Copy the custom Nginx configuration
+# Copy our new, simple redirect configuration into the image,
+# overwriting the default Nginx config.
 COPY fly/frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the built static files from the builder stage into the Nginx web root
-COPY --from=builder /app/target/classes/static/ /usr/share/nginx/html
-
-# This command ensures Nginx starts and stays in the foreground,
-# keeping the container alive and responsive to health checks.
+# This command ensures Nginx starts and stays in the foreground.
 CMD ["nginx", "-g", "daemon off;"]

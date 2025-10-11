@@ -40,6 +40,12 @@ method = "get"
 path = "/"
 protocol = "http"
 
+[services.http_checks.thresholds]
+# How many consecutive failures before marking an instance as unhealthy.
+failures = 3
+# How many consecutive successes before marking an instance as healthy.
+successes = 1
+
 [[vm]]
 memory = "256mb"
 cpu_kind = "shared"

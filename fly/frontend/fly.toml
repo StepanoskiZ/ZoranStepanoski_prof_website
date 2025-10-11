@@ -5,7 +5,7 @@ primary_region = 'cdg'
 
 [build]
 # Point to the correct Dockerfile for the frontend
-dockerfile = "fly/frontend/Dockerfile.frontend"
+dockerfile = "./Dockerfile.frontend"
 
 # This is the public-facing service.
 # It handles HTTPS and forwards traffic to our Nginx container.

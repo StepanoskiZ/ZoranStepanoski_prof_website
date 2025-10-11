@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": "target/classes/static",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "zoranstepanoski-prof-api",
+          "region": "europe-central2"
+        }
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

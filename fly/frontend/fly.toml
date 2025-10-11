@@ -5,7 +5,7 @@ primary_region = 'cdg'
 
 [build]
 # Point to the correct Dockerfile for the frontend
-dockerfile = "./Dockerfile.frontend"
+dockerfile = "fly/frontend/Dockerfile.frontend"
 
 # This is the public-facing service.
 # It handles HTTPS and forwards traffic to our Nginx container.
@@ -35,7 +35,7 @@ handlers = ["tls", "http"]
 [[services.http_checks]]
 interval = "35s"
 timeout = "15s"
-grace_period = "60s"
+grace_period = "120s"
 method = "get"
 path = "/"
 protocol = "http"

@@ -62,15 +62,12 @@ public class SecurityConfiguration {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
-            .headers(
-                headers ->
-                    headers
-                        .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-                        .frameOptions(FrameOptionsConfig::sameOrigin)
-                        .referrerPolicy(referrer ->
-                            referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-                        )
-                        .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "fullscreen=(self)"))
+            .headers(headers ->
+                headers
+                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
+                    .frameOptions(FrameOptionsConfig::sameOrigin)
+                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
+                    .addHeaderWriter(new StaticHeadersWriter("Permissions-Policy", "fullscreen=(self)"))
             )
             .authorizeHttpRequests(authz ->
                 authz
@@ -131,10 +128,7 @@ public class SecurityConfiguration {
                         "/api/page-contents/by-key/**"
                     )
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST,
-                        "/api/visitor-log",
-                        "/api/contact-messages"
-                    )
+                    .requestMatchers(HttpMethod.POST, "/api/visitor-log", "/api/contact-messages")
                     .permitAll()
                     .requestMatchers("/api/admin/**", "/management/**")
                     .hasAuthority(AuthoritiesConstants.ADMIN)
@@ -156,7 +150,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(
-            Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://*.fly.dev", "http://*.fly.dev")
+            Arrays.asList("http://localhost:9000", "http://localhost:8080", "https://tactile-ripsaw-474418-j1.web.app")
         );
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));

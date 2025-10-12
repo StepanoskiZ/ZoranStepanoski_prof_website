@@ -49,7 +49,7 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
-      connection-test-query: "SELECT 1"
+      connection-test-query: 'SELECT 1'
       max-lifetime: 1800000
       maximum-pool-size: 5
   liquibase:
@@ -95,7 +95,8 @@ server:
 
 jhipster:
   cors:
-    allowed-origins: 'http://localhost:9000,http://*.fly.dev,https://*.fly.dev,https://zoranstepanoski-prof-website.fly.dev'
+    #    allowed-origins: 'http://localhost:9000,http://*.fly.dev,https://*.fly.dev,https://zoranstepanoski-prof-website.fly.dev'
+    allowed-origins: 'http://localhost:9000,https://zoranstepanoski-prof-website.fly.dev,https://tactile-ripsaw-474418-j1.web.app'
     allowed-methods: 'GET,POST,PUT,DELETE,OPTIONS'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count,X-jhipsterApp-alert,X-jhipsterApp-error,X-jhipsterApp-params'

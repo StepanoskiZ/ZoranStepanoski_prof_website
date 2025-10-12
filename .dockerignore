@@ -31,3 +31,6 @@ Prod_details.txt
 classes/
 out/
 src/test/
+/tactile-ripsaw-474418-j1-1169eaf2becb.json
+/gcp-credentials.json
+/prod-ca-2021.crt

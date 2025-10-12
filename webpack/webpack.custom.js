@@ -89,6 +89,7 @@ module.exports = async (config, options, targetOptions) => {
       I18N_HASH: JSON.stringify(languagesHash.hash),
       __VERSION__: JSON.stringify(environment.__VERSION__),
       SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
+      __ADMIN_SECRET__: JSON.stringify(process.env.ADMIN_SECRET || ''),
     }),
     new MergeJsonWebpackPlugin({
       output: {

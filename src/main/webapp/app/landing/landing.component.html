@@ -9,16 +9,30 @@
   </div>
   <div *ngIf="isLoadingAbout || isLoadingServices || isLoadingProjects || isLoadingCv || isLoadingSkills" class="app-loading">
     <div class="matrix-container">
-      <div class="matrix-stream">01101100011011110110000101100100</div>
+      <div class="matrix-stream">
+        01011010 01101111 01110010 01100001 01101110 00100000 01010011 01110100 01100101 01110000 01100001 01101110 01101111 01110011
+        01101011 01101001
+      </div>
       <div class="matrix-stream">01101001011011100110011100101110</div>
-      <div class="matrix-stream">01110011011110010111001101110100</div>
-      <div class="matrix-stream">01100101011011010010111001101001</div>
-      <div class="matrix-stream">01101110011010010111010001101001</div>
-      <div class="matrix-stream">01100001011011000110100101111010</div>
-      <div class="matrix-stream">01101001011011100110011100101110</div>
+      <div class="matrix-stream">
+        01011010011011110111001001100001011011100010000001010011011101000110010101110000011000010110111001101111011100110110101101101001
+      </div>
+      <div class="matrix-stream">01010000011000010111001001100001011001000110111101111000001000000100000101001001</div>
+      <div class="matrix-stream">
+        01010011 01110100 01100101 01110000 01100001 01101110 01101111 01110011 01101011 01101001 00100000 01011010 01101111 01110010
+        01100001 0110111001101110011010010111010001101001
+      </div>
+      <div class="matrix-stream">
+        01010011 01110100 01100101 01110000 01100001 00100000 01101101 01101100 01100001 01100100 01101010 01101001
+      </div>
+      <div class="matrix-stream">
+        01010011011101000110010101110000011000010110111001101111011100110110101101101001001000000101101001101111011100100110000101101110
+      </div>
       <div class="matrix-stream">01100011011011110110110101110000</div>
-      <div class="matrix-stream">01101111011011100110010101101110</div>
-      <div class="matrix-stream">01110100011100110010111001101110</div>
+      <div class="matrix-stream">0101001101110100011001010111000001100001</div>
+      <div class="matrix-stream">010100110111010001100101011100000110000100100000011011010110110001100001011001000110101001101001</div>
+      <div class="matrix-stream">01010000 01100001 01110010 01100001 01100100 01101111 01111000 00100000 01000001 01001001</div>
+      <div class="matrix-stream">01100101011011010010111001101001</div>
     </div>
     <div class="loading-text">LOADING...</div>
   </div>
@@ -31,7 +45,7 @@
       <div class="col-lg-7">
         <h2 class="fw-bold mb-3" jhiTranslate="landing.aboutHeading"></h2>
         <p class="sub-heading" jhiTranslate="landing.aboutSubheading"></p>
-        <p class="card-text" [innerHTML]="aboutCard.contentHtml | truncateHtml:500 | safeHtml"></p>
+        <p class="card-text" [innerHTML]="aboutCard.contentHtml | truncateHtml: 500 | safeHtml"></p>
         <div class="mt-2">
           <a href="#" class="read-more-link" (click)="openAboutModal(); $event.preventDefault()">
             {{ 'global.readMore' | translate }}
@@ -58,7 +72,8 @@
               *ngIf="aboutCard.firstMediaType === 'IMAGE'"
               [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
               alt="Profile Picture"
-              class="profile-picture img-fluid rounded shadow-lg" />
+              class="profile-picture img-fluid rounded shadow-lg"
+            />
             <video
               *ngIf="aboutCard.firstMediaType === 'VIDEO'"
               [src]="getFullMediaPath(aboutCard.firstMediaUrl)"
@@ -66,14 +81,11 @@
               loop
               muted
               controls
-              playsinline>
-            </video>
+              playsinline
+            ></video>
           </ng-container>
           <ng-container *ngIf="!aboutCard.firstMediaUrl">
-            <img
-              src="content/media/profile-picture.jpg"
-              alt="Zoran Stepanoski"
-              class="profile-picture img-fluid rounded shadow-lg" />
+            <img src="content/media/profile-picture.jpg" alt="Zoran Stepanoski" class="profile-picture img-fluid rounded shadow-lg" />
           </ng-container>
         </div>
       </div>
@@ -100,7 +112,8 @@
               *ngIf="getMediaType(service.firstMediaUrl) === 'IMAGE'"
               [src]="getFullMediaPath(service.firstMediaUrl, '/content/media/default-service.jpg')"
               [alt]="service.title"
-              class="img-fluid rounded"/>
+              class="img-fluid rounded"
+            />
             <video
               *ngIf="getMediaType(service.firstMediaUrl) === 'VIDEO'"
               [src]="getFullMediaPath(service.firstMediaUrl)"
@@ -108,14 +121,14 @@
               muted
               loop
               controls
-              playsinline>
-            </video>
+              playsinline
+            ></video>
           </div>
 
           <!-- Card Body -->
           <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ service.title }}</h3>
-            <p class="card-text" [innerHTML]="service.description | truncateHtml:120 | safeHtml"></p>
+            <p class="card-text" [innerHTML]="service.description | truncateHtml: 120 | safeHtml"></p>
             <a href="#" class="read-more-link" (click)="openBusinessServiceModal(service.id); $event.preventDefault()">
               {{ 'global.readMore' | translate }}
             </a>
@@ -144,7 +157,8 @@
               *ngIf="getMediaType(project.firstMediaUrl) === 'IMAGE'"
               [src]="getFullMediaPath(project.firstMediaUrl)"
               [alt]="project.title"
-              class="img-fluid rounded"/>
+              class="img-fluid rounded"
+            />
             <video
               *ngIf="getMediaType(project.firstMediaUrl) === 'VIDEO'"
               [src]="getFullMediaPath(project.firstMediaUrl)"
@@ -152,8 +166,8 @@
               muted
               loop
               controls
-              playsinline>
-            </video>
+              playsinline
+            ></video>
           </div>
 
           <!-- Card Body -->
@@ -164,7 +178,7 @@
               <i *ngIf="project.status === 'ONGOING'" class="fas fa-clock text-primary me-2" title="Ongoing"></i>
               {{ project.status | lowercase }}
             </p>
-            <p class="card-text" [innerHTML]="project.description | truncateHtml:120 | safeHtml"></p>
+            <p class="card-text" [innerHTML]="project.description | truncateHtml: 120 | safeHtml"></p>
             <a href="#" class="read-more-link" (click)="openProjectMediaModal(project.id); $event.preventDefault()">
               {{ 'global.readMore' | translate }}
             </a>
@@ -193,7 +207,8 @@
               *ngIf="getMediaType(cv.firstMediaUrl) === 'IMAGE'"
               [src]="getFullMediaPath(cv.firstMediaUrl, '/content/media/default-work.jpg')"
               [alt]="cv.companyName"
-              class="img-fluid rounded"/>
+              class="img-fluid rounded"
+            />
             <video
               *ngIf="getMediaType(cv.firstMediaUrl) === 'VIDEO'"
               [src]="getFullMediaPath(cv.firstMediaUrl)"
@@ -201,8 +216,8 @@
               muted
               loop
               controls
-              playsinline>
-            </video>
+              playsinline
+            ></video>
           </div>
 
           <!-- Card Body -->
@@ -211,7 +226,7 @@
             <p class="card-subtitle mb-2 text-muted">
               {{ cv.startDate | date: 'MMM yyyy' }} - {{ cv.endDate ? (cv.endDate | date: 'MMM yyyy') : ('global.present' | translate) }}
             </p>
-            <p class="card-text" [innerHTML]="cv.jobDescriptionHTML | truncateHtml:120 | safeHtml"></p>
+            <p class="card-text" [innerHTML]="cv.jobDescriptionHTML | truncateHtml: 120 | safeHtml"></p>
             <a href="#" class="read-more-link" (click)="openCvDetailModal(cv.id); $event.preventDefault()">
               {{ 'global.readMore' | translate }}
             </a>
@@ -244,7 +259,9 @@
           <div *ngFor="let skill of leftColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="i * 50">
             <div class="skill-item d-flex justify-content-between align-items-center">
               <span class="skill-name">{{ skill.name }}</span>
-              <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
+              <span class="badge bg-secondary rounded-pill"
+                >{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span
+              >
             </div>
           </div>
         </div>
@@ -252,10 +269,16 @@
         <!-- Right Column -->
         <div class="col-lg-6">
           <!-- Loop through the right half of skills with the preferred design -->
-          <div *ngFor="let skill of rightColumnSkills; let i = index" class="mb-4" [attr.data-aos-delay]="(leftColumnSkills.length + i) * 50">
+          <div
+            *ngFor="let skill of rightColumnSkills; let i = index"
+            class="mb-4"
+            [attr.data-aos-delay]="(leftColumnSkills.length + i) * 50"
+          >
             <div class="skill-item d-flex justify-content-between align-items-center">
               <span class="skill-name">{{ skill.name }}</span>
-              <span class="badge bg-secondary rounded-pill">{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span>
+              <span class="badge bg-secondary rounded-pill"
+                >{{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'year' : 'years' }}</span
+              >
             </div>
           </div>
         </div>
@@ -275,7 +298,8 @@
           (pageChange)="loadSkillsPage($event, true)"
           [maxSize]="5"
           [boundaryLinks]="true"
-          [ellipses]="true">
+          [ellipses]="true"
+        >
         </ngb-pagination>
       </div>
     </div>

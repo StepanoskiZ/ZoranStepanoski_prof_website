@@ -4,7 +4,7 @@ name: Deploy Backend and Frontend
 
 on:
   push:
-    branches: ['main'] # Runs whenever you push to the 'main' branch
+    branches: ['master'] # Runs whenever you push to the 'main' branch
 
 jobs:
   # === JOB 1: DEPLOY BACKEND ===

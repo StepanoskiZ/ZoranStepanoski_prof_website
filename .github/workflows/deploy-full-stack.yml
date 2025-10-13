@@ -7,9 +7,9 @@ on:
     branches: ['master'] # Runs whenever you push to the 'main' branch
 
 jobs:
-  # === JOB 1: DEPLOY BACKEND ===
+  # === JOB 1: DEPLOY BACKEND (IMAGE-BASED) ===
   deploy-backend:
-    name: Deploy Backend to Cloud Run
+    name: Build, Push, and Deploy Backend
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -19,29 +19,35 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Authenticate to Google Cloud
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          # Make sure these secrets exist in your GitHub repo from your previous backend setup
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+      # Set up gcloud CLI
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
-      - name: Build Backend with Maven
-        run: ./mvnw -ntp -Pprod clean package -DskipTests
+      # Configure Docker to use gcloud credentials for the correct region
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-central2-docker.pkg.dev
 
+      # Build and Push Docker image using the CORRECT repository name
+      - name: Build and Push Docker Image
+        run: |-
+          docker build . -f fly/backend/Dockerfile.backend -t europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
+          docker push europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
+
+      # Deploy the specific image to Cloud Run
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: 'zoranstepanoski-prof-api'
           region: 'europe-central2'
-          source: './target' # Points to the folder containing your JAR file
-
+          # Use the --image flag and the CORRECT repository name
+          image: europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
   # === JOB 2: DEPLOY FRONTEND (depends on backend) ===
   deploy-frontend:
     name: Deploy Frontend to Firebase

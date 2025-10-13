@@ -159,3 +159,6 @@ Desktop.ini
 ######################
 coverage/
 .nyc_output/
+!/gcp-credentials.json
+/gcp-credentials.json
+!/gcp-credentials.json

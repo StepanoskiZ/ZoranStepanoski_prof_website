@@ -4,10 +4,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { errorRoute } from './layouts/error/error.route';
 import MainComponent from './layouts/main/main.component';
 import { LandingComponent } from './landing/landing.component';
-import { AdminKeyGuard } from './auth/admin-key.guard';
-// import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-// import { IntakeFormComponent } from './intake-form/intake-form.component';
-// import BLOG_ROUTES from './public-blog/blog.routes';
 
 const routes: Routes = [
   // --- Main Application Layout Route ---
@@ -48,11 +44,6 @@ const routes: Routes = [
         loadComponent: () => import('./ai-generator/ai-generator.component').then(m => m.CvAiGeneratorComponent), // Lazy loads the component
         title: 'aiGenerator.title', // Use a translation key for the page title
       },
-      // All blog routes are also children of the main layout
-//       ...BLOG_ROUTES,
-
-      // JHipster-generated entity routes for admins should ALSO be children
-      // so they appear within the main layout.
       {
         path: '',
         canActivate: [UserRouteAccessService],
@@ -77,7 +68,6 @@ const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./login/login.component'),
     title: 'login.title',
-    canActivate: [AdminKeyGuard],
   },
 
   // Error routes are at the top level

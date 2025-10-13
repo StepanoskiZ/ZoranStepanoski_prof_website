@@ -101,8 +101,8 @@ server:
 jhipster:
   cors:
     #    allowed-origins: 'http://localhost:9000,http://*.fly.dev,https://*.fly.dev,https://zoranstepanoski-prof-website.fly.dev'
-    allowed-origins: 'http://localhost:9000,https://zoranstepanoski-prof-website.fly.dev,https://tactile-ripsaw-474418-j1.web.app'
-    allowed-methods: 'GET,POST,PUT,DELETE,OPTIONS'
+    allowed-origins: 'http://localhost:9000,https://tactile-ripsaw-474418-j1.web.app'
+    allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count,X-jhipsterApp-alert,X-jhipsterApp-error,X-jhipsterApp-params'
     allow-credentials: true
@@ -124,7 +124,7 @@ jhipster:
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail:
-    base-url: https://zoranstepanoski-prof-website.fly.dev
+    base-url: https://tactile-ripsaw-474418-j1.web.app
   logging:
     use-json-format: false
     logstash:

@@ -1,3 +1,4 @@
+// environment.development.ts
 declare const __ADMIN_SECRET__: string;
 
 export const environment = {

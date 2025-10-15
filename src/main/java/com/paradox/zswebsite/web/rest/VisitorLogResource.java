@@ -4,10 +4,12 @@ import com.paradox.zswebsite.repository.VisitorLogRepository;
 import com.paradox.zswebsite.service.VisitorLogService;
 import com.paradox.zswebsite.service.dto.VisitorLogDTO;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,15 +59,53 @@ public class VisitorLogResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/visitor-log")
-    public ResponseEntity<VisitorLogDTO> createVisitorLog(@Valid @RequestBody VisitorLogDTO visitorLogDTO) throws URISyntaxException {
-        log.debug("REST request to save VisitorLog : {}", visitorLogDTO);
+    public ResponseEntity<VisitorLogDTO> createVisitorLog(
+        @RequestBody VisitorLogDTO visitorLogDTO, // <-- Remove @Valid, as we are populating most fields here
+        HttpServletRequest request // <-- Inject the request object
+    ) throws URISyntaxException {
+        log.debug("REST request to save VisitorLog for page: {}", visitorLogDTO.getPageVisited());
         if (visitorLogDTO.getId() != null) {
             throw new BadRequestAlertException("A new visitorLog cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        // 1. Get IP Address from the request
+        String ipAddress = getClientIp(request);
+        visitorLogDTO.setIpAddress(ipAddress);
+
+        // 2. Get User Agent from the request header
+        String userAgent = request.getHeader("User-Agent");
+        visitorLogDTO.setUserAgent(userAgent);
+
+        // 3. Set the timestamp on the server
+        visitorLogDTO.setVisitTimestamp(Instant.now());
+
+        // Now the DTO is complete, save it
+        log.debug("Saving VisitorLog with enriched data: {}", visitorLogDTO);
         VisitorLogDTO result = visitorLogService.save(visitorLogDTO);
+
         return ResponseEntity.created(new URI("/api/visitor-log/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * Helper method to get the client's IP address, accounting for proxies.
+     *
+     * @param request the HttpServletRequest
+     * @return the client's IP address
+     */
+    private String getClientIp(HttpServletRequest request) {
+        String remoteAddr = "";
+        if (request != null) {
+            remoteAddr = request.getHeader("X-Forwarded-For");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            } else {
+                // In case of multiple IPs in X-Forwarded-For, the first one is the client's
+                remoteAddr = remoteAddr.split(",")[0].trim();
+            }
+        }
+        return remoteAddr;
     }
 
     /**

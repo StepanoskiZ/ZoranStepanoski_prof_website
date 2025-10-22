@@ -37,7 +37,7 @@ jobs:
       # Build and Push Docker image using the CORRECT repository name
       - name: Build and Push Docker Image
         run: |-
-          docker build . -f fly/backend/Dockerfile.backend -t europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
+          docker build . -f cloud/backend/Dockerfile.backend -t europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
           docker push europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
 
       # Deploy the specific image to Cloud Run

@@ -21,7 +21,10 @@ public class ApplicationProperties {
         return liquibase;
     }
 
-    public Ai getAi() { return ai; }
+    public Ai getAi() {
+        return ai;
+    }
+
     // jhipster-needle-application-properties-property-getter
 
     public static class Liquibase {
@@ -38,30 +41,34 @@ public class ApplicationProperties {
     }
 
     public static class Ai {
+
         private String googleApiKey;
         private String projectId;
         private String location;
 
-        // Getters and Setters for Ai
         public String getGoogleApiKey() {
             return googleApiKey;
         }
+
         public void setGoogleApiKey(String googleApiKey) {
             this.googleApiKey = googleApiKey;
         }
+
         public String getProjectId() {
             return projectId;
         }
+
         public void setProjectId(String projectId) {
             this.projectId = projectId;
         }
+
         public String getLocation() {
             return location;
         }
+
         public void setLocation(String location) {
             this.location = location;
         }
     }
-
     // jhipster-needle-application-properties-property-class
 }

@@ -44,7 +44,8 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>1.12.0</version>
-    </dependency>    <dependency>
+    </dependency>
+    <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>google-cloud-vertexai</artifactId>
       <version>1.35.0</version> <!-- You can check for the latest version on Maven Central -->
@@ -63,13 +64,11 @@
       <artifactId>jaxb-runtime</artifactId>
       <scope>runtime</scope>
     </dependency>
-
     <dependency>
       <groupId>tech.jhipster</groupId>
       <artifactId>jhipster-framework</artifactId>
       <version>${jhipster-framework.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
@@ -217,7 +216,6 @@
           <defaultSchemaName/>
           <username>postgres</username>
           <password>postgres</password>
-<!--          <referenceUrl>hibernate:spring:com.paradox.zswebsite.domain?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>-->
           <referenceUrl>
             hibernate:spring:com.paradox.zswebsite.domain?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;
             hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
@@ -242,7 +240,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring-boot.version}</version>
           </dependency>
-
           <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>

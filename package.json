@@ -99,6 +99,7 @@
     "aos": "^2.3.4",
     "bootstrap": "5.3.6",
     "dayjs": "1.11.13",
+    "eslint-webpack-plugin": "^4.0.1",
     "flag-icons": "^7.5.0",
     "ngx-infinite-scroll": "^17.0.1",
     "ngx-lightbox": "^3.0.0",

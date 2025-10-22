@@ -9,7 +9,6 @@ import { RouterOutlet } from '@angular/router';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { fontAwesomeIcons } from './config/font-awesome-icons';
-// import MainComponent from './layouts/main/main.component';
 
 @Component({
   selector: 'jhi-app',

@@ -3,6 +3,8 @@ package com.paradox.zswebsite.web.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paradox.zswebsite.config.ApplicationProperties;
+import com.paradox.zswebsite.security.AuthoritiesConstants;
 import com.paradox.zswebsite.service.dto.*;
 import com.paradox.zswebsite.web.rest.vm.AiAnalysisRequestDTO;
 import java.util.ArrayList;
@@ -17,8 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import com.paradox.zswebsite.security.AuthoritiesConstants;
-import com.paradox.zswebsite.config.ApplicationProperties;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -33,11 +33,9 @@ public class AiGeneratorResource {
     // Correctly inject the RestTemplate and the API key from application.yml
     public AiGeneratorResource(
         ApplicationProperties applicationProperties,
-//        @Value("${application.ai.google-api-key:}") String apiKey,
         @Qualifier("aiRestTemplate") RestTemplate restTemplate,
         ObjectMapper objectMapper
     ) {
-//        this.googleApiKey = apiKey;
         this.googleApiKey = applicationProperties.getAi().getGoogleApiKey();
         this.aiRestTemplate = restTemplate;
         this.objectMapper = objectMapper;
@@ -79,6 +77,8 @@ public class AiGeneratorResource {
                     }
                 }
             }
+            // Sort the models alphabetically for a better UX
+            Collections.sort(modelNames);
             return ResponseEntity.ok(modelNames);
         } catch (Exception e) {
             log.error("Failed to fetch AI models from Google", e);
@@ -116,9 +116,14 @@ public class AiGeneratorResource {
         headers.setContentType(MediaType.APPLICATION_JSON);
         String requestBody;
         try {
-            requestBody = objectMapper.writeValueAsString(Collections.singletonMap("contents",
-                Collections.singletonList(Collections.singletonMap("parts",
-                    Collections.singletonList(Collections.singletonMap("text", prompt))))));
+            requestBody = objectMapper.writeValueAsString(
+                Collections.singletonMap(
+                    "contents",
+                    Collections.singletonList(
+                        Collections.singletonMap("parts", Collections.singletonList(Collections.singletonMap("text", prompt)))
+                    )
+                )
+            );
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize AI request body", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to build AI request body.");
@@ -130,7 +135,12 @@ public class AiGeneratorResource {
             ResponseEntity<JsonNode> response = aiRestTemplate.postForEntity(apiUrl, entity, JsonNode.class);
 
             JsonNode responseBody = response.getBody();
-            if (responseBody == null || !responseBody.has("candidates") || !responseBody.get("candidates").isArray() || responseBody.get("candidates").size() == 0) {
+            if (
+                responseBody == null ||
+                !responseBody.has("candidates") ||
+                !responseBody.get("candidates").isArray() ||
+                responseBody.get("candidates").size() == 0
+            ) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "AI service returned an invalid or empty response.");
             }
             String jsonResponseText = responseBody.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
@@ -142,7 +152,6 @@ public class AiGeneratorResource {
 
             AiAnalysisResponseDTO analysisResponse = objectMapper.readValue(jsonResponseText, AiAnalysisResponseDTO.class);
             return ResponseEntity.ok(analysisResponse);
-
         } catch (Exception e) {
             log.error("Error communicating with Google AI or parsing response", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to generate analysis due to AI service error.", e);
@@ -180,7 +189,8 @@ public class AiGeneratorResource {
 
     private String formatSkillData(List<SkillDTO> skills) {
         if (skills == null || skills.isEmpty()) return "No skills provided.";
-        return skills.stream()
+        return skills
+            .stream()
             .map(skill -> String.format("%s (%d years)", skill.getName(), skill.getYearsOfExperience()))
             .collect(Collectors.joining(", "));
     }

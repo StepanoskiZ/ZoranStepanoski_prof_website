@@ -48,12 +48,17 @@ jobs:
           region: 'europe-central2'
           # Use the --image flag and the CORRECT repository name
           image: europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
+          # 1. Non-sensitive environment variables stay here.
           env_vars: |-
             SPRING_PROFILES_ACTIVE=prod
-            SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
-            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
-            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-            JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=${{ secrets.JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET }}
+          secrets: |-
+            SPRING_DATASOURCE_URL=prod-db-url:latest
+            SPRING_DATASOURCE_USERNAME=prod-db-username:latest
+            SPRING_DATASOURCE_PASSWORD=prod-db-password:latest
+            JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=prod-jwt-secret:latest
+            GOOGLE_AI_APIKEY=prod-google-ai-apikey:latest
+            MAILJET_APIKEY=prod-mailjet-api-key:latest
+            MAILJET_SECRET_KEY=prod-mailjet-secret-key:latest
 
   # === JOB 2: DEPLOY FRONTEND (depends on backend) ===
   deploy-frontend:

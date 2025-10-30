@@ -5,6 +5,8 @@ export interface IVisitorLog {
   ipAddress?: string | null;
   city?: string | null;
   country?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   pageVisited?: string | null;
   userAgent?: string | null;
   visitTimestamp?: dayjs.Dayjs | null;

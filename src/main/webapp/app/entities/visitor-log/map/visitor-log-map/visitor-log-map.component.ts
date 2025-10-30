@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { VisitorLogService } from '../service/visitor-log.service';
+import { VisitorLogService } from '../../service/visitor-log.service';
+import { IVisitorLog } from '../../visitor-log.model';
 
 @Component({
   selector: 'jhi-visitor-log-map',

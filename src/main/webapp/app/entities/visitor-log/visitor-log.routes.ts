@@ -6,7 +6,7 @@ import { VisitorLogComponent } from './list/visitor-log.component';
 import { VisitorLogDetailComponent } from './detail/visitor-log-detail.component';
 import { VisitorLogUpdateComponent } from './update/visitor-log-update.component';
 import VisitorLogResolve from './route/visitor-log-routing-resolve.service';
-import { VisitorLogMapComponent } from './map/visitor-log-map.component';
+import { VisitorLogMapComponent } from './map/visitor-log-map/visitor-log-map.component';
 
 const visitorLogRoute: Routes = [
   {

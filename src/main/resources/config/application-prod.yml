@@ -54,7 +54,7 @@ spring:
       maximum-pool-size: 5
       minimum-idle: 1
       connection-timeout: 20000 # 20 seconds
-      idle-timeout: 300000 # 5 minutes
+      idle-timeout: 90000 # 1.5 minutes
   liquibase:
     change-log: classpath:config/liquibase/master.xml
     contexts: prod

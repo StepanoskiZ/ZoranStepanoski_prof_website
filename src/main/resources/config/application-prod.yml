@@ -51,9 +51,9 @@ spring:
       auto-commit: false
       connection-test-query: 'SELECT 1'
       max-lifetime: 1800000
-      maximum-pool-size: 3
+      maximum-pool-size: 5
       minimum-idle: 1
-      connection-timeout: 30000 # 20 seconds
+      connection-timeout: 20000 # 20 seconds
       idle-timeout: 300000 # 5 minutes
   liquibase:
     change-log: classpath:config/liquibase/master.xml

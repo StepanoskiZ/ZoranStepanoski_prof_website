@@ -3,9 +3,12 @@ package com.paradox.zswebsite.service;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,37 +18,43 @@ import org.springframework.stereotype.Service;
 public class IpGeolocationService {
 
     private static final Logger log = LoggerFactory.getLogger(IpGeolocationService.class);
+
     private final DatabaseReader databaseReader;
 
     public IpGeolocationService() {
-        DatabaseReader tempReader; // Use a temporary, non-final variable for initialization logic.
+        this.databaseReader = createDatabaseReader();
+    }
 
+    private DatabaseReader createDatabaseReader() {
         try (InputStream dbStream = getClass().getClassLoader().getResourceAsStream("geolite/GeoLite2-City.mmdb")) {
             if (dbStream == null) {
                 log.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 log.warn("!!! GeoLite2-City.mmdb not found. Geolocation will be disabled. !!!");
                 log.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                tempReader = null; // Assign null to the temporary variable.
-            } else {
-                tempReader = new DatabaseReader.Builder(dbStream).build();
-                log.info("GeoLite2 Database loaded successfully. Geolocation is enabled.");
+                return null;
             }
+
+            // Create a temporary file to extract the database to.
+            // This is necessary to use memory-mapping (mmap) instead of loading the whole file into RAM.
+            File tempFile = File.createTempFile("geolite2-", ".mmdb");
+            tempFile.deleteOnExit(); // Ensure the temp file is cleaned up on shutdown.
+
+            // Copy the database from the JAR to the temporary file.
+            Files.copy(dbStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            log.info("GeoLite2 Database extracted to temporary file: {}", tempFile.getAbsolutePath());
+
+            // Build the DatabaseReader using the File object, which enables memory-mapping.
+            DatabaseReader reader = new DatabaseReader.Builder(tempFile).build();
+            log.info("GeoLite2 Database loaded successfully using memory-mapping. Geolocation is enabled.");
+            return reader;
         } catch (IOException e) {
             log.error("Failed to load or read GeoLite2 database, geolocation will be disabled.", e);
-            tempReader = null; // Also assign null on any IO error.
+            return null;
         }
-
-        // Assign to the final field exactly once at the end.
-        this.databaseReader = tempReader;
     }
 
-    /**
-     * Get geolocation data for a given IP address.
-     * @param ip The IP address string.
-     * @return An Optional containing the CityResponse, or empty if not found or on error.
-     */
     public Optional<CityResponse> getLocation(String ip) {
-        // If the database failed to load, don't even try to look up.
         if (databaseReader == null) {
             return Optional.empty();
         }

@@ -48,6 +48,7 @@ jobs:
           region: 'europe-central2'
           # Use the --image flag and the CORRECT repository name
           image: europe-central2-docker.pkg.dev/tactile-ripsaw-474418-j1/zoranstepanoski-prof-api-repo/prof-api:${{ github.sha }}
+          memory: 1Gi
           # 1. Non-sensitive environment variables stay here.
           env_vars: |-
             SPRING_PROFILES_ACTIVE=prod

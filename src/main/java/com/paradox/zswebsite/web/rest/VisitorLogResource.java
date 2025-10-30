@@ -1,6 +1,8 @@
 package com.paradox.zswebsite.web.rest;
 
 import com.paradox.zswebsite.repository.VisitorLogRepository;
+import com.paradox.zswebsite.security.AuthoritiesConstants;
+import com.paradox.zswebsite.security.SecurityUtils;
 import com.paradox.zswebsite.service.VisitorLogService;
 import com.paradox.zswebsite.service.dto.VisitorLogDTO;
 import com.paradox.zswebsite.service.dto.VisitorLogWithGeoDTO;
@@ -64,6 +66,10 @@ public class VisitorLogResource {
         @RequestBody VisitorLogDTO visitorLogDTO, // <-- Remove @Valid, as we are populating most fields here
         HttpServletRequest request // <-- Inject the request object
     ) throws URISyntaxException {
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            log.debug("Skipping visitor log for authenticated admin user.");
+            return ResponseEntity.ok().build(); // Return a simple 200 OK without a body
+        }
         log.debug("REST request to save VisitorLog for page: {}", visitorLogDTO.getPageVisited());
         if (visitorLogDTO.getId() != null) {
             throw new BadRequestAlertException("A new visitorLog cannot already have an ID", ENTITY_NAME, "idexists");

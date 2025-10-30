@@ -1,11 +1,16 @@
 <div>
   <h2 id="page-heading" data-cy="VisitorLogHeading">
-    <span jhiTranslate="zsWebsiteApp.visitorLog.home.title">Visitor Logs</span>
+    <span jhiTranslate="zsWebsiteApp.visitorLog.home.title"></span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-success me-2" [routerLink]="['/visitor-log/map']">
+        <fa-icon icon="map-marked-alt"></fa-icon>
+        <span class="d-none d-md-inline">View on Map</span>
+      </button>
+
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.visitorLog.home.refreshListLabel">Refresh list</span>
+        <span jhiTranslate="zsWebsiteApp.visitorLog.home.refreshListLabel"></span>
       </button>
 
       <button
@@ -15,7 +20,7 @@
         [routerLink]="['/visitor-log/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="zsWebsiteApp.visitorLog.home.createLabel">Create a new Visitor Log</span>
+        <span jhiTranslate="zsWebsiteApp.visitorLog.home.createLabel"></span>
       </button>
     </div>
   </h2>

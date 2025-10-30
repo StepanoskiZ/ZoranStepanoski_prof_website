@@ -272,4 +272,11 @@ public class VisitorLogResource {
         Optional<VisitorLogWithGeoDTO> visitorLogDTO = visitorLogService.findOneWithGeo(id);
         return ResponseUtil.wrapOrNotFound(visitorLogDTO);
     }
+
+    @GetMapping("/visitor-log/geo-points")
+    public ResponseEntity<List<VisitorLogWithGeoDTO>> getGeoPoints() {
+        log.debug("REST request to get all VisitorLog geo points");
+        List<VisitorLogWithGeoDTO> points = visitorLogService.findAllGeoPoints();
+        return ResponseEntity.ok(points);
+    }
 }

@@ -17,6 +17,11 @@ const visitorLogRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'map',
+    component: VisitorLogMapComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/view',
     component: VisitorLogDetailComponent,
     resolve: {

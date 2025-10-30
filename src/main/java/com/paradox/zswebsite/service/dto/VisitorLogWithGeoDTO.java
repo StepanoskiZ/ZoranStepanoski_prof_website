@@ -10,6 +10,8 @@ public class VisitorLogWithGeoDTO extends VisitorLogDTO {
 
     private String city;
     private String country;
+    private Double latitude;
+    private Double longitude;
 
     // You can generate constructor, getters, and setters
     public VisitorLogWithGeoDTO() {
@@ -30,5 +32,21 @@ public class VisitorLogWithGeoDTO extends VisitorLogDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

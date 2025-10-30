@@ -140,4 +140,8 @@ export class VisitorLogService {
       .get<RestVisitorLog>(`${this.resourceUrl}/${id}/with-geo`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
+
+  queryGeoPoints(): Observable<HttpResponse<IVisitorLog[]>> {
+    return this.http.get<IVisitorLog[]>(`${this.resourceUrl}/geo-points`, { observe: 'response' });
+  }
 }

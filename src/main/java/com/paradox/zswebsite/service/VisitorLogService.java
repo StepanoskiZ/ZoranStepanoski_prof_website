@@ -6,6 +6,7 @@ import com.paradox.zswebsite.service.IpGeolocationService;
 import com.paradox.zswebsite.service.dto.VisitorLogDTO;
 import com.paradox.zswebsite.service.dto.VisitorLogWithGeoDTO;
 import com.paradox.zswebsite.service.mapper.VisitorLogMapper;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,6 +153,10 @@ public class VisitorLogService {
             .ifPresent(response -> {
                 geoDto.setCity(response.getCity().getName());
                 geoDto.setCountry(response.getCountry().getName());
+                if (response.getLocation() != null) {
+                    geoDto.setLatitude(response.getLocation().getLatitude());
+                    geoDto.setLongitude(response.getLocation().getLongitude());
+                }
             });
 
         return geoDto;
@@ -167,5 +172,16 @@ public class VisitorLogService {
     public Optional<VisitorLogWithGeoDTO> findOneWithGeo(Long id) {
         log.debug("Request to get VisitorLog with Geo : {}", id);
         return visitorLogRepository.findById(id).map(this::enrichWithGeoData);
+    }
+
+    @Transactional(readOnly = true)
+    public List<VisitorLogWithGeoDTO> findAllGeoPoints() {
+        log.debug("Request to get all VisitorLog geo points");
+        return visitorLogRepository
+            .findAll() // Get all logs
+            .stream()
+            .map(this::enrichWithGeoData) // Add geo data
+            .filter(dto -> dto.getLatitude() != null && dto.getLongitude() != null) // Filter out entries with no coordinates
+            .toList();
     }
 }

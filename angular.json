@@ -20,11 +20,7 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "quill-delta",
-              "buffer",
-              "file-saver"
-            ],
+            "allowedCommonJsDependencies": ["quill-delta", "buffer", "file-saver"],
             "stylePreprocessorOptions": {
               "includePaths": ["src/main/webapp/content/scss", "node_modules", "src/main/webapp/app/shared/styles"]
             },
@@ -49,6 +45,7 @@
               }
             ],
             "styles": [
+              "node_modules/leaflet/dist/leaflet.css",
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
               "node_modules/flag-icons/css/flag-icons.min.css",

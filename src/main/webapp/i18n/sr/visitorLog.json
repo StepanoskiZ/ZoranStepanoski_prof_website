@@ -19,6 +19,8 @@
       },
       "id": "ID",
       "ipAddress": "Ip Address",
+      "city": "Grad",
+      "country": "Drzava",
       "pageVisited": "Page Visited",
       "userAgent": "User Agent",
       "visitTimestamp": "Visit Timestamp"

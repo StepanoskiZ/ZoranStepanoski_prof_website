@@ -131,7 +131,7 @@ export class VisitorLogComponent implements OnInit {
       size: this.itemsPerPage,
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.visitorLogService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.visitorLogService.queryWithGeo(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(page = this.page, predicate?: string, ascending?: boolean): void {

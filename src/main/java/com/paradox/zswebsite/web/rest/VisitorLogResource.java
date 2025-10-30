@@ -3,6 +3,7 @@ package com.paradox.zswebsite.web.rest;
 import com.paradox.zswebsite.repository.VisitorLogRepository;
 import com.paradox.zswebsite.service.VisitorLogService;
 import com.paradox.zswebsite.service.dto.VisitorLogDTO;
+import com.paradox.zswebsite.service.dto.VisitorLogWithGeoDTO;
 import com.paradox.zswebsite.web.rest.errors.BadRequestAlertException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -235,5 +236,34 @@ public class VisitorLogResource {
         Map<String, Object> stats = Map.of("totalVisits", totalVisits, "uniqueVisitors", uniqueVisitors);
 
         return ResponseEntity.ok(stats);
+    }
+
+    /**
+     * {@code GET  /visitor-log/with-geo} : get all the visitorLogs with geolocation.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of visitorLogs in body.
+     */
+    @GetMapping("/visitor-log/with-geo")
+    public ResponseEntity<List<VisitorLogWithGeoDTO>> getAllVisitorLogsWithGeo(
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get a page of VisitorLogs with Geolocation");
+        Page<VisitorLogWithGeoDTO> page = visitorLogService.findAllWithGeo(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /visitor-log/:id/with-geo} : get the "id" visitorLog with geolocation.
+     *
+     * @param id the id of the visitorLogDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the DTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/visitor-log/{id}/with-geo")
+    public ResponseEntity<VisitorLogWithGeoDTO> getVisitorLogWithGeo(@PathVariable("id") Long id) {
+        log.debug("REST request to get VisitorLog with Geo : {}", id);
+        Optional<VisitorLogWithGeoDTO> visitorLogDTO = visitorLogService.findOneWithGeo(id);
+        return ResponseUtil.wrapOrNotFound(visitorLogDTO);
     }
 }

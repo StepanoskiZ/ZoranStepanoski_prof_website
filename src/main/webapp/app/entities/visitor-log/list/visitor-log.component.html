@@ -37,36 +37,43 @@
           <tr jhiSort [sortState]="{ predicate, order: ascending ? 'asc' : 'desc' }" (sortChange)="onSortChange($event)">
             <th scope="col" jhiSortBy="id">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
+                <span jhiTranslate="global.field.id"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="ipAddress">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.visitorLog.ipAddress">Ip Address</span>
-
+                <span jhiTranslate="zsWebsiteApp.visitorLog.ipAddress"></span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="city">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.visitorLog.city"></span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="country">
+              <div class="d-flex">
+                <span jhiTranslate="zsWebsiteApp.visitorLog.country"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="pageVisited">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.visitorLog.pageVisited">Page Visited</span>
-
+                <span jhiTranslate="zsWebsiteApp.visitorLog.pageVisited"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="userAgent">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.visitorLog.userAgent">User Agent</span>
-
+                <span jhiTranslate="zsWebsiteApp.visitorLog.userAgent"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="visitTimestamp">
               <div class="d-flex">
-                <span jhiTranslate="zsWebsiteApp.visitorLog.visitTimestamp">Visit Timestamp</span>
-
+                <span jhiTranslate="zsWebsiteApp.visitorLog.visitTimestamp"></span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -80,6 +87,8 @@
                 <a [routerLink]="['/visitor-log', visitorLog.id, 'view']">{{ visitorLog.id }}</a>
               </td>
               <td>{{ visitorLog.ipAddress }}</td>
+              <td>{{ visitorLog.city }}</td>
+              <td>{{ visitorLog.country }}</td>
               <td>{{ visitorLog.pageVisited }}</td>
               <td>{{ visitorLog.userAgent }}</td>
               <td>{{ visitorLog.visitTimestamp | formatMediumDatetime }}</td>

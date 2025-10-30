@@ -29,6 +29,7 @@ export type EntityArrayResponseType = HttpResponse<IVisitorLog[]>;
 @Injectable({ providedIn: 'root' })
 export class VisitorLogService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/visitor-log');
+  protected resourceUrlWithGeo = this.applicationConfigService.getEndpointFor('api/visitor-log/with-geo'); // <-- ADD THIS
 
   constructor(
     protected http: HttpClient,
@@ -125,5 +126,18 @@ export class VisitorLogService {
     return res.clone({
       body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
     });
+  }
+
+  queryWithGeo(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<RestVisitorLog[]>(this.resourceUrlWithGeo, { params: options, observe: 'response' }) // Use the new URL
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
+  findWithGeo(id: number): Observable<EntityResponseType> {
+    return this.http
+      .get<RestVisitorLog>(`${this.resourceUrl}/${id}/with-geo`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 }

@@ -13,6 +13,10 @@
     line-height: 1.8;
     color: #343a40;
 
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Legacy fallback for older browsers
+    word-break: normal; // Explicitly resets the word-break property
+
     p {
       margin-bottom: 1.5em;
     }
@@ -20,7 +24,7 @@
     h2,
     h3,
     h4 {
-      font-family: 'Montserrat', sans-serif; // A clean sans-serif for headings
+      font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       margin-top: 2em;
       margin-bottom: 0.75em;

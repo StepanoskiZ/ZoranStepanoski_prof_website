@@ -180,5 +180,11 @@
       "title": "Unique Visitors (by IP)"
     },
     "error": "Could not load visitor statistics."
+  },
+  "blog": {
+    "title": "Zoran Stepanoski - Blog",
+    "detail": {
+      "title": "Zoran Stepanoski - Blog"
+    }
   }
 }

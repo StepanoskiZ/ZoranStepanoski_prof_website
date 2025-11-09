@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'blog/:id',
         loadComponent: () => import('./public-blog/blog-detail/blog-detail.component').then(m => m.BlogDetailComponent),
-        title: 'zsWebsiteApp.blog.detail.title',
+        title: 'blog.detail.title',
       },
       {
         path: 'privacy-policy',

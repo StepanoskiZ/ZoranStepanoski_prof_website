@@ -18,7 +18,7 @@
         <!-- The main post content -->
         <!--        <section class="modal-description" [innerHTML]="post.contentHTML"></section>-->
         <!--        <section class="card-text" [innerHTML]="post.contentHTML"></section>-->
-        <section class="article-body" [innerHTML]="post.contentHTML | safeHtml"></section>
+        <section class="article-body" [innerHTML]="post.contentHTML | removeSoftHyphens | safeHtml"></section>
       </article>
       <hr />
       <a routerLink="/blog" jhiTranslate="global.goBack"></a>

@@ -23,6 +23,11 @@ h4 {
   font-weight: 300;
 }
 
+body {
+  overflow-wrap: break-word; /* Modern, standard property */
+  word-wrap: break-word; /* Older alias for max browser compatibility */
+}
+
 /* Increase contrast of links to get 100% on Lighthouse Accessibility Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
 a {
   color: #533f03;
@@ -85,8 +90,8 @@ Browser Upgrade Prompt
   color: #555;
   font-size: 1rem;
 
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
   -webkit-hyphens: none;
   -moz-hyphens: none;
   -ms-hyphens: none;

@@ -1,32 +1,61 @@
-// In public-blog/blog-detail/blog-detail.component.scss
-
 .blog-article {
-  .article-title {
-    font-size: 2.5rem; // Larger, more impactful title
-    font-weight: 700;
-    color: #212529;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
-  // Styles for the main content coming from your rich text editor
+/* --- Typography & Text Flow --- */
+/* Apply these styles ONLY to the block-level elements that contain text. */
+.blog-article .article-body p,
+.blog-article .article-body li,
+.blog-article .article-body h1,
+.blog-article .article-body h2,
+.blog-article .article-body h3,
+.blog-article .article-body td {
+  /* Typography */
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #343a40;
 
-  .card-text {
-    font-family: 'Lora', serif; // A classic, readable serif font for body text
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #343a40;
-    margin-bottom: 1.5em; // Replaces the p {} style
+  /* --- The only text wrapping rules you need --- */
+  word-break: normal;
+  overflow-wrap: break-word; /* Modern standard for wrapping long words */
+  hyphens: none; /* Disable automatic hyphenation */
+  -webkit-hyphens: none;
+}
 
-    // Use ::ng-deep to apply these styles to all child elements (*)
-    // inside .article-body, piercing through Angular's style encapsulation.
-    // This is necessary because the content is dynamically inserted from a CMS.
-    ::ng-deep * {
-      -webkit-hyphens: none !important;
-      -moz-hyphens: none !important;
-      -ms-hyphens: none !important;
-      hyphens: none !important;
+/* --- Other Element Styling --- */
+.blog-article .article-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #212529;
+}
 
-      overflow-wrap: break-word !important;
-      word-wrap: break-word !important; // Legacy fallback
-    }
+.blog-article img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Correctly centers the image */
+  margin: 1.5rem auto;
+  border-radius: 0.5rem;
+}
+
+.blog-article pre,
+.blog-article code {
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all; /* Allow breaking long code lines */
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .blog-article .article-body p,
+  .blog-article .article-body li {
+    font-size: 1rem;
+    line-height: 1.7;
   }
 }

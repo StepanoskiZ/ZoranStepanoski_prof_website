@@ -8,14 +8,17 @@
         </header>
 
         <figure class="mb-4">
-          <img class="img-fluid rounded"
-               [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
-               [alt]="post.title" />
+          <img
+            class="img-fluid rounded"
+            [src]="post.imageUrl ? 'content/media/' + post.imageUrl : 'content/media/default-blog.jpg'"
+            [alt]="post.title"
+          />
         </figure>
 
         <!-- The main post content -->
-<!--        <section class="modal-description" [innerHTML]="post.contentHTML"></section>-->
-        <section class="card-text" [innerHTML]="post.contentHTML"></section>
+        <!--        <section class="modal-description" [innerHTML]="post.contentHTML"></section>-->
+        <!--        <section class="card-text" [innerHTML]="post.contentHTML"></section>-->
+        <section class="article-body" [innerHTML]="post.contentHTML"></section>
       </article>
       <hr />
       <a routerLink="/blog" jhiTranslate="global.goBack"></a>

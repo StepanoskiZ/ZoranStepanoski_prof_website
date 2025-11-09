@@ -33,8 +33,9 @@
             <small>{{ post.publishedDate | date: 'longDate' }}</small>
           </p>
           <h2 class="post-title">{{ post.title }}</h2>
-          <p class="card-text" [innerHTML]="post.contentHTML | truncateHtml:200 | safeHtml"></p>
-<!--          <p class="modal-description">{{ post.contentHTML | stripHtml:200 }}</p>-->
+          <!--          <p class="card-text" [innerHTML]="post.contentHTML | truncateHtml:200 | safeHtml"></p>-->
+          <p class="blog-post-item" [innerHTML]="post.contentHTML | truncateHtml: 200 | safeHtml"></p>
+          <!--          <p class="modal-description">{{ post.contentHTML | stripHtml:200 }}</p>-->
           <a [routerLink]="['/blog', post.id]" class="read-more-link">{{ 'global.readMore' | translate }}</a>
         </div>
       </div>

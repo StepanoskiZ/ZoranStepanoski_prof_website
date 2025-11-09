@@ -23,13 +23,15 @@
             class="media-slide"
             [class.active]="i === currentMediaIndex"
             [class.previous]="hasMultipleMedia && (i === currentMediaIndex - 1 || (currentMediaIndex === 0 && i === mediaUrls.length - 1))"
-            [class.next]="hasMultipleMedia && (i === currentMediaIndex + 1 || (currentMediaIndex === mediaUrls.length - 1 && i === 0))">
+            [class.next]="hasMultipleMedia && (i === currentMediaIndex + 1 || (currentMediaIndex === mediaUrls.length - 1 && i === 0))"
+          >
             <img
               *ngIf="getMediaType(media.url) === 'IMAGE'"
               [src]="getFullMediaPath(media.url, defaultMedia)"
               alt="Media"
               class="img-fluid rounded project-media-clickable"
-              (click)="openFullscreenMedia()"/>
+              (click)="openFullscreenMedia()"
+            />
             <video
               *ngIf="getMediaType(media.url) === 'VIDEO'"
               [src]="getFullMediaPath(media.url)"
@@ -46,9 +48,8 @@
     </div>
 
     <!-- Right Column: About Text -->
-    <div class="details-column" style="overflow-y: auto; max-height: 70vh;">
+    <div class="details-column" style="overflow-y: auto; max-height: 70vh">
       <div class="modal-details-content">
-<!--        <div class="modal-description" [innerHTML]="sanitizedContent"></div>-->
         <div class="card-text" [innerHTML]="sanitizedContent"></div>
       </div>
     </div>
@@ -61,7 +62,6 @@
 
     <!-- Media Navigation -->
     <div class="media-navigation">
-      <!--    <div class="media-navigation" *ngIf="hasMultipleMedia">-->
       <button class="btn btn-link nav-button" (click)="switchMedia(currentMediaIndex - 1)">
         <fa-icon icon="chevron-left"></fa-icon>
       </button>

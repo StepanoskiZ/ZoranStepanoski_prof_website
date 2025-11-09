@@ -13,13 +13,18 @@
     line-height: 1.8;
     color: #343a40;
 
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
+    // Use ::ng-deep to apply these styles to all child elements (*)
+    // inside .article-body, piercing through Angular's style encapsulation.
+    // This is necessary because the content is dynamically inserted from a CMS.
+    ::ng-deep * {
+      -webkit-hyphens: none !important;
+      -moz-hyphens: none !important;
+      -ms-hyphens: none !important;
+      hyphens: none !important;
 
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+      overflow-wrap: break-word !important;
+      word-wrap: break-word !important; // Legacy fallback
+    }
 
     p {
       margin-bottom: 1.5em;

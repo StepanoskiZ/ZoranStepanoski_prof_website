@@ -1,4 +1,5 @@
 // In public-blog/blog-detail/blog-detail.component.scss
+
 .blog-article {
   .article-title {
     font-size: 2.5rem; // Larger, more impactful title
@@ -7,11 +8,13 @@
   }
 
   // Styles for the main content coming from your rich text editor
-  .article-body {
+
+  .card-text {
     font-family: 'Lora', serif; // A classic, readable serif font for body text
     font-size: 1.1rem;
     line-height: 1.8;
     color: #343a40;
+    margin-bottom: 1.5em; // Replaces the p {} style
 
     // Use ::ng-deep to apply these styles to all child elements (*)
     // inside .article-body, piercing through Angular's style encapsulation.
@@ -24,27 +27,6 @@
 
       overflow-wrap: break-word !important;
       word-wrap: break-word !important; // Legacy fallback
-    }
-
-    p {
-      margin-bottom: 1.5em;
-    }
-
-    h2,
-    h3,
-    h4 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      margin-top: 2em;
-      margin-bottom: 0.75em;
-    }
-
-    // Style images that might be inside your blog content
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
-      margin: 1.5em 0;
     }
   }
 }

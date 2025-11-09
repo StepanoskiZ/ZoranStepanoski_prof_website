@@ -13,9 +13,13 @@
     line-height: 1.8;
     color: #343a40;
 
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+
     overflow-wrap: break-word;
-    word-wrap: break-word; // Legacy fallback for older browsers
-    word-break: normal; // Explicitly resets the word-break property
+    word-wrap: break-word;
 
     p {
       margin-bottom: 1.5em;

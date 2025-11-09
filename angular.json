@@ -42,7 +42,8 @@
                 "glob": "**/*",
                 "input": "node_modules/@fortawesome/fontawesome-free/webfonts",
                 "output": "webfonts"
-              }
+              },
+              "src/main/webapp/google68ca70091ea9a8d6.html"
             ],
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",

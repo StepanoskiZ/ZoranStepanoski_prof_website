@@ -1,4 +1,4 @@
-//global.scss
+/* global.scss */
 @use 'sass:color';
 @import 'bootstrap/scss/functions';
 @import 'bootstrap-variables';
@@ -366,6 +366,31 @@ html {
   &:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
+  }
+}
+
+// This is the main wrapper class we will use in both components.
+.blog-dynamic-content {
+  // Target all common text elements within the dynamic content.
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  td {
+    /* Typography */
+    font-family: 'Lora', serif !important;
+    font-size: 1.1rem !important;
+    line-height: 1.8 !important;
+    color: #343a40 !important;
+
+    /* --- THE DEFINITIVE WORD WRAPPING FIX --- */
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */

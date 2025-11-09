@@ -1,61 +1,16 @@
-.blog-article {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1rem;
+/* In blog-detail.component.scss */
+
+.blog-detail-article {
+  // Layout styles for the article container
 }
 
-/* --- Typography & Text Flow --- */
-/* Apply these styles ONLY to the block-level elements that contain text. */
-.blog-article .article-body p,
-.blog-article .article-body li,
-.blog-article .article-body h1,
-.blog-article .article-body h2,
-.blog-article .article-body h3,
-.blog-article .article-body td {
-  /* Typography */
-  font-family: 'Lora', serif;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #343a40;
-
-  /* --- The only text wrapping rules you need --- */
-  word-break: normal;
-  overflow-wrap: break-word; /* Modern standard for wrapping long words */
-  hyphens: none; /* Disable automatic hyphenation */
-  -webkit-hyphens: none;
+.blog-detail-article-title {
+  // Font styles are handled globally.
+  // You can add component-specific layout overrides here if needed.
 }
 
-/* --- Other Element Styling --- */
-.blog-article .article-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #212529;
-}
-
-.blog-article img {
-  max-width: 100%;
-  height: auto;
-  display: block; /* Correctly centers the image */
-  margin: 1.5rem auto;
-  border-radius: 0.5rem;
-}
-
-.blog-article pre,
-.blog-article code {
-  font-family: monospace;
-  white-space: pre-wrap;
-  word-break: break-all; /* Allow breaking long code lines */
-  background: #f8f9fa;
-  border-radius: 6px;
-  padding: 0.75rem;
-  font-size: 0.95rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .blog-article .article-body p,
-  .blog-article .article-body li {
-    font-size: 1rem;
-    line-height: 1.7;
-  }
+/* --- Center the Main Blog Post Image --- */
+.blog-detail-article figure {
+  /* This simple rule will center the <img> tag within its <figure> container. */
+  text-align: center;
 }

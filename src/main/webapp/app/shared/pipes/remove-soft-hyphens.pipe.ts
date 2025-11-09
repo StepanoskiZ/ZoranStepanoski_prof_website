@@ -9,10 +9,18 @@ export class RemoveSoftHyphensPipe implements PipeTransform {
     if (!value) {
       return '';
     }
-    // This regex finds and removes all soft hyphen HTML entities (&shy;)
-    // and their Unicode character equivalent (\u00AD).
-    return value
-      .replace(/(­|\u00AD)/g, '') // soft hyphens
-      .replace(/[\u200B-\u200D\uFEFF]/g, ''); // zero-width spaces
+
+    // Chain all necessary replacements to fully sanitize the text for proper wrapping.
+    return (
+      value
+        // 1. Remove soft hyphens (&shy;), which cause the unwanted hyphenated breaks.
+        .replace(/&shy;|\u00AD/g, '')
+
+        // 2. Replace non-breaking spaces (&nbsp;) with regular spaces to allow normal wrapping.
+        .replace(/&nbsp;|\u00A0/g, ' ')
+
+        // 3. Remove zero-width spaces, which can cause other invisible wrapping issues.
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    );
   }
 }

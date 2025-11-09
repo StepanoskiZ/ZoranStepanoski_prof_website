@@ -10,11 +10,11 @@ $text-color: #212529; // Dark text for high readability
 $text-color-muted: #6c757d; // Muted gray for dates, etc.
 
 /* =================== Hero Section =================== */
-.blog-hero {
+.blog-list-hero {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh; // A slightly shorter hero for the blog page
+  min-height: 60vh;
   color: white;
   text-align: center;
   padding: 4rem 1rem;
@@ -37,28 +37,21 @@ $text-color-muted: #6c757d; // Muted gray for dates, etc.
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-
-      -webkit-hyphens: none;
-      -moz-hyphens: none;
-      -ms-hyphens: none;
-      hyphens: none;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
     }
   }
 }
 
-/* =================== Blog Post Item Styling =================== */
-.blog-post-item {
+/* =================== Blog List Item Styling =================== */
+.blog-list-item {
   // The image in the left column
   .img-fluid {
     width: 100%;
-    height: 300px; // A fixed height creates a uniform look
-    object-fit: cover; // Magic property: scales and crops image to fit without distortion
+    height: 300px;
+    object-fit: cover;
     transition: transform 0.3s ease;
 
     &:hover {
-      transform: scale(1.03); // Subtle zoom effect on hover
+      transform: scale(1.03);
     }
   }
 
@@ -69,25 +62,5 @@ $text-color-muted: #6c757d; // Muted gray for dates, etc.
     font-weight: 600;
     color: $text-color;
     margin-bottom: 0.75rem;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  .post-excerpt {
-    font-family: 'Lora', serif;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: $text-color-muted;
-    margin-bottom: 1.5rem;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
   }
 }

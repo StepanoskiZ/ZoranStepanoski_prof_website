@@ -1,4 +1,4 @@
-<section class="blog-hero">
+<section class="blog-list-hero">
   <div class="container">
     <div class="hero-content">
       <h1>Blog</h1>
@@ -14,7 +14,7 @@
   </div>
 
   <div *ngIf="!isLoading && posts.length > 0" class="row">
-    <div *ngFor="let post of posts" class="blog-post-item mb-5">
+    <div *ngFor="let post of posts" class="blog-list-item mb-5">
       <div class="row g-5 align-items-center">
         <!-- Left Column: Image -->
         <div class="col-md-6">
@@ -34,8 +34,10 @@
           </p>
           <h2 class="post-title">{{ post.title }}</h2>
           <!--          <p class="card-text" [innerHTML]="post.contentHTML | truncateHtml:200 | safeHtml"></p>-->
-          <p class="blog-post-item" [innerHTML]="post.contentHTML | truncateHtml: 200 | safeHtml"></p>
+          <!--<p class="blog-post-item" [innerHTML]="post.contentHTML | truncateHtml: 500 | safeHtml"></p>-->
           <!--          <p class="modal-description">{{ post.contentHTML | stripHtml:200 }}</p>-->
+          <div class="blog-dynamic-content" [innerHTML]="post.contentHTML | truncateHtml: 500 | safeHtml"></div>
+
           <a [routerLink]="['/blog', post.id]" class="read-more-link">{{ 'global.readMore' | translate }}</a>
         </div>
       </div>

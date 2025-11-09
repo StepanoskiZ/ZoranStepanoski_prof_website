@@ -1,9 +1,9 @@
 <div class="container my-5 py-5" *ngIf="post$ | async as post; else loadingOrError">
   <div class="row">
-    <div class="col-lg-8 mx-auto">
-      <article class="blog-article">
+    <div class="col-lg-10 mx-auto">
+      <article class="blog-detail-article">
         <header class="mb-4">
-          <h1 class="article-title mb-1">{{ post.title }}</h1>
+          <h1 class="blog-detail-article-title mb-1">{{ post.title }}</h1>
           <div class="text-muted fst-italic mb-2">Posted on {{ post.publishedDate | date: 'longDate' }}</div>
         </header>
 
@@ -15,10 +15,7 @@
           />
         </figure>
 
-        <!-- The main post content -->
-        <!--        <section class="modal-description" [innerHTML]="post.contentHTML"></section>-->
-        <!--        <section class="card-text" [innerHTML]="post.contentHTML"></section>-->
-        <section class="article-body" [innerHTML]="post.contentHTML | removeSoftHyphens | safeHtml"></section>
+        <section class="blog-dynamic-content" [innerHTML]="post.contentHTML | removeSoftHyphens | safeHtml"></section>
       </article>
       <hr />
       <a routerLink="/blog" jhiTranslate="global.goBack"></a>

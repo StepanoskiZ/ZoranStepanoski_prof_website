@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -6,23 +6,15 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BlogPost } from '../blog-list/blog-list.component'; // Reuse the same interface
 import { tap } from 'rxjs/operators';
-//import { TruncateHtmlPipe } from 'app/shared/pipes/truncate-html.pipe';
 import { SafeHtmlPipe } from 'app/shared/pipes/safe-html.pipe';
 import { RemoveSoftHyphensPipe } from 'app/shared/pipes/remove-soft-hyphens.pipe';
 
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    SafeHtmlPipe,
-    //    TruncateHtmlPipe,
-    RemoveSoftHyphensPipe,
-  ],
+  imports: [CommonModule, RouterModule, SafeHtmlPipe, RemoveSoftHyphensPipe],
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
 })
 export class BlogDetailComponent implements OnInit {
   private http = inject(HttpClient);

@@ -1,3 +1,4 @@
+# Dockerfile.frontend
 # Use a minimal, official Nginx image. It's very small and fast.
 FROM nginx:1.25-alpine
 

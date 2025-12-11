@@ -4,7 +4,7 @@ FROM nginx:1.25-alpine
 
 # Copy our new, simple redirect configuration into the image,
 # overwriting the default Nginx config.
-COPY fly/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY cloud/frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # This command ensures Nginx starts and stays in the foreground.
 CMD ["nginx", "-g", "daemon off;"]

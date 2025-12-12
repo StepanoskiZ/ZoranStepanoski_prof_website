@@ -1,4 +1,4 @@
-# fly/frontend/fly.toml
+# cloud/frontend/fly.toml
 
 app = 'zoranstepanoski-prof-website'
 primary_region = 'cdg'
@@ -37,7 +37,7 @@ interval = "35s"
 timeout = "15s"
 grace_period = "120s"
 method = "get"
-path = "/"
+path = "/healthz"
 protocol = "http"
 
 [services.http_checks.thresholds]

@@ -1,0 +1,16 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Pokreće se u 00:00 svakog 3. dana u mesecu
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Omogućava ti da pokreneš skriptu i ručno dugmetom
+
+jobs:
+  ping-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Backend to Wake Up Database
+        run: |
+          # Zameni URL sa tvojim stvarnim endpointom koji vuče podatke iz baze
+          curl -I https://zoranstepanoski-prof-api-yqiyrjxyeq-lm.a.run.app/api/skills

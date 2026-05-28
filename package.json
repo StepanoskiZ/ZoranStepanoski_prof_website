@@ -125,6 +125,7 @@
     "@types/quill": "^2.0.14",
     "angular-eslint": "19.3.0",
     "autoprefixer": "^10.4.21",
+    "baseline-browser-mapping": "^2.10.32",
     "browser-sync": "3.0.4",
     "browser-sync-webpack-plugin": "2.3.0",
     "buffer": "6.0.3",

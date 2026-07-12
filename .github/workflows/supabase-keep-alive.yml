@@ -12,12 +12,12 @@ jobs:
     steps:
       - name: Wake up Google Cloud Run API
         run: |
-          # Koristimo -X GET i povlačimo stvarne podatke da pokrenemo backend
-          curl -X GET https://zoranstepanoski-prof-api-yqiyrjxyeq-lm.a.run.app/api/skills
+          # Koristimo -s za tihi režim i šaljemo GET zahtev na Cloud Run API
+          curl -s -X GET https://zoranstepanoski-prof-api-yqiyrjxyeq-lm.a.run.app/api/skills
 
       - name: Ping Supabase Database Directly
         run: |
-          # Direktno buđenje Supabase baze podataka
-          curl -X GET "https://supabase.co*" \
+          # Šaljemo upit na neku stvarnu tabelu u vašoj bazi kako bi Supabase registrovao aktivnost.
+          curl -s -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/about_me?limit=1" \
           -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
           -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"

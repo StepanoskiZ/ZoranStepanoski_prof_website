@@ -91,16 +91,19 @@ management:
 
 spring:
   mail:
-    host: in-v3.mailjet.com
+    host: smtp.gmail.com
     port: 587
-    username: ${MAILJET_API_KEY} # Reads from an environment variable
-    password: ${MAILJET_SECRET_KEY} # Reads from an environment variable
+    username: zstepanoski@gmail.com # Reads from an environment variable
+    password: ${GOOGLE_MAIL_SECRET} # Reads from an environment variable
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+            required: true
+          ssl:
+            trust: smtp.gmail.com
   config:
     activate:
       on-profile: '!api-docs'

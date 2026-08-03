@@ -4,6 +4,7 @@
     "navAbout": "O meni",
     "navServices": "Servisi",
     "navProject": "Projekti",
+    "navVRAM": "V-RAM Engine",
     "navCV": "Biografija",
     "navSkills": "Veštine",
     "navBlog": "Blog",
@@ -43,6 +44,31 @@
     "cvHeading": "Radno iskustvo",
     "noProjects": "Novi projekti dolaze uskoro. Molimo pogledajte kasnije!",
     "skillsSubheading": "Moja Ekspertiza",
-    "skillsHeading": "Profesionalne Veštine"
+    "skillsHeading": "Profesionalne Veštine",
+    "vram": {
+      "badge": "FLAGSHIP PROIZVOD (Syntetika Universe)",
+      "title": "S-OS V-RAM Engine™",
+      "subtitle": "Ukidamo memorijska ograničenja mikrokontrolera. Pokrenite 8.0MB+ AI modele i baze podataka na ESP32 čipu od $1.50 bez fizičkog PSRAM-a.",
+      "stat1Value": "8.0 MB",
+      "stat1Label": "Virtuelna Memorija",
+      "stat2Value": "43.54x",
+      "stat2Label": "Stvarna Kompresija",
+      "stat3Value": "100%",
+      "stat3Label": "Integritet (0 Grešaka)",
+      "stat4Value": "$0.00",
+      "stat4Label": "Trošak Hardvera",
+      "codeTitle": "Jednostavan C++ API za Integraciju",
+      "pricingTitle": "Komercijalizacija i Licenciranje",
+      "communityTitle": "Developer Izdanje",
+      "communityPrice": "BESPLATNO",
+      "communityDesc": "Statička .a biblioteka za evaluaciju i nekomercijalne projekte.",
+      "commercialTitle": "Commercial Pro",
+      "commercialPrice": "$299",
+      "commercialDesc": "Pun V-RAM Engine za 1 komercijalni proizvod. Uključuje 12 meseci podrške.",
+      "enterpriseTitle": "Enterprise OEM",
+      "enterprisePrice": "Na Upit",
+      "enterpriseDesc": "Source Code ugovor, prilagođeni XOR ključevi bezbednosti i optimizacija habanja Flash-a.",
+      "btnContact": "Zatražite Licencu"
+    }
   }
 }

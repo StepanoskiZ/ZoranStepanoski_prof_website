@@ -1,0 +1,116 @@
+<section id="vram-engine" class="py-5 bg-dark text-white border-top border-bottom border-secondary">
+  <div class="container py-4">
+    <!-- Header -->
+    <div class="text-center mb-5">
+      <span class="badge bg-success text-uppercase px-3 py-2 fs-6 mb-3 shadow-sm">
+        {{ 'landing.vram.badge' | translate }}
+      </span>
+      <h2 class="display-4 font-extrabold text-white">
+        {{ 'landing.vram.title' | translate }}
+      </h2>
+      <p class="lead text-light max-w-3xl mx-auto mt-3">
+        {{ 'landing.vram.subtitle' | translate }}
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-3">
+        <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
+          <p class="display-5 font-bold text-success mb-0">8.0 MB</p>
+          <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat1Label' | translate }}</p>
+          <small class="text-muted">25x više od RAM-a</small>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
+          <p class="display-5 font-bold text-info mb-0">43.54x</p>
+          <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat2Label' | translate }}</p>
+          <small class="text-muted">8.38MB spakovano u 192KB</small>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
+          <p class="display-5 font-bold text-warning mb-0">100%</p>
+          <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat3Label' | translate }}</p>
+          <small class="text-muted">Provereno na 8.38M Bajtova</small>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
+          <p class="display-5 font-bold text-white mb-0">$0.00</p>
+          <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat4Label' | translate }}</p>
+          <small class="text-muted">Bez PSRAM čipa</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Snippet (Sa HTML entitetima za vitlaste zagrade) -->
+    <div class="card bg-black border-secondary p-4 mb-5 shadow-lg">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-light font-mono mb-0">{{ 'landing.vram.codeTitle' | translate }}</h5>
+        <span class="badge bg-dark text-muted font-mono">VirtualMemoryEngine.h</span>
+      </div>
+      <pre class="p-3 bg-dark rounded text-success font-mono text-sm overflow-x-auto border border-secondary mb-0">
+<code>#include &lt;VirtualMemoryEngine.h&gt;
+
+// Alociramo V-RAM (16KB blokovi, 128KB RAM pool)
+VirtualMemoryEngine vram(16384, 131072, 32);
+
+void setup() &#123;
+    vram.begin();
+
+    // Čuvanje AI strukture od 5000 zrna na virtuelnoj adresi od 3MB!
+    TRFLNGrain grain = &#123; ... &#125;;
+    vram.put&lt;TRFLNGrain&gt;(3000000, grain);
+
+    // Bleskavo čitanje nazad bez gubitka
+    TRFLNGrain readGrain = vram.get&lt;TRFLNGrain&gt;(3000000);
+&#125;</code>
+      </pre>
+    </div>
+
+    <!-- Pricing Tiers -->
+    <h3 class="text-center text-white mb-4">{{ 'landing.vram.pricingTitle' | translate }}</h3>
+    <div class="row g-4">
+      <!-- Developer -->
+      <div class="col-md-4">
+        <div class="card bg-secondary bg-opacity-10 border-secondary p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <h4 class="text-light">{{ 'landing.vram.communityTitle' | translate }}</h4>
+            <p class="display-6 text-white font-bold my-3">{{ 'landing.vram.communityPrice' | translate }}</p>
+            <p class="text-muted text-sm">{{ 'landing.vram.communityDesc' | translate }}</p>
+          </div>
+          <a href="#contact" class="btn btn-outline-light w-100 mt-4">{{ 'landing.vram.btnContact' | translate }}</a>
+        </div>
+      </div>
+
+      <!-- Commercial Pro -->
+      <div class="col-md-4">
+        <div
+          class="card bg-secondary bg-opacity-25 border-success border-2 p-4 h-100 d-flex flex-column justify-content-between position-relative shadow-lg"
+        >
+          <span class="position-absolute top-0 start-50 translate-middle badge bg-success text-uppercase px-3 py-1">POPULARNO</span>
+          <div>
+            <h4 class="text-white mt-2">{{ 'landing.vram.commercialTitle' | translate }}</h4>
+            <p class="display-6 text-success font-bold my-3">{{ 'landing.vram.commercialPrice' | translate }}</p>
+            <p class="text-light text-sm">{{ 'landing.vram.commercialDesc' | translate }}</p>
+          </div>
+          <a href="#contact" class="btn btn-success font-bold w-100 mt-4">{{ 'landing.vram.btnContact' | translate }}</a>
+        </div>
+      </div>
+
+      <!-- Enterprise OEM -->
+      <div class="col-md-4">
+        <div class="card bg-secondary bg-opacity-10 border-secondary p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <h4 class="text-light">{{ 'landing.vram.enterpriseTitle' | translate }}</h4>
+            <p class="display-6 text-white font-bold my-3">{{ 'landing.vram.enterprisePrice' | translate }}</p>
+            <p class="text-muted text-sm">{{ 'landing.vram.enterpriseDesc' | translate }}</p>
+          </div>
+          <a href="#contact" class="btn btn-outline-light w-100 mt-4">{{ 'landing.vram.btnContact' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -23,6 +23,10 @@
         <div class="form-group mb-4">
           <label for="field_message" class="form-label" jhiTranslate="landing.formMessage"></label>
           <textarea class="form-control" id="field_message" formControlName="message" rows="6"></textarea>
+          <!-- 👈 DODAJ OVO CRVENO UPOZORENJE AKO JE PORUKA PREKRATKA -->
+          <div *ngIf="editForm.get('message')?.touched && editForm.get('message')?.errors?.['minlength']" class="text-danger small mt-1">
+            Poruka mora imati najmanje 10 karaktera.
+          </div>
         </div>
 
         <div *ngIf="profanityError" class="alert alert-warning mt-2">

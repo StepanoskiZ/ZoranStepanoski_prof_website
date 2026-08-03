@@ -14,7 +14,8 @@
             class="nav-link"
             (click)="scrollToSection('home')"
             [class.active]="isLandingPage() && activeSection() === 'home'"
-            jhiTranslate="landing.navHome">
+            jhiTranslate="landing.navHome"
+          >
           </a>
         </li>
         <li class="nav-item">
@@ -22,7 +23,8 @@
             class="nav-link"
             (click)="scrollToSection('about')"
             [class.active]="isLandingPage() && activeSection() === 'about'"
-            jhiTranslate="landing.navAbout">
+            jhiTranslate="landing.navAbout"
+          >
           </a>
         </li>
         <li class="nav-item">
@@ -30,7 +32,8 @@
             class="nav-link"
             (click)="scrollToSection('services')"
             [class.active]="isLandingPage() && activeSection() === 'services'"
-            jhiTranslate="landing.navServices">
+            jhiTranslate="landing.navServices"
+          >
           </a>
         </li>
         <li class="nav-item">
@@ -38,15 +41,29 @@
             class="nav-link"
             (click)="scrollToSection('projects')"
             [class.active]="isLandingPage() && activeSection() === 'projects'"
-            jhiTranslate="landing.navProject">
+            jhiTranslate="landing.navProject"
+          >
           </a>
         </li>
+
+        <!-- 🚀 NOVA STAVKA: V-RAM ENGINE (Syntetika Universe) -->
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold text-success"
+            (click)="scrollToSection('vram-engine')"
+            [class.active]="isLandingPage() && activeSection() === 'vram-engine'"
+            jhiTranslate="landing.navVRAM"
+          >
+          </a>
+        </li>
+
         <li class="nav-item">
           <a
             class="nav-link"
             (click)="scrollToSection('cv')"
             [class.active]="isLandingPage() && activeSection() === 'cv'"
-            jhiTranslate="landing.navCV">
+            jhiTranslate="landing.navCV"
+          >
           </a>
         </li>
         <li class="nav-item">
@@ -54,7 +71,8 @@
             class="nav-link"
             (click)="scrollToSection('skills')"
             [class.active]="isLandingPage() && activeSection() === 'skills'"
-            jhiTranslate="landing.navSkills">
+            jhiTranslate="landing.navSkills"
+          >
           </a>
         </li>
         <li class="nav-item">
@@ -109,7 +127,8 @@
                   routerLink="/business-service-media"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.businessServiceMedia"></span>
                 </a>
@@ -132,7 +151,8 @@
                   routerLink="/about-me"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.aboutMe"></span>
                 </a>
@@ -143,7 +163,8 @@
                   routerLink="/about-me-media"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.aboutMeMedia"></span>
                 </a>
@@ -154,7 +175,8 @@
                   routerLink="/curriculum-vitae"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.curriculumVitae"></span>
                 </a>
@@ -165,7 +187,8 @@
                   routerLink="/curriculum-vitae-media"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.curriculumVitaeMedia"></span>
                 </a>
@@ -176,7 +199,8 @@
                   routerLink="/visitor-log"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
-                  (click)="collapseNavbar()">
+                  (click)="collapseNavbar()"
+                >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.visitorLog"></span>
                 </a>

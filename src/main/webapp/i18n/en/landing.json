@@ -4,6 +4,7 @@
     "navAbout": "About",
     "navServices": "Services",
     "navProject": "Projects",
+    "navVRAM": "V-RAM Engine",
     "navCV": "CV",
     "navSkills": "Skills",
     "navBlog": "Blog",
@@ -44,6 +45,31 @@
     "cvHeading": "Work Experience",
     "noProjects": "More projects are coming soon. Please check back later!",
     "skillsSubheading": "My Expertise",
-    "skillsHeading": "Professional Skills"
+    "skillsHeading": "Professional Skills",
+    "vram": {
+      "badge": "FLAGSHIP PRODUCT (Syntetika Universe)",
+      "title": "S-OS V-RAM Engine™",
+      "subtitle": "Breaking microcontroller memory limits. Run 8.0MB+ AI models and databases on a $1.50 ESP32 chip without physical PSRAM.",
+      "stat1Value": "8.0 MB",
+      "stat1Label": "Virtual Memory",
+      "stat2Value": "43.54x",
+      "stat2Label": "Real Compression",
+      "stat3Value": "100%",
+      "stat3Label": "Data Integrity (0 Errors)",
+      "stat4Value": "$0.00",
+      "stat4Label": "Extra Hardware Cost",
+      "codeTitle": "Simple C++ API for Integration",
+      "pricingTitle": "Commercialization & Licensing",
+      "communityTitle": "Developer Edition",
+      "communityPrice": "FREE",
+      "communityDesc": "Static .a library for evaluation and non-commercial projects.",
+      "commercialTitle": "Commercial Pro",
+      "commercialPrice": "$299",
+      "commercialDesc": "Full V-RAM Engine for 1 commercial product. Includes 12 months of email support.",
+      "enterpriseTitle": "Enterprise OEM",
+      "enterprisePrice": "Custom Quote",
+      "enterpriseDesc": "Source Code escrow, custom XOR security keys, and Flash wear-leveling optimization.",
+      "btnContact": "Request License"
+    }
   }
 }

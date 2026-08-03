@@ -1,0 +1,44 @@
+/* ==========================================================================
+   V-RAM Engine Section Styles
+   ========================================================================== */
+
+#vram-engine {
+  background-color: #0f172a !important; /* Elegantna tamnoplava slatkasta nijansa */
+  color: #f8fafc;
+
+  .badge {
+    letter-spacing: 1px;
+  }
+
+  .card {
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    border-radius: 12px;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+  }
+
+  pre {
+    border-radius: 8px;
+    background-color: #020617 !important;
+
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace;
+      color: #38bdf8 !important;
+    }
+  }
+
+  .btn-success {
+    background-color: #198754;
+    border-color: #198754;
+
+    &:hover {
+      background-color: #157347;
+      border-color: #146c43;
+    }
+  }
+}

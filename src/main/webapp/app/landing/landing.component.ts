@@ -26,6 +26,7 @@ import { BusinessServiceDetailModalComponent } from './business-service-detail-m
 import { environment } from 'environments/environment';
 import { TruncateHtmlPipe } from 'app/shared/pipes/truncate-html.pipe';
 import { SafeHtmlPipe } from 'app/shared/pipes/safe-html.pipe';
+import { VramSectionComponent } from 'app/vram-section/vram-section.component';
 
 declare var AOS: any;
 
@@ -84,6 +85,7 @@ export interface SkillCard {
     CurriculumVitaeDetailModalComponent,
     SafeHtmlPipe,
     TruncateHtmlPipe,
+    VramSectionComponent,
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],

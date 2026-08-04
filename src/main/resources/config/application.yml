@@ -94,7 +94,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: zstepanoski@gmail.com # Reads from an environment variable
-    password: ${GOOGLE_MAIL_SECRET} # Reads from an environment variable
+    password: ${GMAIL_APP_PASSWORD} # Reads from an environment variable
     properties:
       mail:
         smtp:

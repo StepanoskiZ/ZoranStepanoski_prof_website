@@ -1,13 +1,13 @@
 /* ==========================================================================
-   V-RAM Engine Section Styles
+   V-RAM Engine Section Styles (Sa FAQ Odeljkom)
    ========================================================================== */
 
 #vram-engine {
-  background-color: #0f172a !important; /* Elegantna tamnoplava slatkasta nijansa */
+  background-color: #0b1329 !important; /* Tamna slatkasta pozadina */
   color: #f8fafc;
 
   .badge {
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
 
   .card {
@@ -18,8 +18,31 @@
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
     }
+  }
+
+  /* Visok kontrast za čitljivost teksta na tamnoj pozadini */
+  .text-slate-200 {
+    color: #e2e8f0 !important;
+  }
+
+  .text-slate-300 {
+    color: #cbd5e1 !important;
+  }
+
+  .text-slate-400 {
+    color: #94a3b8 !important;
+  }
+
+  .text-sm {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* FAQ Kartice */
+  .bg-black {
+    background-color: #020617 !important;
   }
 
   pre {
@@ -40,5 +63,28 @@
       background-color: #157347;
       border-color: #146c43;
     }
+  }
+
+  .btn-outline-info {
+    color: #0dcaf0;
+    border-color: #0dcaf0;
+
+    &:hover {
+      background-color: #0dcaf0;
+      color: #000;
+    }
+  }
+
+  /* Border boje za hardverske kartice */
+  .border-success {
+    border-color: #198754 !important;
+  }
+
+  .border-info {
+    border-color: #0dcaf0 !important;
+  }
+
+  .badge.bg-info {
+    background-color: #0dcaf0 !important;
   }
 }

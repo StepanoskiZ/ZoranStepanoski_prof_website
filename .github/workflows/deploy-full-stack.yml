@@ -59,7 +59,7 @@ jobs:
             SPRING_DATASOURCE_PASSWORD=prod-db-password:latest
             JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=prod-jwt-secret:latest
             GOOGLE_AI_APIKEY=prod-google-ai-apikey:latest
-            GMAIL_APP_PASSWORD=prod-gmail-mail-password:latest
+            GOOGLE_MAIL_SECRET=prod-gmail-mail-password:latest
 
   # === JOB 2: DEPLOY FRONTEND (depends on backend) ===
   deploy-frontend:

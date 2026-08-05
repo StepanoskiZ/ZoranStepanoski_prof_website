@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <!-- 🚀 NOVI ODELJAK: TABELA KONFIGURACIJE I REŽIMA RADA -->
+    <!-- TABELA KONFIGURACIJE I REŽIMA RADA -->
     <div class="card bg-black border-secondary p-4 mb-5 shadow-lg">
       <h4 class="text-light font-bold mb-2">
         <i class="fas fa-sliders-h text-success me-2"></i>{{ 'landing.vram.matrixTitle' | translate }}
@@ -99,29 +99,29 @@
           </thead>
           <tbody class="text-sm">
             <tr>
-              <td class="font-bold text-success">{{ 'landing.vram.modeDensity' | translate }}</td>
-              <td><code class="text-cyan-400">vram(16384, 131072, 32)</code></td>
+              <td class="font-bold text-emerald">{{ 'landing.vram.modeDensity' | translate }}</td>
+              <td><code class="text-cyan">vram(16384, 131072, 32)</code></td>
               <td><span class="badge bg-success">Up to 43.5x</span></td>
               <td>~35 – 97 KB/s</td>
               <td class="text-slate-300">{{ 'landing.vram.modeDensityUse' | translate }}</td>
             </tr>
             <tr>
-              <td class="font-bold text-info">{{ 'landing.vram.modeCritical' | translate }}</td>
-              <td><code class="text-cyan-400">vram(32768, 131072, 16)</code></td>
+              <td class="font-bold text-cyan">{{ 'landing.vram.modeCritical' | translate }}</td>
+              <td><code class="text-cyan">vram(32768, 131072, 16)</code></td>
               <td><span class="badge bg-info text-dark">~4.15x - 6.0x</span></td>
               <td><span class="badge bg-primary">Fast ~117 KB/s+</span></td>
               <td class="text-slate-300">{{ 'landing.vram.modeCriticalUse' | translate }}</td>
             </tr>
             <tr>
               <td class="font-bold text-warning">{{ 'landing.vram.modeMassive' | translate }}</td>
-              <td><code class="text-cyan-400">vram(65536, 262144, 32)</code></td>
+              <td><code class="text-cyan">vram(65536, 262144, 32)</code></td>
               <td><span class="badge bg-secondary">~3.5x - 5.0x</span></td>
               <td><span class="badge bg-warning text-dark">Ultra 150+ KB/s</span></td>
               <td class="text-slate-300">{{ 'landing.vram.modeMassiveUse' | translate }}</td>
             </tr>
             <tr>
               <td class="font-bold text-light">{{ 'landing.vram.modeMicro' | translate }}</td>
-              <td><code class="text-cyan-400">vram(8192, 65536, 16)</code></td>
+              <td><code class="text-cyan">vram(8192, 65536, 16)</code></td>
               <td><span class="badge bg-success">~10.0x+</span></td>
               <td>~20 – 45 KB/s</td>
               <td class="text-slate-300">{{ 'landing.vram.modeMicroUse' | translate }}</td>
@@ -185,11 +185,10 @@ void setup() &#123;
         <div class="card bg-secondary bg-opacity-10 border-secondary p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <h4 class="text-white">{{ 'landing.vram.proTitle' | translate }}</h4>
-            <p class="display-6 text-success font-bold my-2">{{ 'landing.vram.proPrice' | translate }}</p>
-            <small class="text-success d-block mb-2 font-bold">{{ 'landing.vram.proType' | translate }}</small>
-            <span class="badge bg-success bg-opacity-25 text-success border border-success mb-3 w-100 py-2">{{
-              'landing.vram.proCap' | translate
-            }}</span>
+            <p class="display-6 text-emerald font-bold my-2">{{ 'landing.vram.proPrice' | translate }}</p>
+            <small class="text-emerald d-block mb-2 font-bold">{{ 'landing.vram.proType' | translate }}</small>
+            <!-- 💡 CUSTOM BADGE: Zauzima celu širinu sa svetlim tekstom -->
+            <span class="badge badge-pro mb-3 w-100 py-2">{{ 'landing.vram.proCap' | translate }}</span>
             <p class="text-slate-300 text-sm leading-relaxed">{{ 'landing.vram.proDesc' | translate }}</p>
           </div>
           <a href="#contact" class="btn btn-outline-success font-bold w-100 mt-4">{{ 'landing.vram.btnContact' | translate }}</a>
@@ -201,12 +200,15 @@ void setup() &#123;
         <div
           class="card bg-secondary bg-opacity-25 border-success border-2 p-4 h-100 d-flex flex-column justify-content-between position-relative shadow-lg"
         >
-          <span class="position-absolute top-0 start-50 translate-middle badge bg-success text-uppercase px-3 py-1">POPULARNO</span>
+          <span class="position-absolute top-0 start-50 translate-middle badge bg-success text-dark uppercase px-3 py-1 font-bold"
+            >POPULARNO</span
+          >
           <div>
             <h4 class="text-white mt-2">{{ 'landing.vram.growthTitle' | translate }}</h4>
-            <p class="display-6 text-success font-bold my-2">{{ 'landing.vram.growthPrice' | translate }}</p>
-            <small class="text-success d-block mb-2 font-bold">{{ 'landing.vram.growthType' | translate }}</small>
-            <span class="badge bg-success text-slate-950 mb-3 w-100 py-2 fw-bold">{{ 'landing.vram.growthCap' | translate }}</span>
+            <p class="display-6 text-emerald font-bold my-2">{{ 'landing.vram.growthPrice' | translate }}</p>
+            <small class="text-emerald d-block mb-2 font-bold">{{ 'landing.vram.growthType' | translate }}</small>
+            <!-- 💡 CUSTOM BADGE: Čist zeleni bedž sa tamnim tekstom -->
+            <span class="badge badge-growth mb-3 w-100 py-2">{{ 'landing.vram.growthCap' | translate }}</span>
             <p class="text-slate-200 text-sm leading-relaxed">{{ 'landing.vram.growthDesc' | translate }}</p>
           </div>
           <a href="#contact" class="btn btn-success font-bold w-100 mt-4">{{ 'landing.vram.btnContact' | translate }}</a>
@@ -218,14 +220,13 @@ void setup() &#123;
         <div class="card bg-secondary bg-opacity-10 border-secondary p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <h4 class="text-light">{{ 'landing.vram.enterpriseTitle' | translate }}</h4>
-            <p class="display-6 text-info font-bold my-2">{{ 'landing.vram.enterprisePrice' | translate }}</p>
-            <small class="text-info d-block mb-2 font-bold">{{ 'landing.vram.enterpriseType' | translate }}</small>
-            <span class="badge bg-info bg-opacity-25 text-info border border-info mb-3 w-100 py-2">{{
-              'landing.vram.enterpriseCap' | translate
-            }}</span>
+            <p class="display-6 text-cyan font-bold my-2">{{ 'landing.vram.enterprisePrice' | translate }}</p>
+            <small class="text-cyan d-block mb-2 font-bold">{{ 'landing.vram.enterpriseType' | translate }}</small>
+            <!-- 💡 CUSTOM BADGE: Zamenjen nečitljivi plavi blok sa prozirnim tamno-plavim bedžom -->
+            <span class="badge badge-enterprise mb-3 w-100 py-2">{{ 'landing.vram.enterpriseCap' | translate }}</span>
             <p class="text-slate-300 text-sm leading-relaxed">{{ 'landing.vram.enterpriseDesc' | translate }}</p>
           </div>
-          <a href="#contact" class="btn btn-outline-info font-bold w-100 mt-4">{{ 'landing.vram.btnContactOEM' | translate }}</a>
+          <a href="#contact" class="btn btn-outline-cyan font-bold w-100 mt-4">{{ 'landing.vram.btnContactOEM' | translate }}</a>
         </div>
       </div>
     </div>

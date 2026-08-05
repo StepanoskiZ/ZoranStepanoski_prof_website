@@ -1,5 +1,5 @@
 /* ==========================================================================
-   V-RAM Engine Section Styles (Sa FAQ Odeljkom)
+   V-RAM Engine Section Styles
    ========================================================================== */
 
 #vram-engine {
@@ -8,6 +8,7 @@
 
   .badge {
     letter-spacing: 0.5px;
+    font-size: 0.85rem;
   }
 
   .card {
@@ -22,7 +23,15 @@
     }
   }
 
-  /* Visok kontrast za čitljivost teksta na tamnoj pozadini */
+  /* 💡 Custom boje visokog kontrasta za čitljivost teksta na tamnoj pozadini */
+  .text-emerald {
+    color: #4ade80 !important; /* Svetla smaragdno-zelena */
+  }
+
+  .text-cyan {
+    color: #38bdf8 !important; /* Svetlo plava / Cyan */
+  }
+
   .text-slate-200 {
     color: #e2e8f0 !important;
   }
@@ -35,12 +44,35 @@
     color: #94a3b8 !important;
   }
 
+  .text-slate-950 {
+    color: #020617 !important;
+  }
+
   .text-sm {
     font-size: 0.9rem;
     line-height: 1.5;
   }
 
-  /* FAQ Kartice */
+  /* 💡 Custom Bedževi za cenovnik (Rešavaju nečitljive i pune plave blokove) */
+  .badge-pro {
+    background-color: rgba(34, 197, 94, 0.15) !important;
+    color: #4ade80 !important;
+    border: 1px solid #22c55e !important;
+  }
+
+  .badge-growth {
+    background-color: #22c55e !important;
+    color: #020617 !important;
+    font-weight: 700;
+  }
+
+  .badge-enterprise {
+    background-color: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    border: 1px solid #0284c7 !important;
+  }
+
+  /* FAQ i Kodne Kartice */
   .bg-black {
     background-color: #020617 !important;
   }
@@ -55,36 +87,52 @@
     }
   }
 
+  /* Dugmad sa jasnim kontrastom na tamnoj pozadini */
   .btn-success {
-    background-color: #198754;
-    border-color: #198754;
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: #020617 !important;
+    font-weight: 700;
 
     &:hover {
-      background-color: #157347;
-      border-color: #146c43;
+      background-color: #16a34a;
+      border-color: #16a34a;
+      color: #ffffff !important;
     }
   }
 
-  .btn-outline-info {
-    color: #0dcaf0;
-    border-color: #0dcaf0;
+  .btn-outline-success {
+    color: #4ade80 !important;
+    border-color: #22c55e !important;
 
     &:hover {
-      background-color: #0dcaf0;
-      color: #000;
+      background-color: #22c55e !important;
+      color: #020617 !important;
     }
   }
 
-  /* Border boje za hardverske kartice */
+  .btn-outline-info,
+  .btn-outline-cyan {
+    color: #38bdf8 !important;
+    border-color: #38bdf8 !important;
+
+    &:hover {
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* Border boje i stilovi za hardverske kartice */
   .border-success {
-    border-color: #198754 !important;
+    border-color: #22c55e !important;
   }
 
   .border-info {
-    border-color: #0dcaf0 !important;
+    border-color: #38bdf8 !important;
   }
 
   .badge.bg-info {
-    background-color: #0dcaf0 !important;
+    background-color: #38bdf8 !important;
+    color: #020617 !important;
   }
 }

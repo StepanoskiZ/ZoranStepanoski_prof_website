@@ -13,34 +13,58 @@
       </p>
     </div>
 
+    <!-- 🚀 DVA VODEĆA PROIZVODA -->
+    <div class="row g-4 mb-5">
+      <!-- Product 1: V-RAM Edge -->
+      <div class="col-md-6">
+        <div class="card bg-black border-success p-4 h-100 shadow-lg">
+          <span class="badge bg-success text-uppercase px-3 py-2 mb-3 w-fit-content">DOSTUPNO ODMAH</span>
+          <h3 class="text-white font-bold mb-2">{{ 'landing.vram.productEdgeTitle' | translate }}</h3>
+          <p class="text-slate-300 text-sm leading-relaxed mb-0">
+            {{ 'landing.vram.productEdgeDesc' | translate }}
+          </p>
+        </div>
+      </div>
+      <!-- Product 2: V-RAM AI/GPU -->
+      <div class="col-md-6">
+        <div class="card bg-black border-info p-4 h-100 shadow-lg">
+          <span class="badge bg-info text-dark text-uppercase px-3 py-2 mb-3 w-fit-content">BETA / EARLY ACCESS</span>
+          <h3 class="text-white font-bold mb-2">{{ 'landing.vram.productGpuTitle' | translate }}</h3>
+          <p class="text-slate-300 text-sm leading-relaxed mb-0">
+            {{ 'landing.vram.productGpuDesc' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Stats Grid -->
     <div class="row g-4 mb-5">
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-success mb-0">8.0 MB</p>
+          <p class="display-5 font-bold text-success mb-0">8.0 MB+</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat1Label' | translate }}</p>
-          <small class="text-slate-400">25x više od RAM-a</small>
+          <small class="text-slate-400">Na $1.50 ESP32 čipu</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-info mb-0">43.54x</p>
+          <p class="display-5 font-bold text-info mb-0">70B+</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat2Label' | translate }}</p>
-          <small class="text-slate-400">8.38MB spakovano u 192KB</small>
+          <small class="text-slate-400">CUDA / PyTorch Paging</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-warning mb-0">100%</p>
+          <p class="display-5 font-bold text-warning mb-0">43.54x</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat3Label' | translate }}</p>
-          <small class="text-slate-400">Provereno na 8.38M Bajtova</small>
+          <small class="text-slate-400">Stvarna Kompresija</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-white mb-0">$0.00</p>
+          <p class="display-5 font-bold text-white mb-0">100%</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat4Label' | translate }}</p>
-          <small class="text-slate-400">Bez PSRAM čipa</small>
+          <small class="text-slate-400">Data Integrity (0 Errors)</small>
         </div>
       </div>
     </div>
@@ -51,7 +75,7 @@
         <i class="fas fa-microchip text-success me-2"></i>{{ 'landing.vram.hardwareTitle' | translate }}
       </h3>
       <div class="row g-4">
-        <!-- ESP32 Card (Active) -->
+        <!-- ESP32 & 32-bit MCUs Card -->
         <div class="col-md-6">
           <div class="card bg-secondary bg-opacity-25 border-success p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
@@ -64,15 +88,15 @@
           </div>
         </div>
 
-        <!-- Linux Card (Coming Soon) -->
+        <!-- NVIDIA CUDA & PyTorch GPU Accelerators Card -->
         <div class="col-md-6">
           <div class="card bg-secondary bg-opacity-10 border-info p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
-              <span class="badge bg-info text-dark text-uppercase px-3 py-2 me-3">{{ 'landing.vram.linuxStatus' | translate }}</span>
+              <span class="badge bg-info text-dark text-uppercase px-3 py-2 me-3">{{ 'landing.vram.gpuStatus' | translate }}</span>
             </div>
-            <h4 class="text-white mb-2">{{ 'landing.vram.linuxTitle' | translate }}</h4>
+            <h4 class="text-white mb-2">{{ 'landing.vram.gpuTitle' | translate }}</h4>
             <p class="text-slate-300 text-sm mb-0 leading-relaxed">
-              {{ 'landing.vram.linuxDesc' | translate }}
+              {{ 'landing.vram.gpuDesc' | translate }}
             </p>
           </div>
         </div>
@@ -215,7 +239,7 @@ void setup() &#123;
         </div>
       </div>
 
-      <!-- 4. Enterprise OEM ($0.15 / unit) -->
+      <!-- 4. Enterprise OEM / GPU ($0.15 / unit ili $999/GPU) -->
       <div class="col-xl-3 col-md-6">
         <div class="card bg-secondary bg-opacity-10 border-secondary p-4 h-100 d-flex flex-column justify-content-between">
           <div>
@@ -231,7 +255,7 @@ void setup() &#123;
       </div>
     </div>
 
-    <!-- FAQ ODELJAK: Često Postavljana Pitanja o Licenciranju -->
+    <!-- FAQ ODELJAK -->
     <div class="mt-5 pt-4">
       <h3 class="text-center text-white mb-4">{{ 'landing.vram.faqTitle' | translate }}</h3>
       <div class="row g-4">

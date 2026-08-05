@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <!-- 🚀 NOVI ODELJAK: PODRŽANI UREĐAJI I HARDVERSKI ROADMAP -->
+    <!-- Podržani Uređaji i Hardverski Roadmap -->
     <div class="mb-5">
       <h3 class="text-center text-white mb-4">
         <i class="fas fa-microchip text-success me-2"></i>{{ 'landing.vram.hardwareTitle' | translate }}
@@ -76,6 +76,58 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- 🚀 NOVI ODELJAK: TABELA KONFIGURACIJE I REŽIMA RADA -->
+    <div class="card bg-black border-secondary p-4 mb-5 shadow-lg">
+      <h4 class="text-light font-bold mb-2">
+        <i class="fas fa-sliders-h text-success me-2"></i>{{ 'landing.vram.matrixTitle' | translate }}
+      </h4>
+      <p class="text-slate-300 text-sm mb-4">{{ 'landing.vram.matrixSubtitle' | translate }}</p>
+
+      <div class="table-responsive">
+        <table class="table table-dark table-hover table-bordered border-secondary align-middle mb-0">
+          <thead class="table-secondary text-uppercase text-xs">
+            <tr>
+              <th>{{ 'landing.vram.matrixColMode' | translate }}</th>
+              <th>{{ 'landing.vram.matrixColConfig' | translate }}</th>
+              <th>{{ 'landing.vram.matrixColRatio' | translate }}</th>
+              <th>{{ 'landing.vram.matrixColSpeed' | translate }}</th>
+              <th>{{ 'landing.vram.matrixColUse' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr>
+              <td class="font-bold text-success">{{ 'landing.vram.modeDensity' | translate }}</td>
+              <td><code class="text-cyan-400">vram(16384, 131072, 32)</code></td>
+              <td><span class="badge bg-success">Up to 43.5x</span></td>
+              <td>~35 – 97 KB/s</td>
+              <td class="text-slate-300">{{ 'landing.vram.modeDensityUse' | translate }}</td>
+            </tr>
+            <tr>
+              <td class="font-bold text-info">{{ 'landing.vram.modeCritical' | translate }}</td>
+              <td><code class="text-cyan-400">vram(32768, 131072, 16)</code></td>
+              <td><span class="badge bg-info text-dark">~4.15x - 6.0x</span></td>
+              <td><span class="badge bg-primary">Fast ~117 KB/s+</span></td>
+              <td class="text-slate-300">{{ 'landing.vram.modeCriticalUse' | translate }}</td>
+            </tr>
+            <tr>
+              <td class="font-bold text-warning">{{ 'landing.vram.modeMassive' | translate }}</td>
+              <td><code class="text-cyan-400">vram(65536, 262144, 32)</code></td>
+              <td><span class="badge bg-secondary">~3.5x - 5.0x</span></td>
+              <td><span class="badge bg-warning text-dark">Ultra 150+ KB/s</span></td>
+              <td class="text-slate-300">{{ 'landing.vram.modeMassiveUse' | translate }}</td>
+            </tr>
+            <tr>
+              <td class="font-bold text-light">{{ 'landing.vram.modeMicro' | translate }}</td>
+              <td><code class="text-cyan-400">vram(8192, 65536, 16)</code></td>
+              <td><span class="badge bg-success">~10.0x+</span></td>
+              <td>~20 – 45 KB/s</td>
+              <td class="text-slate-300">{{ 'landing.vram.modeMicroUse' | translate }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -178,7 +230,7 @@ void setup() &#123;
       </div>
     </div>
 
-    <!-- 🚀 NOVI FAQ ODELJAK: Često Postavljana Pitanja o Licenciranju -->
+    <!-- FAQ ODELJAK: Često Postavljana Pitanja o Licenciranju -->
     <div class="mt-5 pt-4">
       <h3 class="text-center text-white mb-4">{{ 'landing.vram.faqTitle' | translate }}</h3>
       <div class="row g-4">

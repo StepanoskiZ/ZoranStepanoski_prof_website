@@ -13,7 +13,7 @@
       </p>
     </div>
 
-    <!-- 🚀 DVA VODEĆA PROIZVODA -->
+    <!-- DVA VODEĆA PROIZVODA -->
     <div class="row g-4 mb-5">
       <!-- Product 1: V-RAM Edge -->
       <div class="col-md-6">
@@ -41,30 +41,30 @@
     <div class="row g-4 mb-5">
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-success mb-0">8.0 MB+</p>
+          <p class="display-5 font-bold text-success mb-0">{{ 'landing.vram.stat1Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat1Label' | translate }}</p>
           <small class="text-slate-400">Na $1.50 ESP32 čipu</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-info mb-0">70B+</p>
+          <p class="display-5 font-bold text-info mb-0">{{ 'landing.vram.stat2Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat2Label' | translate }}</p>
           <small class="text-slate-400">CUDA / PyTorch Paging</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-warning mb-0">43.54x</p>
+          <p class="display-5 font-bold text-warning mb-0">{{ 'landing.vram.stat3Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat3Label' | translate }}</p>
-          <small class="text-slate-400">Stvarna Kompresija</small>
+          <small class="text-slate-400">{{ 'landing.vram.stat3Sub' | translate }}</small>
         </div>
       </div>
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
-          <p class="display-5 font-bold text-white mb-0">100%</p>
+          <p class="display-5 font-bold text-white mb-0">{{ 'landing.vram.stat4Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat4Label' | translate }}</p>
-          <small class="text-slate-400">Data Integrity (0 Errors)</small>
+          <small class="text-slate-400">Without PSRAM chip</small>
         </div>
       </div>
     </div>
@@ -125,28 +125,28 @@
             <tr>
               <td class="font-bold text-emerald">{{ 'landing.vram.modeDensity' | translate }}</td>
               <td><code class="text-cyan">vram(16384, 131072, 32)</code></td>
-              <td><span class="badge bg-success">Up to 43.5x</span></td>
+              <td><span class="badge bg-success">3x – 43.5x</span></td>
               <td>~35 – 97 KB/s</td>
               <td class="text-slate-300">{{ 'landing.vram.modeDensityUse' | translate }}</td>
             </tr>
             <tr>
               <td class="font-bold text-cyan">{{ 'landing.vram.modeCritical' | translate }}</td>
               <td><code class="text-cyan">vram(32768, 131072, 16)</code></td>
-              <td><span class="badge bg-info text-dark">~4.15x - 6.0x</span></td>
+              <td><span class="badge bg-info text-dark">~3x - 6.0x</span></td>
               <td><span class="badge bg-primary">Fast ~117 KB/s+</span></td>
               <td class="text-slate-300">{{ 'landing.vram.modeCriticalUse' | translate }}</td>
             </tr>
             <tr>
               <td class="font-bold text-warning">{{ 'landing.vram.modeMassive' | translate }}</td>
               <td><code class="text-cyan">vram(65536, 262144, 32)</code></td>
-              <td><span class="badge bg-secondary">~3.5x - 5.0x</span></td>
+              <td><span class="badge bg-secondary">~2.5x - 5.0x</span></td>
               <td><span class="badge bg-warning text-dark">Ultra 150+ KB/s</span></td>
               <td class="text-slate-300">{{ 'landing.vram.modeMassiveUse' | translate }}</td>
             </tr>
             <tr>
               <td class="font-bold text-light">{{ 'landing.vram.modeMicro' | translate }}</td>
               <td><code class="text-cyan">vram(8192, 65536, 16)</code></td>
-              <td><span class="badge bg-success">~10.0x+</span></td>
+              <td><span class="badge bg-success">~4x – 10.0x</span></td>
               <td>~20 – 45 KB/s</td>
               <td class="text-slate-300">{{ 'landing.vram.modeMicroUse' | translate }}</td>
             </tr>
@@ -194,7 +194,7 @@ void setup() &#123;
           </div>
           <!-- Preusmeravanje direktno na GitHub Download za .a i .h fajlove -->
           <a
-            href="https://github.com/StepanoskiZ/vram-engine-esp32/releases/latest"
+            href="https://github.com/StepanoskiZ/vram-engine/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             class="btn btn-outline-light w-100 mt-4 font-bold"
@@ -259,22 +259,32 @@ void setup() &#123;
     <div class="mt-5 pt-4">
       <h3 class="text-center text-white mb-4">{{ 'landing.vram.faqTitle' | translate }}</h3>
       <div class="row g-4">
-        <div class="col-md-4">
+        <!-- FAQ 1 -->
+        <div class="col-md-6">
           <div class="card bg-black border-secondary p-4 h-100">
             <h5 class="text-success mb-3"><i class="fas fa-question-circle me-2"></i>{{ 'landing.vram.faq1Q' | translate }}</h5>
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq1A' | translate }}</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <!-- FAQ 2 (Objašnjenje kompresije) -->
+        <div class="col-md-6">
           <div class="card bg-black border-secondary p-4 h-100">
-            <h5 class="text-success mb-3"><i class="fas fa-chart-line me-2"></i>{{ 'landing.vram.faq2Q' | translate }}</h5>
+            <h5 class="text-info mb-3"><i class="fas fa-compress-alt me-2"></i>{{ 'landing.vram.faq2Q' | translate }}</h5>
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq2A' | translate }}</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <!-- FAQ 3 (Pragovi proizvodnje / Volume Cap) -->
+        <div class="col-md-6">
           <div class="card bg-black border-secondary p-4 h-100">
-            <h5 class="text-success mb-3"><i class="fas fa-shield-alt me-2"></i>{{ 'landing.vram.faq3Q' | translate }}</h5>
+            <h5 class="text-warning mb-3"><i class="fas fa-chart-line me-2"></i>{{ 'landing.vram.faq3Q' | translate }}</h5>
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq3A' | translate }}</p>
+          </div>
+        </div>
+        <!-- FAQ 4 (GPU / AI Licenciranje) -->
+        <div class="col-md-6">
+          <div class="card bg-black border-secondary p-4 h-100">
+            <h5 class="text-cyan mb-3"><i class="fas fa-microchip me-2"></i>{{ 'landing.vram.faq4Q' | translate }}</h5>
+            <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq4A' | translate }}</p>
           </div>
         </div>
       </div>

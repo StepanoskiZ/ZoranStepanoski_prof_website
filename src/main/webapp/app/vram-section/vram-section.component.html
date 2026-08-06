@@ -39,20 +39,23 @@
 
     <!-- Stats Grid -->
     <div class="row g-4 mb-5">
+      <!-- Card 1 -->
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
           <p class="display-5 font-bold text-success mb-0">{{ 'landing.vram.stat1Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat1Label' | translate }}</p>
-          <small class="text-slate-400">Na $1.50 ESP32 čipu</small>
+          <small class="text-slate-400">{{ 'landing.vram.stat1Sub' | translate }}</small>
         </div>
       </div>
+      <!-- Card 2 -->
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
           <p class="display-5 font-bold text-info mb-0">{{ 'landing.vram.stat2Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat2Label' | translate }}</p>
-          <small class="text-slate-400">CUDA / PyTorch Paging</small>
+          <small class="text-slate-400">{{ 'landing.vram.stat2Sub' | translate }}</small>
         </div>
       </div>
+      <!-- Card 3 -->
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
           <p class="display-5 font-bold text-warning mb-0">{{ 'landing.vram.stat3Value' | translate }}</p>
@@ -60,11 +63,12 @@
           <small class="text-slate-400">{{ 'landing.vram.stat3Sub' | translate }}</small>
         </div>
       </div>
+      <!-- Card 4 -->
       <div class="col-md-3">
         <div class="card bg-secondary bg-opacity-25 border-secondary text-center p-4 h-100 shadow">
           <p class="display-5 font-bold text-white mb-0">{{ 'landing.vram.stat4Value' | translate }}</p>
           <p class="text-light font-medium mt-2 mb-0">{{ 'landing.vram.stat4Label' | translate }}</p>
-          <small class="text-slate-400">Without PSRAM chip</small>
+          <small class="text-slate-400">{{ 'landing.vram.stat4Sub' | translate }}</small>
         </div>
       </div>
     </div>

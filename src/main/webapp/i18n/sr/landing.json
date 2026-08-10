@@ -56,7 +56,7 @@
       "productGpuDesc": "Za PC, AI radne stanice i LLM servere. Omogućava pokretanje 70B+ LLM modela na običnim GPU karticama uz komprimovani PCIe Tensor Offloading i CUDA Kosinusnu Rezonancu.",
       "productGpuStatus": "EARLY ACCESS / BETA",
       "hardwareTitle": "Podržane Platforme i Arhitekture",
-      "esp32Title": "ESP32 & 32-bit MCUs",
+      "esp32Title": "ESP32 & 32-bit MCU-ovi",
       "esp32Status": "PROVERENO & AKTIVNO PODRŽANO",
       "esp32Desc": "Puna C++11/14 podrška za ESP32, STM32, RP2040 i PIC32. Testirano na 8.0MB+ V-RAM uz 0 grešaka i 43.54x kompresiju.",
       "gpuTitle": "NVIDIA CUDA & PyTorch GPU Accelerators",

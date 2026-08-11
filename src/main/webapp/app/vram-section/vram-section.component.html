@@ -73,14 +73,14 @@
       </div>
     </div>
 
-    <!-- Podržani Uređaji i Hardverski Roadmap -->
+    <!-- Podržani Uređaji i Hardverski Roadmap (3 KARTICE: MCU, LINUX, GPU) -->
     <div class="mb-5">
       <h3 class="text-center text-white mb-4">
         <i class="fas fa-microchip text-success me-2"></i>{{ 'landing.vram.hardwareTitle' | translate }}
       </h3>
       <div class="row g-4">
-        <!-- ESP32 & 32-bit MCUs Card -->
-        <div class="col-md-6">
+        <!-- 1. MCU Card -->
+        <div class="col-lg-4 col-md-6">
           <div class="card bg-secondary bg-opacity-25 border-success p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
               <span class="badge bg-success text-uppercase px-3 py-2 me-3">{{ 'landing.vram.esp32Status' | translate }}</span>
@@ -92,8 +92,21 @@
           </div>
         </div>
 
-        <!-- NVIDIA CUDA & PyTorch GPU Accelerators Card -->
-        <div class="col-md-6">
+        <!-- 2. Linux Card (NOVO!) -->
+        <div class="col-lg-4 col-md-6">
+          <div class="card bg-secondary bg-opacity-25 border-primary p-4 h-100 shadow-sm">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge bg-primary text-uppercase px-3 py-2 me-3">{{ 'landing.vram.linuxStatus' | translate }}</span>
+            </div>
+            <h4 class="text-white mb-2">{{ 'landing.vram.linuxTitle' | translate }}</h4>
+            <p class="text-slate-300 text-sm mb-0 leading-relaxed">
+              {{ 'landing.vram.linuxDesc' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. GPU Card -->
+        <div class="col-lg-4 col-md-12">
           <div class="card bg-secondary bg-opacity-10 border-info p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
               <span class="badge bg-info text-dark text-uppercase px-3 py-2 me-3">{{ 'landing.vram.gpuStatus' | translate }}</span>
@@ -168,18 +181,18 @@
       <pre class="p-3 bg-dark rounded text-success font-mono text-sm overflow-x-auto border border-secondary mb-0">
 <code>#include &lt;VirtualMemoryEngine.h&gt;
 
-// Alociramo V-RAM (16KB blokovi, 128KB RAM pool)
-VirtualMemoryEngine vram(16384, 131072, 32);
+// Universal C++11 POSIX / FreeRTOS Initialization (32KB blocks, 5MB RAM cache)
+VirtualMemoryEngine vram(32768, 5242880, 64, "/tmp/vram_swap");
 
 void setup() &#123;
     vram.begin();
 
-    // Čuvanje AI strukture od 5000 zrna na virtuelnoj adresi od 3MB!
-    TRFLNGrain grain = &#123; ... &#125;;
-    vram.put&lt;TRFLNGrain&gt;(3000000, grain);
+    // Store high-frequency CAN telemetry struct at virtual address 3MB!
+    TelemetryRecord logData = &#123; ... &#125;;
+    vram.put&lt;TelemetryRecord&gt;(3000000, logData);
 
-    // Bleskavo čitanje nazad bez gubitka
-    TRFLNGrain readGrain = vram.get&lt;TRFLNGrain&gt;(3000000);
+    // Read back in microseconds with 0 data loss
+    TelemetryRecord cachedData = vram.get&lt;TelemetryRecord&gt;(3000000);
 &#125;</code>
       </pre>
     </div>
@@ -259,7 +272,7 @@ void setup() &#123;
       </div>
     </div>
 
-    <!-- FAQ ODELJAK -->
+    <!-- FAQ ODELJAK (4 PITANJA U 2x2 MREŽI) -->
     <div class="mt-5 pt-4">
       <h3 class="text-center text-white mb-4">{{ 'landing.vram.faqTitle' | translate }}</h3>
       <div class="row g-4">
@@ -277,17 +290,17 @@ void setup() &#123;
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq2A' | translate }}</p>
           </div>
         </div>
-        <!-- FAQ 3 (Pragovi proizvodnje / Volume Cap) -->
+        <!-- FAQ 3 (Embedded Linux podrška) -->
         <div class="col-md-6">
           <div class="card bg-black border-secondary p-4 h-100">
-            <h5 class="text-warning mb-3"><i class="fas fa-chart-line me-2"></i>{{ 'landing.vram.faq3Q' | translate }}</h5>
+            <h5 class="text-primary mb-3"><i class="fab fa-linux me-2"></i>{{ 'landing.vram.faq3Q' | translate }}</h5>
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq3A' | translate }}</p>
           </div>
         </div>
-        <!-- FAQ 4 (GPU / AI Licenciranje) -->
+        <!-- FAQ 4 (Pragovi proizvodnje / Volume Cap) -->
         <div class="col-md-6">
           <div class="card bg-black border-secondary p-4 h-100">
-            <h5 class="text-cyan mb-3"><i class="fas fa-microchip me-2"></i>{{ 'landing.vram.faq4Q' | translate }}</h5>
+            <h5 class="text-warning mb-3"><i class="fas fa-chart-line me-2"></i>{{ 'landing.vram.faq4Q' | translate }}</h5>
             <p class="text-slate-300 text-sm leading-relaxed mb-0">{{ 'landing.vram.faq4A' | translate }}</p>
           </div>
         </div>

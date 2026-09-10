@@ -50,6 +50,7 @@
       "badge": "SYNTETIKA UNIVERSE PORTFOLIO",
       "title": "S-OS Memory & AI Infrastructure™",
       "subtitle": "From $1.50 microcontrollers to Embedded Linux (Yocto/Ubuntu/Alpine) devices and $30,000 GPU AI servers. Eliminating memory limits and extending Flash/eMMC lifespan.",
+      "productAvailabilty": "AVAILABLE NOW",
       "productEdgeTitle": "🟢 S-OS V-RAM Edge™ (C++ / MCU & Linux)",
       "productEdgeDesc": "For ESP32, STM32, RP2040, Yocto Linux, Ubuntu, Alpine, and Raspberry Pi. Extends SRAM up to 43x and protects eMMC/Flash storage wear by 10x–40x.",
       "productGpuTitle": "🔵 S-OS V-RAM AI/GPU™ (CUDA / PyTorch)",

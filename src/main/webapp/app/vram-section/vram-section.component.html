@@ -71,7 +71,8 @@
     <div class="row g-4 mb-5">
       <!-- Card 1: Compression -->
       <div class="col-lg-3 col-md-6">
-        <div class="card bg-secondary bg-opacity-15 border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
+        <!-- ISPRAVKA 2: Promenjeno u bg-black zbog boljeg kontrasta -->
+        <div class="card bg-black border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
           <p class="display-5 font-bold text-success mb-0">{{ 'landing.vram.stat1Value' | translate }}</p>
           <p class="text-white font-medium mt-2 mb-0">{{ 'landing.vram.stat1Label' | translate }}</p>
           <small class="text-slate-400 mt-1">{{ 'landing.vram.stat1Sub' | translate }}</small>
@@ -79,7 +80,8 @@
       </div>
       <!-- Card 2: Throughput / Speed -->
       <div class="col-lg-3 col-md-6">
-        <div class="card bg-secondary bg-opacity-15 border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
+        <!-- ISPRAVKA 2: Promenjeno u bg-black zbog boljeg kontrasta -->
+        <div class="card bg-black border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
           <p class="display-5 font-bold text-info mb-0">{{ 'landing.vram.stat2Value' | translate }}</p>
           <p class="text-white font-medium mt-2 mb-0">{{ 'landing.vram.stat2Label' | translate }}</p>
           <small class="text-slate-400 mt-1">{{ 'landing.vram.stat2Sub' | translate }}</small>
@@ -87,7 +89,8 @@
       </div>
       <!-- Card 3: Integrity -->
       <div class="col-lg-3 col-md-6">
-        <div class="card bg-secondary bg-opacity-15 border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
+        <!-- ISPRAVKA 2: Promenjeno u bg-black zbog boljeg kontrasta -->
+        <div class="card bg-black border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
           <p class="display-5 font-bold text-warning mb-0">{{ 'landing.vram.stat3Value' | translate }}</p>
           <p class="text-white font-medium mt-2 mb-0">{{ 'landing.vram.stat3Label' | translate }}</p>
           <small class="text-slate-400 mt-1">{{ 'landing.vram.stat3Sub' | translate }}</small>
@@ -95,7 +98,8 @@
       </div>
       <!-- Card 4: Cost Reduction / RAM Savings -->
       <div class="col-lg-3 col-md-6">
-        <div class="card bg-secondary bg-opacity-15 border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
+        <!-- ISPRAVKA 2: Promenjeno u bg-black zbog boljeg kontrasta -->
+        <div class="card bg-black border-secondary text-center p-4 h-100 shadow-sm hover-elevate transition-all">
           <p class="display-5 font-bold text-white mb-0">{{ 'landing.vram.stat4Value' | translate }}</p>
           <p class="text-white font-medium mt-2 mb-0">{{ 'landing.vram.stat4Label' | translate }}</p>
           <small class="text-slate-400 mt-1">{{ 'landing.vram.stat4Sub' | translate }}</small>
@@ -103,14 +107,15 @@
       </div>
     </div>
 
-    <!-- PODRŽANI UREĐAJI (MCU, LINUX, GPU ROADMAP) -->
+    <!-- PODRŽANI UREĐAJI (MCU, LINUX) -->
     <div class="mb-5">
       <h3 class="text-center text-white mb-4">
         <i class="fas fa-microchip text-success me-2"></i>{{ 'landing.vram.hardwareTitle' | translate }}
       </h3>
-      <div class="row g-4">
+      <div class="row g-4 justify-content-center">
         <!-- 1. MCU Card (Ready) -->
-        <div class="col-lg-4 col-md-6">
+        <!-- ISPRAVKA 1: Promenjeno u col-md-6 pošto su ostale samo 2 kartice -->
+        <div class="col-md-6">
           <div class="card bg-black border-success border-opacity-50 p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
               <span class="badge bg-success text-uppercase px-3 py-2 me-2">{{ 'landing.vram.esp32Status' | translate }}</span>
@@ -123,7 +128,8 @@
         </div>
 
         <!-- 2. Linux Card (Ready) -->
-        <div class="col-lg-4 col-md-6">
+        <!-- ISPRAVKA 1: Promenjeno u col-md-6 pošto su ostale samo 2 kartice -->
+        <div class="col-md-6">
           <div class="card bg-black border-primary border-opacity-50 p-4 h-100 shadow-sm">
             <div class="d-flex align-items-center mb-3">
               <span class="badge bg-primary text-uppercase px-3 py-2 me-2">{{ 'landing.vram.linuxStatus' | translate }}</span>
@@ -131,21 +137,6 @@
             <h4 class="text-white mb-2">{{ 'landing.vram.linuxTitle' | translate }}</h4>
             <p class="text-slate-300 text-sm mb-0 leading-relaxed">
               {{ 'landing.vram.linuxDesc' | translate }}
-            </p>
-          </div>
-        </div>
-
-        <!-- 3. GPU Card (Roadmap / U razvoju) -->
-        <div class="col-lg-4 col-md-12">
-          <div class="card bg-black border-info border-opacity-50 p-4 h-100 shadow-sm">
-            <div class="d-flex align-items-center mb-3">
-              <span class="badge bg-info text-dark text-uppercase px-3 py-2 me-2 font-bold">{{
-                'landing.vram.gpuStatus' | translate
-              }}</span>
-            </div>
-            <h4 class="text-white mb-2">{{ 'landing.vram.gpuTitle' | translate }}</h4>
-            <p class="text-slate-300 text-sm mb-0 leading-relaxed">
-              {{ 'landing.vram.gpuDesc' | translate }}
             </p>
           </div>
         </div>

@@ -109,7 +109,7 @@
       "communityTitle": "Developer Edition",
       "communityPrice": "BESPLATNO",
       "communityDesc": "Max 512 KB V-RAM. Trajno besplatno za prototipe, evaluaciju i nekomercijalne projekte.",
-      "btnDownload": "Preuzmi SDK (.a / .so)",
+      "btnDownload": "Preuzmi SDK",
       "proTitle": "Commercial Pro (Edge)",
       "proPrice": "$299",
       "proType": "Jednokratno (Trajna Licenca)",

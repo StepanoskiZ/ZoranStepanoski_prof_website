@@ -1,10 +1,4 @@
 <section id="vram-engine" class="py-5 bg-dark text-white border-top border-bottom border-secondary position-relative overflow-hidden">
-  <!-- Ambijentalni pozadinski sjaj -->
-  <div
-    class="position-absolute top-0 start-50 translate-middle-x w-100 h-100 pointer-events-none opacity-10"
-    style="background: radial-gradient(circle at 50% 20%, #10b981 0%, transparent 60%)"
-  ></div>
-
   <div class="container py-4 position-relative">
     <!-- Header -->
     <div class="text-center mb-5">
@@ -29,8 +23,22 @@
       <!-- Proizvod 1: V-RAM Edge (MCU) -->
       <div class="col-md-6">
         <div class="card bg-black border-success p-4 h-100 shadow-lg position-relative overflow-hidden">
-          <div class="position-absolute top-0 end-0 p-3 opacity-10">
-            <i class="fas fa-microchip fa-5x text-success"></i>
+          <!-- Ikonica prebačena u donji desni ugao i stavljena u pozadinu -->
+          <div
+            class="position-absolute bottom-0 end-0 p-3 pointer-events-none"
+            style="opacity: 0.05; z-index: 0; transform: translate(-10%, -10%)"
+          >
+            <i class="fas fa-microchip fa-6x text-success"></i>
+          </div>
+          <!-- Tekst stavljen napred (z-index: 1) da ne bi dolazilo do preklapanja -->
+          <div class="position-relative" style="z-index: 1">
+            <span class="badge bg-success text-uppercase px-3 py-2 mb-3 w-fit-content shadow-sm">
+              {{ 'landing.vram.productAvailabilty' | translate }}
+            </span>
+            <h3 class="text-white font-bold mb-2">{{ 'landing.vram.productEdgeTitle' | translate }}</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-0">
+              {{ 'landing.vram.productEdgeDesc' | translate }}
+            </p>
           </div>
           <span class="badge bg-success text-uppercase px-3 py-2 mb-3 w-fit-content shadow-sm">
             {{ 'landing.vram.productAvailabilty' | translate }}
@@ -45,8 +53,22 @@
       <!-- Proizvod 2: V-RAM Linux / TCU Edition (Gotov i testiran proizvod!) -->
       <div class="col-md-6">
         <div class="card bg-black border-primary p-4 h-100 shadow-lg position-relative overflow-hidden">
-          <div class="position-absolute top-0 end-0 p-3 opacity-10">
-            <i class="fab fa-linux fa-5x text-primary"></i>
+          <!-- Ikonica prebačena u donji desni ugao i stavljena u pozadinu -->
+          <div
+            class="position-absolute bottom-0 end-0 p-3 pointer-events-none"
+            style="opacity: 0.05; z-index: 0; transform: translate(-10%, -10%)"
+          >
+            <i class="fab fa-linux fa-6x text-primary"></i>
+          </div>
+          <!-- Tekst stavljen napred (z-index: 1) -->
+          <div class="position-relative" style="z-index: 1">
+            <span class="badge bg-primary text-uppercase px-3 py-2 mb-3 w-fit-content shadow-sm">
+              {{ 'landing.vram.productLinuxAvailability' | translate }}
+            </span>
+            <h3 class="text-white font-bold mb-2">{{ 'landing.vram.productLinuxTitle' | translate }}</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-0">
+              {{ 'landing.vram.productLinuxDesc' | translate }}
+            </p>
           </div>
           <span class="badge bg-primary text-uppercase px-3 py-2 mb-3 w-fit-content shadow-sm">
             {{ 'landing.vram.productLinuxAvailability' | translate }}
@@ -200,7 +222,7 @@
       </div>
     </div>
 
-    <!-- CODE SNIPPET (Automotive LD_PRELOAD Zero-Code & C++ API) -->
+    <!-- CODE SNIPPET -->
     <div class="card bg-black border-secondary p-4 mb-5 shadow-lg">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="text-light font-mono mb-0">
@@ -263,9 +285,11 @@ echo <span class="text-warning">"/opt/vram/libvram_hook.so"</span> &gt;&gt; /etc
             <h4 class="text-white">{{ 'landing.vram.proTitle' | translate }}</h4>
             <p class="display-6 text-success font-bold my-2">{{ 'landing.vram.proPrice' | translate }}</p>
             <small class="text-success d-block mb-2 font-bold">{{ 'landing.vram.proType' | translate }}</small>
-            <span class="badge bg-success bg-opacity-20 text-success border border-success mb-3 w-100 py-2">
+
+            <span class="badge bg-success bg-opacity-20 text-success border border-success mb-3 w-100 py-2 font-bold">
               {{ 'landing.vram.proCap' | translate }}
             </span>
+
             <p class="text-slate-300 text-sm leading-relaxed">{{ 'landing.vram.proDesc' | translate }}</p>
           </div>
           <a href="#contact" class="btn btn-outline-success font-bold w-100 mt-4">
